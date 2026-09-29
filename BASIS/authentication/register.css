@@ -1,0 +1,228 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #fff;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.login-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Left Panel */
+.login-left {
+    width: 50%;
+    background: #3e533d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 110px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    z-index: 2;
+    position: relative;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 480px;
+}
+
+/* Header / Title */
+.login-left h1 {
+    color: #fff;
+    text-align: center;
+    line-height: 1.1;
+    font-weight: 800;
+    font-size: 43px;
+    margin-bottom: 25px;
+}
+
+.login-left h1 span {
+    display: block;
+    font-weight: 900;
+    margin-top: 4px;
+    font-size: 36px;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group label {
+    display: block;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.input-group input {
+    width: 100%;
+    border: none;
+    background: #fff;
+    padding: 0 12px;
+    font-size: 14px;
+    height: 32px;
+    border-radius: 2px;
+}
+
+.input-group input:focus {
+    outline: 2px solid #a3b899;
+}
+
+/* Register Layout Grid */
+.name-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+
+/* Links */
+.register-link {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.register-link a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn-container {
+    text-align: center;
+    margin-top: 70px;
+}
+
+.sign-in-btn {
+    background: #fff;
+    color: #3e533d;
+    border: none;
+    border-radius: 18px;
+    padding: 6px 50px;
+    font-size: 22px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.sign-in-btn:hover {
+    background: #e0e0e0;
+}
+
+/* Back Button Alignment and Styling */
+.back-btn {
+    position: absolute;
+    top: 55px;
+    left: 45px;
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 10;
+}
+
+.back-btn img {
+    width: 45px;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+    opacity: 0.8;
+}
+
+/* Right Side Panel and Logo */
+.login-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.logo-container {
+    text-align: center;
+    width: 100%;
+    max-width: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container img {
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+    }
+
+    .login-container {
+        flex-direction: column-reverse;
+    }
+
+    .login-left,
+    .login-right {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .login-left {
+        min-height: 100vh;
+    }
+
+    .login-right {
+        padding: 40px 20px;
+    }
+
+    .logo-container img {
+        max-width: 280px;
+    }
+
+    .login-left h1 {
+        font-size: 32px !important;
+    }
+
+    .login-left h1 span {
+        font-size: 22px !important;
+    }
+
+    .name-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .back-btn {
+        top: 25px;
+        left: 25px;
+    }
+
+    .back-btn img {
+        width: 35px;
+    }
+}

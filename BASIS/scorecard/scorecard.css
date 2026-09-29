@@ -1,0 +1,436 @@
+.scorecard-list {
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    width:100%;
+    padding:2px 8px 8px 2px;
+    box-sizing:border-box;
+}
+
+/* SCROLL ONLY WHEN SCORECARDS EXIST */
+.scorecard-list.has-scroll {
+    max-height:390px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+    scrollbar-color:#768a75 transparent;
+}
+
+.scorecard-list.has-scroll::-webkit-scrollbar {
+    width:7px;
+}
+
+.scorecard-list.has-scroll::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+.scorecard-list.has-scroll::-webkit-scrollbar-thumb {
+    background:#768a75;
+    border-radius:10px;
+}
+
+.scorecard-list.has-scroll::-webkit-scrollbar-thumb:hover {
+    background:#42523f;
+}
+
+.scorecard-btn {
+    width:100%;
+    height:64px;
+    min-height:64px;
+    max-height:64px;
+    flex-shrink:0;
+    background-color:#768a75;
+    color:#ffffff;
+    border:none;
+    border-radius:8px;
+    padding:0 25px;
+    font-family:"Poppins",sans-serif;
+    font-size:20px;
+    font-weight:800;
+    text-align:left;
+    cursor:pointer;
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    transition:
+        background-color .25s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.scorecard-btn:hover {
+    background-color:#42523f;
+    transform:translateY(-2px);
+    box-shadow:0 5px 12px rgba(66,82,63,.15);
+}
+
+.scorecard-btn:active {
+    transform:translateY(0);
+}
+
+/* NO SCORECARD MESSAGE */
+
+.no-scorecard-message {
+    width:100%;
+    height:390px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px 20px;
+    box-sizing:border-box;
+    color:#42523f;
+}
+
+.no-scorecard-message i {
+    font-size:55px;
+    margin-bottom:18px;
+    color:#768a75;
+}
+
+.no-scorecard-message h3 {
+    margin:0;
+    font-size:22px;
+    font-weight:800;
+}
+
+.no-scorecard-message p {
+    margin:8px 0 0;
+    font-size:14px;
+    font-weight:500;
+    color:#768a75;
+}
+
+/* SCORECARD HEADER */
+.scorecard-header-banner {
+    background-color:#42523f;
+    color:#ffffff;
+    padding:16px 30px;
+    border-top-left-radius:12px;
+    border-top-right-radius:12px;
+    box-sizing:border-box;
+}
+
+.scorecard-header-banner h2 {
+    font-size:30px;
+    font-weight:900;
+    margin:0;
+    letter-spacing:0.5px;
+}
+
+/* SCORECARD OUTER FRAME */
+.scorecard-outer-frame {
+    background-color:#ffffff;
+    border:2px solid #42523f;
+    border-top:none;
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius:12px;
+    padding:18px;
+    position:relative;
+    width:100%;
+    box-sizing:border-box;
+    margin-bottom:20px;
+}
+
+/* CLOSE BUTTON */
+.scorecard-close-btn {
+    position:absolute;
+    top:14px;
+    left:20px;
+    background:transparent;
+    border:none;
+    font-size:24px;
+    color:#42523f;
+    cursor:pointer;
+    z-index:20;
+    padding:0;
+    transition:transform 0.2s ease,color 0.2s ease;
+}
+
+.scorecard-close-btn:hover {
+    color:#768a75;
+    transform:scale(1.08);
+}
+
+/* SCORECARD INNER CARD */
+.scorecard-inner-card {
+    display:flex;
+    background-color:#768a75;
+    border-radius:6px;
+    padding:8px;
+    margin-top:38px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+/* VERTICAL BARS */
+.scorecard-vertical-bar {
+    background-color:#768a75;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.scorecard-vertical-bar.left-bar {
+    width:55px;
+    padding:10px 0;
+}
+
+.scorecard-vertical-bar.right-bar {
+    width:25px;
+}
+
+/* STACKED TEXT */
+.stacked-text {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    height:100%;
+    color:#ffffff;
+    font-weight:900;
+    font-size:28px;
+    line-height:1;
+}
+
+/* SCORECARD CONTENT */
+.scorecard-content-area {
+    flex:1;
+    min-width:0;
+    background-color:#ffffff;
+    display:flex;
+    padding:22px 25px;
+    gap:20px;
+    border-radius:2px;
+    box-sizing:border-box;
+}
+
+.scholar-info-column {
+    flex:1.1;
+    min-width:0;
+}
+
+.scholar-header {
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.scholar-header h3 {
+    color:#768a75;
+    font-size:20px;
+    font-weight:900;
+    line-height:1.1;
+    margin:0;
+}
+
+.scholar-subtitle {
+    display:block;
+    color:#768a75;
+    font-size:11px;
+    font-weight:800;
+    font-style:italic;
+}
+
+/* INFORMATION */
+.info-grid-2col {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px 15px;
+    font-size:12px;
+}
+
+.info-item,
+.info-item-single {
+    display:flex;
+    gap:4px;
+    min-height:20px;
+    line-height:1.35;
+}
+
+.info-label {
+    font-weight:800;
+    color:#768a75;
+    white-space:nowrap;
+}
+
+.info-val {
+    font-weight:700;
+    color:#222222;
+    overflow-wrap:anywhere;
+}
+
+.scorecard-hr {
+    border:0;
+    border-top:1px solid #d0d8ce;
+    margin:10px 0;
+}
+
+.family-info-block,
+.academic-info-block {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    font-size:12px;
+}
+
+/* DOTTED DIVIDER */
+.scorecard-dotted-divider {
+    border-left:2.5px dotted #768a75;
+    margin:0 5px;
+    flex-shrink:0;
+}
+
+/* ACTIVITY LOG */
+.activity-log-column {
+    flex:1.3;
+    min-width:0;
+}
+
+.activity-log-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    font-weight:900;
+    font-size:20px;
+    color:#768a75;
+    flex-wrap:wrap;
+}
+
+.ay-title,
+.sem-title {
+    font-weight:900;
+}
+
+.activity-rows-container {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+/* ACTIVITY ROW */
+.activity-form-row {
+    display:flex;
+    gap:12px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+.field-group {
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.field-group.title-field {
+    flex:1;
+    min-width:0;
+}
+
+.field-group.date-field {
+    width:130px;
+    flex-shrink:0;
+}
+
+.field-group label {
+    font-size:11px;
+    font-weight:800;
+    color:#768a75;
+}
+
+.field-group input {
+    border:1.5px solid #a3b2a0;
+    border-radius:4px;
+    padding:3px 8px;
+    height:28px;
+    width:100%;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+    font-size:12px;
+    font-weight:600;
+    color:#222222;
+    background-color:#ffffff;
+    outline:none;
+}
+
+.field-group input:read-only {
+    cursor:default;
+}
+
+/* MAIN CONTENT */
+.dash-main {
+    padding-bottom:95px;
+    box-sizing:border-box;
+}
+
+.page-view {
+    width:100%;
+    box-sizing:border-box;
+}
+
+#view-scorecard-detail {
+    padding-bottom:20px;
+}
+
+/* SCORECARD LIST FRAME */
+.scorecard-list-frame {
+    padding:20px 25px;
+    height:auto;
+    min-height:0;
+    box-sizing:border-box;
+}
+
+/* =========================================================
+   SCORECARD EMPTY STATE - REMOVE OUTER SCROLLBAR
+========================================================= */
+
+#view-scorecard .view-body {
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+}
+
+#view-scorecard .scorecard-list {
+    height:auto;
+    max-height:none;
+    overflow:visible;
+}
+
+/* Only scroll when scorecard buttons actually exist */
+#view-scorecard .scorecard-list:has(.scorecard-btn) {
+    max-height:390px;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    scrollbar-width:thin;
+    scrollbar-color:#768a75 transparent;
+}
+
+#view-scorecard .scorecard-list:has(.scorecard-btn)::-webkit-scrollbar {
+    width:7px;
+}
+
+#view-scorecard .scorecard-list:has(.scorecard-btn)::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+#view-scorecard .scorecard-list:has(.scorecard-btn)::-webkit-scrollbar-thumb {
+    background:#768a75;
+    border-radius:10px;
+}
+
+#view-scorecard .scorecard-list:has(.scorecard-btn)::-webkit-scrollbar-thumb:hover {
+    background:#42523f;
+}
+
+/* BOTTOM NAVIGATION */
+.bottom-nav {
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:9999;
+}

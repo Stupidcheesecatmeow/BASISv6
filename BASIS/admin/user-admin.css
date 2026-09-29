@@ -1,0 +1,1480 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --dark: #42523f;
+    --green: #768a75;
+    --light-green: #edf1eb;
+    --border: #9aaa97;
+    --soft: #f2e9e9;
+    --white: #ffffff;
+    --text: #42523f;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    color: var(--text);
+    background: #ffffff;
+    padding-bottom: 92px;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   SHARED ADMIN HEADER + NAVBAR
+   Header and navbar are intentionally inherited from ../style.css
+   so User Management stays visually connected to Admin Home.
+========================================================= */
+
+.user-admin-page .dash-main {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.user-admin-page .user-admin-content {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ================= MAIN ================= */
+
+.main-wrapper {
+    width: calc(100% - 6%);
+    margin: 0 auto;
+}
+
+.main-card {
+    width: 100%;
+    border: 2px solid var(--dark);
+    border-radius: 9px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.card-titlebar {
+    min-height: 54px;
+    padding: 8px 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: var(--dark);
+    color: white;
+}
+
+.card-titlebar h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.title-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box {
+    width: 190px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0 9px;
+}
+
+.search-box i {
+    color: var(--dark);
+    font-size: 16px;
+    font-style: normal;
+    margin-right: 5px;
+}
+
+.search-box input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-size: 10px;
+    color: var(--dark);
+}
+
+.small-btn,
+.action-btn {
+    border: 0;
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.small-btn {
+    height: 25px;
+    padding: 0 16px;
+}
+
+.toolbar {
+    min-height: 52px;
+    padding: 9px 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+}
+
+.toolbar-left {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    min-height: 32px;
+    padding: 0 15px;
+    background: var(--green);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: #ffffff;
+    color: var(--dark);
+    border: 1px solid var(--green);
+}
+
+.toolbar-right {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green);
+}
+
+/* ================= TABLE ================= */
+
+.table-frame {
+    position: relative;
+    min-height: 470px;
+    overflow: auto;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.users-table th {
+    height: 30px;
+    padding: 5px;
+
+    background: var(--green);
+    color: white;
+
+    border-right: 1px solid white;
+
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.users-table td {
+    height: 38px;
+    padding: 6px 8px;
+
+    border: 1px solid var(--border);
+
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+.users-table th:nth-child(1) { width: 16%; }
+.users-table th:nth-child(2) { width: 23%; }
+.users-table th:nth-child(3) { width: 18%; }
+.users-table th:nth-child(4) { width: 12%; }
+.users-table th:nth-child(5) { width: 12%; }
+.users-table th:nth-child(6) { width: 19%; }
+
+.manage-btn {
+    width: 96px;
+    height: 20px;
+
+    border: 0;
+    border-radius: 5px;
+
+    background: var(--green);
+    color: white;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.status-badge,
+.role-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 75px;
+    height: 22px;
+
+    padding: 0 8px;
+
+    border-radius: 12px;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.status-badge.active {
+    background: #dfeadf;
+    color: #42523f;
+}
+
+.status-badge.inactive {
+    background: #eeeeee;
+    color: #777777;
+}
+
+.role-badge {
+    background: #e9eee7;
+    color: var(--dark);
+}
+
+.empty-table {
+    position: absolute;
+    inset: 30px 0 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: #ffffff;
+}
+
+.empty-table.hidden {
+    display: none;
+}
+
+.empty-icon {
+    color: var(--green);
+    font-size: 46px;
+}
+
+.empty-table h3 {
+    margin: 6px 0 0;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.empty-table p {
+    margin: 5px 0;
+    color: var(--green);
+    font-size: 12px;
+}
+
+/* ================= DETAIL ================= */
+
+.detail-card {
+    position: relative;
+    min-height: 323px;
+    padding: 38px 18px 14px;
+
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 18px;
+
+    background: #ffffff;
+}
+
+.circle-close {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+
+    width: 25px;
+    height: 25px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--dark);
+    color: white;
+
+    font-size: 18px;
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+.profile-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.large-avatar {
+    width: 128px;
+    height: 128px;
+
+    border-radius: 50%;
+    background: #5f9cf5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 65px;
+}
+
+.profile-action {
+    width: 110px;
+    height: 22px;
+    margin-top: 12px;
+
+    border: 0;
+    border-radius: 5px;
+
+    background: var(--green);
+    color: white;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.profile-action.danger {
+    margin-top: 5px;
+}
+
+.profile-content {
+    min-width: 0;
+}
+
+.profile-heading h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.profile-heading p {
+    margin: -1px 0 8px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.credentials-box {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 8px;
+
+    margin-bottom: 8px;
+}
+
+.credentials-box > div {
+    padding: 7px 9px;
+    border-radius: 5px;
+    background: var(--light-green);
+}
+
+.credentials-box label,
+.credentials-box span {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 8px;
+    font-weight: 900;
+}
+
+.credentials-box strong {
+    font-size: 10px;
+    word-break: break-word;
+}
+
+.password-display {
+    display: flex;
+    gap: 4px;
+}
+
+.password-display input {
+    min-width: 0;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.password-display button {
+    border: 0;
+    border-radius: 4px;
+    background: var(--green);
+    color: white;
+    font-size: 7px;
+    font-weight: 900;
+}
+
+/* ================= FORM ================= */
+
+.form-grid {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 7px;
+}
+
+.form-grid.two { grid-template-columns: 1fr 1fr; }
+.form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+.form-grid.four { grid-template-columns: 1fr 1.1fr 1fr 1.2fr; }
+.form-grid.five { grid-template-columns: 1.1fr 1.1fr 1fr .55fr .7fr; }
+
+.field label,
+.manual-grid label,
+.filter-grid label {
+    display: block;
+    margin-bottom: 3px;
+
+    color: var(--dark);
+
+    font-size: 8px;
+    font-weight: 900;
+}
+
+.field input,
+.field select,
+.manual-grid input,
+.manual-grid select,
+.filter-grid select {
+    width: 100%;
+    height: 24px;
+
+    padding: 0 7px;
+
+    border: 0;
+    outline: 0;
+
+    background: var(--soft);
+
+    color: var(--dark);
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.save-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.save-btn {
+    width: 110px;
+    height: 22px;
+
+    border: 0;
+    border-radius: 5px;
+
+    background: var(--green);
+    color: white;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+/* ================= ACTIVITIES ================= */
+
+.activity-detail-card {
+    min-height: 325px;
+}
+
+.activity-table-frame {
+    border: 1px solid var(--border);
+    min-height: 235px;
+    overflow: auto;
+}
+
+.activities-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.activities-table th {
+    height: 32px;
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.activities-table td {
+    height: 35px;
+    border: 1px solid var(--border);
+    text-align: center;
+    font-size: 9px;
+}
+
+.empty-activity {
+    min-height: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--green);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* ================= MODALS ================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(40, 50, 38, .35);
+}
+
+.modal-card {
+    position: relative;
+
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 2px solid var(--dark);
+    border-radius: 12px;
+
+    box-shadow: 0 12px 35px rgba(0,0,0,.15);
+}
+
+.modal-card.small {
+    width: min(460px, 100%);
+}
+
+.modal-card h2 {
+    margin: 0 0 8px;
+    color: var(--dark);
+    font-size: 23px;
+    font-weight: 900;
+}
+
+.modal-help {
+    margin: 0 0 15px;
+    font-size: 11px;
+    color: #6f7e6d;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+
+    width: 28px;
+    height: 28px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--dark);
+    color: white;
+
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.drop-zone {
+    min-height: 190px;
+
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.upload-icon {
+    color: var(--green);
+    font-size: 45px;
+}
+
+.drop-zone strong {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.drop-zone span {
+    color: #888;
+    font-size: 10px;
+}
+
+.drop-zone input {
+    display: none;
+}
+
+.drop-zone .action-btn {
+    margin-top: 12px;
+}
+
+.selected-file {
+    margin: 8px 0 0;
+    color: #777;
+    font-size: 10px;
+}
+
+.sample-format {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--light-green);
+    font-size: 10px;
+}
+
+.modal-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.import-result {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 7px;
+    background: var(--light-green);
+    font-size: 11px;
+}
+
+.filter-grid,
+.manual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.credential-result {
+    display: grid;
+    gap: 8px;
+}
+
+.credential-result div {
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--light-green);
+}
+
+.credential-result span {
+    display: block;
+    font-size: 8px;
+    font-weight: 900;
+}
+
+.credential-result strong {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    word-break: break-word;
+}
+
+.credential-warning {
+    color: #777;
+    font-size: 10px;
+}
+
+/* ================= TOAST ================= */
+
+.toast {
+    position: fixed;
+    right: 22px;
+    bottom: 100px;
+
+    z-index: 2000;
+
+    max-width: 350px;
+
+    padding: 12px 17px;
+
+    border-radius: 7px;
+
+    background: var(--dark);
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+
+    transition: .2s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================================
+   SHARED ADMIN BOTTOM NAVBAR
+   Inherited from ../style.css
+========================================================= */
+
+.user-admin-page .bottom-nav-inner {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.user-admin-page .nav-item {
+    min-width: 0;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .top-header {
+        height: 115px;
+        padding: 12px 3%;
+    }
+
+    .basis-logo {
+        font-size: 31px;
+        margin-top: 35px;
+    }
+
+    .welcome-area h1 {
+        font-size: 19px;
+    }
+
+    .welcome-area span {
+        font-size: 9px;
+    }
+
+    .profile-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 27px;
+    }
+
+    .card-titlebar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .title-actions {
+        justify-content: flex-end;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
+    }
+
+    .detail-card {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-side {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .profile-action {
+        margin: 0;
+    }
+
+    .credentials-box,
+    .form-grid.two,
+    .form-grid.three,
+    .form-grid.four,
+    .form-grid.five {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .table-frame {
+        min-height: 400px;
+    }
+
+    .users-table {
+        min-width: 850px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .main-wrapper {
+        width: calc(100% - 20px);
+    }
+
+    .welcome-area {
+        gap: 7px;
+    }
+
+    .welcome-area h1 {
+        font-size: 15px;
+    }
+
+    .welcome-area span {
+        font-size: 7px;
+    }
+
+    .profile-avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 22px;
+    }
+
+    .title-actions {
+        flex-direction: row;
+    }
+
+    .search-box {
+        flex: 1;
+    }
+
+    .toolbar-left {
+        flex-wrap: wrap;
+    }
+
+    .detail-card {
+        padding: 40px 10px 12px;
+    }
+
+    .credentials-box,
+    .form-grid.two,
+    .form-grid.three,
+    .form-grid.four,
+    .form-grid.five,
+    .filter-grid,
+    .manual-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* =========================================================
+   BASIS ADMIN - USER MANAGEMENT UI FIX
+   Keep shared Admin Header + Navbar unchanged
+========================================================= */
+
+.admin-user-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN USER MANAGEMENT CONTAINER
+========================================================= */
+
+.admin-user-page .user-management-container,
+.admin-user-page .users-container,
+.admin-user-page .user-management-card {
+    width: 100%;
+    max-width: 100%;
+    height: 465px;
+    min-height: 465px;
+    max-height: 465px;
+
+    border: 2px solid #405840;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE TITLE / HEADER
+========================================================= */
+
+.admin-user-page .user-management-header {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+
+    padding: 0 16px;
+
+    background: #405840;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+}
+
+.admin-user-page .user-management-header h1,
+.admin-user-page .user-management-header h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 30px;
+    line-height: 1;
+
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   SEARCH AREA
+========================================================= */
+
+.admin-user-page .user-search-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-left: auto;
+}
+
+.admin-user-page .user-search-box {
+    width: 220px;
+    height: 30px;
+
+    padding: 0 12px;
+
+    border: none;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    box-sizing: border-box;
+}
+
+.admin-user-page .user-search-box i {
+    color: #405840;
+    font-size: 12px;
+}
+
+.admin-user-page .user-search-box input {
+    width: 100%;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    color: #405840;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+}
+
+.admin-user-page .user-search-box input::placeholder {
+    color: #777777;
+}
+
+/* FILTER */
+
+.admin-user-page .filter-btn {
+    width: 78px;
+    height: 30px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: #ffffff;
+    color: #405840;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.admin-user-page .user-toolbar {
+    width: 100%;
+    height: 58px;
+    min-height: 58px;
+
+    padding: 10px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.admin-user-page .user-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+/* IMPORT */
+
+.admin-user-page .import-excel-btn,
+.admin-user-page .add-user-btn {
+    height: 37px;
+
+    padding: 0 15px;
+
+    border-radius: 6px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    box-sizing: border-box;
+}
+
+.admin-user-page .import-excel-btn {
+    border: 1px solid #7c907b;
+    background: #7c907b;
+    color: #ffffff;
+}
+
+.admin-user-page .add-user-btn {
+    border: 1.5px solid #7c907b;
+    background: #ffffff;
+    color: #405840;
+}
+
+/* USER COUNT */
+
+.admin-user-page .user-count {
+    color: #7c907b;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   USER TABLE
+========================================================= */
+
+.admin-user-page .user-table-wrapper {
+    width: 100%;
+
+    height: 341px;
+    min-height: 341px;
+    max-height: 341px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+}
+
+/* TABLE */
+
+.admin-user-page .user-table {
+    width: 100%;
+
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+/* HEADER */
+
+.admin-user-page .user-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.admin-user-page .user-table th {
+    height: 36px;
+
+    padding: 0 8px;
+
+    background: #7c907b;
+    color: #ffffff;
+
+    border-right: 1px solid #ffffff;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.admin-user-page .user-table th:last-child {
+    border-right: none;
+}
+
+/* BODY */
+
+.admin-user-page .user-table td {
+    height: 36px;
+
+    padding: 5px 8px;
+
+    border-right: 1px solid #a8b4a5;
+    border-bottom: 1px solid #a8b4a5;
+
+    color: #405840;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-align: center;
+
+    vertical-align: middle;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-user-page .user-table td:last-child {
+    border-right: none;
+}
+
+/* COLUMN WIDTHS */
+
+.admin-user-page .user-table th:nth-child(1),
+.admin-user-page .user-table td:nth-child(1) {
+    width: 16%;
+}
+
+.admin-user-page .user-table th:nth-child(2),
+.admin-user-page .user-table td:nth-child(2) {
+    width: 23%;
+}
+
+.admin-user-page .user-table th:nth-child(3),
+.admin-user-page .user-table td:nth-child(3) {
+    width: 18%;
+}
+
+.admin-user-page .user-table th:nth-child(4),
+.admin-user-page .user-table td:nth-child(4) {
+    width: 12%;
+}
+
+.admin-user-page .user-table th:nth-child(5),
+.admin-user-page .user-table td:nth-child(5) {
+    width: 12%;
+}
+
+.admin-user-page .user-table th:nth-child(6),
+.admin-user-page .user-table td:nth-child(6) {
+    width: 19%;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.admin-user-page .user-empty-state {
+    width: 100%;
+
+    min-height: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #405840;
+}
+
+.admin-user-page .user-empty-state i {
+    margin-bottom: 15px;
+
+    color: #7c907b;
+
+    font-size: 38px;
+}
+
+.admin-user-page .user-empty-state h3 {
+    margin: 0;
+
+    color: #405840;
+
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.admin-user-page .user-empty-state p {
+    margin: 5px 0 0;
+
+    color: #7c907b;
+
+    font-size: 11px;
+}
+
+/* =========================================================
+   MANAGE PROFILE BUTTON
+========================================================= */
+
+.admin-user-page .manage-profile-btn {
+    width: 96px;
+    height: 23px;
+
+    border: 0;
+    border-radius: 5px;
+
+    background: #7c907b;
+    color: #ffffff;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 8px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.admin-user-page .user-table-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #7c907b #eef1ed;
+}
+
+.admin-user-page .user-table-wrapper::-webkit-scrollbar {
+    width: 7px;
+}
+
+.admin-user-page .user-table-wrapper::-webkit-scrollbar-track {
+    background: #eef1ed;
+}
+
+.admin-user-page .user-table-wrapper::-webkit-scrollbar-thumb {
+    background: #7c907b;
+    border-radius: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .admin-user-page .user-management-container,
+    .admin-user-page .users-container,
+    .admin-user-page .user-management-card {
+        height: 430px;
+        min-height: 430px;
+        max-height: 430px;
+    }
+
+    .admin-user-page .user-management-header h1,
+    .admin-user-page .user-management-header h2 {
+        font-size: 25px;
+    }
+
+    .admin-user-page .user-search-box {
+        width: 180px;
+    }
+
+    .admin-user-page .user-table-wrapper {
+        height: 306px;
+        min-height: 306px;
+        max-height: 306px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .admin-user-page .user-management-container,
+    .admin-user-page .users-container,
+    .admin-user-page .user-management-card {
+        height: 410px;
+        min-height: 410px;
+        max-height: 410px;
+    }
+
+    .admin-user-page .user-management-header {
+        height: 55px;
+        min-height: 55px;
+        padding: 0 12px;
+    }
+
+    .admin-user-page .user-management-header h1,
+    .admin-user-page .user-management-header h2 {
+        font-size: 21px;
+    }
+
+    .admin-user-page .user-search-area {
+        gap: 5px;
+    }
+
+    .admin-user-page .user-search-box {
+        width: 200px;
+        height: 28px;
+    }
+
+    .admin-user-page .filter-btn {
+        width: 65px;
+        height: 28px;
+    }
+
+    .admin-user-page .user-toolbar {
+        height: 55px;
+        min-height: 55px;
+        padding: 8px 10px;
+    }
+
+    .admin-user-page .import-excel-btn,
+    .admin-user-page .add-user-btn {
+        height: 32px;
+        padding: 0 10px;
+        font-size: 8px;
+    }
+
+    .admin-user-page .user-table-wrapper {
+        height: 300px;
+        min-height: 300px;
+        max-height: 300px;
+
+        overflow-x: auto;
+    }
+
+    .admin-user-page .user-table {
+        min-width: 750px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .admin-user-page .user-management-container,
+    .admin-user-page .users-container,
+    .admin-user-page .user-management-card {
+        height: 390px;
+        min-height: 390px;
+        max-height: 390px;
+    }
+
+    .admin-user-page .user-management-header {
+        height: 52px;
+        min-height: 52px;
+    }
+
+    .admin-user-page .user-management-header h1,
+    .admin-user-page .user-management-header h2 {
+        font-size: 18px;
+    }
+
+    .admin-user-page .user-search-box {
+        width: 190px;
+    }
+
+    .admin-user-page .filter-btn {
+        width: 58px;
+        font-size: 8px;
+    }
+
+    .admin-user-page .user-table-wrapper {
+        height: 283px;
+        min-height: 283px;
+        max-height: 283px;
+    }
+}
+
+/* =========================================================
+   FIX ADMIN BOTTOM NAVBAR
+========================================================= */
+
+body.user-admin-page {
+    padding-bottom: 92px;
+}
+
+
+/* Force navbar to stay at the bottom of the screen */
+.user-admin-page .bottom-nav {
+    position: fixed !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    z-index: 9999;
+
+    box-sizing: border-box;
+}
+
+
+/* Keep all six Admin navigation items aligned */
+.user-admin-page .bottom-nav-inner {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}

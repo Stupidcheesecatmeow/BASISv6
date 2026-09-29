@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BASIS - Admin User Management</title>
+
+    <!-- SAME GLOBAL AS ADMIN HOME -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <!-- SAME GLOBAL CSS AS ADMIN HOME -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- USER MANAGEMENT ONLY -->
+    <link rel="stylesheet" href="user-admin.css?v=2">
+
+</head>
+
+<body class="dashboard-page admin-page user-admin-page">
+
+
+<header class="dash-header">
+
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, ADMIN!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+
+        <div
+            class="profile-avatar-wrapper"
+            onclick="window.location.href='profile-admin.html'"
+        >
+            <img
+                src="../images/profile_default.jpg"
+                alt="Admin Profile"
+                class="header-avatar"
+            >
+        </div>
+    </div>
+
+</header>
+
+<main class="dash-main user-admin-main">
+    <section class="page-view active user-admin-content">
+
+    <!-- ================= USER LIST ================= -->
+    <section id="userListView" class="main-card">
+
+        <div class="card-titlebar">
+            <h2>USER MANAGEMENT</h2>
+
+            <div class="title-actions">
+                <div class="search-box">
+                    <i>⌕</i>
+                    <input id="userSearch" type="search" placeholder="Search users...">
+                </div>
+
+                <button id="filterBtn" class="small-btn">FILTER</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button id="importExcelBtn" class="action-btn">
+                    <span>▣</span> IMPORT EXCEL
+                </button>
+
+                <button id="addUserBtn" class="action-btn secondary">
+                    <span>＋</span> ADD USER
+                </button>
+            </div>
+
+            <div class="toolbar-right">
+                <span id="userCount">0 USERS</span>
+            </div>
+        </div>
+
+        <div class="table-frame">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>CONTROL NO.</th>
+                        <th>NAME</th>
+                        <th>BARANGAY</th>
+                        <th>ROLE</th>
+                        <th>STATUS</th>
+                        <th>MANAGE PROFILE</th>
+                    </tr>
+                </thead>
+
+                <tbody id="usersTableBody"></tbody>
+            </table>
+
+            <div id="emptyUsers" class="empty-table">
+                <div class="empty-icon">♙</div>
+                <h3>No users yet.</h3>
+                <p>Import an Excel file or add a user manually.</p>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= USER DETAIL ================= -->
+    <section id="userDetailView" class="main-card detail-view hidden">
+
+        <div class="card-titlebar">
+            <h2>USER MANAGEMENT</h2>
+        </div>
+
+        <div class="detail-card">
+
+            <button id="closeDetailBtn" class="circle-close" title="Back">×</button>
+
+            <aside class="profile-side">
+                <div id="detailAvatar" class="large-avatar">👨🏻‍💼</div>
+
+                <button id="viewActivitiesBtn" class="profile-action">ACTIVITIES</button>
+                <button id="deleteUserBtn" class="profile-action danger">DELETE USER</button>
+            </aside>
+
+            <div class="profile-content">
+
+                <div class="profile-heading">
+                    <div>
+                        <h3 id="detailName">JUAN DELA CRUZ</h3>
+                        <p id="detailLocation">—</p>
+                    </div>
+                </div>
+
+                <div class="credentials-box">
+                    <div>
+                        <label>CONTROL NO.</label>
+                        <strong id="detailControlNo">—</strong>
+                    </div>
+
+                    <div>
+                        <label>EMAIL ADDRESS</label>
+                        <strong id="detailEmail">—</strong>
+                    </div>
+
+                    <div>
+                        <label>INITIAL PASSWORD</label>
+                        <div class="password-display">
+                            <input id="detailPassword" type="password" readonly placeholder="Only shown when generated/imported">
+                            <button id="showPasswordBtn" type="button">SHOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="userForm">
+
+                    <div class="form-grid three">
+                        <div class="field">
+                            <label>ROLE:</label>
+                            <select id="role">
+                                <option value="ISKOLAR">ISKOLAR</option>
+                                <option value="REPRESENTATIVE">REPRESENTATIVE</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>STATUS:</label>
+                            <select id="status">
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="INACTIVE">INACTIVE</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>SEX:</label>
+                            <select id="sex">
+                                <option value="">—</option>
+                                <option>MALE</option>
+                                <option>FEMALE</option>
+                                <option>OTHER</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid five">
+                        <div class="field">
+                            <label>GIVEN NAME:</label>
+                            <input id="givenName" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>SURNAME:</label>
+                            <input id="surname" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>MIDDLE NAME:</label>
+                            <input id="middleName" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>SUFFIX:</label>
+                            <input id="suffix" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>BIRTHDAY:</label>
+                            <input id="birthday" type="date">
+                        </div>
+                    </div>
+
+                    <div class="form-grid four">
+                        <div class="field">
+                            <label>CONTACT NO.:</label>
+                            <input id="contactNo" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>RELIGION:</label>
+                            <input id="religion" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>MUNICIPALITY:</label>
+                            <input id="municipality" type="text" value="BAGAC">
+                        </div>
+
+                        <div class="field">
+                            <label>BARANGAY:</label>
+                            <select id="barangay">
+                                <option value="">—</option>
+                                <option>Bagumbayan</option>
+                                <option>Banawang</option>
+                                <option>Binuangan</option>
+                                <option>Binukawan</option>
+                                <option>Ibaba</option>
+                                <option>Ibis</option>
+                                <option>Pagasa</option>
+                                <option>Parang</option>
+                                <option>Paysawan</option>
+                                <option>Quinawan</option>
+                                <option>San Antonio</option>
+                                <option>Saysain</option>
+                                <option>Tabing-ilog</option>
+                                <option>Atilano Ricardo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid three">
+                        <div class="field">
+                            <label>CLUSTER:</label>
+                            <input id="cluster" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>SCHOOL:</label>
+                            <input id="school" type="text">
+                        </div>
+
+                        <div class="field">
+                            <label>PROGRAM:</label>
+                            <input id="program" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-grid two">
+                        <div class="field">
+                            <label>YEAR LEVEL:</label>
+                            <select id="yearLevel">
+                                <option value="">—</option>
+                                <option>1st Year</option>
+                                <option>2nd Year</option>
+                                <option>3rd Year</option>
+                                <option>4th Year</option>
+                                <option>5th Year</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>PROFILE COMPLETED:</label>
+                            <input id="profileCompleted" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="save-row">
+                        <button type="submit" class="save-btn">SAVE</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= ACTIVITIES VIEW ================= -->
+    <section id="activitiesView" class="main-card detail-view hidden">
+
+        <div class="card-titlebar">
+            <h2>USER ACTIVITIES</h2>
+        </div>
+
+        <div class="detail-card activity-detail-card">
+            <button id="closeActivitiesBtn" class="circle-close">×</button>
+
+            <aside class="profile-side">
+                <div id="activityAvatar" class="large-avatar">👨🏻‍💼</div>
+                <button id="backToProfileBtn" class="profile-action">PROFILE</button>
+            </aside>
+
+            <div class="profile-content">
+                <div class="profile-heading">
+                    <div>
+                        <h3 id="activityUserName">JUAN DELA CRUZ</h3>
+                        <p id="activityUserLocation">—</p>
+                    </div>
+                </div>
+
+                <div class="activity-table-frame">
+                    <table class="activities-table">
+                        <thead>
+                            <tr>
+                                <th>ACTIVITY TITLE</th>
+                                <th>TIME IN</th>
+                                <th>TIME OUT</th>
+                                <th>SUBMISSION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activitiesTableBody"></tbody>
+                    </table>
+
+                    <div id="emptyActivities" class="empty-activity">
+                        No activity records yet.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+
+
+<!-- ================= IMPORT MODAL ================= -->
+<div id="importModal" class="modal hidden">
+    <div class="modal-card">
+
+        <button class="modal-close" data-close="importModal">×</button>
+
+        <h2>IMPORT USERS</h2>
+        <p class="modal-help">
+            Upload an Excel file containing <strong>NAME</strong> and <strong>EMAIL</strong> columns.
+        </p>
+
+        <div id="dropZone" class="drop-zone">
+            <div class="upload-icon"><i class="fa-solid fa-file-excel"></i></div>
+            <strong>UPLOAD EXCEL FILE</strong>
+            <span>.xlsx or .xls</span>
+
+            <input id="excelFile" type="file" accept=".xlsx,.xls">
+            <button id="chooseFileBtn" type="button" class="action-btn">
+                CHOOSE FILE
+            </button>
+
+            <p id="selectedFile" class="selected-file">No file selected.</p>
+        </div>
+
+        <div class="sample-format">
+            <strong>Required columns:</strong>
+            NAME &nbsp; | &nbsp; EMAIL
+        </div>
+
+        <div class="modal-actions">
+            <button id="importConfirmBtn" class="action-btn" disabled>
+                IMPORT USERS
+            </button>
+            <button class="action-btn secondary" data-close="importModal">
+                CANCEL
+            </button>
+        </div>
+
+        <div id="importResult" class="import-result hidden"></div>
+    </div>
+</div>
+
+
+<!-- ================= FILTER MODAL ================= -->
+<div id="filterModal" class="modal hidden">
+    <div class="modal-card small">
+
+        <button class="modal-close" data-close="filterModal">×</button>
+
+        <h2>FILTER USERS</h2>
+
+        <div class="filter-grid">
+            <div>
+                <label>ROLE</label>
+                <select id="filterRole">
+                    <option value="">ALL ROLES</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="REPRESENTATIVE">REPRESENTATIVE</option>
+                    <option value="ISKOLAR">ISKOLAR</option>
+                </select>
+            </div>
+
+            <div>
+                <label>STATUS</label>
+                <select id="filterStatus">
+                    <option value="">ALL STATUS</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button id="applyFilterBtn" class="action-btn">APPLY FILTER</button>
+            <button id="clearFilterBtn" class="action-btn secondary">CLEAR</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= ADD USER MODAL ================= -->
+<div id="addUserModal" class="modal hidden">
+    <div class="modal-card small">
+
+        <button class="modal-close" data-close="addUserModal">×</button>
+
+        <h2>ADD USER</h2>
+
+        <div class="manual-grid">
+            <div>
+                <label>NAME</label>
+                <input id="newName" type="text" placeholder="Full name">
+            </div>
+
+            <div>
+                <label>EMAIL</label>
+                <input id="newEmail" type="email" placeholder="Email address">
+            </div>
+
+            <div>
+                <label>ROLE</label>
+                <select id="newRole">
+                    <option value="ISKOLAR">ISKOLAR</option>
+                    <option value="REPRESENTATIVE">REPRESENTATIVE</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+            </div>
+
+            <div>
+                <label>STATUS</label>
+                <select id="newStatus">
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button id="createUserBtn" class="action-btn">CREATE USER</button>
+            <button class="action-btn secondary" data-close="addUserModal">CANCEL</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= CREDENTIAL MODAL ================= -->
+<div id="credentialModal" class="modal hidden">
+    <div class="modal-card small">
+
+        <button class="modal-close" data-close="credentialModal">×</button>
+
+        <h2>USER CREDENTIALS</h2>
+
+        <div class="credential-result">
+            <div>
+                <span>CONTROL NO.</span>
+                <strong id="credentialControl">—</strong>
+            </div>
+
+            <div>
+                <span>NAME</span>
+                <strong id="credentialName">—</strong>
+            </div>
+
+            <div>
+                <span>EMAIL</span>
+                <strong id="credentialEmail">—</strong>
+            </div>
+
+            <div>
+                <span>PASSWORD</span>
+                <strong id="credentialPassword">—</strong>
+            </div>
+        </div>
+
+        <p class="credential-warning">
+            Give these credentials to the user. The password is shown only when the account is created/imported.
+        </p>
+
+        <div class="modal-actions">
+            <button id="copyCredentialBtn" class="action-btn">
+                COPY CREDENTIALS
+            </button>
+            <button id="closeCredentialBtn" class="action-btn secondary">
+                CLOSE
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<nav class="bottom-nav">
+
+    <div class="bottom-nav-inner">
+
+        <a class="nav-item" href="home-admin.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a class="nav-item active" href="user-admin.html">
+            <i class="fa-solid fa-user"></i>
+            <span>User</span>
+        </a>
+
+        <a class="nav-item" href="scorecard-admin.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+
+        <a class="nav-item" href="activity-admin.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+
+        <a class="nav-item" href="history-admin.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+
+        <a class="nav-item" href="more-admin.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+
+    </div>
+</nav>
+
+
+<script src="../script.js"></script>
+<script src="user-admin.js?v=2"></script>
+
+</body>
+</html>

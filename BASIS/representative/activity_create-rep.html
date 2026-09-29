@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative Create Activity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="activity-rep.css?v=3">
+</head>
+<body class="dashboard-page representative-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, REPRESENTATIVE!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-rep.html'">
+            <img src="../images/profile_default.jpg" alt="Representative Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+<main class="dash-main">
+<section class="page-view active">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="window.location.href='activity-rep.html'"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="activity-create-grid">
+                <div class="create-form-fields">
+                    <div class="form-field">
+                        <label>ACTIVITY NAME:</label>
+                        <input type="text" id="activityName">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>TYPE OF ACTIVITY:</label>
+                            <select id="activityType"><option value=""></option></select>
+                        </div>
+                        <div class="form-field">
+                            <label>DATE:</label>
+                            <input type="date" id="activityDate">
+                        </div>
+                        <div class="form-field">
+                            <label>START TIME:</label>
+                            <input type="time" id="activityStartTime">
+                        </div>
+                        <div class="form-field">
+                            <label>END TIME:</label>
+                            <input type="time" id="activityEndTime">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>VENUE:</label>
+                            <input type="text" id="activityVenue">
+                        </div>
+                        <div class="form-field">
+                            <label>VENUE ADDRESS:</label>
+                            <input type="text" id="activityVenueAddress">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>GENERATE QR CODE:</label>
+                            <select id="generateQr"><option value=""></option></select>
+                        </div>
+                        <div class="form-field">
+                            <label>DEADLINE OF SUBMISSION:</label>
+                            <input type="date" id="activityDeadlineDate">
+                        </div>
+                        <div class="form-field">
+                            <label>TIME:</label>
+                            <input type="time" id="activityDeadlineTime">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>ACADEMIC YEAR:</label>
+                            <input type="text" id="academicYear">
+                        </div>
+                        <div class="form-field">
+                            <label>SEMESTER:</label>
+                            <select id="semester"><option value=""></option></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="description-field">
+                    <textarea id="activityDescription" placeholder="Description..."></textarea>
+                </div>
+            </div>
+
+            <div class="create-btn-row">
+                <button class="create-btn" onclick="submitNewActivity()">CREATE</button>
+            </div>
+        </div>
+    
+</section>
+</main>
+
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a class="nav-item" href="home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+<a class="nav-item" href="scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+        <a class="nav-item active" href="activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+        <a class="nav-item" href="history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+        <a class="nav-item" href="more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+    </div>
+</nav>
+
+<script src="../script.js"></script>
+<script src="activity-rep.js?v=2"></script>
+
+</body>
+</html>

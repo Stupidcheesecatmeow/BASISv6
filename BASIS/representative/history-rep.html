@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative History</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="home-rep.css">
+    <link rel="stylesheet" href="history-rep.css">
+</head>
+
+<body class="dashboard-page representative-history-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+
+    <div class="header-right">
+        <div class="welcome-text">
+    <h1>MABUHAY, REPRESENTATIVE!</h1>
+    <span>WELCOME TO BASIS</span>
+</div>
+
+<div class="profile-avatar-wrapper"
+     onclick="window.location.href='../representative/profile-rep.html'">
+
+    <img
+        src="../images/profile_default.jpg"
+        alt="Representative Profile"
+        class="header-avatar"
+    >
+
+</div>
+    </div>
+</header>
+
+<main class="dash-main">
+
+    <!-- HISTORY MENU -->
+    <section id="view-history-rep" class="page-view active">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame">
+            <div class="history-menu-list">
+
+                <div class="history-menu-card">
+                    <h3>ANNOUNCEMENTS</h3>
+                    <button class="open-activity-btn" type="button"
+                            onclick="showRepHistoryView('view-history-rep-announcements')">
+                        OPEN
+                    </button>
+                </div>
+
+                <div class="history-menu-card">
+                    <h3>ACTIVITIES</h3>
+                    <button class="open-activity-btn" type="button"
+                            onclick="showRepHistoryView('view-history-rep-activities')">
+                        OPEN
+                    </button>
+                </div>
+
+                <div class="history-menu-card">
+                    <h3>NOTIFICATIONS</h3>
+                    <button class="open-activity-btn" type="button"
+                            onclick="showRepHistoryView('view-history-rep-notifications')">
+                        OPEN
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ANNOUNCEMENT HISTORY -->
+    <section id="view-history-rep-announcements" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame history-sub-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header">
+                <h3>ANNOUNCEMENT HISTORY</h3>
+
+                <div class="search-filter-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="repAnnouncementSearch"
+                               type="text"
+                               placeholder="Search announcements...">
+                    </div>
+                    <button class="filter-btn" type="button">FILTER</button>
+                </div>
+            </div>
+
+            <div class="history-items-container" id="repAnnouncementHistoryList"></div>
+        </div>
+    </section>
+
+
+    <!-- ACTIVITY HISTORY -->
+    <section id="view-history-rep-activities" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame history-sub-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header">
+                <h3>ACTIVITY HISTORY</h3>
+
+                <div class="search-filter-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="repActivitySearch"
+                               type="text"
+                               placeholder="Search activities...">
+                    </div>
+                    <button class="filter-btn" type="button">FILTER</button>
+                </div>
+            </div>
+
+            <div class="history-items-container" id="repActivityHistoryList"></div>
+        </div>
+    </section>
+
+
+    <!-- NOTIFICATION HISTORY -->
+    <section id="view-history-rep-notifications" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame history-sub-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header">
+                <h3>NOTIFICATION HISTORY</h3>
+
+                <div class="search-filter-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="repNotificationSearch"
+                               type="text"
+                               placeholder="Search notifications...">
+                    </div>
+                    <button class="filter-btn" type="button">FILTER</button>
+                </div>
+            </div>
+
+            <div class="history-items-container" id="repNotificationHistoryList"></div>
+        </div>
+    </section>
+
+
+    <!-- ANNOUNCEMENT DETAIL -->
+    <section id="view-history-rep-announcement-detail" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep-announcements')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header standalone-title">
+                <h3>ANNOUNCEMENT HISTORY</h3>
+            </div>
+
+            <div class="history-detail-layout">
+                <div class="detail-text-side">
+                    <h2 class="detail-title" id="repAnnouncementDetailTitle">ANNOUNCEMENT TITLE</h2>
+                    <span class="detail-date" id="repAnnouncementDetailDate">xx/xx/xxxx</span>
+                    <p class="desc-text" id="repAnnouncementDetailDescription"></p>
+                </div>
+
+                <div class="detail-media-side">
+                    <div class="media-placeholder-box">
+                        <img src="../images/image-icon.png"
+                             alt="Announcement Image"
+                             class="announcement-img"
+                             id="repAnnouncementDetailImage">
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-right-container">
+                <button class="act-btn solid-btn" type="button"
+                        onclick="showRepHistoryView('view-history-rep-announcements')">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ACTIVITY DETAIL -->
+    <section id="view-history-rep-activity-detail" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep-activities')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header standalone-title">
+                <h3>ACTIVITY HISTORY</h3>
+            </div>
+
+            <div class="history-activity-detail-grid">
+
+                <div class="activity-info-left">
+                    <h2 class="detail-title" id="repActivityDetailTitle">ACTIVITY TITLE</h2>
+                    <span class="detail-date" id="repActivityDetailDate">xx/xx/xxxx</span>
+                    <p class="desc-text" id="repActivityDetailDescription"></p>
+                </div>
+
+                <div class="activity-info-right">
+                    <div class="sem-tag text-right mb-15" id="repActivityDetailSemester">
+                        2026 – 2027 FIRST SEMESTER
+                    </div>
+
+                    <div class="sub-activity-info compact-info">
+                        <h2 id="repActivityName">ACTIVITY TITLE</h2>
+                        <p><strong>TYPE OF ACTIVITY:</strong> <span id="repActivityType"></span></p>
+                        <p><strong>DATE:</strong> <span id="repActivityDate"></span></p>
+                        <p><strong>TIME:</strong> <span id="repActivityTime"></span></p>
+                        <p><strong>VENUE:</strong> <span id="repActivityVenue"></span></p>
+                        <p><strong>VENUE ADDRESS:</strong> <span id="repActivityAddress"></span></p>
+                        <p><strong>NAME:</strong> <span id="repActivityNamePerson"></span></p>
+                        <p><strong>MUNICIPALITY:</strong> <span id="repActivityMunicipality"></span></p>
+                        <p><strong>BARANGAY:</strong> <span id="repActivityBarangay"></span></p>
+                    </div>
+
+                    <div class="submitted-file-box">
+                        ACTIVITY RECORD
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="btn-right-container">
+                <button class="act-btn solid-btn" type="button"
+                        onclick="showRepHistoryView('view-history-rep-activities')">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- NOTIFICATION DETAIL -->
+    <section id="view-history-rep-notification-detail" class="page-view">
+        <div class="view-banner">
+            <h2>HISTORY</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" type="button"
+                    onclick="showRepHistoryView('view-history-rep-notifications')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="inner-banner-header standalone-title">
+                <h3>NOTIFICATION HISTORY</h3>
+            </div>
+
+            <div class="notification-detail-card">
+                <h2 class="notification-title" id="repNotificationDetailTitle">NOTIFICATION TITLE</h2>
+                <span class="notification-date" id="repNotificationDetailDate">xx/xx/xxxx</span>
+                <p class="notification-body" id="repNotificationDetailBody"></p>
+
+                <div class="notification-action-row">
+                    <button class="act-btn solid-btn" type="button"
+                            onclick="showRepHistoryView('view-history-rep-notifications')">
+                        CLOSE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+    <div class="bottom-nav-inner">
+
+        <!-- HOME -->
+        <a class="nav-item" href="../representative/home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <!-- SCORECARD -->
+        <a class="nav-item" href="../representative/scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+
+        <!-- ACTIVITY -->
+        <a class="nav-item" href="../representative/activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+
+        <!-- HISTORY -->
+        <a class="nav-item active" href="../representative/history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+
+        <!-- MORE -->
+        <a class="nav-item" href="../representative/more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+
+    </div>
+
+</nav>
+
+<script src="../script.js"></script>
+<script src="history-rep.js?v=1"></script>
+
+</body>
+</html>

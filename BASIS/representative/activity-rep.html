@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative Activity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="activity-rep.css?v=3">
+</head>
+<body class="dashboard-page representative-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, REPRESENTATIVE!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-rep.html'">
+            <img src="../images/profile_default.jpg" alt="Representative Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+<main class="dash-main">
+<section class="page-view active">
+        <div class="view-banner search-banner">
+            <h2>ACTIVITY</h2>
+            <div class="search-filter-controls">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search activities...">
+                </div>
+                <button class="filter-btn">FILTER</button>
+            </div>
+        </div>
+        <div class="view-body bordered-frame">
+            <div class="admin-activity-list" id="adminActivityList">
+                <div class="admin-no-activity">
+                    <i class="fa-solid fa-book-open"></i>
+                    <h3>No activities yet.</h3>
+                    <p>Created activities will appear here.</p>
+                </div>
+            </div>
+            <button class="add-activity-fab" onclick="window.location.href='activity_create-rep.html'" title="Add Activity">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+    
+</section>
+</main>
+
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a class="nav-item" href="home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+<a class="nav-item" href="scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+        <a class="nav-item active" href="activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+        <a class="nav-item" href="history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+        <a class="nav-item" href="more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+    </div>
+</nav>
+
+<script src="../script.js"></script>
+<script src="activity-rep.js?v=2"></script>
+
+</body>
+</html>

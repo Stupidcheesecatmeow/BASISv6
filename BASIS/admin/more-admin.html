@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BASIS - Admin More</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="more-admin.css">
+</head>
+
+<body class="dashboard-page admin-more-page">
+
+<header class="dash-header">
+
+    <div class="dash-logo">
+        <img
+            src="../images/LOGO.png"
+            alt="BASIS Logo"
+            onerror="this.src='https://via.placeholder.com/180x60?text=BASIS'"
+        >
+    </div>
+
+    <div class="header-right">
+
+        <div class="welcome-text">
+            <h1>MABUHAY, ADMIN!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+
+        <div
+            class="profile-avatar-wrapper"
+            onclick="window.location.href='../admin/profile-admin.html'"
+        >
+            <img
+                src="../images/profile_default.jpg"
+                alt="Admin Profile"
+                class="header-avatar"
+            >
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="dash-main more-page-main">
+
+<section class="more-page" id="morePage">
+
+    <div class="more-page-header">
+        <h1>MORE</h1>
+    </div>
+
+    <div class="more-page-content">
+
+        <!-- =================================================
+             MAIN MORE MENU
+        ================================================== -->
+
+        <div class="more-view" id="moreMenuView">
+
+            <div class="more-menu-list">
+
+                <button
+                    type="button"
+                    class="more-menu-card"
+                    data-open-view="faqView"
+                >
+                    <span>FREQUENTLY ASKED QUESTIONS (FAQs)</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="more-menu-card"
+                    data-open-view="termsView"
+                >
+                    <span>TERMS AND CONDITIONS</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="more-menu-card"
+                    data-open-view="reportView"
+                >
+                    <span>REPORT</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="more-menu-card"
+                    data-open-view="feedbackInboxView"
+                >
+                    <span>FEEDBACK AND CONCERNS</span>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FAQ VIEW
+        ================================================== -->
+
+        <div class="more-view more-detail-view" id="faqView">
+
+            <button
+                type="button"
+                class="more-close-btn"
+                data-close-view
+            >
+                ×
+            </button>
+
+            <div class="more-inner-header">
+                <h2>FREQUENTLY ASKED QUESTIONS (FAQs)</h2>
+            </div>
+
+            <div class="more-inner-scroll">
+
+                <div class="faq-list">
+
+                    <div class="faq-item">
+                        <h3>Question No.1</h3>
+                        <p>
+                            The BASIS system helps manage activities,
+                            participation, attendance, and related records.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Question No.2</h3>
+                        <p>
+                            Administrators can review system records and
+                            generate activity reports based on available data.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Question No.3</h3>
+                        <p>
+                            Activity reports may be filtered using activity,
+                            semester, and academic year selections.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Question No.4</h3>
+                        <p>
+                            Feedback and concerns submitted by Iskolars and
+                            Representatives are received by the administrator.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Question No.5</h3>
+                        <p>
+                            Report results can be exported for administrative
+                            documentation and record keeping.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TERMS VIEW
+        ================================================== -->
+
+        <div class="more-view more-detail-view" id="termsView">
+
+            <button
+                type="button"
+                class="more-close-btn"
+                data-close-view
+            >
+                ×
+            </button>
+
+            <div class="more-inner-header">
+                <h2>TERMS AND CONDITIONS</h2>
+            </div>
+
+            <div class="more-inner-scroll">
+
+                <div class="terms-content">
+
+                    <h3>Terms and Conditions</h3>
+
+                    <p>
+                        By using the BASIS system, you agree to follow the
+                        rules and guidelines established for the proper use
+                        of the system.
+                    </p>
+
+                    <h3>1. Account Information</h3>
+
+                    <p>
+                        Users are responsible for providing accurate and
+                        updated information when completing their profile.
+                        Information should only be used for legitimate
+                        BASIS-related purposes.
+                    </p>
+
+                    <h3>2. System Usage</h3>
+
+                    <p>
+                        The system must be used responsibly and only for its
+                        intended academic and organizational purposes.
+                    </p>
+
+                    <h3>3. Privacy</h3>
+
+                    <p>
+                        Personal information displayed in the system should
+                        be treated as confidential and should not be shared
+                        without proper authorization.
+                    </p>
+
+                    <h3>4. User Responsibility</h3>
+
+                    <p>
+                        Users are responsible for protecting their account
+                        credentials and for all activities performed through
+                        their account.
+                    </p>
+
+                    <h3>5. Updates</h3>
+
+                    <p>
+                        These terms may be updated when necessary to improve
+                        the system and its services.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             REPORT VIEW
+        ================================================== -->
+
+        <div class="more-view more-detail-view" id="reportView">
+
+            <button
+                type="button"
+                class="more-close-btn"
+                data-close-view
+            >
+                ×
+            </button>
+
+            <div class="more-inner-header report-header">
+
+                <h2>GENERATE REPORT</h2>
+
+                <div class="report-header-actions">
+                    <button
+                        type="button"
+                        class="report-action-btn"
+                        id="generateReportBtn"
+                    >
+                        <i class="fa-solid fa-file-lines"></i>
+                        GENERATE
+                    </button>
+
+                    <button
+                        type="button"
+                        class="report-action-btn"
+                        id="exportExcelBtn"
+                    >
+                        <i class="fa-solid fa-file-excel"></i>
+                        EXCEL
+                    </button>
+
+                    <button
+                        type="button"
+                        class="report-action-btn"
+                        id="exportPdfBtn"
+                    >
+                        <i class="fa-solid fa-file-pdf"></i>
+                        PDF
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="more-inner-scroll report-scroll">
+
+                <div class="report-builder">
+
+                    <div class="report-intro">
+                        <h3>ACTIVITY PARTICIPATION REPORT</h3>
+                        <p>
+                            Select one or more activities, semesters, and
+                            academic years. The generated list is grouped
+                            by activity and contains the participant
+                            control number, name, barangay, cluster,
+                            and activity.
+                        </p>
+                    </div>
+
+
+                    <div class="report-filter-grid">
+
+                        <!-- ACTIVITIES -->
+                        <div class="report-filter-card">
+
+                            <div class="report-filter-card-header">
+                                <h4>ACTIVITY</h4>
+
+                                <label class="select-all-label">
+                                    <input
+                                        type="checkbox"
+                                        id="selectAllActivities"
+                                    >
+                                    <span>Select All</span>
+                                </label>
+                            </div>
+
+                            <div
+                                class="checkbox-list"
+                                id="activityCheckboxList"
+                            >
+                                <div class="checkbox-empty">
+                                    No activities available.
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- SEMESTER -->
+                        <div class="report-filter-card">
+
+                            <div class="report-filter-card-header">
+                                <h4>SEMESTER</h4>
+
+                                <label class="select-all-label">
+                                    <input
+                                        type="checkbox"
+                                        id="selectAllSemesters"
+                                    >
+                                    <span>Select All</span>
+                                </label>
+                            </div>
+
+                            <div
+                                class="checkbox-list"
+                                id="semesterCheckboxList"
+                            >
+                                <label class="report-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        class="semester-check"
+                                        value="FIRST SEMESTER"
+                                    >
+                                    <span>FIRST SEMESTER</span>
+                                </label>
+
+                                <label class="report-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        class="semester-check"
+                                        value="SECOND SEMESTER"
+                                    >
+                                    <span>SECOND SEMESTER</span>
+                                </label>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACADEMIC YEAR -->
+                        <div class="report-filter-card">
+
+                            <div class="report-filter-card-header">
+                                <h4>ACADEMIC YEAR</h4>
+
+                                <label class="select-all-label">
+                                    <input
+                                        type="checkbox"
+                                        id="selectAllAcademicYears"
+                                    >
+                                    <span>Select All</span>
+                                </label>
+                            </div>
+
+                            <div
+                                class="checkbox-list"
+                                id="academicYearCheckboxList"
+                            >
+                                <div class="checkbox-empty">
+                                    No academic years available.
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-result-toolbar">
+
+                        <div>
+                            <strong>GENERATED REPORT</strong>
+                            <span id="reportResultCount">
+                                0 records
+                            </span>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="clear-report-btn"
+                            id="clearReportBtn"
+                        >
+                            CLEAR
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="report-results"
+                        id="reportResults"
+                    >
+                        <div class="report-empty-state">
+                            <i class="fa-solid fa-file-circle-check"></i>
+                            <h3>No report generated yet.</h3>
+                            <p>
+                                Select your filters and click GENERATE.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FEEDBACK INBOX VIEW
+        ================================================== -->
+
+        <div
+            class="more-view more-detail-view"
+            id="feedbackInboxView"
+        >
+
+            <button
+                type="button"
+                class="more-close-btn"
+                data-close-view
+            >
+                ×
+            </button>
+
+            <div class="history-inner-header feedback-inbox-header">
+
+                <div>
+                    <h2>FEEDBACK AND CONCERNS</h2>
+                </div>
+
+                <div class="history-search-controls">
+
+                    <div class="history-search-wrapper">
+
+                        <i class="fas fa-search"></i>
+
+                        <input
+                            type="text"
+                            id="feedbackInboxSearch"
+                            placeholder="Search feedback..."
+                        >
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="history-filter-btn"
+                        id="feedbackInboxFilter"
+                    >
+                        FILTER
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="history-items-container feedback-inbox-list"
+                id="feedbackInboxList"
+            >
+                <div class="feedback-history-empty">
+                    <i class="fa-solid fa-inbox"></i>
+                    <h3>No feedback or concerns received yet.</h3>
+                    <p>
+                        Messages from Iskolars and Representatives will
+                        appear here.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     ADMIN BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="bottom-nav">
+
+    <div class="bottom-nav-inner">
+
+        <a
+            class="nav-item"
+            href="../admin/home-admin.html"
+        >
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a
+            class="nav-item"
+            href="../admin/user-admin.html"
+        >
+            <i class="fa-solid fa-user"></i>
+            <span>User</span>
+        </a>
+
+        <a
+            class="nav-item"
+            href="../admin/scorecard-admin.html"
+        >
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+
+        <a
+            class="nav-item"
+            href="../admin/activity-admin.html"
+        >
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+
+        <a
+            class="nav-item"
+            href="../admin/history-admin.html"
+        >
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+
+        <a
+            class="nav-item active"
+            href="../more/more-admin.html"
+        >
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+
+    </div>
+
+</nav>
+
+
+<script src="../script.js"></script>
+<script src="more-admin.js"></script>
+
+</body>
+</html>

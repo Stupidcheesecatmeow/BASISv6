@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Admin Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="profile-admin.css">
+</head>
+
+<body class="dashboard-page admin-profile-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, ADMIN!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+
+        <div class="profile-avatar-wrapper">
+            <img src="../images/profile_default.jpg" alt="User Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+
+<main class="dash-main profile-page-main">
+
+    <!-- =====================================================
+         PERSONAL DETAILS
+    ====================================================== -->
+    <section id="view-profile" class="page-view active profile-view">
+
+        <div class="view-banner">
+            <h2>PROFILE</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame profile-personal-frame">
+
+            <button class="close-view-btn" type="button" onclick="window.location.href='../admin/home-admin.html'">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="profile-card personal-card">
+
+                <div class="profile-header-layout">
+
+                    <!-- AVATAR -->
+                    <div class="profile-avatar-col">
+
+                        <div class="profile-avatar-circle">
+                            <img id="profilePhoto"
+                                 src="../images/profile_default.jpg"
+                                 alt="Profile Picture">
+                        </div>
+
+                        <label class="photo-upload-label edit-only">
+                            CHANGE PHOTO
+                            <input type="file"
+                                   id="profilePhotoInput"
+                                   accept="image/*"
+                                   hidden>
+                        </label>
+
+                        <button class="edit-profile-btn"
+                                id="editProfileBtn"
+                                type="button">
+                            EDIT PROFILE
+                        </button>
+
+                    </div>
+
+
+                    <!-- PERSONAL INFORMATION -->
+                    <div class="profile-info-col">
+
+                        <div class="profile-top-bar">
+
+                            <div class="user-title-block">
+                                <div class="name-control-row">
+                                    <h2 id="displayFullName">JUAN DELA CRUZ</h2>
+                                    <span id="displayControlNumber"
+                                          class="control-number"
+                                          style="display:none;"></span>
+                                </div>
+                                <span id="displayLocation">
+                                    BAGAC – CLUSTER PENDING
+                                </span>
+                            </div>
+
+                            <div class="status-badge-block">
+
+                                <span id="statusTitle"
+                                      class="status-title">
+                                    ACTIVE
+                                </span>
+
+                                <span id="displayRole" class="status-sub">
+                                    ADMIN
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-form-grid">
+
+                            <div class="form-group span-given">
+                                <label>GIVEN NAME:</label>
+                                <input id="givenName"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-surname">
+                                <label>SURNAME:</label>
+                                <input id="surname"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-middle">
+                                <label>MIDDLE NAME:</label>
+                                <input id="middleName"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-suffix">
+                                <label>SUFFIX:</label>
+                                <input id="suffix"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-sex">
+                                <label>SEX:</label>
+                                <select id="sex" disabled>
+                                    <option value="">SELECT</option>
+                                    <option>MALE</option>
+                                    <option>FEMALE</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group span-bday">
+                                <label>BIRTHDAY:</label>
+                                <input id="birthday"
+                                       type="date"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-contact">
+                                <label>CONTACT NO.:</label>
+                                <input id="contact"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-email">
+                                <label>EMAIL ADDRESS:</label>
+                                <input id="email"
+                                       type="email"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-religion">
+                                <label>RELIGION:</label>
+                                <input id="religion"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+
+                            <div class="form-group span-muni select-field">
+                                <label>MUNICIPALITY:</label>
+                                <select id="municipality" disabled>
+                                    <option value="BAGAC">BAGAC</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group span-brgy select-field">
+                                <label>BARANGAY:</label>
+                                <select id="barangay" disabled>
+                                    <option value="">SELECT BARANGAY</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group span-cluster">
+                                <label>CLUSTER:</label>
+                                <input id="cluster"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+
+                            <div class="form-group span-school">
+                                <label>SCHOOL:</label>
+                                <input id="school"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-program">
+                                <label>PROGRAM:</label>
+                                <input id="program"
+                                       type="text"
+                                       readonly>
+                            </div>
+
+                            <div class="form-group span-year select-field">
+                                <label>YEAR LEVEL:</label>
+                                <select id="yearLevel" disabled>
+                                    <option value="">SELECT YEAR</option>
+                                    <option>1ST YEAR</option>
+                                    <option>2ND YEAR</option>
+                                    <option>3RD YEAR</option>
+                                    <option>4TH YEAR</option>
+                                    <option>5TH YEAR</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <!-- COR STATUS -->
+                        <div class="cor-summary-card">
+
+                            <div>
+                                <strong>CURRENT SEMESTER COR</strong>
+                                <span id="corSummary">
+                                    No COR submitted yet.
+                                </span>
+                            </div>
+
+                            <button type="button"
+                                    class="cor-summary-btn"
+                                    onclick="showSubView('view-profile-family')">
+                                VIEW COR
+                            </button>
+
+                        </div>
+
+
+                        <div class="profile-card-footer">
+
+                            <button class="act-btn solid-btn btn-sm"
+                                    type="button"
+                                    onclick="showSubView('view-profile-family')">
+                                NEXT
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FAMILY + COR
+    ====================================================== -->
+    <section id="view-profile-family"
+             class="page-view profile-view"
+             style="display:none;">
+
+        <div class="view-banner">
+            <h2>PROFILE</h2>
+        </div>
+
+        <div class="view-body bordered-frame relative-frame profile-family-frame">
+
+            <button class="close-view-btn"
+                    type="button"
+                    onclick="showSubView('view-profile')">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+
+            <!-- ONLY THIS AREA SCROLLS -->
+            <div class="family-scroll-area">
+
+                <div class="profile-card">
+
+                    <!-- FATHER -->
+                    <div class="family-section">
+
+                        <h4 class="family-sec-title">
+                            FATHER'S INFORMATION
+                        </h4>
+
+                        <div class="family-form-grid">
+
+                            <div class="form-group">
+                                <label>GIVEN NAME:</label>
+                                <input id="fatherGiven" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>SURNAME:</label>
+                                <input id="fatherSurname" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>MIDDLE NAME:</label>
+                                <input id="fatherMiddle" type="text">
+                            </div>
+
+                            <div class="form-group col-suffix">
+                                <label>SUFFIX:</label>
+                                <input id="fatherSuffix" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>CONTACT NO.:</label>
+                                <input id="fatherContact" type="text">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOTHER -->
+                    <div class="family-section">
+
+                        <h4 class="family-sec-title">
+                            MOTHER'S INFORMATION
+                        </h4>
+
+                        <div class="family-form-grid">
+
+                            <div class="form-group">
+                                <label>GIVEN NAME:</label>
+                                <input id="motherGiven" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>SURNAME:</label>
+                                <input id="motherSurname" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>MIDDLE NAME:</label>
+                                <input id="motherMiddle" type="text">
+                            </div>
+
+                            <div class="form-group col-suffix">
+                                <label>SUFFIX:</label>
+                                <input id="motherSuffix" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>CONTACT NO.:</label>
+                                <input id="motherContact" type="text">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SIBLINGS -->
+                    <div class="family-section">
+
+                        <h4 class="family-sec-title">
+                            SIBLING'S INFORMATION
+
+                            <button id="addSiblingBtn"
+                                    type="button"
+                                    class="add-sibling-btn">
+                                +
+                            </button>
+                        </h4>
+
+                        <div id="siblingsContainer">
+
+                            <div class="sibling-grid-row">
+
+                                <div class="form-group">
+                                    <label>GIVEN NAME:</label>
+                                    <input type="text" class="sibling-given">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>SURNAME:</label>
+                                    <input type="text" class="sibling-surname">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>MIDDLE NAME:</label>
+                                    <input type="text" class="sibling-middle">
+                                </div>
+
+                                <div class="form-group col-suffix">
+                                    <label>SUFFIX:</label>
+                                    <input type="text" class="sibling-suffix">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         COR SUBMISSION
+                    ================================================== -->
+
+                    <div class="cor-section">
+
+                        <div class="cor-section-header">
+
+                            <div>
+                                <h3>
+                                    CERTIFICATE OF REGISTRATION
+                                </h3>
+
+                                <p>
+                                    Submit your COR every semester to keep
+                                    your student verification updated.
+                                </p>
+                            </div>
+
+                            <span id="corAccountStatus"
+                                  class="cor-account-status">
+                                ACTIVE
+                            </span>
+
+                        </div>
+
+
+                        <div class="cor-grid">
+
+                            <div class="cor-info-box">
+
+                                <div class="cor-row">
+                                    <span>ACADEMIC YEAR</span>
+                                    <strong id="corAcademicYear">
+                                        2026–2027
+                                    </strong>
+                                </div>
+
+                                <div class="cor-row">
+                                    <span>SEMESTER</span>
+
+                                    <select id="corSemester">
+                                        <option value="1ST SEMESTER">
+                                            1ST SEMESTER
+                                        </option>
+
+                                        <option value="2ND SEMESTER">
+                                            2ND SEMESTER
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                                <div class="cor-row">
+                                    <span>VERIFICATION</span>
+                                    <strong id="corVerificationStatus">
+                                        NOT SUBMITTED
+                                    </strong>
+                                </div>
+
+                            </div>
+
+
+                            <div class="cor-upload-box">
+
+                                <i class="fa-solid fa-file-arrow-up"></i>
+
+                                <h4>
+                                    UPLOAD COR
+                                </h4>
+
+                                <p>
+                                    PDF, JPG, or PNG
+                                </p>
+
+                                <input id="corFile"
+                                       type="file"
+                                       accept=".pdf,.jpg,.jpeg,.png"
+                                       hidden>
+
+                                <label for="corFile"
+                                       class="cor-upload-btn">
+                                    CHOOSE FILE
+                                </label>
+
+                                <span id="corFileName">
+                                    No file selected.
+                                </span>
+
+                                <button id="submitCorBtn"
+                                        type="button"
+                                        class="submit-cor-btn">
+                                    SUBMIT COR
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SEMESTER HISTORY -->
+                        <div class="cor-history">
+
+                            <h4>
+                                COR SUBMISSION HISTORY
+                            </h4>
+
+                            <div id="corHistoryList"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SAVE / BACK -->
+                    <div class="profile-card-footer family-footer">
+
+                        <button class="act-btn outline-btn btn-sm"
+                                type="button"
+                                onclick="showSubView('view-profile')">
+                            BACK
+                        </button>
+
+                        <button id="saveProfileBtn"
+                                class="act-btn solid-btn btn-sm"
+                                type="button">
+                            SAVE PROFILE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     BOTTOM NAVIGATION
+========================================================= -->
+
+        <nav class="bottom-nav">
+
+            <div class="bottom-nav-inner">
+
+                <!-- HOME -->
+                <a class="nav-item" href="../admin/home-admin.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </a>
+
+                <!-- USER -->
+                <a class="nav-item" href="../admin/user-admin.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>User</span>
+                </a>
+
+                <!-- SCORECARD -->
+                <a class="nav-item" href="../admin/scorecard-admin.html">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Scorecard</span>
+                </a>
+
+                <!-- ACTIVITY -->
+                <a class="nav-item" href="../admin/activity-admin.html">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Activity</span>
+                </a>
+
+                <!-- HISTORY -->
+                <a class="nav-item" href="../admin/history-admin.html">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>History</span>
+                </a>
+
+                <!-- MORE -->
+                <a class="nav-item" href="../admin/more-admin.html">
+                    <i class="fa-solid fa-ellipsis"></i>
+                    <span>More</span>
+                </a>
+
+            </div>
+
+        </nav>
+
+</nav>
+
+
+<script src="../script.js"></script>
+<script src="profile-admin.js"></script>
+
+</body>
+</html>

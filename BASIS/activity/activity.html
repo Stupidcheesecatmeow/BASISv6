@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BASIS - Activity</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+
+    <!-- =====================================================
+         MAIN CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <!-- =====================================================
+         ACTIVITY CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="activity.css"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="dash-header">
+
+        <!-- BASIS LOGO -->
+
+        <div class="dash-logo">
+
+            <img
+                src="../images/LOGO.png"
+                alt="BASIS Logo"
+                onerror="this.src='https://via.placeholder.com/180x60?text=BASIS'"
+            >
+
+        </div>
+
+
+        <!-- HEADER RIGHT -->
+
+        <div class="header-right">
+
+            <div class="welcome-text">
+
+                <h1>
+                    MABUHAY, ISKOLAR!
+                </h1>
+
+                <span>
+                    WELCOME TO BASIS
+                </span>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div
+                class="profile-avatar-wrapper"
+                onclick="window.location.href='../profile/profile.html'"
+            >
+
+                <img
+                    src="../images/profile_default.jpg"
+                    alt="User Profile"
+                    class="header-avatar"
+                >
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="dash-main activity-main">
+
+
+        <!-- =================================================
+             1. ACTIVITY LIST PAGE
+        ================================================== -->
+
+        <section
+            id="view-activity"
+            class="page-view active"
+        >
+
+
+            <!-- ACTIVITY HEADER -->
+
+            <div class="view-banner search-banner">
+
+                <h2>
+                    ACTIVITY
+                </h2>
+
+
+                <!-- SEARCH + FILTER -->
+
+                <div class="search-filter-controls">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="search-input-wrapper">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="activitySearch"
+                            placeholder="Search activities..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- FILTER -->
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        id="filterBtn"
+                    >
+                        FILTER
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIVITY LIST CONTAINER -->
+
+            <div
+                class="view-body bordered-frame activity-list-frame"
+            >
+
+                <div
+                    class="activity-list"
+                    id="activityList"
+                >
+
+                    <!--
+
+                        ACTIVITY CARDS ARE GENERATED
+                        AUTOMATICALLY BY activity.js
+
+                        IF THERE ARE NO ACTIVITIES:
+
+                        No activities yet.
+
+                    -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             2. ACTIVITY DETAIL PAGE
+        ================================================== -->
+
+        <section
+            id="view-activity-detail"
+            class="page-view"
+        >
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="view-banner">
+
+                <h2>
+                    ACTIVITY
+                </h2>
+
+            </div>
+
+
+
+            <!-- DETAIL CONTAINER -->
+
+            <div
+                class="view-body bordered-frame relative-frame activity-detail-frame"
+            >
+
+
+                <!-- CLOSE BUTTON -->
+
+                <button
+                    type="button"
+                    class="close-view-btn"
+                    onclick="showSubView('view-activity')"
+                    title="Back"
+                >
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </button>
+
+
+
+                <!-- =========================================
+                     ACTIVITY HEADER
+                ========================================== -->
+
+                <div class="activity-detail-header">
+
+
+                    <!-- TITLE + TYPE -->
+
+                    <div class="activity-title-block">
+
+
+                        <h2
+                            class="activity-main-title"
+                            id="detailTitle"
+                        >
+                            ACTIVITY TITLE
+                        </h2>
+
+
+                        <div
+                            class="activity-type-text"
+                            id="detailType"
+                        >
+                            TYPE OF ACTIVITY:
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- AY + SEMESTER -->
+
+                    <div
+                        class="sem-tag"
+                        id="detailSemester"
+                    >
+                        2026–2027 FIRST SEMESTER
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     ACTIVITY INFORMATION
+                ========================================== -->
+
+                <div class="activity-meta-grid">
+
+
+                    <!-- DATE -->
+
+                    <p>
+
+                        <strong>
+                            DATE:
+                        </strong>
+
+                        <span id="detailDate">
+                            —
+                        </span>
+
+                    </p>
+
+
+
+                    <!-- TIME -->
+
+                    <p>
+
+                        <strong>
+                            TIME:
+                        </strong>
+
+                        <span id="detailTime">
+                            —
+                        </span>
+
+                    </p>
+
+
+
+                    <!-- VENUE -->
+
+                    <p>
+
+                        <strong>
+                            VENUE:
+                        </strong>
+
+                        <span id="detailVenue">
+                            —
+                        </span>
+
+                    </p>
+
+
+
+                    <!-- VENUE ADDRESS -->
+
+                    <p>
+
+                        <strong>
+                            VENUE ADDRESS:
+                        </strong>
+
+                        <span id="detailVenueAddress">
+                            —
+                        </span>
+
+                    </p>
+
+
+
+                    <!-- MUNICIPALITY -->
+
+                    <p>
+
+                        <strong>
+                            MUNICIPALITY:
+                        </strong>
+
+                        <span id="detailMunicipality">
+                            —
+                        </span>
+
+                    </p>
+
+
+
+                    <!-- BARANGAY -->
+
+                    <p>
+
+                        <strong>
+                            BARANGAY:
+                        </strong>
+
+                        <span id="detailBarangay">
+                            —
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- DIVIDER -->
+
+                <hr class="divider">
+
+
+
+                <!-- =========================================
+                     DESCRIPTION
+                ========================================== -->
+
+                <div class="activity-description">
+
+
+                    <strong>
+                        DESCRIPTION
+                    </strong>
+
+
+                    <p
+                        class="desc-text"
+                        id="detailDescription"
+                    >
+                        —
+                    </p>
+
+
+                    <!-- DEADLINE -->
+
+                    <p class="deadline-text">
+
+                        <em>
+
+                            <strong>
+                                Deadline:
+                            </strong>
+
+                        </em>
+
+
+                        <span id="detailDeadline">
+                            —
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     ACTION BUTTONS
+                ========================================== -->
+
+                <div class="action-buttons-row">
+
+
+                    <!-- QR -->
+
+                    <button
+                        type="button"
+                        class="act-btn solid-btn"
+                        onclick="showSubView('view-qr')"
+                    >
+                        QR CODE
+                    </button>
+
+
+                    <!-- SUBMISSION -->
+
+                    <button
+                        type="button"
+                        class="act-btn outline-btn"
+                        onclick="showSubView('view-submission')"
+                    >
+                        SUBMISSION
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             3. QR CODE PAGE
+        ================================================== -->
+
+        <section
+            id="view-qr"
+            class="page-view"
+        >
+
+
+            <!-- HEADER -->
+
+            <div class="view-banner">
+
+                <h2>
+                    ACTIVITY
+                </h2>
+
+            </div>
+
+
+
+            <!-- QR CONTAINER -->
+
+            <div
+                class="view-body bordered-frame relative-frame qr-page-frame"
+            >
+
+
+                <!-- CLOSE -->
+
+                <button
+                    type="button"
+                    class="close-view-btn"
+                    onclick="showSubView('view-activity-detail')"
+                    title="Back"
+                >
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </button>
+
+
+
+                <!-- QR LAYOUT -->
+
+                <div class="qr-view-layout">
+
+
+                    <!-- =====================================
+                         QR CODE PLACEHOLDER
+                    ====================================== -->
+
+                    <div class="qr-code-box">
+
+
+                        <h3>
+                            ATTENDANCE QR CODE
+                        </h3>
+
+
+                        <!-- QR PLACEHOLDER -->
+
+                        <div class="qr-placeholder">
+
+
+                            <i
+                                class="fa-solid fa-qrcode"
+                            ></i>
+
+
+                            <span>
+                                QR CODE
+                            </span>
+
+                        </div>
+
+
+                        <p class="qr-placeholder-note">
+
+                            QR generation will be
+                            available here.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         QR INFORMATION
+                    ====================================== -->
+
+                    <div class="qr-info-side">
+
+
+                        <!-- NOTE -->
+
+                        <div class="note-box">
+
+                            <p>
+
+                                <strong>
+                                    Note:
+                                </strong>
+
+                                This QR code can only be
+                                used twice (time in and
+                                time out). Failure to have
+                                it scanned within the
+                                validity period will result
+                                in an Absent or Missing
+                                Activity status.
+
+                            </p>
+
+
+                            <p>
+
+                                Once the activity ended,
+                                the QR code will be
+                                deactivated.
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- AY / SEM -->
+
+                        <div
+                            class="sem-tag text-right"
+                            id="qrSemester"
+                        >
+                            2026–2027 FIRST SEMESTER
+                        </div>
+
+
+
+                        <!-- ACTIVITY DETAILS -->
+
+                        <div class="qr-details-grid">
+
+
+                            <!-- TITLE -->
+
+                            <h2 id="qrTitle">
+                                ACTIVITY TITLE
+                            </h2>
+
+
+
+                            <!-- TYPE -->
+
+                            <p>
+
+                                <strong>
+                                    TYPE OF ACTIVITY:
+                                </strong>
+
+                                <span id="qrType">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- DATE -->
+
+                            <p>
+
+                                <strong>
+                                    DATE:
+                                </strong>
+
+                                <span id="qrDate">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- TIME -->
+
+                            <p>
+
+                                <strong>
+                                    TIME:
+                                </strong>
+
+                                <span id="qrTime">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- VENUE -->
+
+                            <p>
+
+                                <strong>
+                                    VENUE:
+                                </strong>
+
+                                <span id="qrVenue">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- VENUE ADDRESS -->
+
+                            <p>
+
+                                <strong>
+                                    VENUE ADDRESS:
+                                </strong>
+
+                                <span id="qrVenueAddress">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- MUNICIPALITY -->
+
+                            <p>
+
+                                <strong>
+                                    MUNICIPALITY:
+                                </strong>
+
+                                <span id="qrMunicipality">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- BARANGAY -->
+
+                            <p>
+
+                                <strong>
+                                    BARANGAY:
+                                </strong>
+
+                                <span id="qrBarangay">
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- DEADLINE -->
+
+                            <p>
+
+                                <strong>
+                                    DEADLINE:
+                                </strong>
+
+                                <span id="qrDeadline">
+                                    —
+                                </span>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- DOWNLOAD -->
+
+                        <div class="btn-right-container">
+
+                            <button
+                                type="button"
+                                class="act-btn outline-btn download-btn"
+                                disabled
+                            >
+                                DOWNLOAD
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             4. SUBMISSION PAGE
+        ================================================== -->
+
+        <section
+            id="view-submission"
+            class="page-view"
+        >
+
+
+            <!-- HEADER -->
+
+            <div class="view-banner">
+
+                <h2>
+                    ACTIVITY
+                </h2>
+
+            </div>
+
+
+
+            <!-- SUBMISSION CONTAINER -->
+
+            <div
+                class="view-body bordered-frame relative-frame submission-page-frame"
+            >
+
+
+                <!-- CLOSE -->
+
+                <button
+                    type="button"
+                    class="close-view-btn"
+                    onclick="showSubView('view-activity-detail')"
+                    title="Back"
+                >
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </button>
+
+
+
+                <!-- =========================================
+                     SUBMISSION TOP INFORMATION
+                ========================================== -->
+
+                <div class="submission-top-info">
+
+
+                    <!-- SEMESTER + DEADLINE -->
+
+                    <div class="submission-sem-info">
+
+
+                        <h3
+                            id="submissionSemester"
+                        >
+                            2026–2027 FIRST SEMESTER
+                        </h3>
+
+
+                        <p>
+
+
+                            <strong>
+                                SUBMISSION DUE DATE:
+                            </strong>
+
+
+                            <span
+                                id="submissionDeadline"
+                            >
+                                —
+                            </span>
+
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                            <strong>
+                                TIME:
+                            </strong>
+
+
+                            <span
+                                id="submissionTime"
+                            >
+                                —
+                            </span>
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- NOTE -->
+
+                    <div class="note-box flex-2">
+
+
+                        <p>
+
+                            <strong>
+                                Note:
+                            </strong>
+
+                            For Proof of Attendance,
+                            please use a geotagging
+                            camera when taking your
+                            photo. This helps verify
+                            that you attended and
+                            participated in the activity
+                            at the correct location and
+                            time.
+
+                        </p>
+
+
+                        <p>
+
+                            For Proof of Absence,
+                            submit a signed letter
+                            indicating your full name,
+                            municipality, barangay,
+                            cluster, and the reason
+                            for your absence.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     SUBMISSION MAIN LAYOUT
+                ========================================== -->
+
+                <div class="submission-main-layout">
+
+
+                    <!-- =====================================
+                         SUBMISSION BIN
+                    ====================================== -->
+
+                    <div class="submission-bin-box">
+
+
+                        <h3>
+                            SUBMISSION BIN
+                        </h3>
+
+
+                        <!-- UPLOAD AREA -->
+
+                        <div
+                            class="upload-drop-area"
+                            id="uploadDropArea"
+                        >
+
+
+                            <!-- ICON -->
+
+                            <i
+                                class="fa-solid fa-cloud-arrow-up"
+                            ></i>
+
+
+                            <p>
+                                UPLOAD FILE HERE
+                            </p>
+
+
+                            <span>
+                                PDF or PNG only
+                            </span>
+
+
+                            <!-- FILE INPUT -->
+
+                            <input
+                                type="file"
+                                id="fileUploadInput"
+                                accept=".pdf,.png,application/pdf,image/png"
+                                hidden
+                            >
+
+                        </div>
+
+
+
+                        <!-- SELECTED FILE -->
+
+                        <div
+                            class="selected-file"
+                            id="selectedFile"
+                        >
+
+                            <i
+                                class="fa-solid fa-file"
+                            ></i>
+
+
+                            <span>
+                                No file selected
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="button"
+                            class="submit-file-btn"
+                            id="submitFileBtn"
+                        >
+                            SUBMIT FILE
+                        </button>
+
+
+
+                        <!-- STATUS -->
+
+                        <p
+                            class="upload-status"
+                            id="uploadStatus"
+                        ></p>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         SUBMISSION DETAILS
+                    ====================================== -->
+
+                    <div class="submission-details-side">
+
+
+                        <!-- ATTENDANCE / ABSENCE -->
+
+                        <div class="attendance-toggle-bar">
+
+
+                            <button
+                                type="button"
+                                class="toggle-tab active"
+                                id="tabAttendance"
+                                onclick="setSubmissionTab('attendance')"
+                            >
+                                ATTENDANCE
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="toggle-tab"
+                                id="tabAbsence"
+                                onclick="setSubmissionTab('absence')"
+                            >
+                                ABSENCE
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- ACTIVITY INFORMATION -->
+
+                        <div class="sub-activity-info">
+
+
+                            <!-- TITLE -->
+
+                            <h2
+                                id="submissionTitle"
+                            >
+                                ACTIVITY TITLE
+                            </h2>
+
+
+
+                            <!-- TYPE -->
+
+                            <p>
+
+                                <strong>
+                                    TYPE OF ACTIVITY:
+                                </strong>
+
+                                <span
+                                    id="submissionType"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- DATE -->
+
+                            <p>
+
+                                <strong>
+                                    DATE:
+                                </strong>
+
+                                <span
+                                    id="submissionDate"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- TIME -->
+
+                            <p>
+
+                                <strong>
+                                    TIME:
+                                </strong>
+
+                                <span
+                                    id="submissionActivityTime"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- VENUE -->
+
+                            <p>
+
+                                <strong>
+                                    VENUE:
+                                </strong>
+
+                                <span
+                                    id="submissionVenue"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- VENUE ADDRESS -->
+
+                            <p>
+
+                                <strong>
+                                    VENUE ADDRESS:
+                                </strong>
+
+                                <span
+                                    id="submissionVenueAddress"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- MUNICIPALITY -->
+
+                            <p>
+
+                                <strong>
+                                    MUNICIPALITY:
+                                </strong>
+
+                                <span
+                                    id="submissionMunicipality"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+
+
+                            <!-- BARANGAY -->
+
+                            <p>
+
+                                <strong>
+                                    BARANGAY:
+                                </strong>
+
+                                <span
+                                    id="submissionBarangay"
+                                >
+                                    —
+                                </span>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- DONE BUTTON -->
+
+                        <div class="btn-right-container">
+
+                            <button
+                                type="button"
+                                class="act-btn outline-btn"
+                                onclick="showSubView('view-activity-detail')"
+                            >
+                                DONE
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+    ====================================================== -->
+
+    <nav class="bottom-nav">
+
+
+        <div class="bottom-nav-inner">
+
+
+            <!-- HOME -->
+
+            <a
+                class="nav-item"
+                href="../home/home.html"
+            >
+
+                <i
+                    class="fa-solid fa-house"
+                ></i>
+
+                <span>
+                    Home
+                </span>
+
+            </a>
+
+
+
+            <!-- SCORECARD -->
+
+            <a
+                class="nav-item"
+                href="../scorecard/scorecard.html"
+            >
+
+                <i
+                    class="fa-solid fa-address-card"
+                ></i>
+
+                <span>
+                    Scorecard
+                </span>
+
+            </a>
+
+
+
+            <!-- ACTIVITY -->
+
+            <a
+                class="nav-item active"
+                href="../activity/activity.html"
+            >
+
+                <i
+                    class="fa-solid fa-book-open"
+                ></i>
+
+                <span>
+                    Activity
+                </span>
+
+            </a>
+
+
+
+            <!-- HISTORY -->
+
+            <a
+                class="nav-item"
+                href="../history/history.html"
+            >
+
+                <i
+                    class="fa-solid fa-book-bookmark"
+                ></i>
+
+                <span>
+                    History
+                </span>
+
+            </a>
+
+
+
+            <!-- MORE -->
+
+            <a
+                class="nav-item"
+                href="../more/more.html"
+            >
+
+                <i
+                    class="fa-solid fa-ellipsis"
+                ></i>
+
+                <span>
+                    More
+                </span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         ACTIVITY JAVASCRIPT
+    ====================================================== -->
+
+    <script src="activity.js"></script>
+
+</body>
+
+</html>

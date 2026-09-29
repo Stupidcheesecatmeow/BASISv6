@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BASIS - Representative Scorecard</title>
+
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+
+    <!-- MAIN CSS -->
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <!-- REPRESENTATIVE HOME CSS -->
+    <link
+        rel="stylesheet"
+        href="home-rep.css"
+    >
+
+
+    <!-- REPRESENTATIVE SCORECARD CSS -->
+    <link
+        rel="stylesheet"
+        href="scorecard-rep.css"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="dash-header">
+
+
+        <!-- BASIS LOGO -->
+        <div class="dash-logo">
+
+            <img
+                src="../images/LOGO.png"
+                alt="BASIS Logo"
+            >
+
+        </div>
+
+
+
+        <!-- HEADER RIGHT -->
+        <div class="header-right">
+
+
+            <!-- WELCOME -->
+            <div class="welcome-text">
+
+                <h1>
+                    MABUHAY, REPRESENTATIVE!
+                </h1>
+
+                <span>
+                    WELCOME TO BASIS
+                </span>
+
+            </div>
+
+
+
+            <!-- PROFILE AVATAR -->
+            <div
+                class="profile-avatar-wrapper"
+                onclick="window.location.href='../representative/profile-rep.html'"
+            >
+
+                <img
+                    src="../images/profile_default.jpg"
+                    alt="Representative Profile"
+                    class="header-avatar"
+                >
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="dash-main">
+
+
+        <!-- =================================================
+             SCORECARD LIST
+             ================================================= -->
+
+        <section
+            id="view-scorecard"
+            class="page-view active"
+        >
+
+
+            <!-- SCORECARD BANNER -->
+            <div class="view-banner">
+
+                <h2>
+                    SCORECARD
+                </h2>
+
+            </div>
+
+
+
+            <!-- SCORECARD LIST CONTAINER -->
+            <div class="view-body bordered-frame">
+
+
+                <div class="scorecard-list">
+
+                    <!--
+                        JavaScript will automatically place:
+
+                        2026–2027 FIRST SEMESTER SCORECARD
+
+                        here when the Representative
+                        has completed registration/profile.
+
+                        If not registered, JavaScript will show:
+
+                        No available scorecards yet.
+                        Please complete your Profile first.
+                    -->
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SCORECARD DETAIL
+             ================================================= -->
+
+        <section
+            id="view-scorecard-detail"
+            class="page-view"
+        >
+
+
+            <!-- SCORECARD DETAIL HEADER -->
+            <div class="scorecard-header-banner">
+
+                <h2>
+                    SCORECARD
+                </h2>
+
+            </div>
+
+
+
+            <!-- SCORECARD OUTER FRAME -->
+            <div class="scorecard-outer-frame">
+
+
+                <!-- BACK BUTTON -->
+                <button
+                    type="button"
+                    class="scorecard-close-btn"
+                    onclick="showSubView('view-scorecard')"
+                    title="Back to Scorecards"
+                >
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </button>
+
+
+
+                <!-- INNER SCORECARD -->
+                <div class="scorecard-inner-card">
+
+
+                    <!-- =====================================
+                         LEFT SCORECARD BAR
+                         ===================================== -->
+
+                    <div
+                        class="scorecard-vertical-bar left-bar"
+                    >
+
+                        <div class="stacked-text">
+
+                            <span>S</span>
+
+                            <span>C</span>
+
+                            <span>O</span>
+
+                            <span>R</span>
+
+                            <span>E</span>
+
+                            <span>C</span>
+
+                            <span>A</span>
+
+                            <span>R</span>
+
+                            <span>D</span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         SCORECARD CONTENT
+                         ===================================== -->
+
+                    <div class="scorecard-content-area">
+
+
+                        <!-- =================================
+                             REPRESENTATIVE INFORMATION
+                             ================================= -->
+
+                        <div class="scholar-info-column">
+
+
+                            <!-- REPRESENTATIVE HEADER -->
+                            <div class="scholar-header">
+
+                                <h3>
+                                    BASIS REPRESENTATIVE
+                                </h3>
+
+                                <span class="scholar-subtitle">
+                                    REPRESENTATIVE'S INFORMATION
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- =================================
+                                 PERSONAL INFORMATION
+                                 ================================= -->
+
+                            <div class="info-grid-2col">
+
+
+                                <!-- NAME -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Name:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-name"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- SEX -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Sex:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-sex"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- BIRTHDAY -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Birthday:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-birthday"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- RELIGION -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Religion:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-religion"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- EMAIL -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Email Address:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-email"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- CONTACT -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Contact No.:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-contact"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- MUNICIPALITY -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Municipality:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-municipality"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- BARANGAY -->
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Barangay:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-barangay"
+                                    ></span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- DIVIDER -->
+                            <hr class="scorecard-hr">
+
+
+
+                            <!-- =================================
+                                 FAMILY INFORMATION
+                                 ================================= -->
+
+                            <div class="family-info-block">
+
+
+                                <!-- FATHER NAME -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Father's Name:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-father"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- FATHER CONTACT -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Contact No.:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-father-contact"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- MOTHER NAME -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Mother's Name:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-mother"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- MOTHER CONTACT -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Contact No.:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-mother-contact"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- SIBLINGS -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Name of Siblings:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-siblings"
+                                    ></span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- DIVIDER -->
+                            <hr class="scorecard-hr">
+
+
+
+                            <!-- =================================
+                                 ACADEMIC INFORMATION
+                                 ================================= -->
+
+                            <div class="academic-info-block">
+
+
+                                <!-- SCHOOL -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        School:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-school"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- PROGRAM -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Program:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-program"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- YEAR LEVEL -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Year Level:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-year"
+                                    ></span>
+
+                                </div>
+
+
+
+                                <!-- CONTROL NUMBER -->
+                                <div class="info-item-single">
+
+                                    <span class="info-label">
+                                        Control No.:
+                                    </span>
+
+                                    <span
+                                        class="info-val"
+                                        id="info-control"
+                                    ></span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =====================================
+                             DOTTED DIVIDER
+                             ===================================== -->
+
+                        <div class="scorecard-dotted-divider"></div>
+
+
+
+                        <!-- =====================================
+                             ACTIVITY / ATTENDANCE
+                             ===================================== -->
+
+                        <div class="activity-log-column">
+
+
+                            <!-- AY + SEMESTER -->
+                            <div class="activity-log-header">
+
+
+                                <span
+                                    class="ay-title"
+                                    id="scorecardAYTitle"
+                                >
+                                    AY: 2026–2027
+                                </span>
+
+
+
+                                <span
+                                    class="sem-title"
+                                    id="scorecardSemTitle"
+                                >
+                                    FIRST SEMESTER
+                                </span>
+
+
+                            </div>
+
+
+
+                            <!-- ACTIVITY ROWS -->
+                            <div
+                                class="activity-rows-container"
+                                id="activityRows"
+                            >
+
+                                <!--
+                                    JavaScript will automatically
+                                    populate activity records here.
+                                -->
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         RIGHT SCORECARD BAR
+                         ===================================== -->
+
+                    <div
+                        class="scorecard-vertical-bar right-bar"
+                    ></div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+         ===================================================== -->
+
+    <nav class="bottom-nav">
+
+
+        <div class="bottom-nav-inner">
+
+
+            <!-- HOME -->
+            <a
+                class="nav-item"
+                href="home-rep.html"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Home
+                </span>
+
+            </a>
+
+
+
+            <!-- SCORECARD -->
+            <a
+                class="nav-item active"
+                href="scorecard-rep.html"
+            >
+
+                <i class="fa-solid fa-address-card"></i>
+
+                <span>
+                    Scorecard
+                </span>
+
+            </a>
+
+
+
+            <!-- ACTIVITY -->
+            <a
+                class="nav-item"
+                href="activity-rep.html"
+            >
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <span>
+                    Activity
+                </span>
+
+            </a>
+
+
+
+            <!-- HISTORY -->
+            <a
+                class="nav-item"
+                href="history-rep.html"
+            >
+
+                <i class="fa-solid fa-book-bookmark"></i>
+
+                <span>
+                    History
+                </span>
+
+            </a>
+
+
+
+            <!-- MORE -->
+            <a
+                class="nav-item"
+                href="more-rep.html"
+            >
+
+                <i class="fa-solid fa-ellipsis"></i>
+
+                <span>
+                    More
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="../script.js"></script>
+
+    <script src="scorecard-rep.js"></script>
+
+
+</body>
+
+</html>

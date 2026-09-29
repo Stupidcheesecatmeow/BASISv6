@@ -1,0 +1,2686 @@
+/* =========================================================
+   BASIS MORE PAGE
+   FIXED CONTAINER + INTERNAL SCROLL
+========================================================= */
+
+
+/* =========================================================
+   OUTER MORE CONTAINER
+   SAME POSITION / SIZE BEHAVIOR AS HISTORY
+========================================================= */
+
+.more-page {
+
+    width: 100%;
+
+    margin: 0;
+
+    height: calc(100vh - 225px);
+
+    min-height: 500px;
+
+    max-height: 580px;
+
+    border: 2px solid #42523f;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   MORE HEADER
+========================================================= */
+
+.more-page-header {
+
+    width: 100%;
+
+    height: 70px;
+
+    min-height: 70px;
+
+    padding: 0 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    background: #42523f;
+
+    box-sizing: border-box;
+
+}
+
+
+.more-page-header h1 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   MORE CONTENT AREA
+========================================================= */
+
+.more-page-content {
+
+    width: 100%;
+
+    /*
+       Remaining height after the MORE header.
+    */
+    height: calc(100% - 80px);
+
+    min-height: 0;
+
+    padding: 18px 38px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   MAIN MORE MENU
+========================================================= */
+
+#moreMenuView {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 0;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   MORE MENU LIST
+========================================================= */
+
+.more-menu-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    width: 100%;
+
+    height: auto;
+
+    min-height: 0;
+
+    max-height: 100%;
+
+    padding: 18px 0;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   MORE MENU CARD
+   SAME SIZE AS HISTORY
+========================================================= */
+
+.more-menu-card {
+
+    width: 100%;
+
+    height: 80px;
+
+    min-height: 80px;
+
+    max-height: 80px;
+
+    flex-shrink: 0;
+
+    padding: 0 28px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #768a75;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    text-align: left;
+
+    box-sizing: border-box;
+
+    font-family: "Poppins", sans-serif;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.more-menu-card:hover {
+
+    background: #6d806c;
+
+    transform: translateY(-1px);
+
+}
+
+
+.more-menu-card span {
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+/* =========================================================
+   DETAIL VIEW
+========================================================= */
+
+.more-detail-view {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 0;
+
+    display: none;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   FIXED INSIDE MORE CONTENT
+========================================================= */
+
+.more-close-btn {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 32px;
+
+    height: 32px;
+
+    margin: 0;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #42523f;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 50;
+
+}
+
+
+.more-close-btn:hover {
+
+    background: #344331;
+
+}
+
+
+/* =========================================================
+   INNER HEADER
+   SPACED BELOW CLOSE BUTTON
+========================================================= */
+
+.more-inner-header {
+
+    width: 100%;
+
+    height: 58px;
+
+    min-height: 58px;
+
+    margin-top: 42px;
+
+    padding: 0 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    background: #768a75;
+
+    border-radius: 8px 8px 0 0;
+
+    box-sizing: border-box;
+
+}
+
+
+.more-inner-header h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 21px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   INNER SCROLL AREA
+========================================================= */
+
+.more-inner-scroll {
+
+    width: 100%;
+
+    /*
+       Detail view height
+       minus:
+       42px top spacing
+       58px header
+    */
+    height: calc(100% - 100px);
+
+    min-height: 0;
+
+    max-height: none;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    border: 1px solid #a3b2a0;
+
+    border-top: none;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #768a75
+        transparent;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.more-inner-scroll::-webkit-scrollbar {
+
+    width: 7px;
+
+}
+
+
+.more-inner-scroll::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+
+.more-inner-scroll::-webkit-scrollbar-thumb {
+
+    background: #768a75;
+
+    border-radius: 10px;
+
+}
+
+
+.more-inner-scroll::-webkit-scrollbar-thumb:hover {
+
+    background: #42523f;
+
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq-list {
+
+    width: 100%;
+
+    padding: 28px 36px;
+
+    box-sizing: border-box;
+
+}
+
+
+.faq-item {
+
+    margin: 0 0 28px;
+
+}
+
+
+.faq-item:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.faq-item h3 {
+
+    margin: 0 0 8px;
+
+    color: #768a75;
+
+    font-size: 19px;
+
+    font-weight: 800;
+
+}
+
+
+.faq-item p {
+
+    margin: 0;
+
+    color: #42523f;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   TERMS AND CONDITIONS
+========================================================= */
+
+.terms-content {
+
+    width: 100%;
+
+    padding: 28px 36px;
+
+    box-sizing: border-box;
+
+    color: #42523f;
+
+}
+
+
+.terms-content h3 {
+
+    margin: 0 0 8px;
+
+    color: #768a75;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.terms-content p {
+
+    margin: 0 0 24px;
+
+    color: #42523f;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   FEEDBACK FORM
+========================================================= */
+
+.feedback-form {
+
+    width: 100%;
+
+    padding: 28px 36px 35px;
+
+    box-sizing: border-box;
+
+}
+
+
+.feedback-form-title {
+
+    margin: 0 0 28px;
+
+    text-align: center;
+
+    color: #42523f;
+
+    font-size: 21px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   ACCOUNT INFORMATION
+========================================================= */
+
+.account-information-grid {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    gap: 18px 45px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.account-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+
+.account-column p {
+
+    margin: 0;
+
+    color: #42523f;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.account-column strong {
+
+    font-weight: 900;
+
+}
+
+
+.account-column span {
+
+    margin-left: 4px;
+
+}
+
+
+/* =========================================================
+   MESSAGE TYPE
+========================================================= */
+
+.message-type-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.message-type-row label {
+
+    color: #42523f;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
+}
+
+
+.message-type-row select {
+
+    width: 170px;
+
+    height: 38px;
+
+    padding: 0 10px;
+
+    border: 1px solid #a3b2a0;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    outline: none;
+
+}
+
+
+/* =========================================================
+   MESSAGE BOX
+========================================================= */
+
+.feedback-message-box {
+
+    width: 100%;
+
+    border: 1px solid #a3b2a0;
+
+    border-radius: 7px;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+}
+
+
+.feedback-message-box label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #42523f;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+}
+
+
+.feedback-message-box input {
+
+    width: 100%;
+
+    height: 40px;
+
+    margin-bottom: 18px;
+
+    padding: 0 10px;
+
+    border: none;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+
+}
+
+
+.feedback-message-box textarea {
+
+    width: 100%;
+
+    height: 130px;
+
+    padding: 10px;
+
+    border: none;
+
+    outline: none;
+
+    resize: vertical;
+
+    background: #ffffff;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.feedback-submit-row {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 18px;
+
+}
+
+
+.feedback-submit-btn {
+
+    width: 150px;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #42523f;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+}
+
+
+.feedback-submit-btn:hover {
+
+    background: #344331;
+
+}
+
+
+/* =========================================================
+   FEEDBACK HISTORY
+========================================================= */
+
+#feedbackHistoryView {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 0;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   FEEDBACK HISTORY HEADER
+========================================================= */
+
+#feedbackHistoryView .history-inner-header {
+
+    width: 100%;
+
+    height: 62px;
+
+    min-height: 62px;
+
+    margin-top: 42px;
+
+    padding: 0 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    background: #768a75;
+
+    border-radius: 8px 8px 0 0;
+
+    box-sizing: border-box;
+
+}
+
+
+#feedbackHistoryView .history-inner-header h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   HISTORY SEARCH
+========================================================= */
+
+.history-search-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.history-search-wrapper {
+
+    position: relative;
+
+    width: 280px;
+
+}
+
+
+.history-search-wrapper i {
+
+    position: absolute;
+
+    left: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #42523f;
+
+}
+
+
+.history-search-wrapper input {
+
+    width: 100%;
+
+    height: 30px;
+
+    padding: 0 16px 0 38px;
+
+    border: none;
+
+    border-radius: 21px;
+
+    outline: none;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    box-sizing: border-box;
+
+}
+
+
+.history-filter-btn {
+
+    width: 88px;
+
+    height: 30px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   FEEDBACK HISTORY SCROLL
+========================================================= */
+
+#feedbackHistoryView .history-items-container {
+
+    width: 100%;
+
+    height: calc(100% - 104px);
+
+    min-height: 0;
+
+    max-height: none;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    padding: 10px 8px 8px 2px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #768a75
+        transparent;
+
+}
+
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar {
+
+    width: 7px;
+
+}
+
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar-thumb {
+
+    background: #768a75;
+
+    border-radius: 10px;
+
+}
+
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar-thumb:hover {
+
+    background: #42523f;
+
+}
+
+
+/* =========================================================
+   FEEDBACK HISTORY ITEM
+========================================================= */
+
+.feedback-history-item {
+
+    width: 100%;
+
+    min-height: 76px;
+
+    flex-shrink: 0;
+
+    padding: 13px 20px;
+
+    border: 1px solid #a3b2a0;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    box-sizing: border-box;
+
+}
+
+
+.feedback-history-info {
+
+    min-width: 0;
+
+}
+
+
+.feedback-history-info h4 {
+
+    margin: 0 0 4px;
+
+    color: #768a75;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+}
+
+
+.feedback-history-info span {
+
+    color: #42523f;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.feedback-history-type {
+
+    flex-shrink: 0;
+
+    min-width: 105px;
+
+    padding: 8px 12px;
+
+    border-radius: 6px;
+
+    background: #768a75;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   EMPTY HISTORY
+========================================================= */
+
+.feedback-history-empty {
+
+    width: 100%;
+
+    min-height: 390px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #42523f;
+
+}
+
+
+.feedback-history-empty i {
+
+    font-size: 55px;
+
+    margin-bottom: 16px;
+
+    color: #768a75;
+
+}
+
+
+.feedback-history-empty h3 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+}
+
+
+.feedback-history-empty p {
+
+    margin: 7px 0 0;
+
+    color: #768a75;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    z-index: 9999;
+
+}
+
+/* =========================================================
+   ADMIN MORE
+   REPORT + FEEDBACK INBOX
+========================================================= */
+
+.admin-more-page {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ADMIN BOTTOM NAV
+========================================================= */
+
+.admin-more-page .bottom-nav-inner {
+    display: flex;
+    width: 100%;
+}
+
+.admin-more-page .bottom-nav .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   REPORT HEADER
+========================================================= */
+
+.report-header {
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.report-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.report-action-btn {
+    min-width: 88px;
+    height: 34px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #42523f;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: .2s ease;
+}
+
+.report-action-btn:hover {
+    background: #f2f4f1;
+    transform: translateY(-1px);
+}
+
+.report-action-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* =========================================================
+   REPORT BUILDER
+========================================================= */
+
+.report-builder {
+    width: 100%;
+    padding: 24px 28px 35px;
+    box-sizing: border-box;
+}
+
+.report-intro {
+    margin-bottom: 18px;
+}
+
+.report-intro h3 {
+    margin: 0 0 5px;
+    color: #42523f;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.report-intro p {
+    margin: 0;
+    color: #768a75;
+    font-size: 12px;
+    line-height: 1.55;
+    font-weight: 600;
+    max-width: 950px;
+}
+
+
+/* =========================================================
+   FILTER CARDS
+========================================================= */
+
+.report-filter-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.report-filter-card {
+    min-width: 0;
+    border: 1px solid #a3b2a0;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.report-filter-card-header {
+    min-height: 47px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #768a75;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+.report-filter-card-header h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.select-all-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.select-all-label input,
+.report-checkbox input {
+    accent-color: #42523f;
+    cursor: pointer;
+}
+
+.checkbox-list {
+    min-height: 130px;
+    max-height: 180px;
+    padding: 10px 12px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #768a75 transparent;
+}
+
+.checkbox-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.checkbox-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.checkbox-list::-webkit-scrollbar-thumb {
+    background: #768a75;
+    border-radius: 10px;
+}
+
+.report-checkbox {
+    width: 100%;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 3px;
+    color: #42523f;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.report-checkbox:hover {
+    background: #f5f7f4;
+}
+
+.report-checkbox span {
+    overflow-wrap: anywhere;
+}
+
+.checkbox-empty {
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #768a75;
+    font-size: 11px;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   REPORT RESULT TOOLBAR
+========================================================= */
+
+.report-result-toolbar {
+    min-height: 48px;
+    padding: 0 14px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+    background: #42523f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+.report-result-toolbar > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-result-toolbar strong {
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.report-result-toolbar span {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: .9;
+}
+
+.clear-report-btn {
+    width: 75px;
+    height: 28px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    background: transparent;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.clear-report-btn:hover {
+    background: #ffffff;
+    color: #42523f;
+}
+
+
+/* =========================================================
+   REPORT RESULTS
+========================================================= */
+
+.report-results {
+    width: 100%;
+    border: 1px solid #a3b2a0;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.report-group {
+    width: 100%;
+    border-bottom: 1px solid #a3b2a0;
+}
+
+.report-group:last-child {
+    border-bottom: none;
+}
+
+.report-group-title {
+    min-height: 48px;
+    padding: 8px 14px;
+    background: #768a75;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    box-sizing: border-box;
+}
+
+.report-group-title h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.report-group-title span {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.report-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.report-table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+    font-family: "Poppins", sans-serif;
+}
+
+.report-table th {
+    padding: 9px 10px;
+    background: #eef2ec;
+    color: #42523f;
+    border-bottom: 1px solid #a3b2a0;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.report-table td {
+    padding: 9px 10px;
+    color: #42523f;
+    border-bottom: 1px solid #e1e6df;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    vertical-align: top;
+}
+
+.report-table tr:last-child td {
+    border-bottom: none;
+}
+
+.report-table .control-cell {
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.report-empty-state {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #42523f;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.report-empty-state i {
+    color: #768a75;
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.report-empty-state h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.report-empty-state p {
+    margin: 6px 0 0;
+    color: #768a75;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   FEEDBACK INBOX
+========================================================= */
+
+.feedback-inbox-header {
+    min-height: 62px;
+}
+
+.feedback-inbox-header > div:first-child {
+    min-width: 0;
+}
+
+.inbox-subtitle {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255,255,255,.88);
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.feedback-inbox-list {
+    padding: 10px 8px 8px 2px;
+}
+
+.feedback-inbox-item {
+    width: 100%;
+    min-height: 82px;
+    flex-shrink: 0;
+    padding: 13px 18px;
+    border: 1px solid #a3b2a0;
+    border-radius: 7px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.feedback-inbox-item:hover {
+    background: #f6f8f5;
+    border-color: #768a75;
+    transform: translateY(-1px);
+}
+
+.feedback-inbox-info {
+    min-width: 0;
+}
+
+.feedback-inbox-info h4 {
+    margin: 0 0 3px;
+    color: #768a75;
+    font-size: 16px;
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.feedback-inbox-info p {
+    margin: 0 0 4px;
+    color: #42523f;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.feedback-inbox-info span {
+    color: #768a75;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.feedback-inbox-badges {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.feedback-inbox-type,
+.feedback-inbox-source {
+    min-width: 90px;
+    padding: 6px 9px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.feedback-inbox-type {
+    background: #42523f;
+    color: #ffffff;
+}
+
+.feedback-inbox-source {
+    background: #eef2ec;
+    color: #42523f;
+}
+
+.feedback-inbox-empty {
+    min-height: 390px;
+}
+
+
+/* =========================================================
+   FEEDBACK MODAL
+========================================================= */
+
+.feedback-inbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    padding: 25px;
+    background: rgba(38, 48, 36, .45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.feedback-inbox-modal-card {
+    width: min(720px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 2px solid #768a75;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.feedback-inbox-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 13px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: #42523f;
+    color: #ffffff;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.feedback-inbox-modal-card h2 {
+    margin: 0 35px 10px 0;
+    color: #42523f;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.feedback-modal-meta {
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 7px;
+    background: #eef2ec;
+    color: #42523f;
+    font-size: 11px;
+    line-height: 1.7;
+    font-weight: 600;
+}
+
+.feedback-modal-account {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 20px;
+    margin-bottom: 16px;
+}
+
+.feedback-modal-account p {
+    margin: 0;
+    color: #42523f;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.feedback-modal-message {
+    border: 1px solid #a3b2a0;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.feedback-modal-message strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #768a75;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.feedback-modal-message p {
+    margin: 0;
+    color: #42523f;
+    font-size: 12px;
+    line-height: 1.65;
+    white-space: pre-line;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .report-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-header {
+        align-items: flex-start;
+        height: auto;
+        min-height: 58px;
+        padding: 10px 16px;
+    }
+
+    .report-header-actions {
+        flex-wrap: wrap;
+    }
+
+    .report-action-btn {
+        min-width: 70px;
+        font-size: 9px;
+    }
+
+    .feedback-inbox-header {
+        height: auto !important;
+        min-height: 80px !important;
+        padding: 10px 14px !important;
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .history-search-controls {
+        width: 100%;
+    }
+
+    .history-search-wrapper {
+        width: 100%;
+    }
+
+    .feedback-modal-account {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .more-page-content {
+        padding: 12px 14px;
+    }
+
+    .report-builder {
+        padding: 18px 14px 28px;
+    }
+
+    .report-result-toolbar > div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+    }
+
+    .feedback-inbox-item {
+        align-items: flex-start;
+    }
+
+    .feedback-inbox-badges {
+        align-items: flex-end;
+    }
+
+    .report-header-actions {
+        gap: 4px;
+    }
+
+    .report-action-btn {
+        min-width: 62px;
+        height: 30px;
+        padding: 0 7px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT / PDF
+========================================================= */
+
+@media print {
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    #reportResults,
+    #reportResults * {
+        visibility: visible !important;
+    }
+
+    #reportResults {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+    }
+
+    .report-group-title {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .report-table th {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+}
+
+
+
+
+/* =========================================================
+   ADMIN FEEDBACK & CONCERNS
+   MATCH REPRESENTATIVE INNER CONTAINER SIZE
+========================================================= */
+
+.admin-more-page #feedbackInboxView {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    /* IMPORTANT:
+       Do NOT add horizontal padding here.
+       .more-page-content already provides the same
+       left/right spacing used by the Representative side.
+    */
+    padding: 0;
+
+    margin: 0;
+
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Close button sits above the green feedback header */
+.admin-more-page #feedbackInboxView .more-close-btn {
+    position: absolute;
+
+    top: 4px;
+    left: 0;
+
+    width: 34px;
+    height: 34px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #42523f;
+    color: #ffffff;
+
+    font-family: Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1;
+
+    z-index: 100;
+    cursor: pointer;
+}
+
+.admin-more-page #feedbackInboxView .more-close-btn:hover {
+    background: #344331;
+}
+
+/* Green header:
+   SAME horizontal size as Representative detail header */
+.admin-more-page #feedbackInboxView .feedback-inbox-header {
+    width: 100%;
+
+    height: 62px;
+    min-height: 62px;
+
+    margin-top: 42px;
+    padding: 0 18px 0 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    background: #768a75;
+    border-radius: 8px 8px 0 0;
+
+    box-sizing: border-box;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-header h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+/* Search + Filter */
+.admin-more-page #feedbackInboxView .history-search-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+    margin: 0;
+
+    flex-shrink: 0;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper {
+    position: relative;
+
+    width: 280px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0;
+
+    background: transparent;
+    border-radius: 0;
+
+    box-sizing: border-box;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper i {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    margin: 0;
+
+    color: #42523f;
+    font-size: 15px;
+
+    z-index: 2;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper input {
+    width: 100%;
+    height: 30px;
+
+    padding: 0 16px 0 38px;
+
+    border: none;
+    border-radius: 21px;
+    outline: none;
+
+    background: #ffffff;
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+
+    box-sizing: border-box;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper input::placeholder {
+    color: #8a9487;
+}
+
+.admin-more-page #feedbackInboxView .history-filter-btn {
+    width: 88px;
+    height: 30px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+/* White area:
+   SAME width as green header and same internal scroll behavior */
+.admin-more-page #feedbackInboxView .feedback-inbox-list {
+    width: 100%;
+
+    height: calc(100% - 104px);
+
+    min-height: 0;
+
+    margin: 0;
+    padding: 10px 8px 8px 2px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #a3b2a0;
+    border-top: none;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+    scrollbar-color: #768a75 transparent;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb {
+    background: #768a75;
+    border-radius: 10px;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb:hover {
+    background: #42523f;
+}
+
+/* Empty state */
+.admin-more-page #feedbackInboxView .feedback-history-empty {
+    width: 100%;
+    min-height: 300px;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.admin-more-page #feedbackInboxView .feedback-history-empty i {
+    margin-bottom: 14px;
+
+    color: #768a75;
+    font-size: 55px;
+}
+
+.admin-more-page #feedbackInboxView .feedback-history-empty h3 {
+    margin: 0;
+
+    color: #42523f;
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.admin-more-page #feedbackInboxView .feedback-history-empty p {
+    margin: 7px 0 0;
+
+    color: #768a75;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Feedback rows */
+.admin-more-page #feedbackInboxView .feedback-inbox-item {
+    width: 100%;
+    min-height: 76px;
+    flex-shrink: 0;
+
+    padding: 13px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border: 1px solid #a3b2a0;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-more-page #feedbackInboxView .feedback-inbox-item:hover {
+    background: #f5f7f4;
+    border-color: #768a75;
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .admin-more-page #feedbackInboxView {
+        padding: 0;
+    }
+
+    .admin-more-page #feedbackInboxView .more-close-btn {
+        top: 4px;
+        left: 0;
+    }
+
+    .admin-more-page #feedbackInboxView .feedback-inbox-header {
+        height: auto;
+        min-height: 105px;
+
+        margin-top: 42px;
+
+        padding: 14px 16px 14px 60px;
+
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+
+        gap: 10px;
+    }
+
+    .admin-more-page #feedbackInboxView .history-search-controls {
+        width: 100%;
+    }
+
+    .admin-more-page #feedbackInboxView .history-search-wrapper {
+        flex: 1;
+        width: auto;
+    }
+
+    .admin-more-page #feedbackInboxView .feedback-inbox-list {
+        height: calc(100% - 147px);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .admin-more-page #feedbackInboxView .more-close-btn {
+        top: 4px;
+        left: 0;
+    }
+
+    .admin-more-page #feedbackInboxView .feedback-inbox-header {
+        padding-left: 58px;
+    }
+
+    .admin-more-page #feedbackInboxView .feedback-inbox-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* =========================================================
+   FEEDBACK CARD - MATCH GENERATE REPORT CARD
+========================================================= */
+
+/* Main Feedback View */
+.admin-more-page #feedbackInboxView {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   KEEP SAME POSITION AS REPORT
+========================================================= */
+
+.admin-more-page #feedbackInboxView .more-close-btn {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 32px;
+    height: 32px;
+
+    margin: 0;
+    padding: 0;
+
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #42523f;
+    color: #ffffff;
+
+    font-size: 20px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   FEEDBACK CARD
+   SAME SIZE / POSITION AS REPORT CARD
+========================================================= */
+
+.admin-more-page #feedbackInboxView .feedback-inbox-header {
+
+    width: 100%;
+
+    height: 64px;
+    min-height: 64px;
+
+    margin: 42px 0 0 0;
+
+    padding: 0 20px 0 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    background: #768a75;
+
+    border-radius: 8px 8px 0 0;
+}
+
+
+/* =========================================================
+   FEEDBACK TITLE
+========================================================= */
+
+.admin-more-page #feedbackInboxView
+.feedback-inbox-header h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 21px;
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+/* Subtitle */
+.admin-more-page #feedbackInboxView
+.feedback-inbox-header .inbox-subtitle {
+
+    margin: 5px 0 0;
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   SEARCH + FILTER
+   SAME POSITION STYLE AS REPORT BUTTONS
+========================================================= */
+
+.admin-more-page #feedbackInboxView
+.history-search-controls {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin: 0;
+}
+
+
+/* Search */
+.admin-more-page #feedbackInboxView
+.history-search-wrapper {
+
+    width: 350px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 16px;
+
+    background: #ffffff;
+
+    border-radius: 22px;
+
+    box-sizing: border-box;
+}
+
+
+.admin-more-page #feedbackInboxView
+.history-search-wrapper i {
+
+    margin-right: 9px;
+
+    color: #42523f;
+
+    font-size: 16px;
+}
+
+
+.admin-more-page #feedbackInboxView
+.history-search-wrapper input {
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+}
+
+
+.admin-more-page #feedbackInboxView
+.history-search-wrapper input::placeholder {
+
+    color: #8a9487;
+}
+
+
+/* Filter */
+.admin-more-page #feedbackInboxView
+.history-filter-btn {
+
+    width: 80px;
+    height: 30px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   WHITE FEEDBACK CONTENT
+   SAME HEIGHT BEHAVIOR AS REPORT
+========================================================= */
+
+.admin-more-page #feedbackInboxView
+.feedback-inbox-list {
+
+    width: 100%;
+
+    height: calc(100% - 106px);
+
+    min-height: 0;
+
+    margin: 0;
+
+    padding: 14px 8px 8px 2px;
+
+    box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #a3b2a0;
+
+    border-top: none;
+
+    border-radius: 0 0 8px 8px;
+
+}
+
+
+/* =========================================================
+   EMPTY FEEDBACK STATE
+========================================================= */
+
+.admin-more-page #feedbackInboxView
+.feedback-history-empty {
+
+    width: 100%;
+
+    min-height: 300px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+.admin-more-page #feedbackInboxView
+.feedback-history-empty i {
+
+    margin-bottom: 14px;
+
+    color: #768a75;
+
+    font-size: 55px;
+}
+
+
+.admin-more-page #feedbackInboxView
+.feedback-history-empty h3 {
+
+    margin: 0;
+
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 22px;
+
+    font-weight: 900;
+}
+
+
+.admin-more-page #feedbackInboxView
+.feedback-history-empty p {
+
+    margin: 7px 0 0;
+
+    color: #768a75;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   FEEDBACK MESSAGE CARD
+========================================================= */
+
+.admin-more-page #feedbackInboxView
+.feedback-inbox-item {
+
+    width: 100%;
+
+    min-height: 76px;
+
+    flex-shrink: 0;
+
+    padding: 13px 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #a3b2a0;
+
+    border-radius: 7px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+
+.admin-more-page #feedbackInboxView
+.feedback-inbox-item:hover {
+
+    background: #f5f7f4;
+
+    border-color: #768a75;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FINAL SAFE FIX - FEEDBACK HEADER ONLY
+   DO NOT CHANGE THE OUTER CONTAINER
+========================================================= */
+
+/* Keep the Feedback card aligned with the existing More layout */
+.admin-more-page #feedbackInboxView {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Keep close button inside the More content area */
+.admin-more-page #feedbackInboxView .more-close-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+}
+
+/* Only adjust the green header's internal spacing */
+.admin-more-page #feedbackInboxView .feedback-inbox-header {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 52px;
+    box-sizing: border-box;
+}
+
+/* Keep title from being pushed too far right */
+.admin-more-page #feedbackInboxView .feedback-inbox-header h2 {
+    margin-left: 0;
+    white-space: nowrap;
+}
+
+/* Fix search icon/text overlap without changing search position */
+.admin-more-page #feedbackInboxView .history-search-wrapper {
+    position: relative;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.admin-more-page #feedbackInboxView .history-search-wrapper input {
+    width: 100%;
+    height: 100%;
+    padding: 0 14px 0 40px !important;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: transparent;
+}

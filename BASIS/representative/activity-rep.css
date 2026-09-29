@@ -1,0 +1,711 @@
+/* =========================================================
+   BASIS REPRESENTATIVE — ACTIVITY
+========================================================= */
+
+.representative-page .view-body {
+    position: relative;
+}
+
+/* =========================================================
+ACTIVITY LIST
+========================================================= */
+
+.representative-page .admin-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.representative-page .admin-activity-card {
+    background-color: #768a75;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.representative-page .admin-activity-card h3 {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.representative-page .admin-activity-card span {
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    margin-top: 2px;
+}
+
+.representative-page .add-activity-fab {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #42523f;
+    color: #ffffff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.representative-page .add-activity-fab:hover {
+    background: #313d2f;
+}
+
+/* =========================================================
+CREATE ACTIVITY FORM
+========================================================= */
+
+.representative-page .activity-create-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+}
+
+.representative-page .create-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.representative-page .form-row {
+    display: flex;
+    gap: 14px;
+}
+
+.representative-page .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.representative-page .form-field label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #42523f;
+}
+
+.representative-page .form-field input,
+.representative-page .form-field select {
+    background: #f3efe9;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #42523f;
+    font-weight: 600;
+    outline: none;
+}
+
+.representative-page .description-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.representative-page .description-field textarea {
+    flex: 1;
+    min-height: 260px;
+    border: 1.5px solid #a3b2a0;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 13px;
+    font-style: italic;
+    color: #42523f;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+}
+
+.representative-page .create-btn-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.representative-page .create-btn {
+    background: #42523f;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 34px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.representative-page .create-btn:hover {
+    background: #313d2f;
+}
+
+/* =========================================================
+ACTIVITY MENU Details, Scan  Verify Participants
+========================================================= */
+
+.representative-page .activity-menu-list {
+    border: 2px solid #768a75;
+    border-radius: 0 0 6px 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.representative-page .activity-menu-item {
+    border: 1.5px solid #a3b2a0;
+    border-radius: 6px;
+    padding: 14px 18px;
+    cursor: pointer;
+    color: #768a75;
+    font-size: 16px;
+    font-weight: 800;
+    transition: background-color 0.15s ease;
+}
+
+.representative-page .activity-menu-item:hover {
+    background-color: #f4f6f3;
+}
+
+/* =========================================================
+QR CODE VIEW
+========================================================= */
+
+.representative-page .qr-view-layout {
+    display: flex;
+    gap: 35px;
+    align-items: flex-start;
+}
+
+.representative-page .qr-code-box {
+    width: 320px;
+    border: 2px solid #A7B1A3;
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.representative-page .qr-code-box h3 {
+    color: #42523f;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.representative-page .qr-img-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 240px;
+}
+
+.representative-page .qr-img-wrapper i {
+    font-size: 180px;
+    color: #222;
+}
+
+.representative-page .qr-info-side {
+    flex: 1;
+}
+
+.representative-page .qr-details-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #42523f;
+    margin-top: 10px;
+}
+
+.representative-page .qr-details-grid p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.representative-page .download-btn {
+    width: 160px;
+    height: 42px;
+}
+
+/* =========================================================
+ACTIVITY DETAIL HEADER  (not shared sa style.css)
+========================================================= */
+
+.representative-page .activity-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.representative-page .activity-main-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #42523f;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.representative-page .activity-type-text {
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #42523f;
+}
+
+.representative-page .activity-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 70px;
+    margin: 16px 0;
+}
+
+.representative-page .activity-meta-grid p {
+    font-size: 15px;
+    font-weight: 700;
+    color: #42523f;
+}
+
+.representative-page .activity-description {
+    margin-top: 4px;
+}
+
+.representative-page .activity-description strong {
+    font-size: 18px;
+    font-weight: 800;
+    color: #42523f;
+}
+
+.representative-page .deadline-text {
+    margin-top: 14px;
+    font-size: 15px;
+    color: #42523f;
+}
+
+.representative-page .action-buttons-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+/* =========================================================
+SUBMISSION VIEW
+========================================================= */
+
+.representative-page .submission-top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 18px;
+}
+
+.representative-page .submission-top-info h3 {
+    color: #42523f;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.representative-page .submission-top-info p {
+    font-size: 13px;
+    color: #42523f;
+}
+
+.representative-page .submission-note {
+    flex: 1;
+}
+
+.representative-page .submission-main-layout {
+    display: flex;
+    gap: 35px;
+    align-items: flex-start;
+}
+
+.representative-page .submission-bin-box {
+    width: 260px;
+    border: 2px solid #A7B1A3;
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.representative-page .submission-bin-box h3 {
+    color: #42523f;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.representative-page .upload-drop-area {
+    border: 2px dashed #A7B1A3;
+    border-radius: 8px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.representative-page .upload-drop-area i {
+    font-size: 56px;
+    color: #42523f;
+    margin-bottom: 10px;
+}
+
+.representative-page .upload-drop-area p {
+    color: #42523f;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.representative-page .submission-details-side {
+    flex: 1;
+}
+
+.representative-page .attendance-toggle-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.representative-page .toggle-tab {
+    flex: 1;
+    height: 42px;
+    border: 2px solid #42523f;
+    border-radius: 8px;
+    background: #fff;
+    color: #42523f;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.representative-page .toggle-tab.active {
+    background: #42523f;
+    color: #fff;
+}
+
+.representative-page .sub-activity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #42523f;
+    margin-bottom: 14px;
+}
+
+.representative-page .sub-activity-info h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.representative-page .sub-activity-info p {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* =========================================================
+SCAN ACTIVITY VIEW
+========================================================= */
+
+.representative-page .scan-layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.representative-page .scan-box {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.representative-page .scan-preview {
+    width: 100%;
+    height: 260px;
+    border: 1.5px solid #a3b2a0;
+    border-radius: 8px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.representative-page .scan-preview i {
+    font-size: 60px;
+    color: #a3b2a0;
+}
+
+.representative-page .scan-btn {
+    width: 100%;
+    background: #ffffff;
+    color: #42523f;
+    border: 1.5px solid #42523f;
+    border-radius: 20px;
+    padding: 8px 0;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.representative-page .scan-btn:hover {
+    background: #f2f5f0;
+}
+
+.representative-page .scan-info-side {
+    flex: 1;
+}
+
+/* =========================================================
+VERIFY ACTIVITY LIST
+========================================================= */
+
+.representative-page .verify-list-container {
+    border: 2px solid #768a75;
+    border-radius: 0 0 6px 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 220px;
+}
+
+.representative-page .verify-item-row {
+    border: 1.5px solid #a3b2a0;
+    border-radius: 6px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.representative-page .verify-item-row h4 {
+    color: #42523f;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.representative-page .verify-item-row h4 span {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 8px;
+    color: #8a978a;
+}
+
+.representative-page .verify-item-row small {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: #768a75;
+    font-weight: 700;
+}
+
+.representative-page .verify-btn {
+    background: #cc0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 24px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.representative-page .verify-btn:hover {
+    background: #a80000;
+}
+
+.representative-page .verified-activities-btn {
+    align-self: flex-start;
+    background: #42523f;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.representative-page .verified-activities-btn:hover {
+    background: #313d2f;
+}
+
+/* =========================================================
+VERIFY DETAIL ATTENDANCE and ABSENCE
+========================================================= */
+
+.representative-page .verify-detail-grid {
+    display: flex;
+    gap: 30px;
+}
+
+.representative-page .verify-detail-left {
+    flex: 1.3;
+}
+
+.representative-page .verify-detail-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.representative-page .submitted-file-preview {
+    width: 100%;
+    height: 220px;
+    border: 1.5px solid #a3b2a0;
+    border-radius: 8px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #768a75;
+    font-weight: 800;
+    font-size: 15px;
+    text-align: center;
+}
+
+.representative-page .verify-action-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.representative-page .accept-btn {
+    background: #42523f;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 30px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.representative-page .accept-btn:hover {
+    background: #313d2f;
+}
+
+.representative-page .reject-btn {
+    background: #cc0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 30px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.representative-page .reject-btn:hover {
+    background: #a80000;
+}
+
+/* =========================================================
+VERIFIED ACTIVITY LIST
+========================================================= */
+
+.representative-page .verified-status-badge {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 22px;
+    font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.representative-page .verified-status-badge.accepted {
+    background: #42523f;
+}
+
+.representative-page .verified-status-badge.rejected {
+    background: #cc0000;
+}
+
+/* =========================================================
+ACTIVITY PARTICIPANTS TABLE
+========================================================= */
+
+.representative-page .participants-table-wrap {
+    border: 1.5px solid #768a75;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+.representative-page .participants-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.representative-page .participants-table thead th {
+    background: #768a75;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 12px 10px;
+    text-align: center;
+    border-right: 1px solid #8a9c89;
+}
+
+.representative-page .participants-table thead th:last-child {
+    border-right: none;
+}
+
+.representative-page .participants-table tbody td {
+    border-top: 1px solid #dde3db;
+    border-right: 1px solid #dde3db;
+    height: 38px;
+    text-align: center;
+}
+
+.representative-page .participants-table tbody td:last-child {
+    border-right: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .representative-page .activity-create-grid { grid-template-columns: 1fr; }
+    .representative-page .form-row { flex-direction: column; }
+    .representative-page .qr-view-layout,
+    .representative-page .submission-main-layout,
+    .representative-page .scan-layout,
+    .representative-page .verify-detail-grid { flex-direction: column; }
+    .representative-page .qr-code-box,
+    .representative-page .submission-bin-box,
+    .representative-page .scan-box { width: 100%; }
+    .representative-page .admin-activity-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+/* EMPTY STATES — no sample/template data */
+.representative-page .admin-no-activity,.representative-page .admin-empty-subview{min-height:260px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#42523f;}
+.representative-page .admin-no-activity i,.representative-page .admin-empty-subview i{font-size:42px;color:#768a75;margin-bottom:12px;}
+.representative-page .admin-no-activity h3,.representative-page .admin-empty-subview h4{margin:0;font-size:20px;font-weight:800;}
+.representative-page .admin-no-activity p,.representative-page .admin-empty-subview p{margin:6px 0 0;font-size:13px;color:#768a75;}
+.representative-page .verify-list-container .admin-empty-subview{flex:1;min-height:170px;}
+.representative-page .empty-table-cell{height:180px!important;color:#768a75;font-size:14px;font-weight:600;}

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BASIS - Admin Home</title>
+
+
+    <!-- POPPINS -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+
+    <!-- GLOBAL CSS -->
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <!-- ADMIN HOME CSS -->
+    <link rel="stylesheet" href="home-admin.css?v=5">
+
+</head>
+
+
+<body class="dashboard-page admin-page">
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="dash-header">
+
+    <div class="dash-logo">
+
+        <img
+            src="../images/LOGO.png"
+            alt="BASIS Logo"
+        >
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="welcome-text">
+
+            <h1>
+                MABUHAY, ADMIN!
+            </h1>
+
+            <span>
+                WELCOME TO BASIS
+            </span>
+
+        </div>
+
+
+        <div
+            class="profile-avatar-wrapper"
+            onclick="window.location.href='profile-admin.html'"
+        >
+
+            <img
+                src="../images/profile_default.jpg"
+                alt="Admin Profile"
+                class="header-avatar"
+            >
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="dash-main">
+
+    <section
+        id="view-home"
+        class="page-view active admin-home"
+    >
+
+
+        <!-- =================================================
+             ADMIN SUMMARY
+        ================================================== -->
+
+        <div class="admin-summary">
+
+
+            <!-- MUNICIPALITY -->
+
+            <div class="municipality-card">
+
+                <div class="municipality-title">
+                    BAGAC
+                </div>
+
+                <small>
+                    MUNICIPALITY
+                </small>
+
+            </div>
+
+
+
+            <!-- OVERALL SCHOLAR COUNTS -->
+
+            <div class="scholar-counts">
+
+
+                <!-- TOTAL -->
+
+                <div class="count-card total-card">
+
+                    <span class="count-label">
+                        TOTAL
+                    </span>
+
+                    <strong id="totalScholars">
+                        0
+                    </strong>
+
+                    <small>
+                        ISKOLAR
+                    </small>
+
+                </div>
+
+
+
+                <!-- MALE -->
+
+                <div class="count-card">
+
+                    <span class="count-label">
+                        MALE
+                    </span>
+
+                    <strong id="maleScholars">
+                        0
+                    </strong>
+
+                    <small>
+                        ISKOLAR
+                    </small>
+
+                </div>
+
+
+
+                <!-- FEMALE -->
+
+                <div class="count-card">
+
+                    <span class="count-label">
+                        FEMALE
+                    </span>
+
+                    <strong id="femaleScholars">
+                        0
+                    </strong>
+
+                    <small>
+                        ISKOLAR
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LATEST ACTIVITY
+            ================================================== -->
+
+            <div class="latest-activity-card">
+
+                <h2>
+                    LATEST ACTIVITY PARTICIPATION
+                </h2>
+
+
+                <div
+                    class="latest-activity-title"
+                    id="latestActivityTitle"
+                >
+                    ACTIVITY TITLE
+                </div>
+
+
+                <div class="participants-card">
+
+                    <span>
+                        TOTAL PARTICIPANTS
+                    </span>
+
+                    <strong id="latestTotalParticipants">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="attendance-grid">
+
+
+                    <div class="attendance-card">
+
+                        <span>
+                            ATTENDED
+                        </span>
+
+                        <strong id="latestAttended">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="attendance-card">
+
+                        <span>
+                            ABSENT
+                        </span>
+
+                        <strong id="latestAbsent">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BARANGAY STATISTICS
+        ================================================== -->
+
+        <div class="admin-barangay-section">
+
+            <div class="admin-section-heading">
+
+                <h2>
+                    BARANGAY
+                </h2>
+
+            </div>
+
+
+            <div
+                class="barangay-scroll-container"
+                id="barangayContainer"
+            >
+
+                <!-- GENERATED BY JS -->
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ANNOUNCEMENTS / ONGOING ACTIVITY
+        ================================================== -->
+
+        <div class="dash-grid admin-grid">
+
+
+            <!-- ANNOUNCEMENTS -->
+
+            <div class="grid-item flex-announcements">
+
+                <h2>
+                    ANNOUNCEMENTS!
+                </h2>
+
+
+                <div
+                    class="bordered-box"
+                    id="announcementsBox"
+                >
+
+                    <div class="placeholder-text">
+                        No announcements yet.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ONGOING ACTIVITY -->
+
+            <div class="grid-item flex-activity">
+
+                <h2>
+                    ONGOING ACTIVITY
+                </h2>
+
+
+                <div
+                    class="bordered-box"
+                    id="activityBox"
+                >
+
+                    <div class="placeholder-text">
+                        No ongoing activity.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     ADMIN NAVBAR
+====================================================== -->
+
+<nav class="bottom-nav">
+
+    <div class="bottom-nav-inner">
+
+
+        <!-- HOME -->
+
+        <a
+            class="nav-item active"
+            href="home-admin.html"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Home
+            </span>
+
+        </a>
+
+
+
+        <!-- USER -->
+
+        <a
+            class="nav-item"
+            href="user-admin.html"
+        >
+
+            <i class="fa-solid fa-user"></i>
+
+            <span>
+                User
+            </span>
+
+        </a>
+
+
+
+        <!-- SCORECARD -->
+
+        <a
+            class="nav-item"
+            href="scorecard-admin.html"
+        >
+
+            <i class="fa-solid fa-address-card"></i>
+
+            <span>
+                Scorecard
+            </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY -->
+
+        <a
+            class="nav-item"
+            href="activity-admin.html"
+        >
+
+            <i class="fa-solid fa-book-open"></i>
+
+            <span>
+                Activity
+            </span>
+
+        </a>
+
+
+
+        <!-- HISTORY -->
+
+        <a
+            class="nav-item"
+            href="history-admin.html"
+        >
+
+            <i class="fa-solid fa-book-bookmark"></i>
+
+            <span>
+                History
+            </span>
+
+        </a>
+
+
+
+        <!-- MORE -->
+
+        <a
+            class="nav-item"
+            href="more-admin.html"
+        >
+
+            <i class="fa-solid fa-ellipsis"></i>
+
+            <span>
+                More
+            </span>
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<script src="../script.js"></script>
+
+<script src="home-admin.js?v=1"></script>
+
+
+</body>
+</html>

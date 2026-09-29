@@ -1,0 +1,963 @@
+/* =========================================================
+   BASIS ACTIVITY PAGE
+========================================================= */
+
+.activity-main {
+    padding-bottom: 95px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN ACTIVITY AREA
+========================================================= */
+
+.activity-main .page-view {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.activity-main .view-body {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   ACTIVITY LIST FRAME
+========================================================= */
+
+.activity-list-frame {
+    padding: 18px 25px;
+    height: auto;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   ACTIVITY LIST
+   SAME STYLE AS SCORECARD LIST
+========================================================= */
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-height: 390px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2px 8px 8px 2px;
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+    scrollbar-color: #768a75 transparent;
+}
+
+.activity-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.activity-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+    background: #768a75;
+    border-radius: 10px;
+}
+
+.activity-list::-webkit-scrollbar-thumb:hover {
+    background: #42523f;
+}
+
+/* =========================================================
+   ACTIVITY SEARCH & FILTER
+========================================================= */
+
+#view-activity .search-filter-controls {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+#view-activity .search-input-wrapper {
+    position:relative;
+    width:360px;
+}
+
+#view-activity .search-input-wrapper input {
+    width:100%;
+    height:30px;
+    padding:0 18px 0 42px;
+    border:none;
+    border-radius:24px;
+    box-sizing:border-box;
+    outline:none;
+    font-family:"Poppins",sans-serif;
+    font-size:14px;
+}
+
+#view-activity .search-input-wrapper i {
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:17px;
+    color:#42523f;
+    z-index:2;
+}
+
+#view-activity .filter-btn {
+    width:105px;
+    min-width:105px;
+    height:35px;
+    border:none;
+    border-radius:8px;
+    background:#ffffff;
+    color:#42523f;
+    font-family:"Poppins",sans-serif;
+    font-size:17px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* =========================================================
+   ACTIVITY CARD
+========================================================= */
+
+.activity-card-item {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    max-height: 64px;
+    flex-shrink: 0;
+
+    background-color: #768a75;
+    color: #ffffff;
+
+    border-radius: 8px;
+    padding: 0 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    box-sizing: border-box;
+
+    transition:
+        background-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.activity-card-item:hover {
+    background-color: #42523f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(66, 82, 63, 0.15);
+}
+
+.activity-card-info {
+    min-width: 0;
+}
+
+.activity-card-info h3 {
+    margin: 0 0 2px;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.activity-card-info span {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   OPEN ACTIVITY BUTTON
+========================================================= */
+
+.open-activity-btn {
+    flex-shrink: 0;
+
+    width: 105px;
+    min-width: 105px;
+    height: 38px;
+
+    border: none;
+    border-radius: 7px;
+
+    background-color: #ffffff;
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.open-activity-btn:hover {
+    background-color: #f2f4f1;
+    transform: scale(1.02);
+}
+
+/* =========================================================
+   NO ACTIVITIES MESSAGE
+   SAME SIZE / SPACING AS SCORECARD
+========================================================= */
+
+.no-activities-message {
+    width: 100%;
+    height: 390px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px 20px;
+
+    box-sizing: border-box;
+
+    color: #42523f;
+}
+
+.no-activities-message i {
+    font-size: 55px;
+    margin-bottom: 18px;
+    color: #768a75;
+}
+
+.no-activities-message h3 {
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.no-activities-message p {
+    margin: 8px 0 0;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #768a75;
+}
+
+/* =========================================================
+   DETAIL PAGE
+========================================================= */
+
+.activity-detail-frame {
+    padding: 25px 30px;
+    margin-bottom: 18px;
+}
+
+.activity-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 18px;
+    margin-bottom: 12px;
+    padding-top: 4px;
+}
+
+.activity-title-block {
+    min-width: 0;
+}
+
+.activity-main-title {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 800;
+
+    color: #42523f;
+
+    text-transform: uppercase;
+    line-height: 1.15;
+
+    overflow-wrap: anywhere;
+}
+
+.activity-type-text {
+    margin-top: 4px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #42523f;
+}
+
+.sem-tag {
+    flex-shrink: 0;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    color: #42523f;
+
+    text-transform: uppercase;
+    text-align: right;
+}
+
+/* =========================================================
+   ACTIVITY META
+========================================================= */
+
+.activity-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 7px 40px;
+    margin: 12px 0;
+}
+
+.activity-meta-grid p {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #42523f;
+    line-height: 1.4;
+}
+
+.activity-meta-grid p strong {
+    margin-right: 4px;
+}
+
+.activity-meta-grid span {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+    border: 0;
+    border-top: 1px solid #a7b1a3;
+
+    margin: 12px 0;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.activity-description {
+    color: #42523f;
+}
+
+.activity-description > strong {
+    display: block;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+.desc-text {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.55;
+
+    color: #42523f;
+
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.deadline-text {
+    margin-top: 10px;
+
+    font-size: 14px;
+    color: #42523f;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.action-buttons-row {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.act-btn {
+    min-width: 155px;
+    height: 44px;
+
+    border-radius: 8px;
+    padding: 0 20px;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.act-btn:hover {
+    transform: translateY(-1px);
+}
+
+.solid-btn {
+    background-color: #42523f;
+    color: #ffffff;
+    border: 2px solid #42523f;
+}
+
+.solid-btn:hover {
+    background-color: #344331;
+}
+
+.outline-btn {
+    background-color: #ffffff;
+    color: #42523f;
+    border: 2px solid #42523f;
+}
+
+.outline-btn:hover {
+    background-color: #f4f6f3;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.close-view-btn {
+    position: absolute;
+
+    top: 16px;
+    left: 20px;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #42523f;
+
+    font-size: 23px;
+
+    cursor: pointer;
+    z-index: 20;
+}
+
+.close-view-btn:hover {
+    color: #768a75;
+}
+
+/* =========================================================
+   QR PAGE
+========================================================= */
+
+.qr-page-frame {
+    padding: 25px 30px;
+    margin-bottom: 18px;
+}
+
+.qr-view-layout {
+    display: flex;
+
+    gap: 25px;
+    align-items: flex-start;
+
+    padding-top: 8px;
+}
+
+/* =========================================================
+   QR CODE BOX
+========================================================= */
+
+.qr-code-box {
+    width: 290px;
+    flex-shrink: 0;
+
+    border: 2px solid #a7b1a3;
+    border-radius: 10px;
+
+    padding: 14px;
+
+    text-align: center;
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.qr-code-box h3 {
+    color: #42523f;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    margin: 0 0 12px;
+}
+
+.qr-placeholder {
+    width: 100%;
+    height: 220px;
+
+    border: 2px dashed #a7b1a3;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    color: #42523f;
+
+    box-sizing: border-box;
+}
+
+.qr-placeholder i {
+    font-size: 105px;
+    margin-bottom: 7px;
+}
+
+.qr-placeholder span {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.qr-placeholder-note {
+    margin: 10px 0 0;
+
+    color: #768a75;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   QR INFORMATION
+========================================================= */
+
+.qr-info-side {
+    flex: 1;
+    min-width: 0;
+}
+
+.note-box {
+    border: 1px solid #a7b1a3;
+    border-radius: 8px;
+
+    padding: 9px 13px;
+
+    color: #42523f;
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.note-box p {
+    margin: 0 0 5px;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.note-box p:last-child {
+    margin-bottom: 0;
+}
+
+.text-right {
+    margin: 12px 0;
+    text-align: right;
+}
+
+.qr-details-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    color: #42523f;
+}
+
+.qr-details-grid h2 {
+    font-size: 24px;
+    font-weight: 800;
+
+    margin: 0 0 3px;
+
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.qr-details-grid p {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+.qr-details-grid p strong {
+    font-weight: 800;
+}
+
+.qr-details-grid span {
+    overflow-wrap: anywhere;
+}
+
+.btn-right-container {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 14px;
+}
+
+.download-btn {
+    width: 150px;
+}
+
+.download-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   SUBMISSION PAGE
+========================================================= */
+
+.submission-page-frame {
+    padding: 25px 30px;
+    margin-bottom: 18px;
+}
+
+.submission-top-info {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+
+    gap: 18px;
+    align-items: start;
+
+    padding-top: 8px;
+    margin-bottom: 18px;
+}
+
+.submission-sem-info h3 {
+    color: #42523f;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    margin: 0 0 5px;
+}
+
+.submission-sem-info p {
+    margin: 0;
+
+    font-size: 12px;
+    line-height: 1.55;
+
+    color: #42523f;
+}
+
+.submission-sem-info span {
+    font-weight: 600;
+}
+
+/* =========================================================
+   SUBMISSION MAIN
+========================================================= */
+
+.submission-main-layout {
+    display: grid;
+
+    grid-template-columns: 290px 1fr;
+
+    gap: 25px;
+    align-items: start;
+}
+
+/* =========================================================
+   SUBMISSION BIN
+========================================================= */
+
+.submission-bin-box {
+    width: 100%;
+
+    border: 2px solid #a7b1a3;
+    border-radius: 10px;
+
+    padding: 14px;
+
+    text-align: center;
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.submission-bin-box h3 {
+    color: #42523f;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    margin: 0 0 12px;
+}
+
+.upload-drop-area {
+    border: 2px dashed #a7b1a3;
+    border-radius: 8px;
+
+    min-height: 190px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+}
+
+.upload-drop-area:hover {
+    background-color: #f7f9f6;
+    border-color: #768a75;
+}
+
+.upload-drop-area.drag-over {
+    background-color: #eef2ec;
+    border-color: #42523f;
+}
+
+.upload-drop-area i {
+    font-size: 58px;
+    color: #42523f;
+
+    margin-bottom: 8px;
+}
+
+.upload-drop-area p {
+    margin: 0;
+
+    color: #42523f;
+
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.upload-drop-area span {
+    margin-top: 3px;
+
+    color: #768a75;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.selected-file {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 8px;
+    padding: 7px 9px;
+
+    background: #f3f5f2;
+    border-radius: 6px;
+
+    text-align: left;
+
+    color: #42523f;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    overflow: hidden;
+}
+
+.selected-file i {
+    flex-shrink: 0;
+}
+
+.selected-file span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   SUBMIT FILE
+========================================================= */
+
+.submit-file-btn {
+    width: 100%;
+    height: 42px;
+
+    margin-top: 9px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #42523f;
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.submit-file-btn:hover {
+    background: #344331;
+}
+
+.submit-file-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.upload-status {
+    min-height: 16px;
+
+    margin: 6px 0 0;
+
+    color: #42523f;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SUBMISSION DETAILS
+========================================================= */
+
+.submission-details-side {
+    min-width: 0;
+}
+
+.attendance-toggle-bar {
+    display: flex;
+
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.toggle-tab {
+    flex: 1;
+
+    min-height: 42px;
+
+    border: 2px solid #42523f;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.toggle-tab.active {
+    background: #42523f;
+    color: #ffffff;
+}
+
+.sub-activity-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    color: #42523f;
+}
+
+.sub-activity-info h2 {
+    font-size: 24px;
+    font-weight: 800;
+
+    margin: 0 0 3px;
+
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.sub-activity-info p {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+.sub-activity-info p strong {
+    font-weight: 800;
+}
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 9999;
+}

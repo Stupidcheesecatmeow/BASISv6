@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="home-rep.css">
+</head>
+<body class="dashboard-page representative-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, REPRESENTATIVE!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+
+        <div class="profile-avatar-wrapper" onclick="window.location.href='../representative/profile-rep.html'">
+            <img src="../images/profile_default.jpg" alt="User Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+<main class="dash-main">
+    <section id="view-home" class="page-view active representative-home">
+
+        <!-- REPRESENTATIVE SUMMARY -->
+        <div class="representative-summary">
+            <div class="barangay-card">
+                <div class="barangay-title" id="representativeBarangay">BARANGAY</div>
+            </div>
+
+            <div class="scholar-counts">
+                <div class="count-card total-card">
+                    <span class="count-label">TOTAL</span>
+                    <strong id="totalScholars">0</strong>
+                    <small>ISKOLAR</small>
+                </div>
+
+                <div class="count-card">
+                    <span class="count-label">MALE</span>
+                    <strong id="maleScholars">0</strong>
+                    <small>ISKOLAR</small>
+                </div>
+
+                <div class="count-card">
+                    <span class="count-label">FEMALE</span>
+                    <strong id="femaleScholars">0</strong>
+                    <small>ISKOLAR</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENT / GUIDELINE CAROUSEL -->
+        <div class="carousel-area">
+            <div class="carousel-wrapper">
+                <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous Slide">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <div class="carousel-slider-container" id="carouselContainer">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <div class="guideline-card">
+                                <h2>WELCOME TO BASIS!</h2>
+                                <p>You are viewing the <strong>Representative Home</strong> for your assigned barangay.</p>
+                                <p>The scholar count is based on registered scholars assigned to your barangay.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="guideline-card">
+                                <h2>REPRESENTATIVE GUIDELINES</h2>
+                                <p>Monitor the scholar count of your assigned barangay.</p>
+                                <p>Coordinate with the administrator for changes in scholar registration and barangay assignments.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="guideline-card">
+                                <h2>KEEP INFORMATION UPDATED</h2>
+                                <p>Scholar totals, male counts, and female counts update from the registered scholar records.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-arrow next" id="carouselNext" aria-label="Next Slide">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="carousel-dots" id="carouselDots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS / ONGOING ACTIVITY -->
+        <div class="dash-grid representative-grid">
+            <div class="grid-item flex-announcements">
+                <h2>ANNOUNCEMENTS!</h2>
+                <div class="bordered-box" id="announcementsBox">
+                    <div class="placeholder-text">No announcements yet.</div>
+                </div>
+            </div>
+
+            <div class="grid-item flex-activity">
+                <h2>ONGOING ACTIVITY</h2>
+                <div class="bordered-box" id="activityBox">
+                    <div class="placeholder-text">No ongoing activity.</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<nav class="bottom-nav">
+
+    <div class="bottom-nav-inner">
+
+        <!-- HOME -->
+        <a class="nav-item" href="../representative/home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <!-- SCORECARD -->
+        <a class="nav-item" href="../representative/scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+
+        <!-- ACTIVITY -->
+        <a class="nav-item" href="../representative/activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+
+        <!-- HISTORY -->
+        <a class="nav-item" href="../representative/history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+
+        <!-- MORE -->
+        <a class="nav-item" href="../representative/more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+
+    </div>
+
+</nav>
+
+<script src="../script.js"></script>
+<script src="home-rep.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative Activity Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="activity-rep.css?v=3">
+</head>
+<body class="dashboard-page representative-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, REPRESENTATIVE!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-rep.html'">
+            <img src="../images/profile_default.jpg" alt="Representative Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+<main class="dash-main">
+<section id="view-activity-menu" class="page-view active">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="window.location.href='activity-rep.html'"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3 id="menuActivityTitle"></h3>
+            </div>
+            <div class="activity-menu-list">
+                <div class="activity-menu-item" onclick="window.location.href='activity_details-rep.html'">ACTIVITY DETAILS</div>
+                <div class="activity-menu-item" onclick="showSubView('view-activity-scan')">SCAN ACTIVITY</div>
+                <div class="activity-menu-item" onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
+                <div class="activity-menu-item" onclick="showSubView('view-activity-participants')">ACTIVITY PARTICIPANTS</div>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-scan" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="scan-layout">
+                <div class="scan-box">
+                    <div class="scan-preview">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <button class="scan-btn" id="scanActionBtn" onclick="runScan()">SCAN</button>
+                </div>
+
+                <div class="scan-info-side">
+                    <div class="activity-detail-header">
+                        <h2 class="activity-main-title" id="scanActivityTitle"></h2>
+                        <div class="sem-tag" id="scanSemester"></div>
+                    </div>
+                    <div class="activity-type-text"><strong>TYPE OF ACTIVITY:</strong></div>
+
+                    <div class="activity-meta-grid">
+                        <p><strong>DATE:</strong> <span id="scanDate"></span></p>
+                        <p><strong>TIME:</strong> <span id="scanTime"></span></p>
+                        <p><strong>VENUE:</strong> <span id="scanVenue"></span></p>
+                        <p><strong>VENUE ADDRESS:</strong> <span id="scanVenueAddress"></span></p>
+                    </div>
+
+                    <p class="deadline-text"><strong>DEADLINE:</strong> <span id="scanDeadline"></span></p>
+
+                    <div class="activity-description">
+                        <strong>DESCRIPTION</strong>
+                        <p class="desc-text" id="scanDescription"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-verify" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3>VERIFY ACTIVITY</h3>
+            </div>
+
+            <div class="verify-list-container" id="verifyListContainer">
+                <div class="admin-empty-subview">
+                    <i class="fa-solid fa-inbox"></i>
+                    <h4>No submissions yet.</h4>
+                    <p>Attendance and absence submissions will appear here.</p>
+                </div>
+                <button class="verified-activities-btn" onclick="showSubView('view-activity-verified')">VERIFIED ACTIVITIES</button>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-verify-attendance" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3>ATTENDANCE</h3>
+            </div>
+
+            <div class="verify-detail-grid">
+                <div class="verify-detail-left">
+                    <div class="activity-detail-header">
+                        <h2 class="activity-main-title verify-title"></h2>
+                        <div class="sem-tag verify-sem"></div>
+                    </div>
+                    <div class="activity-type-text"><strong>TYPE OF ACTIVITY:</strong></div>
+                    <div class="activity-meta-grid">
+                        <p><strong>DATE:</strong> <span class="verify-date"></span></p>
+                        <p><strong>TIME:</strong> <span class="verify-time"></span></p>
+                        <p><strong>VENUE:</strong> <span class="verify-venue"></span></p>
+                        <p><strong>VENUE ADDRESS:</strong> <span class="verify-address"></span></p>
+                        <p><strong>NAME:</strong> <span class="verify-name"></span></p>
+                        <p></p>
+                        <p><strong>MUNICIPALITY:</strong> <span class="verify-municipality"></span></p>
+                        <p><strong>BARANGAY:</strong> <span class="verify-barangay"></span></p>
+                    </div>
+                    <p class="deadline-text"><strong>DEADLINE:</strong> <span class="verify-deadline"></span></p>
+                </div>
+
+                <div class="verify-detail-right">
+                    <div class="submitted-file-preview">SUBMITTED FILE</div>
+                </div>
+            </div>
+
+            <div class="verify-action-row">
+                <button class="accept-btn" onclick="resolveVerification()">ACCEPT</button>
+                <button class="reject-btn" onclick="resolveVerification()">REJECT</button>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-verify-absence" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3>ABSENCE</h3>
+            </div>
+
+            <div class="verify-detail-grid">
+                <div class="verify-detail-left">
+                    <div class="activity-detail-header">
+                        <h2 class="activity-main-title verify-title"></h2>
+                        <div class="sem-tag verify-sem"></div>
+                    </div>
+                    <div class="activity-type-text"><strong>TYPE OF ACTIVITY:</strong></div>
+                    <div class="activity-meta-grid">
+                        <p><strong>DATE:</strong> <span class="verify-date"></span></p>
+                        <p><strong>TIME:</strong> <span class="verify-time"></span></p>
+                        <p><strong>VENUE:</strong> <span class="verify-venue"></span></p>
+                        <p><strong>VENUE ADDRESS:</strong> <span class="verify-address"></span></p>
+                        <p><strong>NAME:</strong> <span class="verify-name"></span></p>
+                        <p></p>
+                        <p><strong>MUNICIPALITY:</strong> <span class="verify-municipality"></span></p>
+                        <p><strong>BARANGAY:</strong> <span class="verify-barangay"></span></p>
+                    </div>
+                    <p class="deadline-text"><strong>DEADLINE:</strong> <span class="verify-deadline"></span></p>
+                </div>
+
+                <div class="verify-detail-right">
+                    <div class="submitted-file-preview">SUBMITTED FILE</div>
+                </div>
+            </div>
+
+            <div class="verify-action-row">
+                <button class="accept-btn" onclick="resolveVerification()">ACCEPT</button>
+                <button class="reject-btn" onclick="resolveVerification()">REJECT</button>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-verified" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3>VERIFIED ACTIVITY</h3>
+                <div class="search-filter-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="filter-btn">FILTER</button>
+                </div>
+            </div>
+
+            <div class="verify-list-container">
+                <div class="admin-empty-subview">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h4>No verified activities yet.</h4>
+                    <p>Verified submissions will appear here.</p>
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-participants" class="page-view">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="inner-banner-header">
+                <h3 id="participantsActivityTitle"></h3>
+                <div class="search-filter-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="filter-btn">FILTER</button>
+                </div>
+            </div>
+
+            <div class="participants-table-wrap">
+                <table class="participants-table">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>BARANGAY</th>
+                            <th>TIME IN</th>
+                            <th>TIME OUT</th>
+                            <th>SUBMISSION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="participantsTableBody">
+                        <tr><td colspan="5" class="empty-table-cell">No participants yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+</section>
+</main>
+
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a class="nav-item" href="home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+<a class="nav-item" href="scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+        <a class="nav-item active" href="activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+        <a class="nav-item" href="history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+        <a class="nav-item" href="more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+    </div>
+</nav>
+
+<script src="../script.js"></script>
+<script src="activity-rep.js?v=2"></script>
+
+</body>
+</html>
