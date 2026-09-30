@@ -267,10 +267,24 @@ function getActivityDate(activity) {
    OPEN ACTIVITY
 ========================================================= */
 
-function openActivityDetail(activity) {
+async function openActivityDetail(activity) {
+    const activityId = Number(activity?.id || activity?.activity_id || 0);
+    if (!activityId) {
+        showActivityLoadError('This activity is missing its system ID. Refresh the activity list and try again.');
+        return;
+    }
 
-    currentActivity =
-        activity;
+    try {
+        const response = await fetch(`../admin/api/activity_api.php?action=get&id=${encodeURIComponent(activityId)}`, { credentials: 'same-origin', cache: 'no-store' });
+        const data = await response.json();
+        if (!response.ok || !data.success || !data.activity) throw new Error(data.message || 'Could not load this activity. Please refresh and try again.');
+        activity = data.activity;
+    } catch (error) {
+        showActivityLoadError(error.message || 'Could not load this activity. Please sign in again and retry.');
+        return;
+    }
+
+    currentActivity = activity;
 
     const qrEnabled = ["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
     const proofEnabled = ["proof", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
@@ -300,6 +314,20 @@ function openActivityDetail(activity) {
         "view-activity-detail"
     );
 
+}
+
+function showActivityLoadError(message) {
+    const list = document.getElementById('activityList');
+    if (!list) return;
+    let status = document.getElementById('activityLoadError');
+    if (!status) {
+        status = document.createElement('p');
+        status.id = 'activityLoadError';
+        status.setAttribute('role', 'alert');
+        status.style.cssText = 'margin:12px 0;padding:12px;border:1px solid #b33a3a;border-radius:8px;color:#8f1c13;background:#fff7f6';
+        list.prepend(status);
+    }
+    status.textContent = message;
 }
 
 

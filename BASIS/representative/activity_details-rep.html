@@ -73,10 +73,30 @@
     <div class="view-banner"><h2>ACTIVITY QR</h2></div>
     <div class="view-body bordered-frame relative-frame">
         <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
-        <div class="my-activity-qr">
-            <h3>MY ATTENDANCE QR CODE</h3>
-            <img id="activityQrImage" alt="Your activity attendance QR code">
-            <p>Show your QR to another admin or representative to record your attendance for this activity.</p>
+        <div class="qr-view-layout">
+            <div class="qr-code-box">
+                <h3>ATTENDANCE QR CODE</h3>
+                <div class="qr-img-wrapper"><img id="activityQrImage" alt="Your activity attendance QR code"></div>
+                <p class="qr-placeholder-note">This unique QR code is assigned to you for this activity. Show it to the activity scanner to record your attendance.</p>
+            </div>
+            <div class="qr-info-side">
+                <div class="note-box"><p><strong>Note:</strong> This QR code can only be used twice (time in and time out). Failure to have it scanned within the validity period will result in an Absent or Missing Activity status. Once the activity ended, the QR code will be deactivated and can no longer be used. Please ensure that your QR code has been successfully scanned within the activity period.</p></div>
+                <div class="sem-tag text-right" id="activityQrSemester"></div>
+                <div class="qr-details-grid">
+                    <p><strong>PARTICIPANT:</strong> <span id="activityQrParticipant">—</span></p>
+                    <p><strong>PARTICIPANT BARANGAY:</strong> <span id="activityQrParticipantBarangay">—</span></p>
+                    <h2 id="activityQrTitle"></h2>
+                    <p><strong>TYPE OF ACTIVITY:</strong> <span id="activityQrType"></span></p>
+                    <p><strong>DATE:</strong> <span id="activityQrDate"></span></p>
+                    <p><strong>TIME:</strong> <span id="activityQrTime"></span></p>
+                    <p><strong>VENUE:</strong> <span id="activityQrVenue"></span></p>
+                    <p><strong>VENUE ADDRESS:</strong> <span id="activityQrVenueAddress"></span></p>
+                    <p><strong>MUNICIPALITY:</strong> <span id="activityQrMunicipality"></span></p>
+                    <p><strong>BARANGAY:</strong> <span id="activityQrBarangay"></span></p>
+                    <p><strong>DEADLINE:</strong> <span id="activityQrDeadline"></span></p>
+                </div>
+                <div class="btn-right-container"><button type="button" class="act-btn outline-btn download-btn" onclick="downloadPersonalActivityQr()">DOWNLOAD</button></div>
+            </div>
         </div>
     </div>
 </section>
@@ -161,7 +181,7 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-rep.js?v=20260930-activity-qr-user"></script>
+<script src="activity-rep.js?v=20260930-activity-details-restored"></script>
 
 </body>
 </html>
