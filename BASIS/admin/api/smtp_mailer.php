@@ -7,6 +7,8 @@ function sendSmtpMail(string $recipient, string $subject, string $body): void
     $host = trim((string)(getenv('BASIS_SMTP_HOST') ?: 'smtp.gmail.com'));
     $username = trim((string)(getenv('BASIS_SMTP_USERNAME') ?: ''));
     $password = (string)(getenv('BASIS_SMTP_PASSWORD') ?: '');
+    // Google displays App Passwords in groups separated by spaces.
+    $password = preg_replace('/\s+/', '', $password) ?? $password;
     $encryption = strtolower(trim((string)(getenv('BASIS_SMTP_ENCRYPTION') ?: 'tls')));
     $port = (int)(getenv('BASIS_SMTP_PORT') ?: ($encryption === 'ssl' ? 465 : 587));
     $from = trim((string)(getenv('BASIS_MAIL_FROM') ?: $username));
@@ -126,6 +128,9 @@ function smtpExpect($socket, array $expected): string
 
     $code = (int)substr($matches[1], 0, 3);
     if (!in_array($code, $expected, true)) {
+        if ($code === 535) {
+            throw new RuntimeException('Gmail rejected the SMTP username or App Password (535).');
+        }
         throw new RuntimeException('SMTP server rejected a mail command with response ' . $code . '.');
     }
     return $response;

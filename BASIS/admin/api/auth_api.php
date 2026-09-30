@@ -55,7 +55,9 @@ try {
                 $pdo->prepare('UPDATE password_resets SET used_at=CURRENT_TIMESTAMP WHERE token_hash=?')->execute([$tokenHash]);
                 $message = str_contains($mailError->getMessage(), 'SMTP host and sender address are required')
                     ? 'Gmail SMTP sender is not configured yet. Add BASIS_SMTP_USERNAME, BASIS_SMTP_PASSWORD, and BASIS_MAIL_FROM to Apache httpd.conf, then restart Apache.'
-                    : 'We could not send the confirmation email. Check the SMTP host, port, encryption, sender, and account credentials, then try again.';
+                    : (str_contains($mailError->getMessage(), 'App Password (535)')
+                        ? 'Gmail rejected the SMTP login. Use the full sender Gmail address as BASIS_SMTP_USERNAME and its 16-character App Password as BASIS_SMTP_PASSWORD. The App Password may be pasted with or without spaces; BASIS removes the spaces automatically.'
+                        : 'We could not send the confirmation email. Check the SMTP host, port, encryption, sender, and account credentials, then try again.');
                 jsonResponse(false, $message, 503);
             }
         }
