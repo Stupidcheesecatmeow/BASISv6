@@ -1785,15 +1785,7 @@ function showSubView(viewId) {
     );
 
 
-    target.style.setProperty(
-
-        "display",
-
-        "block",
-
-        "important"
-
-    );
+    target.style.setProperty("display", "flex", "important");
 
 
 

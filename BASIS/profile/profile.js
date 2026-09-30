@@ -938,7 +938,7 @@ function showSubView(viewId) {
 
     /* Show the requested view first. */
     target.classList.add("active");
-    target.style.setProperty("display", "block", "important");
+    target.style.setProperty("display", "flex", "important");
 
     if (viewId === "view-profile-family") {
         try {

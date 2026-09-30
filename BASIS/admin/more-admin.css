@@ -1219,6 +1219,28 @@
     }
 }
 
+/* Size the admin More panel like the visible History panel. */
+.admin-more-page .more-page {
+    height: min(490px, calc(100dvh - 230px));
+    min-height: 0;
+    max-height: min(490px, calc(100dvh - 230px));
+}
+
+.admin-more-page .more-page-content {
+    height: calc(100% - 70px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-more-page #moreMenuView,
+.admin-more-page .more-menu-list {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
 /* =========================================================
    ADMIN MORE
    REPORT + FEEDBACK INBOX
