@@ -53,7 +53,10 @@ try {
             } catch (Throwable $mailError) {
                 error_log('BASIS password reset SMTP delivery failed: ' . $mailError->getMessage());
                 $pdo->prepare('UPDATE password_resets SET used_at=CURRENT_TIMESTAMP WHERE token_hash=?')->execute([$tokenHash]);
-                jsonResponse(false, 'We could not send the confirmation email. Check the SMTP settings and try again.', 503);
+                $message = str_contains($mailError->getMessage(), 'SMTP host and sender address are required')
+                    ? 'Gmail SMTP sender is not configured yet. Add BASIS_SMTP_USERNAME, BASIS_SMTP_PASSWORD, and BASIS_MAIL_FROM to Apache httpd.conf, then restart Apache.'
+                    : 'We could not send the confirmation email. Check the SMTP host, port, encryption, sender, and account credentials, then try again.';
+                jsonResponse(false, $message, 503);
             }
         }
         jsonResponse(true,'If an active account uses that email, a password reset link has been sent.');

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /** Send a UTF-8 plain-text message using the configured SMTP relay. */
 function sendSmtpMail(string $recipient, string $subject, string $body): void
 {
-    $host = trim((string)(getenv('BASIS_SMTP_HOST') ?: ''));
+    $host = trim((string)(getenv('BASIS_SMTP_HOST') ?: 'smtp.gmail.com'));
     $username = trim((string)(getenv('BASIS_SMTP_USERNAME') ?: ''));
     $password = (string)(getenv('BASIS_SMTP_PASSWORD') ?: '');
     $encryption = strtolower(trim((string)(getenv('BASIS_SMTP_ENCRYPTION') ?: 'tls')));
