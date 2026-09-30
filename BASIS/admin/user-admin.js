@@ -222,6 +222,9 @@ function openSelectedProfile() {
 
 function fillProfile(user) {
 
+    setUserAvatar("detailAvatar", user);
+    setUserAvatar("activityAvatar", user);
+
     $("detailName").textContent =
         user.name || "UNNAMED USER";
 
@@ -288,6 +291,25 @@ function fillProfile(user) {
         Number(user.profile_completed) === 1
             ? "YES"
             : "NO";
+}
+
+function setUserAvatar(elementId, user) {
+    const container = $(elementId);
+    if (!container) return;
+
+    container.replaceChildren();
+    const photo = String(user.profilePhoto || "");
+    if (photo.startsWith("data:image/")) {
+        const image = document.createElement("img");
+        image.src = photo;
+        image.alt = `${user.name || "User"} profile photo`;
+        container.appendChild(image);
+        return;
+    }
+
+    container.textContent = String(user.sex || "").toUpperCase() === "FEMALE"
+        ? "👩🏻‍🎓"
+        : "👨🏻‍🎓";
 }
 
 /* ================= SAVE ================= */

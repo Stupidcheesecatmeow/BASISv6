@@ -100,16 +100,7 @@ function getUser(PDO $pdo): void
         respond(false, 'Invalid user ID.', 422);
     }
 
-    $stmt = $pdo->prepare("
-        SELECT *
-        FROM users
-        WHERE id = ?
-        LIMIT 1
-    ");
-
-    $stmt->execute([$id]);
-
-    $user = $stmt->fetch();
+    $user = fetchUser($pdo, $id);
 
     if (!$user) {
         respond(false, 'User not found.', 404);
@@ -515,9 +506,10 @@ function emailExists(PDO $pdo, string $email): bool
 function fetchUser(PDO $pdo, int $id): ?array
 {
     $stmt = $pdo->prepare("
-        SELECT *
-        FROM users
-        WHERE id = ?
+        SELECT u.*, p.profile_json
+        FROM users u
+        LEFT JOIN account_profiles p ON p.user_id = u.id
+        WHERE u.id = ?
         LIMIT 1
     ");
 
@@ -525,7 +517,17 @@ function fetchUser(PDO $pdo, int $id): ?array
 
     $user = $stmt->fetch();
 
-    return $user ?: null;
+    if (!$user) {
+        return null;
+    }
+
+    $profile = json_decode((string)($user['profile_json'] ?? '{}'), true);
+    unset($user['profile_json']);
+    $user['profilePhoto'] = is_array($profile)
+        ? (string)($profile['profilePhoto'] ?? '')
+        : '';
+
+    return $user;
 }
 
 function publicUser(array $user, bool $withPassword = false): array
