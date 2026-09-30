@@ -18,7 +18,20 @@ requestForm.addEventListener('submit', async (event) => {
   const message = document.getElementById('resetMessage');
   const button = requestForm.querySelector('button'); button.disabled = true;
   message.textContent = 'Sending confirmation email…';
-  try { const result = await resetApi('reset-request', {email: document.getElementById('resetEmail').value}); message.textContent = result.message; }
+  try {
+    const result = await resetApi('reset-request', {email: document.getElementById('resetEmail').value});
+    message.replaceChildren(document.createTextNode(result.message));
+    if (result.local_preview && result.reset_link) {
+      const linkUrl = new URL(result.reset_link, location.href);
+      if (linkUrl.origin === location.origin) {
+        const link = document.createElement('a');
+        link.href = linkUrl.href;
+        link.textContent = 'Open local password reset link';
+        link.className = 'local-reset-link';
+        message.append(document.createElement('br'), link);
+      }
+    }
+  }
   catch (error) { message.textContent = error.message; }
   finally { button.disabled = false; }
 });
