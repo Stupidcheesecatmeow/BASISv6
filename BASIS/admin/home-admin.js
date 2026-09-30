@@ -25,6 +25,7 @@ const BAGAC_BARANGAYS = [
 ];
 
 let dashboardUsers = null;
+let dashboardLoadError = "";
 
 
 /* =========================================================
@@ -260,7 +261,7 @@ function renderBarangayStatistics() {
     if (!container) return;
 
     if (!Array.isArray(dashboardUsers)) {
-        container.innerHTML = '<p class="dashboard-load-error">User totals could not be loaded. Check your sign-in and refresh.</p>';
+        container.innerHTML = `<p class="dashboard-load-error">${escapeHtml(dashboardLoadError || "Loading user totals…")}</p>`;
         return;
     }
 
@@ -1148,10 +1149,12 @@ async function refreshDashboardUsers() {
         }
 
         dashboardUsers = data.users;
+        dashboardLoadError = "";
         renderAdminDashboard();
     } catch (error) {
         console.error("Unable to refresh admin dashboard users:", error);
         dashboardUsers = null;
+        dashboardLoadError = error.message || "User totals could not be loaded. Check your sign-in.";
         renderAdminDashboard();
     }
 }

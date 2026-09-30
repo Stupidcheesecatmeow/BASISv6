@@ -126,6 +126,11 @@ CREATE ACTIVITY FORM
     font-family: inherit;
 }
 
+.representative-page .description-field input[type="file"] { display: block; width: 100%; margin-top: 8px; color: #42523f; }
+.representative-page .activity-image-preview { display: block; max-width: 100%; max-height: 220px; margin-top: 10px; object-fit: contain; border: 1px solid #a3b2a0; border-radius: 6px; }
+.representative-page .activity-description-image { display: block; max-width: 100%; max-height: 480px; margin: 12px 0; object-fit: contain; border-radius: 8px; }
+.representative-page img[hidden] { display: none !important; }
+
 .representative-page .create-btn-row {
     display: flex;
     justify-content: flex-end;

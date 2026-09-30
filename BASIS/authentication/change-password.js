@@ -3,7 +3,7 @@ const message = document.getElementById('changePasswordMessage');
 const endpoint = '../admin/api/auth_api.php';
 const authHeaders = (headers = {}) => {
   const token = sessionStorage.getItem('basisAuthToken');
-  return token ? {...headers, Authorization:`Bearer ${token}`} : headers;
+  return token ? {...headers, 'X-Basis-Session':token, Authorization:`Bearer ${token}`} : headers;
 };
 
 document.getElementById('signOutLink').addEventListener('click', async (event) => {
