@@ -10,6 +10,7 @@ if (!window.__basisFetchIsolated) {
             if (!token) return nativeFetch(input, init);
             const headers = new Headers(input instanceof Request ? input.headers : undefined);
             new Headers(init.headers || {}).forEach((value, key) => headers.set(key, value));
+            headers.set("X-Basis-Session", token);
             headers.set("Authorization", `Bearer ${token}`);
             return nativeFetch(input, {...init, headers});
         };
@@ -57,6 +58,20 @@ document.addEventListener("DOMContentLoaded", function () {
         try { return new URL(item.src).pathname.endsWith("/script.js"); }
         catch { return false; }
     });
+    if (script) {
+        const path = window.location.pathname.toLowerCase();
+        const expectedRole = path.includes("/admin/") ? "ADMIN" : path.includes("/representative/") ? "REPRESENTATIVE" : "ISKOLAR";
+        const loginPage = new URL("authentication/login.html", script.src).href;
+        fetch(new URL("admin/api/auth_api.php?action=me", script.src), {credentials:"same-origin", cache:"no-store"})
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok || !data.success || !data.user) throw new Error("Sign-in required");
+                if (data.user.role !== expectedRole) {
+                    window.location.replace(loginPage);
+                }
+            })
+            .catch(() => window.location.replace(loginPage));
+    }
     if (script && document.querySelector(".header-avatar")) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
             credentials: "same-origin",
