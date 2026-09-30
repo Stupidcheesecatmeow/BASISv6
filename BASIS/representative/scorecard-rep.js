@@ -22,15 +22,8 @@ function getRegisteredRepresentative() {
     */
 
 
-    const keys = [
-
-        "basisRepresentativeProfile",
-
-        "representativeProfile",
-
-        "basisRepresentative"
-
-    ];
+    const currentId = localStorage.getItem("basisCurrentUserId");
+    const keys = currentId ? [`basisProfile_${currentId}`] : [];
 
 
     for (const key of keys) {
@@ -935,14 +928,7 @@ window.addEventListener(
 
         if (
 
-            event.key ===
-                "basisRepresentativeProfile" ||
-
-            event.key ===
-                "representativeProfile" ||
-
-            event.key ===
-                "basisRepresentative"
+            event.key === `basisProfile_${localStorage.getItem("basisCurrentUserId")}`
 
         ) {
 

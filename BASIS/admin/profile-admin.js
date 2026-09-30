@@ -1,4 +1,4 @@
-const PROFILE_STORAGE_KEY = "basisAdminProfile";
+const PROFILE_STORAGE_KEY = `basisProfile_${localStorage.getItem("basisCurrentUserId") || "guest"}`;
 /* ADMIN-ASSIGNED ROLE */
 
 const ROLE_STORAGE_KEY = "basisAdminAssignedRole";

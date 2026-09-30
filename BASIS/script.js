@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Each account has its own profile record on the server. Load that record
     // for every module so the header never falls back to a shared role cache.
     const applyProfileAvatar = (profile) => {
-        if (!profile || !profile.profilePhoto) return;
+        if (!profile || !profile.id) return;
+        localStorage.setItem("basisCurrentUserId", String(profile.id));
+        localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
+        if (!profile.profilePhoto) return;
         document.querySelectorAll(".header-avatar").forEach((avatar) => {
             avatar.src = profile.profilePhoto;
         });
@@ -19,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     if (script && document.querySelector(".header-avatar")) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
-            credentials: "same-origin"
+            credentials: "same-origin",
+            cache: "no-store"
         }).then(async (response) => {
             const data = await response.json();
             if (response.ok && data.success) applyProfileAvatar(data.profile);

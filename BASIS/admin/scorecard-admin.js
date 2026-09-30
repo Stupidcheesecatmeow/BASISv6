@@ -22,15 +22,8 @@ function getRegisteredAdmin() {
         basisAdmin
     */
 
-    const keys = [
-
-        "basisAdminProfile",
-
-        "adminProfile",
-
-        "basisAdmin"
-
-    ];
+    const currentId = localStorage.getItem("basisCurrentUserId");
+    const keys = currentId ? [`basisProfile_${currentId}`] : [];
 
 
     for (const key of keys) {
@@ -905,14 +898,7 @@ window.addEventListener(
 
         if (
 
-            event.key ===
-                "basisAdminProfile" ||
-
-            event.key ===
-                "adminProfile" ||
-
-            event.key ===
-                "basisAdmin"
+            event.key === `basisProfile_${localStorage.getItem("basisCurrentUserId")}`
 
         ) {
 

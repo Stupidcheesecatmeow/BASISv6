@@ -2,7 +2,7 @@
    BASIS PROFILE JS
 ========================================================= */
 
-const PROFILE_STORAGE_KEY = "basisScholarProfile";
+const PROFILE_STORAGE_KEY = `basisProfile_${localStorage.getItem("basisCurrentUserId") || "guest"}`;
 const ACCOUNT_API = "../admin/api/account_api.php";
 
 

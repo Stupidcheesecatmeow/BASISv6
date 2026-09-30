@@ -12,6 +12,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     });
     const data = await response.json();
     if (!response.ok || !data.success) throw new Error(data.message || 'Sign in failed.');
+    if (data.user && data.user.id) localStorage.setItem('basisCurrentUserId', String(data.user.id));
     if (Number(data.user.must_change_password) === 1) { window.location.href = 'change-password.html'; return; }
     const destinations = {ADMIN: '../admin/home-admin.html', REPRESENTATIVE: '../representative/home-rep.html', ISKOLAR: '../home/home.html'};
     window.location.href = destinations[data.user.role] || '../home/home.html';

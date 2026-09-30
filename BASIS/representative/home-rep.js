@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    const PROFILE_KEY = 'basisScholarProfile';
+    const PROFILE_KEY = `basisProfile_${localStorage.getItem('basisCurrentUserId') || 'guest'}`;
     const ADMIN_SCHOLARS_KEY = 'basisAdminScholars';
 
     const barangayEl = document.getElementById('representativeBarangay');

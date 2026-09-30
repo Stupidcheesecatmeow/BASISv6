@@ -5,7 +5,7 @@
 ========================================================= */
 
 
-const PROFILE_STORAGE_KEY = "basisRepresentativeProfile";
+const PROFILE_STORAGE_KEY = `basisProfile_${localStorage.getItem("basisCurrentUserId") || "guest"}`;
 
 /* ADMIN-ASSIGNED ROLE */
 
