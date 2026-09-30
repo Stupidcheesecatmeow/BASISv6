@@ -59,6 +59,15 @@ function db(): PDO
         )
     ");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS auth_sessions (
+        token_hash TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        expires_at TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    )");
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_auth_sessions_user ON auth_sessions(user_id)');
+
     $userColumns = $pdo->query('PRAGMA table_info(users)')->fetchAll(PDO::FETCH_COLUMN, 1);
     if (!in_array('must_change_password', $userColumns, true)) {
         $pdo->exec('ALTER TABLE users ADD COLUMN must_change_password INTEGER NOT NULL DEFAULT 0');

@@ -10,17 +10,18 @@ try {
     $action = $_GET['action'] ?? '';
     $input = requestInput();
     if ($action === 'me') {
-        if (empty($_SESSION['user_id'])) jsonResponse(false, 'Not signed in.', 401);
+        require_once __DIR__ . '/http.php';
+        $auth = authenticatedUser($pdo, true);
         $stmt = $pdo->prepare('SELECT id,control_number,name,email,role,status,municipality,barangay,profile_completed,must_change_password FROM users WHERE id=?');
-        $stmt->execute([(int)$_SESSION['user_id']]);
+        $stmt->execute([(int)$auth['id']]);
         $user = $stmt->fetch();
-        if (!$user || $user['status'] !== 'ACTIVE') { session_destroy(); jsonResponse(false, 'Account is unavailable.', 403); }
+        if (!$user || $user['status'] !== 'ACTIVE') jsonResponse(false, 'Account is unavailable.', 403);
         jsonResponse(true, '', 200, ['user' => $user]);
     }
-    if ($action === 'logout') { $_SESSION = []; session_destroy(); jsonResponse(true, 'Signed out.'); }
+    if ($action === 'logout') { $header=(string)($_SERVER['HTTP_AUTHORIZATION']??''); if(preg_match('/^Bearer\s+([a-f0-9]{64})$/i',$header,$match)) $pdo->prepare('DELETE FROM auth_sessions WHERE token_hash=?')->execute([hash('sha256',$match[1])]); $_SESSION = []; session_destroy(); jsonResponse(true, 'Signed out.'); }
     if ($action === 'change-password') {
-        if (empty($_SESSION['user_id'])) jsonResponse(false, 'Please sign in.', 401);
-        $id = (int)$_SESSION['user_id'];
+        require_once __DIR__ . '/http.php';
+        $id = (int)authenticatedUser($pdo, true)['id'];
         $current = (string)($input['current_password'] ?? '');
         $password = (string)($input['password'] ?? '');
         if (strlen($password) < 8) jsonResponse(false, 'Password must be at least 8 characters.', 422);
@@ -81,7 +82,9 @@ try {
         if (!$user || !password_verify((string)($input['password'] ?? ''), $user['password_hash'])) jsonResponse(false, 'Email or password is incorrect.', 401);
         if ($user['status'] !== 'ACTIVE') jsonResponse(false, 'This account is inactive. Contact an administrator.', 403);
         session_regenerate_id(true); $_SESSION['user_id'] = (int)$user['id'];
-        jsonResponse(true, 'Signed in.', 200, ['user' => currentUser($pdo, (int)$user['id'])]);
+        $token=bin2hex(random_bytes(32));
+        $pdo->prepare("INSERT INTO auth_sessions(token_hash,user_id,expires_at) VALUES(?,?,datetime('now','+30 days'))")->execute([hash('sha256',$token),(int)$user['id']]);
+        jsonResponse(true, 'Signed in.', 200, ['user' => currentUser($pdo, (int)$user['id']), 'token'=>$token]);
     }
     jsonResponse(false, 'Unknown action.', 400);
 } catch (PDOException $e) {
