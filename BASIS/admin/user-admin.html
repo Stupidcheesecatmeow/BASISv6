@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="../style.css">
 
     <!-- USER MANAGEMENT ONLY -->
-    <link rel="stylesheet" href="user-admin.css?v=4">
+    <link rel="stylesheet" href="user-admin.css?v=5">
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
@@ -133,6 +133,7 @@
                 <div id="detailAvatar" class="large-avatar">👨🏻‍💼</div>
 
                 <button id="viewActivitiesBtn" class="profile-action">ACTIVITIES</button>
+                <button type="submit" form="userForm" class="profile-action save-user-changes">SAVE CHANGES</button>
                 <button id="deleteUserBtn" class="profile-action danger">DELETE USER</button>
             </aside>
 
@@ -289,10 +290,6 @@
                             <label>PROFILE COMPLETED:</label>
                             <input id="profileCompleted" type="text" readonly>
                         </div>
-                    </div>
-
-                    <div class="save-row">
-                        <button type="submit" class="save-btn">SAVE</button>
                     </div>
 
                 </form>
@@ -559,7 +556,7 @@
 
 <script src="../script.js?v=20260930-profile-isolation"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
-<script src="user-admin.js?v=6"></script>
+<script src="user-admin.js?v=7"></script>
 
 </body>
 </html>

@@ -318,7 +318,7 @@ async function saveUser(event) {
 
         await loadUsers();
 
-        toast("User profile updated successfully.");
+        toast("Role and status changes saved successfully.");
 
     } catch (error) {
         toast(error.message, true);
