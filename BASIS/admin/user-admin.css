@@ -687,6 +687,7 @@ button {
 
 .import-credentials { margin-top: 12px; }
 .import-credentials summary { cursor: pointer; font-weight: 700; }
+.import-result #downloadImportedCredentialsBtn { max-width: 100%; white-space: normal; }
 .import-credentials-table-wrap { max-width: 100%; overflow-x: auto; margin-top: 8px; }
 .import-credentials table { border-collapse: collapse; min-width: 620px; width: 100%; }
 .import-credentials th, .import-credentials td { padding: 7px; border: 1px solid #d9dfd5; text-align: left; }

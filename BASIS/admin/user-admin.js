@@ -3,6 +3,7 @@ const API_URL = "api/user_api.php";
 let allUsers = [];
 let selectedUser = null;
 let selectedExcelFile = null;
+let importedCredentials = [];
 
 const $ = (id) => document.getElementById(id);
 
@@ -47,6 +48,11 @@ function bindEvents() {
     });
 
     $("importConfirmBtn").addEventListener("click", importExcel);
+    $("importResult").addEventListener("click", event => {
+        if (event.target.closest("#downloadImportedCredentialsBtn")) {
+            downloadImportedCredentials();
+        }
+    });
 
     $("addUserBtn").addEventListener("click", () => {
         $("newName").value = "";
@@ -360,6 +366,8 @@ async function createManualUser() {
 
 async function importExcel() {
 
+    importedCredentials = [];
+
     if (!selectedExcelFile) {
         toast("Please select an Excel file.", true);
         return;
@@ -433,6 +441,7 @@ async function importExcel() {
         await loadUsers();
 
     } catch (error) {
+        importedCredentials = [];
         $("importResult").classList.remove("hidden");
         $("importResult").textContent = error.message;
         toast(error.message, true);
@@ -445,6 +454,7 @@ async function importExcel() {
 function renderImportResult(data) {
 
     const result = $("importResult");
+    importedCredentials = Array.isArray(data.credentials) ? data.credentials : [];
 
     result.classList.remove("hidden");
 
@@ -454,8 +464,36 @@ function renderImportResult(data) {
         Skipped: ${data.skipped || 0}
         <br>Imported accounts start with the ISKOLAR role. Change roles later in User Management.
         ${data.errors?.length ? `<br>Errors: ${data.errors.length}` : ""}
-        ${data.credentials?.length ? `<details class="import-credentials"><summary>View generated credentials (${data.credentials.length})</summary><div class="import-credentials-table-wrap"><table><thead><tr><th>Control number</th><th>Name</th><th>Email</th><th>Temporary password</th></tr></thead><tbody>${data.credentials.map(user => `<tr><td>${escapeHtml(user.control_number)}</td><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td>${escapeHtml(user.password)}</td></tr>`).join("")}</tbody></table></div><p>Each user must change this temporary password after signing in.</p></details>` : ""}
+        ${importedCredentials.length ? `<p><button type="button" id="downloadImportedCredentialsBtn" class="action-btn">DOWNLOAD GENERATED CREDENTIALS AS EXCEL</button></p><details class="import-credentials"><summary>View generated credentials (${importedCredentials.length})</summary><div class="import-credentials-table-wrap"><table><thead><tr><th>Control number</th><th>Name</th><th>Email</th><th>Role</th><th>Temporary password</th></tr></thead><tbody>${importedCredentials.map(user => `<tr><td>${escapeHtml(user.control_number)}</td><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td>ISKOLAR</td><td>${escapeHtml(user.password)}</td></tr>`).join("")}</tbody></table></div><p>Each user must change this temporary password after signing in.</p></details>` : ""}
     `;
+}
+
+function downloadImportedCredentials() {
+    if (!importedCredentials.length) {
+        toast("There are no newly imported credentials to download.", true);
+        return;
+    }
+    if (typeof XLSX === "undefined") {
+        toast("Excel export could not load. Refresh the page and try again.", true);
+        return;
+    }
+
+    const rows = importedCredentials.map(user => ({
+        "CONTROL NUMBER": user.control_number || "",
+        "NAME": user.name || "",
+        "EMAIL": user.email || "",
+        "ROLE": "ISKOLAR",
+        "TEMPORARY PASSWORD": user.password || "",
+        "CHANGE PASSWORD ON FIRST LOGIN": "YES"
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    worksheet["!cols"] = [
+        {wch:22}, {wch:30}, {wch:34}, {wch:18}, {wch:24}, {wch:34}
+    ];
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Imported Users");
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+    XLSX.writeFile(workbook, `BASIS_imported_credentials_${stamp}.xlsx`);
 }
 
 /* ================= CREDENTIALS ================= */
@@ -594,6 +632,7 @@ function closeModal(id) {
 
 function resetImportModal() {
     selectedExcelFile = null;
+    importedCredentials = [];
     $("excelFile").value = "";
     $("selectedFile").textContent = "No file selected.";
     $("importConfirmBtn").disabled = true;
