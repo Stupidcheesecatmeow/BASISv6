@@ -60,6 +60,7 @@
             <div class="scan-layout">
                 <div class="scan-box">
                     <div class="scan-preview">
+                        <div id="qrScannerMount" hidden></div>
                         <video id="qrScanVideo" playsinline hidden></video>
                         <p id="scanStatus">Press SCAN and allow camera access.</p>
                     </div>
@@ -218,6 +219,7 @@
                         <input type="text" placeholder="Search...">
                     </div>
                     <button class="filter-btn">FILTER</button>
+                    <button class="filter-btn" type="button" onclick="exportActivityParticipants()">EXPORT TO EXCEL</button>
                 </div>
             </div>
 
@@ -297,7 +299,9 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-rep.js?v=4"></script>
+<script src="../admin/xlsx.full.min.js?v=0.20.3"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="activity-rep.js?v=6"></script>
 
 </body>
 </html>

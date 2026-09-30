@@ -454,6 +454,9 @@ SCAN ACTIVITY VIEW
     align-items: center;
     justify-content: center;
 }
+.representative-page #qrScannerMount { width: 100%; max-width: 100%; }
+.representative-page #qrScannerMount video { max-width: 100%; }
+.representative-page #activityQrUserSelect { display: block; width: 100%; max-width: 420px; margin: 8px 0 16px; }
 
 .representative-page .scan-preview i {
     font-size: 60px;

@@ -72,6 +72,30 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(() => window.location.replace(loginPage));
     }
+    const homeActivityBox = document.getElementById('activityBox');
+    if (script && homeActivityBox) {
+        fetch(new URL('admin/api/account_api.php?action=activities', script.src), {credentials:'same-origin', cache:'no-store'})
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load activities.');
+                const activities = Array.isArray(data.activities) ? data.activities.slice(0, 3) : [];
+                homeActivityBox.replaceChildren();
+                if (!activities.length) {
+                    const empty = document.createElement('div'); empty.className = 'representative-empty';
+                    const text = document.createElement('span'); text.textContent = 'No activities yet.'; empty.appendChild(text); homeActivityBox.appendChild(empty); return;
+                }
+                activities.forEach((activity) => {
+                    const item = document.createElement('article'); item.className = 'home-activity-item';
+                    const title = document.createElement('h3'); title.textContent = activity.name || 'Activity'; item.appendChild(title);
+                    const detail = document.createElement('p');
+                    const time = [activity.startTime || '', activity.endTime || ''].filter(Boolean).join(' - ');
+                    detail.textContent = [activity.type || '', activity.date || '', time, activity.venue || '', activity.barangay || activity.municipality || ''].filter(Boolean).join(' · ');
+                    item.appendChild(detail);
+                    if (activity.description) { const description = document.createElement('p'); description.textContent = activity.description; item.appendChild(description); }
+                    homeActivityBox.appendChild(item);
+                });
+            }).catch((error) => { console.warn('Could not load activities on home.', error); });
+    }
     if (script && document.querySelector(".header-avatar")) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
             credentials: "same-origin",

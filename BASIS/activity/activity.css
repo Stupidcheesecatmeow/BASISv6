@@ -29,6 +29,9 @@
     box-sizing: border-box;
 }
 
+.activity-description-image { display:block; max-width:100%; max-height:480px; margin:12px 0; object-fit:contain; border-radius:8px; }
+img[hidden] { display:none !important; }
+
 /* =========================================================
    ACTIVITY LIST FRAME
 ========================================================= */

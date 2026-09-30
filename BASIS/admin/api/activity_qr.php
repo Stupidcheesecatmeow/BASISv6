@@ -9,17 +9,23 @@ try {
     $pdo = db();
     $viewer = requireUser($pdo);
     $activityId = (int)($_GET['id'] ?? $_GET['activity_id'] ?? 0);
+    $targetUserId = (int)($_GET['user_id'] ?? $viewer['id']);
     if ($activityId < 1) {
         http_response_code(422);
         header('Content-Type: text/plain; charset=utf-8');
         exit('A valid activity is required.');
     }
 
+    if ($targetUserId !== (int)$viewer['id'] && !in_array($viewer['role'] ?? '', ['ADMIN', 'REPRESENTATIVE'], true)) {
+        http_response_code(403);
+        header('Content-Type: text/plain; charset=utf-8');
+        exit('You may only view your own activity QR code.');
+    }
     $stmt = $pdo->prepare("SELECT a.id AS activity_id,a.name AS activity_name,a.generate_qr,
-                                  u.id AS user_id,u.name,u.control_number,u.barangay
-                           FROM activities a JOIN users u ON u.id=?
+                                  u.id AS user_id,u.name,u.barangay
+                           FROM activities a JOIN users u ON u.id=? AND u.status='ACTIVE'
                            WHERE a.id=? AND u.status='ACTIVE'");
-    $stmt->execute([(int)$viewer['id'], $activityId]);
+    $stmt->execute([$targetUserId, $activityId]);
     $record = $stmt->fetch();
     if (!$record || !in_array(strtolower((string)$record['generate_qr']), ['qr', 'both'], true)) {
         http_response_code(404);
@@ -27,17 +33,13 @@ try {
         exit('A participant QR code is not available for this activity.');
     }
 
+    // QR contents are limited to the three details requested for the participant.
     $payload = json_encode([
-        'kind' => 'BASIS_ACTIVITY_ATTENDANCE',
-        'activity_id' => (int)$record['activity_id'],
         'activity_name' => (string)$record['activity_name'],
-        'user_id' => (int)$record['user_id'],
-        'control_number' => (string)$record['control_number'],
         'name' => (string)$record['name'],
-        'barangay' => (string)$record['barangay'],
-        'token' => activityQrToken($pdo, (int)$record['activity_id'], (int)$record['user_id'])
+        'barangay' => (string)$record['barangay']
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    if ($payload === false) throw new RuntimeException('Could not encode the participant QR data.');
+    if ($payload === false) throw new RuntimeException('Could not encode participant QR details.');
 
     header('Content-Type: image/svg+xml; charset=utf-8');
     header('Cache-Control: private, no-store');

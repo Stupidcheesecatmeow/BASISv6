@@ -103,6 +103,7 @@ function renderActivities(
                     String(
                         activity.title ||
                         activity.activityTitle ||
+                        activity.name ||
                         ""
                     ).toLowerCase();
 
@@ -369,6 +370,13 @@ function populateActivityDetail(
         "detailDescription",
         getActivityDescription(activity)
     );
+    const descriptionImage = document.getElementById('detailDescriptionImage');
+    if (descriptionImage) {
+        const image = activity.description_image || activity.descriptionImage || '';
+        descriptionImage.hidden = !image;
+        if (image) descriptionImage.src = image;
+        else descriptionImage.removeAttribute('src');
+    }
 
 
     setText(
@@ -561,12 +569,9 @@ function getActivityType(activity) {
 
 
 function getActivityTime(activity) {
-
-    return (
-        activity.time ||
-        activity.activityTime ||
-        "—"
-    );
+    const start = activity.startTime || activity.start_time || '';
+    const end = activity.endTime || activity.end_time || '';
+    return [start, end].filter(Boolean).join(' - ') || activity.time || activity.activityTime || '—';
 
 }
 
@@ -623,11 +628,9 @@ function getActivityDescription(activity) {
 
 
 function getActivityDeadline(activity) {
-
-    return (
-        activity.deadline ||
-        "—"
-    );
+    const date = activity.deadlineDate || activity.deadline_date || '';
+    const time = activity.deadlineTime || activity.deadline_time || '';
+    return [date, time].filter(Boolean).join(' ') || activity.deadline || '—';
 
 }
 
