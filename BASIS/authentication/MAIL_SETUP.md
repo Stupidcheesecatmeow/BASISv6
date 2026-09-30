@@ -1,12 +1,20 @@
 # Password reset email on localhost
 
-The reset link is sent with PHP's `mail()` function. On localhost, when PHP mail delivery is unavailable, BASIS displays a one-time local confirmation link on the forgot-password page for development. The link expires after one hour and must be opened before setting a new password.
+BASIS sends password reset links through an SMTP relay. PHP's `mail()` function is not used, so XAMPP must have valid SMTP settings before email can be delivered.
 
-To deliver the reset link to a real inbox from XAMPP, configure an SMTP relay before Apache is started:
+In `C:\xampp\apache\conf\httpd.conf`, add these Apache environment settings and replace each placeholder with values from your email provider:
 
-1. Configure the SMTP server and sender in XAMPP's `sendmail.ini` (commonly under `C:\xampp\sendmail\sendmail.ini`). Use credentials for a mailbox or a local mail catcher such as Mailpit/MailHog.
-2. In `C:\xampp\php\php.ini`, set `sendmail_path` to the XAMPP `sendmail.exe` and restart Apache.
-3. Set `BASIS_MAIL_FROM` to the sender address accepted by the relay. If unset, BASIS uses `no-reply@basis.local`.
-4. Submit a reset request from the forgot-password page. The email contains a one-time link that expires after one hour.
+```apache
+SetEnv BASIS_SMTP_HOST "smtp.your-provider.example"
+SetEnv BASIS_SMTP_PORT "587"
+SetEnv BASIS_SMTP_ENCRYPTION "tls"
+SetEnv BASIS_SMTP_USERNAME "your-sender@example.com"
+SetEnv BASIS_SMTP_PASSWORD "your-mail-provider-password-or-app-password"
+SetEnv BASIS_MAIL_FROM "your-sender@example.com"
+```
 
-On non-local hosts, a working relay is required; failed email delivery invalidates the generated token. For a production deployment, use an authenticated SMTP service and a sender address authorized by that service. The localhost link preview is only returned to localhost requests and only when the email matches an active account.
+Use `tls` with port `587`, `ssl` with port `465`, or `none` only for a trusted local mail catcher. `BASIS_SMTP_USERNAME` and `BASIS_SMTP_PASSWORD` may both be left unset only when the relay does not require authentication. The sender address must be authorized by the provider.
+
+Restart Apache in the XAMPP Control Panel after changing its configuration, then request a password reset again. The recipient receives a one-time confirmation link that expires after one hour. If SMTP delivery fails, the request is invalidated and the forgot-password page reports that the email could not be sent.
+
+Keep real SMTP credentials out of source control. For production, use a trusted authenticated SMTP service and protect its credentials as secrets.

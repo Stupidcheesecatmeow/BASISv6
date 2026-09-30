@@ -20,17 +20,7 @@ requestForm.addEventListener('submit', async (event) => {
   message.textContent = 'Sending confirmation email…';
   try {
     const result = await resetApi('reset-request', {email: document.getElementById('resetEmail').value});
-    message.replaceChildren(document.createTextNode(result.message));
-    if (result.local_preview && result.reset_link) {
-      const linkUrl = new URL(result.reset_link, location.href);
-      if (linkUrl.origin === location.origin) {
-        const link = document.createElement('a');
-        link.href = linkUrl.href;
-        link.textContent = 'Open local password reset link';
-        link.className = 'local-reset-link';
-        message.append(document.createElement('br'), link);
-      }
-    }
+    message.textContent = result.message;
   }
   catch (error) { message.textContent = error.message; }
   finally { button.disabled = false; }

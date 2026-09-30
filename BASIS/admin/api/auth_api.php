@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/http.php';
+require_once __DIR__ . '/smtp_mailer.php';
 session_start();
 
 try {
@@ -43,21 +44,16 @@ try {
             $base=((!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off')?'https':'http').'://'.($_SERVER['HTTP_HOST']??'localhost');
             $appPath=rtrim(dirname(dirname(dirname($_SERVER['SCRIPT_NAME']??'/BASIS/admin/api/auth_api.php'))),'/\\');
             $link=$base.$appPath.'/authentication/forgot-password.html?token='.urlencode($token);
-            $from=getenv('BASIS_MAIL_FROM') ?: 'no-reply@basis.local';
-            $headers="From: {$from}\r\nContent-Type: text/plain; charset=UTF-8";
-            $sent=@mail($email,'BASIS password reset',"We received a request to reset your BASIS password. Open this link within 1 hour to choose a new password:\n\n{$link}\n\nIf you did not request this, ignore this email.",$headers);
-            if (!$sent) {
-                error_log('BASIS password reset email could not be sent. Configure PHP mail/SMTP.');
-
-                if (isLocalDevelopmentHost()) {
-                    jsonResponse(true, 'Localhost cannot deliver email yet. For development, use the one-time confirmation link below. It expires in one hour.', 200, [
-                        'reset_link' => $link,
-                        'local_preview' => true
-                    ]);
-                }
-
+            try {
+                sendSmtpMail(
+                    $email,
+                    'BASIS password reset',
+                    "We received a request to reset your BASIS password. Open this link within 1 hour to choose a new password:\n\n{$link}\n\nIf you did not request this, ignore this email."
+                );
+            } catch (Throwable $mailError) {
+                error_log('BASIS password reset SMTP delivery failed: ' . $mailError->getMessage());
                 $pdo->prepare('UPDATE password_resets SET used_at=CURRENT_TIMESTAMP WHERE token_hash=?')->execute([$tokenHash]);
-                jsonResponse(false, 'Email delivery is not configured on this server. Configure PHP SMTP and try again.', 503);
+                jsonResponse(false, 'We could not send the confirmation email. Check the SMTP settings and try again.', 503);
             }
         }
         jsonResponse(true,'If an active account uses that email, a password reset link has been sent.');
@@ -89,13 +85,3 @@ try {
 } catch (Throwable $e) { error_log($e->getMessage()); jsonResponse(false, 'Server error.', 500); }
 
 function currentUser(PDO $pdo, int $id): array { $s=$pdo->prepare('SELECT id,control_number,name,email,role,status,must_change_password FROM users WHERE id=?'); $s->execute([$id]); return $s->fetch() ?: []; }
-
-function isLocalDevelopmentHost(): bool
-{
-    $host = strtolower((string)($_SERVER['HTTP_HOST'] ?? ''));
-    $host = preg_replace('/:\\d+$/', '', $host) ?? $host;
-    $host = trim($host, '[]');
-
-    return in_array($host, ['localhost', '127.0.0.1', '::1', 'localhost.localdomain'], true)
-        || str_ends_with($host, '.localhost');
-}
