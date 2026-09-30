@@ -4,10 +4,12 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/http.php';
 
 try {
 
     $pdo = db();
+    requireUser($pdo, ['ADMIN']);
     $action = $_GET['action'] ?? '';
 
     switch ($action) {
@@ -453,14 +455,14 @@ function getActivities(PDO $pdo): void
             att.time_in,
             att.time_out,
             '—' AS submission
-        FROM attendance att
+        FROM activity_attendance att
         LEFT JOIN activities a
             ON a.id = att.activity_id
-        WHERE LOWER(TRIM(att.fullname)) = LOWER(TRIM(?))
+        WHERE att.user_id = ?
         ORDER BY att.attendance_date DESC, att.id DESC
     ");
 
-    $stmt->execute([$user['name']]);
+    $stmt->execute([$id]);
 
     respond(true, '', 200, [
         'activities' => $stmt->fetchAll()
@@ -552,8 +554,9 @@ function fetchUser(PDO $pdo, int $id): ?array
 
 function publicUser(array $user, bool $withPassword = false): array
 {
+    unset($user['password_hash']);
     if (!$withPassword) {
-        unset($user['password_hash'], $user['initial_password']);
+        unset($user['initial_password']);
     }
 
     return $user;

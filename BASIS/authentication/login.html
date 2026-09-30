@@ -17,7 +17,8 @@
 
                 <h1>WELCOME<span>ISKOLARS NG BAGAC!</span></h1>
 
-                <form action="#" method="POST">
+                <form id="loginForm">
+                    <p id="loginMessage" role="status" aria-live="polite"></p>
                     <div class="input-group">
                         <label for="email">EMAIL ADDRESS:</label>
                         <input type="email" id="email" name="email" required>
@@ -32,10 +33,6 @@
                         <a href="forgot-password.html">Forgot Password?</a>
                     </div>
 
-                    <div class="register-link">
-                        Don't have an account?
-                        <a href="register.html">Register Here</a>
-                    </div>
 
                     <div class="btn-container">
                         <button type="submit" class="sign-in-btn">SIGN IN</button>
@@ -51,6 +48,8 @@
             </div>
         </div>
     </div>
+
+    <script src="login.js"></script>
 
 </body>
 </html>

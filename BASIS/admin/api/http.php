@@ -1,0 +1,5 @@
+<?php
+declare(strict_types=1);
+function requestInput(): array { $raw=file_get_contents('php://input'); $data=json_decode($raw ?: '',true); return is_array($data)?$data:[]; }
+function jsonResponse(bool $success,string $message='',int $status=200,array $extra=[]): never { http_response_code($status); header('Content-Type: application/json; charset=utf-8'); header('Cache-Control: no-store'); echo json_encode(array_merge(['success'=>$success,'message'=>$message],$extra),JSON_UNESCAPED_UNICODE); exit; }
+function requireUser(PDO $pdo, array $roles=[]): array { if (session_status()!==PHP_SESSION_ACTIVE) session_start(); $id=(int)($_SESSION['user_id']??0); if(!$id) jsonResponse(false,'Please sign in.',401); $s=$pdo->prepare('SELECT id,role,status FROM users WHERE id=?'); $s->execute([$id]); $u=$s->fetch(); if(!$u || $u['status']!=='ACTIVE') jsonResponse(false,'Account is unavailable.',403); if($roles && !in_array($u['role'],$roles,true)) jsonResponse(false,'You do not have permission for this action.',403); return $u; }

@@ -5,9 +5,9 @@
 const ACTIVITY_STORAGE_KEY = 'basisRepresentativeActivities';
 const SELECTED_ACTIVITY_KEY = 'basisRepresentativeSelectedActivityId';
 
-function getActivities(){ try { const d=JSON.parse(localStorage.getItem(ACTIVITY_STORAGE_KEY)||'[]'); return Array.isArray(d)?d:[]; } catch(e){ return []; } }
-function saveActivities(a){ localStorage.setItem(ACTIVITY_STORAGE_KEY, JSON.stringify(a)); }
-function getSelectedActivity(){ const id=localStorage.getItem(SELECTED_ACTIVITY_KEY); return id ? getActivities().find(a=>String(a.id)===String(id))||null : null; }
+async function activityRequest(action, body){ const r=await fetch(`../admin/api/activity_api.php?action=${action}`,{method:body?'POST':'GET',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined}); const d=await r.json(); if(!r.ok||!d.success)throw new Error(d.message||'Activity request failed.'); return d; }
+async function getActivities(){ return (await activityRequest('list')).activities||[]; }
+async function getSelectedActivity(){ const id=sessionStorage.getItem(SELECTED_ACTIVITY_KEY); if(!id)return null; return (await activityRequest(`get&id=${encodeURIComponent(id)}`)).activity; }
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 function formatDate(v){ if(!v)return ''; const d=new Date(v+'T00:00:00'); return Number.isNaN(d.getTime())?v:d.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}); }
 function setText(id,v){ const e=document.getElementById(id); if(e)e.textContent=v||''; }
@@ -24,14 +24,14 @@ function fillActivityDetails(a){
  setAll('.verify-title',a.name); setAll('.verify-sem',sem); setAll('.verify-date',date); setAll('.verify-time',time); setAll('.verify-venue',a.venue); setAll('.verify-address',a.venueAddress); setAll('.verify-name',a.name); setAll('.verify-municipality',a.municipality); setAll('.verify-barangay',a.barangay); setAll('.verify-deadline',deadline);
 }
 
-function renderActivityList(){
- const list=document.getElementById('adminActivityList'); if(!list)return; const items=getActivities(); list.innerHTML='';
+async function renderActivityList(){
+ const list=document.getElementById('adminActivityList'); if(!list)return; let items=[]; try{items=await getActivities();}catch(e){list.textContent=e.message;return;} list.innerHTML='';
  if(!items.length){ list.innerHTML='<div class="admin-no-activity"><i class="fa-solid fa-book-open"></i><h3>No activities yet.</h3><p>Created activities will appear here.</p></div>'; return; }
- items.forEach(a=>{ const card=document.createElement('div'); card.className='admin-activity-card'; card.innerHTML=`<div><h3>${escapeHtml(a.name)}</h3><span>${escapeHtml(formatDate(a.date))}</span></div><button class="open-activity-btn" type="button">OPEN</button>`; card.querySelector('button').onclick=()=>{localStorage.setItem(SELECTED_ACTIVITY_KEY,String(a.id));window.location.href='activity_menu-rep.html';}; list.appendChild(card); });
+ items.forEach(a=>{ const card=document.createElement('div'); card.className='admin-activity-card'; card.innerHTML=`<div><h3>${escapeHtml(a.name)}</h3><span>${escapeHtml(formatDate(a.date||a.activity_date))}</span></div><button class="open-activity-btn" type="button">OPEN</button>`; card.querySelector('button').onclick=()=>{sessionStorage.setItem(SELECTED_ACTIVITY_KEY,String(a.id));window.location.href='activity_menu-rep.html';}; list.appendChild(card); });
 }
 
 function setupCreateActivity(){
- const btn=document.querySelector('.create-btn'); if(!btn)return; btn.onclick=function(e){ e.preventDefault(); const name=document.getElementById('activityName')?.value.trim()||''; if(!name){alert('Please enter an activity name.');return;} const a={id:Date.now(),name,type:document.getElementById('activityType')?.value||'',date:document.getElementById('activityDate')?.value||'',startTime:document.getElementById('activityStartTime')?.value||'',endTime:document.getElementById('activityEndTime')?.value||'',venue:document.getElementById('activityVenue')?.value.trim()||'',venueAddress:document.getElementById('activityVenueAddress')?.value.trim()||'',generateQr:document.getElementById('generateQr')?.value||'',deadlineDate:document.getElementById('activityDeadlineDate')?.value||'',deadlineTime:document.getElementById('activityDeadlineTime')?.value||'',academicYear:document.getElementById('academicYear')?.value.trim()||'',semester:document.getElementById('semester')?.value||'',description:document.getElementById('activityDescription')?.value.trim()||'',municipality:'',barangay:'',submissions:[],participants:[],createdAt:new Date().toISOString()}; const all=getActivities(); all.push(a); saveActivities(all); localStorage.setItem(SELECTED_ACTIVITY_KEY,String(a.id)); window.location.href='activity-rep.html'; };
+ const btn=document.querySelector('.create-btn'); if(!btn)return; btn.onclick=async function(e){ e.preventDefault(); const name=document.getElementById('activityName')?.value.trim()||''; if(!name){alert('Please enter an activity name.');return;} const a={name,type:document.getElementById('activityType')?.value||'',date:document.getElementById('activityDate')?.value||'',startTime:document.getElementById('activityStartTime')?.value||'',endTime:document.getElementById('activityEndTime')?.value||'',venue:document.getElementById('activityVenue')?.value.trim()||'',venueAddress:document.getElementById('activityVenueAddress')?.value.trim()||'',generateQr:document.getElementById('generateQr')?.value||'',deadlineDate:document.getElementById('activityDeadlineDate')?.value||'',deadlineTime:document.getElementById('activityDeadlineTime')?.value||'',academicYear:document.getElementById('academicYear')?.value.trim()||'',semester:document.getElementById('semester')?.value||'',description:document.getElementById('activityDescription')?.value.trim()||'',municipality:'',barangay:''}; try{const d=await activityRequest('create',a);sessionStorage.setItem(SELECTED_ACTIVITY_KEY,String(d.id));window.location.href='activity-rep.html';}catch(err){alert(err.message);} };
 }
 
 window.setSubmissionTab=function(t){const a=document.getElementById('tabAttendance'),b=document.getElementById('tabAbsence');if(!a||!b)return;a.classList.toggle('active',t==='attendance');b.classList.toggle('active',t==='absence');};
@@ -40,5 +40,4 @@ window.openVerifyDetail=function(t){showSubView(t==='attendance'?'view-activity-
 window.resolveVerification=function(){showSubView('view-activity-verify');};
 window.submitNewActivity=function(){document.querySelector('.create-btn')?.click();};
 
-document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('adminActivityList'))renderActivityList(); if(document.getElementById('activityName'))setupCreateActivity(); const a=getSelectedActivity(); if(a)fillActivityDetails(a); });
-window.addEventListener('storage',e=>{if(e.key===ACTIVITY_STORAGE_KEY||e.key===SELECTED_ACTIVITY_KEY){renderActivityList();const a=getSelectedActivity();if(a)fillActivityDetails(a);}});
+document.addEventListener('DOMContentLoaded',async()=>{ if(document.getElementById('adminActivityList'))renderActivityList(); if(document.getElementById('activityName'))setupCreateActivity(); try{const a=await getSelectedActivity();if(a)fillActivityDetails(a);}catch(e){console.warn(e.message);} });
