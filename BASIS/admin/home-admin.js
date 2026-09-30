@@ -136,59 +136,15 @@ function normalizeScholar(scholar) {
 
 
 /* =========================================================
-   CHECK APPROVED SCHOLAR
+   GET ALL REGISTERED USERS
 ========================================================= */
 
-function isApprovedScholar(scholar) {
-
-    const status = String(
-        scholar.registrationStatus ||
-        scholar.status ||
-        "approved"
-    )
-        .trim()
-        .toLowerCase();
-
-
-    /*
-        If the data explicitly says pending/rejected,
-        don't include it in the official count.
-    */
-
-    if (
-        status === "pending" ||
-        status === "rejected" ||
-        status === "declined"
-    ) {
-        return false;
-    }
-
-
-    return true;
-}
-
-
-/* =========================================================
-   GET VALID SCHOLARS
-========================================================= */
-
-function getValidScholars() {
-
+function getDashboardUsers() {
     return getScholars()
         .map(normalizeScholar)
-        .filter(isApprovedScholar)
-        .filter(function (scholar) {
-            const role = String(scholar.role || "ISKOLAR").trim().toUpperCase();
-            return ["ISKOLAR", "SCHOLAR", "STUDENT"].includes(role);
-        })
-        .filter(function (scholar) {
-
-            return String(
-                scholar.municipality || "BAGAC"
-            )
-                .trim()
-                .toUpperCase() === "BAGAC";
-
+        .filter(function (user) {
+            const status = String(user.status || "ACTIVE").trim().toUpperCase();
+            return status === "ACTIVE";
         });
 }
 
@@ -199,33 +155,31 @@ function getValidScholars() {
 
 function renderOverallStatistics() {
 
-    const scholars =
-        getValidScholars();
+    const users =
+        getDashboardUsers();
 
 
-    // Match User Management: count every account, regardless of role or status.
-    const totalUsers = Array.isArray(dashboardUsers)
-        ? dashboardUsers.length
-        : scholars.length;
+    // Match User Management while excluding inactive accounts.
+    const totalUsers = users.length;
 
 
     const male =
-        scholars.filter(function (scholar) {
+        users.filter(function (user) {
 
             return (
-                scholar.sex === "MALE" ||
-                scholar.sex === "M"
+                user.sex === "MALE" ||
+                user.sex === "M"
             );
 
         }).length;
 
 
     const female =
-        scholars.filter(function (scholar) {
+        users.filter(function (user) {
 
             return (
-                scholar.sex === "FEMALE" ||
-                scholar.sex === "F"
+                user.sex === "FEMALE" ||
+                user.sex === "F"
             );
 
         }).length;
@@ -242,12 +196,12 @@ function renderOverallStatistics() {
 
     const maleElement =
         document.getElementById(
-            "maleScholars"
+            "maleUsers"
         );
 
     const femaleElement =
         document.getElementById(
-            "femaleScholars"
+            "femaleUsers"
         );
 
 
@@ -289,7 +243,7 @@ function renderOverallStatistics() {
 
 
     if (barangayTotal) {
-        barangayTotal.textContent = total;
+        barangayTotal.textContent = totalUsers;
     }
 
 
@@ -319,8 +273,8 @@ function renderBarangayStatistics() {
     if (!container) return;
 
 
-    const scholars =
-        getValidScholars();
+    const users =
+        getDashboardUsers();
 
 
     container.innerHTML = "";
@@ -328,11 +282,11 @@ function renderBarangayStatistics() {
 
     BAGAC_BARANGAYS.forEach(function (barangay) {
 
-        const barangayScholars =
-            scholars.filter(function (scholar) {
+        const barangayUsers =
+            users.filter(function (user) {
 
                 return String(
-                    scholar.barangay || ""
+                    user.barangay || ""
                 )
                     .trim()
                     .toLowerCase() ===
@@ -342,26 +296,26 @@ function renderBarangayStatistics() {
 
 
         const total =
-            barangayScholars.length;
+            barangayUsers.length;
 
 
         const male =
-            barangayScholars.filter(function (scholar) {
+            barangayUsers.filter(function (user) {
 
                 return (
-                    scholar.sex === "MALE" ||
-                    scholar.sex === "M"
+                    user.sex === "MALE" ||
+                    user.sex === "M"
                 );
 
             }).length;
 
 
         const female =
-            barangayScholars.filter(function (scholar) {
+            barangayUsers.filter(function (user) {
 
                 return (
-                    scholar.sex === "FEMALE" ||
-                    scholar.sex === "F"
+                    user.sex === "FEMALE" ||
+                    user.sex === "F"
                 );
 
             }).length;
