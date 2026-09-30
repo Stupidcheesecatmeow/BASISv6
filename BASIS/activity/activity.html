@@ -60,14 +60,14 @@
 
     <link
         rel="stylesheet"
-        href="activity.css?v=20260930-activityfix"
+        href="activity.css?v=20260930-activity-box-scroll"
     >
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 
 
-<body class="dashboard-page">
+<body class="dashboard-page activity-dashboard-page">
 
 
     <!-- =====================================================
@@ -760,6 +760,8 @@
                             <button
                                 type="button"
                                 class="act-btn outline-btn download-btn"
+                                id="downloadActivityQrButton"
+                                onclick="downloadActivityQr()"
                                 disabled
                             >
                                 DOWNLOAD
@@ -1332,8 +1334,8 @@
          ACTIVITY JAVASCRIPT
     ====================================================== -->
 
-    <script src="../script.js?v=20260930-tab-auth2"></script>
-    <script src="activity.js?v=20260930-activity-server-detail-refresh"></script>
+    <script src="../script.js?v=20260930-activity-detail-handler-fix"></script>
+    <script src="activity.js?v=20260930-activity-jpg-download"></script>
 
 </body>
 

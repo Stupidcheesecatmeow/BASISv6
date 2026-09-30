@@ -159,9 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
         showSubView('view-scorecard-detail');
     };
 
-    window.openActivityDetail = function () {
-        showSubView('view-activity-detail');
-    };
+    // Activity modules provide a handler that loads the selected activity
+    // before opening its detail view. Keep this simple fallback only on pages
+    // that do not define that data-aware handler.
+    if (typeof window.openActivityDetail !== 'function') {
+        window.openActivityDetail = function () {
+            showSubView('view-activity-detail');
+        };
+    }
 
     window.setSubmissionTab = function (tabType) {
         const btnAttendance = document.getElementById('tabAttendance');

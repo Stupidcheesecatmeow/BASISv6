@@ -39,16 +39,16 @@
 
             <div class="inner-banner-header">
                 <h3 id="menuActivityTitle"></h3>
+                <div class="activity-manage-actions">
+                    <button type="button" class="activity-manage-btn" onclick="editSelectedActivity()">EDIT ACTIVITY</button>
+                    <button type="button" class="activity-manage-btn activity-delete-btn" onclick="deleteSelectedActivity()">DELETE ACTIVITY</button>
+                </div>
             </div>
             <div class="activity-menu-list">
                 <div class="activity-menu-item" onclick="window.location.href='activity_details-admin.html'">ACTIVITY DETAILS</div>
                 <div class="activity-menu-item" data-requires-qr onclick="showSubView('view-activity-scan')">SCAN ACTIVITY</div>
                 <div class="activity-menu-item" data-requires-proof onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
                 <div class="activity-menu-item" onclick="showSubView('view-activity-participants')">ACTIVITY PARTICIPANTS</div>
-            </div>
-            <div class="activity-manage-actions">
-                <button type="button" class="activity-manage-btn" onclick="editSelectedActivity()">EDIT ACTIVITY</button>
-                <button type="button" class="activity-manage-btn activity-delete-btn" onclick="deleteSelectedActivity()">DELETE ACTIVITY</button>
             </div>
         </div>
     
@@ -270,7 +270,7 @@
                         </tr>
                     </thead>
                     <tbody id="participantsTableBody">
-                        <tr><td colspan="5" class="empty-table-cell">No participants yet.</td></tr>
+                        <tr><td colspan="6" class="empty-table-cell">No participants yet.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -311,7 +311,7 @@
 <script src="../script.js?v=20260930-tab-auth2"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="activity-admin.js?v=7"></script>
+<script src="activity-admin.js?v=20260930-plain-qr-scan"></script>
 
 </body>
 </html>

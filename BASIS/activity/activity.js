@@ -8,10 +8,33 @@
 ========================================================= */
 
 let activities = [];
+let activityLoadErrorMessage = '';
 
 let currentActivity = null;
 
 let currentSubmissionType = "attendance";
+
+function normalizeActivityRecord(record) {
+    const item = record && typeof record === 'object' ? record : {};
+    return {
+        ...item,
+        id: item.id ?? item.activity_id ?? item.activityId ?? '',
+        name: item.name || item.title || item.activityTitle || item.activity_title || item.activityName || item.activity_name || '',
+        type: item.type || item.activityType || item.activity_type || '',
+        date: item.date || item.activityDate || item.activity_date || item.startDate || '',
+        startTime: item.startTime || item.start_time || '',
+        endTime: item.endTime || item.end_time || '',
+        venue: item.venue || '',
+        venueAddress: item.venueAddress || item.venue_address || item.address || '',
+        generateQr: item.generateQr || item.generate_qr || item.qr_mode || '',
+        deadlineDate: item.deadlineDate || item.deadline_date || '',
+        deadlineTime: item.deadlineTime || item.deadline_time || '',
+        academicYear: item.academicYear || item.academic_year || item.ay || item.schoolYear || '',
+        semester: item.semester || item.sem || '',
+        description: item.description || '',
+        description_image: item.description_image || item.descriptionImage || ''
+    };
+}
 
 
 
@@ -43,9 +66,11 @@ async function loadActivities() {
         const response = await fetch('../admin/api/account_api.php?action=activities', {credentials:'same-origin'});
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load activities.');
-        activities = Array.isArray(data.activities) ? data.activities : [];
+        activities = Array.isArray(data.activities) ? data.activities.map(normalizeActivityRecord) : [];
+        activityLoadErrorMessage = '';
     } catch (error) {
         activities = [];
+        activityLoadErrorMessage = error.message || 'Activities could not be loaded. Check your sign-in and refresh.';
         console.error('Unable to load activities:', error);
     }
     renderActivities(document.getElementById('activitySearch')?.value || '');
@@ -138,12 +163,10 @@ function renderActivities(
 
                 <i class="fa-solid fa-calendar-xmark"></i>
 
-                <h3>
-                    No activities yet.
-                </h3>
+                <h3>${escapeHTML(activityLoadErrorMessage ? 'Activities could not be loaded.' : 'No activities yet.')}</h3>
 
                 <p>
-                    Please check back when a new activity is created.
+                    ${escapeHTML(activityLoadErrorMessage || 'Please check back when a new activity is created.')}
                 </p>
 
             </div>
@@ -278,7 +301,8 @@ async function openActivityDetail(activity) {
         const response = await fetch(`../admin/api/activity_api.php?action=get&id=${encodeURIComponent(activityId)}`, { credentials: 'same-origin', cache: 'no-store' });
         const data = await response.json();
         if (!response.ok || !data.success || !data.activity) throw new Error(data.message || 'Could not load this activity. Please refresh and try again.');
-        activity = data.activity;
+        activity = normalizeActivityRecord(data.activity);
+        if (!String(activity.name).trim()) throw new Error('This activity record has no title. Please ask the admin to edit and save the activity again.');
     } catch (error) {
         showActivityLoadError(error.message || 'Could not load this activity. Please sign in again and retry.');
         return;
@@ -425,6 +449,8 @@ async function populateQRPage(
 ) {
 
     const qrImage = document.getElementById("activityQrImage");
+    const downloadButton = document.getElementById("downloadActivityQrButton");
+    if (downloadButton) downloadButton.disabled = true;
     if (qrImage) {
         qrImage.hidden = !["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
         if (!qrImage.hidden) {
@@ -435,10 +461,13 @@ async function populateQRPage(
                 if (qrImage.dataset.qrObjectUrl) URL.revokeObjectURL(qrImage.dataset.qrObjectUrl);
                 qrImage.dataset.qrObjectUrl = URL.createObjectURL(blob);
                 qrImage.src = qrImage.dataset.qrObjectUrl;
+                if (downloadButton) downloadButton.disabled = false;
             } catch (error) {
                 qrImage.removeAttribute("src");
                 console.error(error.message);
             }
+        } else {
+            qrImage.removeAttribute("src");
         }
     }
 
@@ -513,6 +542,39 @@ async function populateQRPage(
     );
 
 }
+
+window.downloadActivityQr = async function () {
+    const image = document.getElementById("activityQrImage");
+    const objectUrl = image?.dataset.qrObjectUrl;
+    if (!objectUrl || !currentActivity) return;
+    const safeName = getActivityTitle(currentActivity).replace(/[^a-z0-9_-]+/gi, "_").replace(/^_+|_+$/g, "") || "activity";
+    try {
+        const qr = new Image();
+        qr.src = objectUrl;
+        await qr.decode();
+        const canvas = document.createElement("canvas");
+        canvas.width = 1200;
+        canvas.height = 1200;
+        const context = canvas.getContext("2d");
+        if (!context) throw new Error("Could not prepare the QR image for download.");
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.imageSmoothingEnabled = false;
+        context.drawImage(qr, 0, 0, canvas.width, canvas.height);
+        const jpgBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.96));
+        if (!jpgBlob) throw new Error("Could not convert the QR image to JPG.");
+        const jpgUrl = URL.createObjectURL(jpgBlob);
+        const link = document.createElement("a");
+        link.href = jpgUrl;
+        link.download = `BASIS_${safeName}_attendance_QR.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(jpgUrl), 1000);
+    } catch (error) {
+        alert(error.message || "Could not download the QR as a JPG.");
+    }
+};
 
 
 

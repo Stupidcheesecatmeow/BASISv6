@@ -34,12 +34,12 @@ try {
         trim((string)($record['surname'] ?? '')),
         trim((string)($record['suffix'] ?? '')),
     ], static fn(string $part): bool => $part !== '')));
-    $payload = json_encode([
-        'activity_name' => (string)$record['activity_name'],
-        'name' => $profileName !== '' ? $profileName : (string)$record['name'],
-        'barangay' => (string)$record['barangay']
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    if ($payload === false) throw new RuntimeException('Could not encode participant QR details.');
+    // Keep the QR human-readable and minimal: activity, participant, barangay.
+    $payload = implode("\n", [
+        (string)$record['activity_name'],
+        $profileName !== '' ? $profileName : (string)$record['name'],
+        (string)$record['barangay']
+    ]);
 
     header('Content-Type: image/svg+xml; charset=utf-8');
     header('Cache-Control: private, no-store');
