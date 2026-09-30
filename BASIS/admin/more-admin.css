@@ -1180,6 +1180,45 @@
 
 }
 
+/* Keep the admin More options compact like the Isko menu. */
+.admin-more-page .more-page-content {
+    padding: 14px 30px;
+}
+
+.admin-more-page .more-menu-list {
+    gap: 10px;
+    padding: 12px 0;
+}
+
+.admin-more-page .more-menu-card {
+    height: 62px;
+    min-height: 62px;
+    max-height: 62px;
+    padding: 0 22px;
+}
+
+.admin-more-page .more-menu-card span {
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+@media (max-width: 600px) {
+    .admin-more-page .more-page-content {
+        padding: 12px 14px;
+    }
+
+    .admin-more-page .more-menu-card {
+        min-height: 56px;
+        height: auto;
+        max-height: none;
+        padding: 12px 16px;
+    }
+
+    .admin-more-page .more-menu-card span {
+        font-size: 15px;
+    }
+}
+
 /* =========================================================
    ADMIN MORE
    REPORT + FEEDBACK INBOX
@@ -2113,6 +2152,45 @@
     background: transparent;
 }
 
+/* Final compact sizing for the admin More menu. */
+.admin-more-page .more-page-content {
+    padding: 14px 30px;
+}
+
+.admin-more-page .more-menu-list {
+    gap: 10px;
+    padding: 12px 0;
+}
+
+.admin-more-page .more-menu-card {
+    height: 62px;
+    min-height: 62px;
+    max-height: 62px;
+    padding: 0 22px;
+}
+
+.admin-more-page .more-menu-card span {
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+@media (max-width: 600px) {
+    .admin-more-page .more-page-content {
+        padding: 12px 14px;
+    }
+
+    .admin-more-page .more-menu-card {
+        height: auto;
+        min-height: 56px;
+        max-height: none;
+        padding: 12px 16px;
+    }
+
+    .admin-more-page .more-menu-card span {
+        font-size: 15px;
+    }
+}
+
 .admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb {
     background: #768a75;
     border-radius: 10px;
@@ -2683,4 +2761,43 @@
     border: none;
     outline: none;
     background: transparent;
+}
+
+/* Final compact sizing for the admin More menu. */
+.admin-more-page .more-page-content {
+    padding: 14px 30px;
+}
+
+.admin-more-page .more-menu-list {
+    gap: 10px;
+    padding: 12px 0;
+}
+
+.admin-more-page .more-menu-card {
+    height: 62px;
+    min-height: 62px;
+    max-height: 62px;
+    padding: 0 22px;
+}
+
+.admin-more-page .more-menu-card span {
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+@media (max-width: 600px) {
+    .admin-more-page .more-page-content {
+        padding: 12px 14px;
+    }
+
+    .admin-more-page .more-menu-card {
+        height: auto;
+        min-height: 56px;
+        max-height: none;
+        padding: 12px 16px;
+    }
+
+    .admin-more-page .more-menu-card span {
+        font-size: 15px;
+    }
 }

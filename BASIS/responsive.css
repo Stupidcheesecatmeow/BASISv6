@@ -16,6 +16,38 @@ body {
     overflow-x: hidden;
 }
 
+/* Profile is a tall, multi-step form and needs its own scroll area above the fixed nav. */
+.profile-page-main {
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding-bottom: 112px !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.profile-view {
+    flex: 0 0 auto !important;
+    min-height: max-content !important;
+}
+
+.profile-personal-frame {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.profile-personal-frame .profile-card {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+}
+
+.profile-personal-frame .profile-card-footer {
+    padding-bottom: 18px !important;
+}
+
 img,
 svg,
 video,
@@ -135,6 +167,16 @@ textarea {
         min-height: 0 !important;
         max-height: none !important;
         overflow: visible !important;
+    }
+
+    .profile-family-frame .family-scroll-area {
+        position: static !important;
+        inset: auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 0 20px !important;
     }
 
     .profile-form-grid,
