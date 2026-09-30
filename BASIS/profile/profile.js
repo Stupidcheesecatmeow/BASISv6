@@ -119,6 +119,7 @@ async function persistAccountProfile(profile) {
     const response = await fetch(`${ACCOUNT_API}?action=profile`, {method:"PUT",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({profile})});
     const data = await response.json();
     if (!response.ok || !data.success) throw new Error(data.message || "Unable to save profile.");
+    window.dispatchEvent(new CustomEvent("basis-profile-updated", {detail: profile}));
 }
 
 async function loadAccountProfile() {

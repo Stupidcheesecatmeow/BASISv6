@@ -32,6 +32,7 @@ window.BASISAuth = {
     const data = {...profile};
     await this.profileRequest('PUT', data);
     if (storageKey) localStorage.setItem(storageKey, JSON.stringify(data));
+    window.dispatchEvent(new CustomEvent('basis-profile-updated', {detail:data}));
     return data;
   }
 };
