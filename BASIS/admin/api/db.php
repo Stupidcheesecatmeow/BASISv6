@@ -91,12 +91,18 @@ function db(): PDO
         academic_year TEXT NOT NULL DEFAULT '',
         semester TEXT NOT NULL DEFAULT '',
         description TEXT NOT NULL DEFAULT '',
+        description_image TEXT NOT NULL DEFAULT '',
         municipality TEXT NOT NULL DEFAULT '',
         barangay TEXT NOT NULL DEFAULT '',
         created_by INTEGER,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
     )");
+
+    $activityColumns = $pdo->query('PRAGMA table_info(activities)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('description_image', $activityColumns, true)) {
+        $pdo->exec("ALTER TABLE activities ADD COLUMN description_image TEXT NOT NULL DEFAULT ''");
+    }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS submissions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

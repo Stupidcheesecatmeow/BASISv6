@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-rep.css?v=3">
+    <link rel="stylesheet" href="activity-rep.css?v=5">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 <body class="dashboard-page representative-page">
@@ -47,7 +47,11 @@
                     <div class="form-row">
                         <div class="form-field">
                             <label>TYPE OF ACTIVITY:</label>
-                            <select id="activityType"><option value=""></option></select>
+                            <select id="activityType" required>
+                                <option value="" selected disabled>SELECT ACTIVITY TYPE</option>
+                                <option value="Municipal Activity">Municipal Activity</option>
+                                <option value="Alternative Activity">Alternative Activity</option>
+                            </select>
                         </div>
                         <div class="form-field">
                             <label>DATE:</label>
@@ -107,6 +111,9 @@
 
                 <div class="description-field">
                     <textarea id="activityDescription" placeholder="Description..."></textarea>
+                    <label for="activityDescriptionImage">ATTACH PICTURE (OPTIONAL):</label>
+                    <input type="file" id="activityDescriptionImage" accept="image/jpeg,image/png,image/webp">
+                    <img id="activityImagePreview" class="activity-image-preview" alt="Activity image preview" hidden>
                 </div>
             </div>
 
@@ -144,7 +151,7 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-rep.js?v=2"></script>
+<script src="activity-rep.js?v=4"></script>
 
 </body>
 </html>
