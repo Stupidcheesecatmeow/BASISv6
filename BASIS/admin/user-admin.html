@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="../style.css">
 
     <!-- USER MANAGEMENT ONLY -->
-    <link rel="stylesheet" href="user-admin.css?v=3">
+    <link rel="stylesheet" href="user-admin.css?v=4">
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
@@ -166,7 +166,6 @@
                 </div>
 
                 <form id="userForm">
-
                     <div class="form-grid three">
                         <div class="field">
                             <label>ROLE:</label>
@@ -187,7 +186,7 @@
 
                         <div class="field">
                             <label>SEX:</label>
-                            <select id="sex">
+                            <select id="sex" disabled>
                                 <option value="">—</option>
                                 <option>MALE</option>
                                 <option>FEMALE</option>
@@ -199,49 +198,49 @@
                     <div class="form-grid five">
                         <div class="field">
                             <label>GIVEN NAME:</label>
-                            <input id="givenName" type="text">
+                            <input id="givenName" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>SURNAME:</label>
-                            <input id="surname" type="text">
+                            <input id="surname" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>MIDDLE NAME:</label>
-                            <input id="middleName" type="text">
+                            <input id="middleName" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>SUFFIX:</label>
-                            <input id="suffix" type="text">
+                            <input id="suffix" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>BIRTHDAY:</label>
-                            <input id="birthday" type="date">
+                            <input id="birthday" type="date" readonly>
                         </div>
                     </div>
 
                     <div class="form-grid four">
                         <div class="field">
                             <label>CONTACT NO.:</label>
-                            <input id="contactNo" type="text">
+                            <input id="contactNo" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>RELIGION:</label>
-                            <input id="religion" type="text">
+                            <input id="religion" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>MUNICIPALITY:</label>
-                            <input id="municipality" type="text" value="BAGAC">
+                            <input id="municipality" type="text" value="BAGAC" readonly>
                         </div>
 
                         <div class="field">
                             <label>BARANGAY:</label>
-                            <select id="barangay">
+                            <select id="barangay" disabled>
                                 <option value="">—</option>
                                 <option>Bagumbayan</option>
                                 <option>Banawang</option>
@@ -264,19 +263,19 @@
                     <div class="form-grid three">
                         <div class="field">
                             <label>SCHOOL:</label>
-                            <input id="school" type="text">
+                            <input id="school" type="text" readonly>
                         </div>
 
                         <div class="field">
                             <label>PROGRAM:</label>
-                            <input id="program" type="text">
+                            <input id="program" type="text" readonly>
                         </div>
                     </div>
 
                     <div class="form-grid two">
                         <div class="field">
                             <label>YEAR LEVEL:</label>
-                            <select id="yearLevel">
+                            <select id="yearLevel" disabled>
                                 <option value="">—</option>
                                 <option>1st Year</option>
                                 <option>2nd Year</option>
@@ -560,7 +559,7 @@
 
 <script src="../script.js?v=20260930-profile-isolation"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
-<script src="user-admin.js?v=5"></script>
+<script src="user-admin.js?v=6"></script>
 
 </body>
 </html>

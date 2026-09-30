@@ -286,23 +286,7 @@ async function saveUser(event) {
         id: selectedUser.id,
 
         role: $("role").value,
-        status: $("status").value,
-        sex: $("sex").value,
-
-        given_name: $("givenName").value.trim(),
-        surname: $("surname").value.trim(),
-        middle_name: $("middleName").value.trim(),
-        suffix: $("suffix").value.trim(),
-
-        birthday: $("birthday").value,
-        contact_no: $("contactNo").value.trim(),
-        religion: $("religion").value.trim(),
-
-        municipality: $("municipality").value.trim(),
-        barangay: $("barangay").value,
-        school: $("school").value.trim(),
-        program: $("program").value.trim(),
-        year_level: $("yearLevel").value
+        status: $("status").value
     };
 
     try {

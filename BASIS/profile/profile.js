@@ -212,6 +212,12 @@ function ensureControlNumber(profile) {
 
 function updateProfileHeader(profile) {
 
+    const roleLabel = $("displayRole");
+    if (roleLabel) {
+        const role = String(profile.role || "ISKOLAR").toUpperCase();
+        roleLabel.textContent = ({ADMIN: "ADMIN", REPRESENTATIVE: "REPRESENTATIVE", ISKOLAR: "ISKOLAR"})[role] || "ISKOLAR";
+    }
+
     const fullName = [
         profile.givenName,
         profile.middleName,

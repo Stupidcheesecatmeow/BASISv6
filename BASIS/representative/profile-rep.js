@@ -372,11 +372,7 @@ function getAssignedRole(profile) {
         );
 
 
-    const role =
-
-        storedRole ||
-
-        profile.role ||
+    const role = profile.role || storedRole ||
 
         "REPRESENTATIVE";
 
@@ -468,6 +464,9 @@ function setAssignedRole(role) {
 
 
 function updateProfileHeader(profile) {
+
+    const roleLabel = $("displayRole");
+    if (roleLabel) roleLabel.textContent = String(profile.role || "REPRESENTATIVE").toUpperCase();
 
 
     const fullName = [

@@ -315,49 +315,10 @@ function updateUser(PDO $pdo): void
 
     $role = normalizeRole($input['role'] ?? $existing['role']);
     $status = normalizeStatus($input['status'] ?? $existing['status']);
-
     $fields = [
         'role' => $role,
         'status' => $status,
-
-        'sex' => clean($input['sex'] ?? ''),
-        'given_name' => clean($input['given_name'] ?? ''),
-        'surname' => clean($input['surname'] ?? ''),
-        'middle_name' => clean($input['middle_name'] ?? ''),
-        'suffix' => clean($input['suffix'] ?? ''),
-
-        'birthday' => clean($input['birthday'] ?? ''),
-        'contact_no' => clean($input['contact_no'] ?? ''),
-        'religion' => clean($input['religion'] ?? ''),
-
-        'municipality' => clean($input['municipality'] ?? 'BAGAC'),
-        'barangay' => clean($input['barangay'] ?? ''),
-
-        'school' => clean($input['school'] ?? ''),
-        'program' => clean($input['program'] ?? ''),
-        'year_level' => clean($input['year_level'] ?? '')
     ];
-
-    $fullName =
-        trim(
-            implode(
-                ' ',
-                array_filter([
-                    $fields['given_name'],
-                    $fields['middle_name'],
-                    $fields['surname'],
-                    $fields['suffix']
-                ])
-            )
-        );
-
-    if ($fullName !== '') {
-        $fields['name'] = $fullName;
-    }
-
-    $fields['profile_completed'] =
-        profileIsComplete($fields) ? 1 : 0;
-
     $fields['updated_at'] = date('Y-m-d H:i:s');
 
     $sets = [];
