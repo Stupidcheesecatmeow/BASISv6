@@ -1,12 +1,4 @@
 document.addEventListener('click', async (event) => {
-  const qrButton = event.target.closest('[data-account-qr]');
-  if (qrButton) {
-    const dialog = document.getElementById('accountQrDialog');
-    const image = document.querySelector('[data-account-qr-image]');
-    if (image) image.src = new URL('admin/api/user_qr.php', authScript.src).href;
-    if (dialog?.showModal) dialog.showModal();
-    return;
-  }
   const button = event.target.closest('[data-logout]');
   if (!button) return;
   button.disabled = true;

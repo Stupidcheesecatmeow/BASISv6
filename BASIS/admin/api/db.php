@@ -127,6 +127,16 @@ function db(): PDO
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     )");
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_activity_attendance_activity ON activity_attendance(activity_id)');
+    $pdo->exec("CREATE TABLE IF NOT EXISTS activity_qr_tokens (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        activity_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        token TEXT NOT NULL UNIQUE,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(activity_id,user_id),
+        FOREIGN KEY(activity_id) REFERENCES activities(id) ON DELETE CASCADE,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    )");
     $pdo->exec("CREATE TABLE IF NOT EXISTS account_profiles (
         user_id INTEGER PRIMARY KEY,
         profile_json TEXT NOT NULL DEFAULT '{}',

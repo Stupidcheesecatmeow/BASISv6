@@ -384,7 +384,7 @@ function populateActivityDetail(
    POPULATE QR PAGE
 ========================================================= */
 
-function populateQRPage(
+async function populateQRPage(
     activity
 ) {
 
@@ -392,6 +392,17 @@ function populateQRPage(
     if (qrImage) {
         qrImage.hidden = !["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
         if (!qrImage.hidden) qrImage.src = `../admin/api/activity_qr.php?id=${encodeURIComponent(activity.id)}`;
+    }
+
+    try {
+        const response = await fetch('../admin/api/account_api.php?action=profile', {credentials:'same-origin'});
+        const data = await response.json();
+        if (response.ok && data.success) {
+            setText('qrParticipantName', data.profile.name || [data.profile.givenName, data.profile.middleName, data.profile.surname].filter(Boolean).join(' '));
+            setText('qrParticipantBarangay', data.profile.barangay || '—');
+        }
+    } catch (error) {
+        console.error('Unable to load participant QR details:', error);
     }
 
     setText(
