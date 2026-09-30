@@ -464,7 +464,7 @@ function renderImportResult(data) {
         Skipped: ${data.skipped || 0}
         <br>Imported accounts start with the ISKOLAR role. Change roles later in User Management.
         ${data.errors?.length ? `<br>Errors: ${data.errors.length}` : ""}
-        ${importedCredentials.length ? `<p><button type="button" id="downloadImportedCredentialsBtn" class="action-btn">DOWNLOAD GENERATED CREDENTIALS AS EXCEL</button></p><details class="import-credentials"><summary>View generated credentials (${importedCredentials.length})</summary><div class="import-credentials-table-wrap"><table><thead><tr><th>Control number</th><th>Name</th><th>Email</th><th>Role</th><th>Temporary password</th></tr></thead><tbody>${importedCredentials.map(user => `<tr><td>${escapeHtml(user.control_number)}</td><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td>ISKOLAR</td><td>${escapeHtml(user.password)}</td></tr>`).join("")}</tbody></table></div><p>Each user must change this temporary password after signing in.</p></details>` : ""}
+        ${importedCredentials.length ? `<p><button type="button" id="downloadImportedCredentialsBtn" class="action-btn">DOWNLOAD GENERATED CREDENTIALS AS EXCEL</button></p><details class="import-credentials"><summary>View generated credentials (${importedCredentials.length})</summary><div class="import-credentials-table-wrap"><table><thead><tr><th>Control number</th><th>Name</th><th>Email</th><th>Role</th><th>Temporary password</th></tr></thead><tbody>${importedCredentials.map(user => `<tr><td data-label="Control number">${escapeHtml(user.control_number)}</td><td data-label="Name">${escapeHtml(user.name)}</td><td data-label="Email">${escapeHtml(user.email)}</td><td data-label="Role">ISKOLAR</td><td data-label="Temporary password">${escapeHtml(user.password)}</td></tr>`).join("")}</tbody></table></div><p>Each user must change this temporary password after signing in.</p></details>` : ""}
     `;
 }
 
@@ -488,8 +488,9 @@ function downloadImportedCredentials() {
     }));
     const worksheet = XLSX.utils.json_to_sheet(rows);
     worksheet["!cols"] = [
-        {wch:22}, {wch:30}, {wch:34}, {wch:18}, {wch:24}, {wch:34}
+        {wch:19}, {wch:23}, {wch:27}, {wch:15}, {wch:20}, {wch:28}
     ];
+    worksheet["!autofilter"] = {ref:`A1:F${rows.length + 1}`};
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Imported Users");
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");

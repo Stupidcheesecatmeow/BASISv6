@@ -588,6 +588,10 @@ button {
     width: min(460px, 100%);
 }
 
+#importModal .modal-card {
+    width: min(940px, 100%);
+}
+
 .modal-card h2 {
     margin: 0 0 8px;
     color: var(--dark);
@@ -1484,4 +1488,99 @@ body.user-admin-page {
     margin: 0;
 
     grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+/* Import and credentials modal adapt to narrow screens without clipping. */
+@media (max-width: 640px) {
+    .user-admin-page .modal {
+        z-index: 10010;
+        align-items: flex-start;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 8px;
+    }
+
+    .user-admin-page .modal-card {
+        width: 100%;
+        max-width: 620px;
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
+        padding: 48px 14px 16px;
+        overflow-x: hidden;
+        border-radius: 10px;
+    }
+
+    .user-admin-page .modal-card h2 {
+        font-size: clamp(18px, 5vw, 23px);
+        line-height: 1.2;
+    }
+
+    .user-admin-page .modal-help,
+    .user-admin-page .sample-format,
+    .user-admin-page .import-result {
+        overflow-wrap: anywhere;
+        line-height: 1.5;
+    }
+
+    .user-admin-page .modal-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .user-admin-page .modal-actions .action-btn,
+    .user-admin-page #downloadImportedCredentialsBtn {
+        width: 100%;
+        min-height: 44px;
+        padding: 8px 10px;
+        white-space: normal;
+        line-height: 1.3;
+    }
+
+    .user-admin-page .import-credentials-table-wrap {
+        overflow: visible;
+    }
+
+    .user-admin-page .import-credentials table,
+    .user-admin-page .import-credentials tbody {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .user-admin-page .import-credentials thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .user-admin-page .import-credentials tr {
+        display: block;
+        margin-top: 10px;
+        padding: 6px 10px;
+        border: 1px solid #d9dfd5;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .user-admin-page .import-credentials td {
+        display: grid;
+        grid-template-columns: minmax(105px, 40%) minmax(0, 1fr);
+        gap: 8px;
+        padding: 6px 0;
+        border: 0;
+        text-align: left;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .user-admin-page .import-credentials td::before {
+        content: attr(data-label);
+        font-weight: 700;
+    }
 }
