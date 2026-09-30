@@ -1,0 +1,264 @@
+/* Shared responsive safeguards for every role and page. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    max-width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+/* Allow long pages and narrow screens to scroll instead of clipping content. */
+@media (max-width: 900px) {
+    body.dashboard-page {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .dash-header {
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 12px clamp(14px, 4vw, 32px);
+    }
+
+    .dash-logo img {
+        height: clamp(52px, 10vw, 76px);
+        max-width: min(44vw, 230px);
+    }
+
+    .dash-main {
+        flex: 1 0 auto;
+        min-height: 0;
+        padding: 0 clamp(12px, 3vw, 28px) 18px;
+    }
+
+    .page-view,
+    .page-view.active {
+        min-height: 0;
+    }
+
+    .bottom-nav-inner {
+        gap: clamp(5px, 1.5vw, 12px);
+        padding: 0 clamp(10px, 3vw, 28px);
+    }
+
+    .nav-item {
+        min-width: 0;
+    }
+
+    .nav-item span {
+        max-width: 100%;
+        text-align: center;
+        overflow-wrap: anywhere;
+    }
+
+    .bordered-frame {
+        min-width: 0;
+        padding: clamp(12px, 3vw, 22px);
+    }
+
+    .view-banner {
+        padding: 12px clamp(14px, 3vw, 22px);
+    }
+
+    .view-banner h2 {
+        font-size: clamp(20px, 3.5vw, 28px);
+        overflow-wrap: anywhere;
+    }
+
+    .search-filter-controls,
+    .view-banner.search-banner {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .search-input-wrapper {
+        width: min(100%, 320px);
+        min-width: 0;
+    }
+
+    .table-frame,
+    .table-wrapper,
+    .table-responsive,
+    .user-table-wrapper,
+    .activity-table-frame,
+    .history-table-wrapper,
+    .scrollable-table {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .profile-personal-frame,
+    .profile-family-frame,
+    .profile-card,
+    .profile-content,
+    .profile-form-container,
+    .profile-form-grid,
+    .family-form-grid,
+    .sibling-grid-row,
+    .activity-detail-layout,
+    .qr-view-layout {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .profile-personal-frame,
+    .profile-family-frame {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .profile-form-grid,
+    .family-form-grid,
+    .sibling-grid-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .profile-form-grid > *,
+    .family-form-grid > *,
+    .sibling-grid-row > * {
+        width: auto !important;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .modal,
+    .modal-dialog,
+    .modal-content,
+    [role="dialog"] {
+        max-width: calc(100vw - 24px);
+        max-height: calc(100dvh - 24px);
+        overflow: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .dash-header {
+        align-items: center;
+        padding: 10px 12px;
+    }
+
+    .header-right,
+    .dash-user {
+        gap: 8px;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .user-text h1,
+    .welcome-text h1 {
+        font-size: clamp(15px, 4.5vw, 21px);
+        overflow-wrap: anywhere;
+    }
+
+    .user-avatar,
+    .profile-avatar-wrapper {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+    }
+
+    .dash-main {
+        padding: 0 10px 14px;
+    }
+
+    .bottom-nav {
+        padding: 7px 0;
+    }
+
+    .bottom-nav-inner {
+        gap: 4px;
+        padding: 0 6px;
+    }
+
+    .nav-item {
+        height: 54px;
+        border-radius: 9px;
+    }
+
+    .nav-item i {
+        margin-bottom: 1px;
+        font-size: 21px;
+    }
+
+    .nav-item span {
+        font-size: clamp(9px, 2.6vw, 11px);
+        line-height: 1.1;
+    }
+
+    .profile-form-grid,
+    .family-form-grid,
+    .sibling-grid-row {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .view-banner.search-banner {
+        align-items: stretch;
+    }
+
+    .view-banner.search-banner > *,
+    .search-filter-controls > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .page-view .form-actions,
+    .page-view .action-buttons,
+    .page-view .button-group {
+        flex-wrap: wrap;
+    }
+
+    .page-view .form-actions button,
+    .page-view .action-buttons button,
+    .page-view .button-group button {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .dash-logo img {
+        max-width: 40vw;
+    }
+
+    .bottom-nav-inner {
+        padding: 0 3px;
+    }
+
+    .nav-item span {
+        letter-spacing: -0.2px;
+    }
+
+    .bordered-frame {
+        padding: 10px;
+    }
+}
