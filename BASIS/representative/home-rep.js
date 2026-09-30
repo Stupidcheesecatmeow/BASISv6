@@ -70,12 +70,7 @@
     function getAssignedBarangay(profile) {
         if (!profile) return '';
 
-        return String(
-            profile.barangay ||
-            profile.barangayName ||
-            profile.assignedBarangay ||
-            ''
-        ).trim();
+        return String(profile.assignedBarangay || '').trim();
     }
 
     function getAdminScholars(profile) {
@@ -210,6 +205,13 @@
 
     window.addEventListener('storage', function (event) {
         if (event.key === PROFILE_KEY || event.key === ADMIN_SCHOLARS_KEY) {
+            updateRepresentativeDashboard();
+        }
+    });
+
+    window.addEventListener('basis-account-profile-loaded', function (event) {
+        if (event.detail) {
+            localStorage.setItem(PROFILE_KEY, JSON.stringify(event.detail));
             updateRepresentativeDashboard();
         }
     });

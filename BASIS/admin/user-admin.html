@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="../style.css">
 
     <!-- USER MANAGEMENT ONLY -->
-    <link rel="stylesheet" href="user-admin.css?v=6">
+    <link rel="stylesheet" href="user-admin.css?v=7">
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
@@ -192,6 +192,15 @@
                                 <option>MALE</option>
                                 <option>FEMALE</option>
                                 <option>OTHER</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="assignedBarangayField" class="form-grid hidden">
+                        <div class="field">
+                            <label>REPRESENTATIVE BARANGAY:</label>
+                            <select id="assignedBarangay">
+                                <option value="">SELECT BARANGAY</option>
                             </select>
                         </div>
                     </div>
@@ -450,6 +459,13 @@
                 </select>
             </div>
 
+            <div id="newAssignedBarangayField" class="hidden">
+                <label>REPRESENTATIVE BARANGAY</label>
+                <select id="newAssignedBarangay">
+                    <option value="">SELECT BARANGAY</option>
+                </select>
+            </div>
+
             <div>
                 <label>STATUS</label>
                 <select id="newStatus">
@@ -554,9 +570,9 @@
 </nav>
 
 
-<script src="../script.js?v=20260930-profile-isolation"></script>
+<script src="../script.js?v=20260930-rep-assignment"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
-<script src="user-admin.js?v=8"></script>
+<script src="user-admin.js?v=10"></script>
 
 </body>
 </html>

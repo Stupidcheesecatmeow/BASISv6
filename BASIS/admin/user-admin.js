@@ -6,8 +6,14 @@ let selectedExcelFile = null;
 let importedCredentials = [];
 
 const $ = (id) => document.getElementById(id);
+const BAGAC_BARANGAYS = [
+    "Atilano Ricardo", "Bagumbayan", "Banawang", "Binuangan", "Binukawan",
+    "Ibaba", "Ibis", "Pagasa", "Parang", "Paysawan", "Quinawan",
+    "San Antonio", "Saysain", "Tabing-ilog"
+];
 
 document.addEventListener("DOMContentLoaded", () => {
+    populateRepresentativeBarangays();
     bindEvents();
     loadUsers();
 });
@@ -59,8 +65,16 @@ function bindEvents() {
         $("newEmail").value = "";
         $("newRole").value = "ISKOLAR";
         $("newStatus").value = "ACTIVE";
+        updateRepresentativeBarangayField("newRole", "newAssignedBarangayField", "newAssignedBarangay");
         openModal("addUserModal");
     });
+
+    $("role").addEventListener("change", () =>
+        updateRepresentativeBarangayField("role", "assignedBarangayField", "assignedBarangay")
+    );
+    $("newRole").addEventListener("change", () =>
+        updateRepresentativeBarangayField("newRole", "newAssignedBarangayField", "newAssignedBarangay")
+    );
 
     $("createUserBtn").addEventListener("click", createManualUser);
 
@@ -245,6 +259,8 @@ function fillProfile(user) {
 
     $("role").value = user.role || "ISKOLAR";
     $("status").value = user.status || "ACTIVE";
+    $("assignedBarangay").value = user.assignedBarangay || "";
+    updateRepresentativeBarangayField("role", "assignedBarangayField", "assignedBarangay");
     $("sex").value = user.sex || "";
 
     $("givenName").value = user.given_name || "";
@@ -312,6 +328,26 @@ function setUserAvatar(elementId, user) {
         : "👨🏻‍🎓";
 }
 
+function populateRepresentativeBarangays() {
+    [$("assignedBarangay"), $("newAssignedBarangay")].forEach(select => {
+        BAGAC_BARANGAYS.forEach(name => {
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name.toUpperCase();
+            select.appendChild(option);
+        });
+    });
+}
+
+function updateRepresentativeBarangayField(roleId, fieldId, selectId) {
+    const isRepresentative = $(roleId).value === "REPRESENTATIVE";
+    const field = $(fieldId);
+    const select = $(selectId);
+    field.classList.toggle("hidden", !isRepresentative);
+    select.required = isRepresentative;
+    if (!isRepresentative) select.value = "";
+}
+
 /* ================= SAVE ================= */
 
 async function saveUser(event) {
@@ -324,7 +360,8 @@ async function saveUser(event) {
         id: selectedUser.id,
 
         role: $("role").value,
-        status: $("status").value
+        status: $("status").value,
+        assigned_barangay: $("role").value === "REPRESENTATIVE" ? $("assignedBarangay").value : ""
     };
 
     try {
@@ -340,7 +377,7 @@ async function saveUser(event) {
 
         await loadUsers();
 
-        toast("Role and status changes saved successfully.");
+        toast("Role, status, and barangay assignment saved successfully.");
 
     } catch (error) {
         toast(error.message, true);
@@ -355,9 +392,15 @@ async function createManualUser() {
     const email = $("newEmail").value.trim();
     const role = $("newRole").value;
     const status = $("newStatus").value;
+    const assignedBarangay = $("newAssignedBarangay").value;
 
     if (!name || !email) {
         toast("Name and email are required.", true);
+        return;
+    }
+
+    if (role === "REPRESENTATIVE" && !assignedBarangay) {
+        toast("Choose the representative's barangay.", true);
         return;
     }
 
@@ -369,7 +412,8 @@ async function createManualUser() {
                 name,
                 email,
                 role,
-                status
+                status,
+                assigned_barangay: role === "REPRESENTATIVE" ? assignedBarangay : ""
             }
         });
 

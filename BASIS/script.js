@@ -26,7 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
             cache: "no-store"
         }).then(async (response) => {
             const data = await response.json();
-            if (response.ok && data.success) applyProfileAvatar(data.profile);
+            if (response.ok && data.success) {
+                applyProfileAvatar(data.profile);
+                window.dispatchEvent(new CustomEvent("basis-account-profile-loaded", {detail: data.profile}));
+            }
         }).catch((error) => console.warn("Could not load account avatar.", error));
     }
     

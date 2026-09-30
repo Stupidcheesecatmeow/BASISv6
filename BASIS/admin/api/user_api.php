@@ -125,6 +125,8 @@ function createUser(PDO $pdo): void
 
     $role = normalizeRole($input['role'] ?? 'ISKOLAR');
     $status = normalizeStatus($input['status'] ?? 'ACTIVE');
+    $assignedBarangay = clean($input['assigned_barangay'] ?? '');
+    validateRepresentativeBarangay($role, $assignedBarangay);
 
     if ($name === '' || $email === '') {
         respond(false, 'Name and email are required.', 422);
@@ -166,6 +168,7 @@ function createUser(PDO $pdo): void
     ]);
 
     $id = (int)$pdo->lastInsertId();
+    saveRepresentativeBarangay($pdo, $id, $role, $assignedBarangay);
 
     $user = fetchUser($pdo, $id);
 
@@ -306,6 +309,8 @@ function updateUser(PDO $pdo): void
 
     $role = normalizeRole($input['role'] ?? $existing['role']);
     $status = normalizeStatus($input['status'] ?? $existing['status']);
+    $assignedBarangay = clean($input['assigned_barangay'] ?? '');
+    validateRepresentativeBarangay($role, $assignedBarangay);
 
     // A promotion applies only to the selected account. Keep at least one
     // active administrator so role changes can never lock the system out.
@@ -344,6 +349,7 @@ function updateUser(PDO $pdo): void
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($values);
+    saveRepresentativeBarangay($pdo, $id, $role, $assignedBarangay);
 
     $user = fetchUser($pdo, $id);
 
@@ -526,8 +532,53 @@ function fetchUser(PDO $pdo, int $id): ?array
     $user['profilePhoto'] = is_array($profile)
         ? (string)($profile['profilePhoto'] ?? '')
         : '';
+    $user['assignedBarangay'] = is_array($profile)
+        ? (string)($profile['assignedBarangay'] ?? '')
+        : '';
 
     return $user;
+}
+
+function validateRepresentativeBarangay(string $role, string $barangay): void
+{
+    if ($role !== 'REPRESENTATIVE') {
+        return;
+    }
+
+    $allowed = [
+        'Atilano Ricardo', 'Bagumbayan', 'Banawang', 'Binuangan', 'Binukawan',
+        'Ibaba', 'Ibis', 'Pagasa', 'Parang', 'Paysawan', 'Quinawan',
+        'San Antonio', 'Saysain', 'Tabing-ilog'
+    ];
+    foreach ($allowed as $name) {
+        if (strcasecmp($name, $barangay) === 0) {
+            return;
+        }
+    }
+
+    respond(false, 'Select a valid Bagac barangay for the representative.', 422);
+}
+
+function saveRepresentativeBarangay(PDO $pdo, int $userId, string $role, string $barangay): void
+{
+    $stmt = $pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    $profile = json_decode((string)($stmt->fetchColumn() ?: '{}'), true);
+    $profile = is_array($profile) ? $profile : [];
+
+    if ($role === 'REPRESENTATIVE') {
+        $profile['assignedBarangay'] = trim($barangay);
+    } else {
+        unset($profile['assignedBarangay']);
+    }
+
+    $json = json_encode($profile, JSON_UNESCAPED_UNICODE);
+    if ($json === false) {
+        throw new RuntimeException('Could not save the representative barangay.');
+    }
+
+    $save = $pdo->prepare('INSERT INTO account_profiles(user_id, profile_json, updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET profile_json=excluded.profile_json, updated_at=CURRENT_TIMESTAMP');
+    $save->execute([$userId, $json]);
 }
 
 function publicUser(array $user, bool $withPassword = false): array
