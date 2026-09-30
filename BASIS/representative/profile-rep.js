@@ -759,6 +759,9 @@ function loadPersonalForm(profile) {
 
         profile.email || "";
 
+    $("controlNumberField").value =
+        profile.controlNumber || profile.control_number || "";
+
 
     $("religion").value =
 
@@ -786,7 +789,7 @@ function loadPersonalForm(profile) {
 
 
 
-    \n    $("school").value =
+    $("school").value =
 
         profile.school || "";
 

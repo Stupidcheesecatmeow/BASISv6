@@ -350,6 +350,9 @@ function loadPersonalForm(profile) {
     $("email").value =
         profile.email || "";
 
+    $("controlNumberField").value =
+        profile.controlNumber || profile.control_number || "";
+
     $("religion").value =
         profile.religion || "";
 
@@ -367,7 +370,7 @@ function loadPersonalForm(profile) {
     );
 
 
-    \n    $("school").value =
+    $("school").value =
         profile.school || "";
 
     $("program").value =

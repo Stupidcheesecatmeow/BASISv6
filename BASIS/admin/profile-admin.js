@@ -1460,6 +1460,9 @@ function loadPersonalForm(profile) {
 
         profile.email || "";
 
+    $("controlNumberField").value =
+        profile.controlNumber || profile.control_number || "";
+
  
 
  
@@ -1516,7 +1519,7 @@ function loadPersonalForm(profile) {
 
  
 
-    \n    $("school").value =
+    $("school").value =
 
  
 
