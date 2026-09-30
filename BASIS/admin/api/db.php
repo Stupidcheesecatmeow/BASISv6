@@ -37,8 +37,6 @@ function db(): PDO
 
             municipality TEXT DEFAULT 'BAGAC',
             barangay TEXT DEFAULT '',
-            cluster TEXT DEFAULT '',
-
             given_name TEXT DEFAULT '',
             surname TEXT DEFAULT '',
             middle_name TEXT DEFAULT '',
@@ -60,6 +58,14 @@ function db(): PDO
             updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     ");
+
+    $userColumns = $pdo->query('PRAGMA table_info(users)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('must_change_password', $userColumns, true)) {
+        $pdo->exec('ALTER TABLE users ADD COLUMN must_change_password INTEGER NOT NULL DEFAULT 0');
+    }
+    if (in_array('cluster', $userColumns, true)) {
+        $pdo->exec('ALTER TABLE users DROP COLUMN cluster');
+    }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS activities (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

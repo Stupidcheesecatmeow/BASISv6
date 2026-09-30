@@ -432,10 +432,6 @@ async function importExcel() {
 
         await loadUsers();
 
-        if (data.credentials && data.credentials.length) {
-            showCredentialsBatch(data.credentials);
-        }
-
     } catch (error) {
         $("importResult").classList.remove("hidden");
         $("importResult").textContent = error.message;
@@ -456,7 +452,9 @@ function renderImportResult(data) {
         <strong>IMPORT COMPLETE</strong><br>
         Imported: ${data.imported || 0}<br>
         Skipped: ${data.skipped || 0}
+        <br>Imported accounts start with the ISKOLAR role. Change roles later in User Management.
         ${data.errors?.length ? `<br>Errors: ${data.errors.length}` : ""}
+        ${data.credentials?.length ? `<details class="import-credentials"><summary>View generated credentials (${data.credentials.length})</summary><div class="import-credentials-table-wrap"><table><thead><tr><th>Control number</th><th>Name</th><th>Email</th><th>Temporary password</th></tr></thead><tbody>${data.credentials.map(user => `<tr><td>${escapeHtml(user.control_number)}</td><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td>${escapeHtml(user.password)}</td></tr>`).join("")}</tbody></table></div><p>Each user must change this temporary password after signing in.</p></details>` : ""}
     `;
 }
 
@@ -477,21 +475,6 @@ function showCredentials(user) {
         user.initial_password || "—";
 
     openModal("credentialModal");
-}
-
-function showCredentialsBatch(credentials) {
-
-    const first = credentials[0];
-
-    if (!first) return;
-
-    showCredentials(first);
-
-    if (credentials.length > 1) {
-        toast(
-            `${credentials.length} accounts created. The credential popup shows the first account.`
-        );
-    }
 }
 
 async function copyCredentials() {

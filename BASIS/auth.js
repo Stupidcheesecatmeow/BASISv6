@@ -21,6 +21,9 @@ document.addEventListener('click', async (event) => {
 });
 
 const authScript = [...document.scripts].find(item => item.src.endsWith('/auth.js'));
+const logoutStyle = document.createElement('style');
+logoutStyle.textContent = '[data-logout]{background:#b42318!important;border-color:#b42318!important;color:#fff!important}[data-logout]:hover{background:#8f1c13!important;border-color:#8f1c13!important}';
+document.head.appendChild(logoutStyle);
 const accountEndpoint = new URL('admin/api/account_api.php', authScript.src);
 window.BASISAuth = {
   async profileRequest(method, profile) {
@@ -35,7 +38,6 @@ window.BASISAuth = {
   },
   async saveProfile(profile, storageKey) {
     const data = {...profile};
-    delete data.cluster;
     await this.profileRequest('PUT', data);
     if (storageKey) localStorage.setItem(storageKey, JSON.stringify(data));
     return data;

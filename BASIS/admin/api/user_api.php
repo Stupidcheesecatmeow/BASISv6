@@ -157,9 +157,10 @@ function createUser(PDO $pdo): void
             role,
             status,
             municipality,
-            initial_password
+            initial_password,
+            must_change_password
         )
-        VALUES (?, ?, ?, ?, ?, ?, 'BAGAC', ?)
+        VALUES (?, ?, ?, ?, ?, ?, 'BAGAC', ?, 1)
     ");
 
     $stmt->execute([
@@ -242,9 +243,10 @@ function importUsers(PDO $pdo): void
                     role,
                     status,
                     municipality,
-                    initial_password
+                    initial_password,
+                    must_change_password
                 )
-                VALUES (?, ?, ?, ?, 'ISKOLAR', 'ACTIVE', 'BAGAC', ?)
+                VALUES (?, ?, ?, ?, 'ISKOLAR', 'ACTIVE', 'BAGAC', ?, 1)
             ");
 
             $stmt->execute([
