@@ -220,9 +220,7 @@ function fillProfile(user) {
         user.name || "UNNAMED USER";
 
     $("detailLocation").textContent =
-        [user.municipality || "BAGAC", user.cluster ? `CLUSTER ${user.cluster}` : ""]
-            .filter(Boolean)
-            .join(" - ");
+        user.municipality || "BAGAC";
 
     $("detailControlNo").textContent =
         user.control_number || "—";
@@ -254,9 +252,6 @@ function fillProfile(user) {
 
     $("barangay").value =
         user.barangay || "";
-
-    $("cluster").value =
-        user.cluster || "";
 
     $("school").value =
         user.school || "";
@@ -299,8 +294,6 @@ async function saveUser(event) {
 
         municipality: $("municipality").value.trim(),
         barangay: $("barangay").value,
-        cluster: $("cluster").value.trim(),
-
         school: $("school").value.trim(),
         program: $("program").value.trim(),
         year_level: $("yearLevel").value
@@ -531,10 +524,7 @@ async function openActivities() {
         selectedUser.name || "UNNAMED USER";
 
     $("activityUserLocation").textContent =
-        [selectedUser.municipality || "BAGAC",
-         selectedUser.cluster ? `CLUSTER ${selectedUser.cluster}` : ""]
-            .filter(Boolean)
-            .join(" - ");
+        selectedUser.municipality || "BAGAC";
 
     try {
 

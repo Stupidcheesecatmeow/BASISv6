@@ -72,7 +72,6 @@ function listUsers(PDO $pdo): void
             status,
             municipality,
             barangay,
-            cluster,
             profile_completed,
             created_at,
             updated_at
@@ -330,7 +329,6 @@ function updateUser(PDO $pdo): void
 
         'municipality' => clean($input['municipality'] ?? 'BAGAC'),
         'barangay' => clean($input['barangay'] ?? ''),
-        'cluster' => clean($input['cluster'] ?? ''),
 
         'school' => clean($input['school'] ?? ''),
         'program' => clean($input['program'] ?? ''),
@@ -660,7 +658,6 @@ function profileIsComplete(array $data): bool
         'contact_no',
         'municipality',
         'barangay',
-        'cluster',
         'school',
         'program',
         'year_level'

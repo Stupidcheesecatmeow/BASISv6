@@ -94,7 +94,7 @@
                                           style="display:none;"></span>
                                 </div>
                                 <span id="displayLocation">
-                                    BAGAC – CLUSTER PENDING
+                                    BAGAC
                                 </span>
                             </div>
 
@@ -197,14 +197,6 @@
                                 </select>
                             </div>
 
-                            <div class="form-group span-cluster">
-                                <label>CLUSTER:</label>
-                                <input id="cluster"
-                                       type="text"
-                                       readonly>
-                            </div>
-
-
                             <div class="form-group span-school">
                                 <label>SCHOOL:</label>
                                 <input id="school"
@@ -234,25 +226,6 @@
                         </div>
 
 
-                        <!-- COR STATUS -->
-                        <div class="cor-summary-card">
-
-                            <div>
-                                <strong>CURRENT SEMESTER COR</strong>
-                                <span id="corSummary">
-                                    No COR submitted yet.
-                                </span>
-                            </div>
-
-                            <button type="button"
-                                    class="cor-summary-btn"
-                                    onclick="showSubView('view-profile-family')">
-                                VIEW COR
-                            </button>
-
-                        </div>
-
-
                         <div class="profile-card-footer">
 
                             <button class="act-btn solid-btn btn-sm"
@@ -260,6 +233,8 @@
                                     onclick="showSubView('view-profile-family')">
                                 NEXT
                             </button>
+                            <button type="button" class="act-btn outline-btn btn-sm" data-account-qr>MY QR CODE</button>
+                            <button type="button" class="act-btn outline-btn btn-sm" data-logout>LOG OUT</button>
 
                         </div>
 
@@ -276,7 +251,7 @@
 
 
     <!-- =====================================================
-         FAMILY + COR
+         FAMILY INFORMATION
     ====================================================== -->
     <section id="view-profile-family"
              class="page-view profile-view"
@@ -422,120 +397,6 @@
                     </div>
 
 
-                    <!-- =================================================
-                         COR SUBMISSION
-                    ================================================== -->
-
-                    <div class="cor-section">
-
-                        <div class="cor-section-header">
-
-                            <div>
-                                <h3>
-                                    CERTIFICATE OF REGISTRATION
-                                </h3>
-
-                                <p>
-                                    Submit your COR every semester to keep
-                                    your student verification updated.
-                                </p>
-                            </div>
-
-                            <span id="corAccountStatus"
-                                  class="cor-account-status">
-                                ACTIVE
-                            </span>
-
-                        </div>
-
-
-                        <div class="cor-grid">
-
-                            <div class="cor-info-box">
-
-                                <div class="cor-row">
-                                    <span>ACADEMIC YEAR</span>
-                                    <strong id="corAcademicYear">
-                                        2026–2027
-                                    </strong>
-                                </div>
-
-                                <div class="cor-row">
-                                    <span>SEMESTER</span>
-
-                                    <select id="corSemester">
-                                        <option value="1ST SEMESTER">
-                                            1ST SEMESTER
-                                        </option>
-
-                                        <option value="2ND SEMESTER">
-                                            2ND SEMESTER
-                                        </option>
-                                    </select>
-
-                                </div>
-
-                                <div class="cor-row">
-                                    <span>VERIFICATION</span>
-                                    <strong id="corVerificationStatus">
-                                        NOT SUBMITTED
-                                    </strong>
-                                </div>
-
-                            </div>
-
-
-                            <div class="cor-upload-box">
-
-                                <i class="fa-solid fa-file-arrow-up"></i>
-
-                                <h4>
-                                    UPLOAD COR
-                                </h4>
-
-                                <p>
-                                    PDF, JPG, or PNG
-                                </p>
-
-                                <input id="corFile"
-                                       type="file"
-                                       accept=".pdf,.jpg,.jpeg,.png"
-                                       hidden>
-
-                                <label for="corFile"
-                                       class="cor-upload-btn">
-                                    CHOOSE FILE
-                                </label>
-
-                                <span id="corFileName">
-                                    No file selected.
-                                </span>
-
-                                <button id="submitCorBtn"
-                                        type="button"
-                                        class="submit-cor-btn">
-                                    SUBMIT COR
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- SEMESTER HISTORY -->
-                        <div class="cor-history">
-
-                            <h4>
-                                COR SUBMISSION HISTORY
-                            </h4>
-
-                            <div id="corHistoryList"></div>
-
-                        </div>
-
-                    </div>
-
-
                     <!-- SAVE / BACK -->
                     <div class="profile-card-footer family-footer">
 
@@ -551,6 +412,8 @@
                             SAVE PROFILE
                         </button>
 
+                        <button type="button" class="act-btn outline-btn btn-sm" data-logout>LOG OUT</button>
+
                     </div>
 
                 </div>
@@ -562,6 +425,12 @@
     </section>
 
 </main>
+
+<dialog id="accountQrDialog">
+    <h2>MY ATTENDANCE QR</h2>
+    <img data-account-qr-image alt="Your attendance QR code" width="240" height="240">
+    <form method="dialog"><button class="act-btn solid-btn btn-sm">CLOSE</button></form>
+</dialog>
 
 
 <!-- =========================================================
@@ -610,6 +479,7 @@
 
 
 <script src="../script.js"></script>
+<script src="../auth.js"></script>
 <script src="profile-rep.js"></script>
 
 </body>

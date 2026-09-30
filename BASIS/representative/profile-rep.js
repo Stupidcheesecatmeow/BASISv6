@@ -7,9 +7,6 @@
 
 const PROFILE_STORAGE_KEY = "basisRepresentativeProfile";
 
-const COR_STORAGE_KEY = "basisRepresentativeCOR";
-
-
 /* ADMIN-ASSIGNED ROLE */
 
 const ROLE_STORAGE_KEY = "basisAssignedRole";
@@ -57,44 +54,6 @@ const BAGAC_BARANGAYS = [
 
 
 
-/* =========================================================
-
-   BASIS SCHOLAR CLUSTER
-
-========================================================= */
-
-
-const SCHOLAR_CLUSTER_MAP = {
-
-    "Bagumbayan": "",
-
-    "Banawang": "",
-
-    "Binuangan": "",
-
-    "Binukawan": "",
-
-    "Ibaba": "",
-
-    "Ibis": "",
-
-    "Pag-asa": "",
-
-    "Parang": "",
-
-    "Paysawan": "",
-
-    "Quinawan": "",
-
-    "San Antonio": "",
-
-    "Saysain": "",
-
-    "Tabing-ilog": "",
-
-    "Atilano Ricardo": ""
-
-};
 
 
 
@@ -141,8 +100,6 @@ const DEFAULT_PROFILE = {
     municipality: "BAGAC",
 
     barangay: "",
-
-    cluster: "",
 
 
     school: "",
@@ -254,53 +211,6 @@ function saveProfile(profile) {
 
 
 
-function getCorHistory() {
-
-
-    const saved =
-
-        localStorage.getItem(COR_STORAGE_KEY);
-
-
-    if (!saved) {
-
-        return [];
-
-    }
-
-
-    try {
-
-
-        return JSON.parse(saved);
-
-
-    } catch (error) {
-
-
-        return [];
-
-    }
-
-}
-
-
-
-function saveCorHistory(history) {
-
-
-    localStorage.setItem(
-
-        COR_STORAGE_KEY,
-
-        JSON.stringify(history)
-
-    );
-
-}
-
-
-
 function $(id) {
 
     return document.getElementById(id);
@@ -369,45 +279,6 @@ function populateBarangays(selected = "") {
    AUTOMATIC LOCATION
 
 ========================================================= */
-
-
-function updateClusterFromBarangay() {
-
-
-    const barangay =
-
-        $("barangay").value;
-
-
-    /* Municipality is always BAGAC */
-
-    $("municipality").value = "BAGAC";
-
-
-    if (!barangay) {
-
-
-        $("cluster").value = "";
-
-
-        return;
-
-    }
-
-
-    const assignedCluster =
-
-        SCHOLAR_CLUSTER_MAP[barangay];
-
-
-    $("cluster").value =
-
-        assignedCluster ||
-
-        "ASSIGNED BY ADMIN";
-
-}
-
 
 
 /* =========================================================
@@ -680,25 +551,6 @@ function updateProfileHeader(profile) {
     /* LOCATION */
 
 
-    const clusterText =
-
-        profile.cluster ||
-
-        "CLUSTER PENDING";
-
-
-    const municipality =
-
-        profile.municipality ||
-
-        "BAGAC";
-
-
-    $("displayLocation").textContent =
-
-        `${municipality} – ${clusterText}`;
-
-
 
     /* ACCOUNT STATUS */
 
@@ -782,19 +634,7 @@ function updateProfileHeader(profile) {
 
             `MABUHAY, ${assignedRole}!`;
 
-    }
-
-
-    if ($("corAccountStatus")) {
-
-
-        $("corAccountStatus").textContent =
-
-            status;
-
-    }
-
-}
+    }}
 
 
 
@@ -946,26 +786,7 @@ function loadPersonalForm(profile) {
 
 
 
-    /* CLUSTER */
-
-
-    $("cluster").value =
-
-        profile.cluster ||
-
-
-        SCHOLAR_CLUSTER_MAP[
-
-            profile.barangay
-
-        ] ||
-
-
-        "ASSIGNED BY ADMIN";
-
-
-
-    $("school").value =
+    \n    $("school").value =
 
         profile.school || "";
 
@@ -1423,16 +1244,7 @@ function setEditMode(enabled) {
 
 
 
-    /*
-
-        Cluster is ADMIN CONTROLLED.
-
-    */
-
-
-    $("cluster").readOnly =
-
-        true;
+    
 
 
 
@@ -1566,32 +1378,7 @@ function collectPersonalData() {
 
 
 
-        /*
-
-            CLUSTER CANNOT BE MANUALLY EDITED.
-
-
-            Existing admin-assigned cluster
-
-            is preserved.
-
-        */
-
-
-        cluster:
-
-
-            currentProfile.cluster ||
-
-
-            SCHOLAR_CLUSTER_MAP[
-
-                $("barangay").value
-
-            ] ||
-
-
-            "",
+        
 
 
 
@@ -1817,7 +1604,7 @@ function collectFamilyData() {
 ========================================================= */
 
 
-function saveCurrentProfile() {
+async function saveCurrentProfile() {
 
 
     const profile =
@@ -1843,6 +1630,7 @@ function saveCurrentProfile() {
 
 
     saveProfile(profile);
+    try { await window.BASISAuth.saveProfile(profile, PROFILE_STORAGE_KEY); } catch (error) { alert(error.message); return; }
 
 
 
@@ -1863,360 +1651,6 @@ function saveCurrentProfile() {
         "Profile saved successfully."
 
     );
-
-}
-
-
-
-/* =========================================================
-
-   COR
-
-========================================================= */
-
-
-function updateCorFileName() {
-
-
-    const file =
-
-        $("corFile").files[0];
-
-
-
-    $("corFileName").textContent =
-
-
-        file
-
-
-            ? file.name
-
-
-            : "No file selected.";
-
-}
-
-
-
-function submitCOR() {
-
-
-    const file =
-
-        $("corFile")?.files[0];
-
-
-    if (!file) {
-
-        alert("Please choose your COR first.");
-
-        return;
-
-    }
-
-
-    const semester =
-
-        $("corSemester")?.value || "1ST SEMESTER";
-
-
-    const academicYear =
-
-        $("corAcademicYear")?.textContent.trim() ||
-
-        "2026–2027";
-
-
-    const history =
-
-        getCorHistory();
-
-
-    const existingIndex =
-
-        history.findIndex(item =>
-
-            item.academicYear === academicYear &&
-
-            item.semester === semester
-
-        );
-
-
-    const record = {
-
-        academicYear: academicYear,
-
-        semester: semester,
-
-        fileName: file.name,
-
-        submittedAt: new Date().toLocaleString(),
-
-        status: "PENDING VERIFICATION"
-
-    };
-
-
-    if (existingIndex >= 0) {
-
-        history[existingIndex] = record;
-
-    } else {
-
-        history.push(record);
-
-    }
-
-
-    saveCorHistory(history);
-
-
-    renderCorHistory();
-
-
-    if ($("corVerificationStatus")) {
-
-        $("corVerificationStatus").textContent =
-
-            "PENDING VERIFICATION";
-
-    }
-
-
-    if ($("corSummary")) {
-
-        $("corSummary").textContent =
-
-            `${semester} COR submitted. Waiting for admin verification.`;
-
-    }
-
-
-    $("corFile").value = "";
-
-    updateCorFileName();
-
-
-    alert(
-
-        "COR submitted. It is now waiting for admin verification."
-
-    );
-
-}
-
-
-
-/* =========================================================
-
-   COR HISTORY
-
-========================================================= */
-
-
-function renderCorHistory() {
-
-
-    const history =
-
-        getCorHistory();
-
-
-    const container =
-
-        $("corHistoryList");
-
-
-    if (!container) return;
-
-
-    container.innerHTML = "";
-
-
-    if (!history.length) {
-
-
-        container.innerHTML = `
-
-
-            <div class="cor-history-item">
-
-
-                <div class="cor-history-main">
-
-
-                    <strong>
-
-                        No COR records yet.
-
-                    </strong>
-
-
-                    <span>
-
-                        Submit your COR every semester.
-
-                    </span>
-
-
-                </div>
-
-
-                <span class="cor-status">
-
-                    NOT SUBMITTED
-
-                </span>
-
-
-            </div>
-
-
-        `;
-
-
-        if ($("corVerificationStatus")) {
-
-            $("corVerificationStatus").textContent =
-
-                "NOT SUBMITTED";
-
-        }
-
-
-        if ($("corSummary")) {
-
-            $("corSummary").textContent =
-
-                "No COR submitted yet.";
-
-        }
-
-
-        return;
-
-    }
-
-
-    history
-
-        .slice()
-
-        .reverse()
-
-        .forEach(item => {
-
-
-            const row =
-
-                document.createElement("div");
-
-
-            row.className =
-
-                "cor-history-item";
-
-
-            row.innerHTML = `
-
-
-                <div class="cor-history-main">
-
-
-                    <strong>
-
-                        ${escapeHtml(
-
-                            item.academicYear || "N/A"
-
-                        )}
-
-                        —
-
-                        ${escapeHtml(
-
-                            item.semester || "N/A"
-
-                        )}
-
-                    </strong>
-
-
-                    <span>
-
-                        FILE:
-
-                        ${escapeHtml(
-
-                            item.fileName || "No file name"
-
-                        )}
-
-                    </span>
-
-
-                    <span>
-
-                        SUBMITTED:
-
-                        ${escapeHtml(
-
-                            item.submittedAt || "N/A"
-
-                        )}
-
-                    </span>
-
-
-                </div>
-
-
-                <span class="cor-status">
-
-                    ${escapeHtml(
-
-                        item.status || "PENDING VERIFICATION"
-
-                    )}
-
-                </span>
-
-
-            `;
-
-
-            container.appendChild(row);
-
-        });
-
-
-    const latest =
-
-        history[history.length - 1];
-
-
-    if ($("corVerificationStatus")) {
-
-        $("corVerificationStatus").textContent =
-
-            latest.status || "PENDING VERIFICATION";
-
-    }
-
-
-    if ($("corSummary")) {
-
-        $("corSummary").textContent =
-
-            `${latest.semester || "SEMESTER"} COR: ${
-
-                latest.status || "PENDING VERIFICATION"
-
-            }`;
-
-    }
 
 }
 
@@ -2385,9 +1819,6 @@ function showSubView(viewId) {
                 profile
 
             );
-
-
-            renderCorHistory();
 
 
         } catch (error) {
@@ -2601,9 +2032,6 @@ document.addEventListener(
         );
 
 
-        renderCorHistory();
-
-
 
         function on(
 
@@ -2696,9 +2124,6 @@ document.addEventListener(
             function() {
 
 
-                updateClusterFromBarangay();
-
-
                 $("municipality").value =
 
                     "BAGAC";
@@ -2739,32 +2164,6 @@ document.addEventListener(
             "click",
 
             saveCurrentProfile
-
-        );
-
-
-
-        /* COR */
-
-
-        on(
-
-            "corFile",
-
-            "change",
-
-            updateCorFileName
-
-        );
-
-
-        on(
-
-            "submitCorBtn",
-
-            "click",
-
-            submitCOR
 
         );
 

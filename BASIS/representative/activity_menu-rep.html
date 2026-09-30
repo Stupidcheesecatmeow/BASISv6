@@ -41,8 +41,8 @@
             </div>
             <div class="activity-menu-list">
                 <div class="activity-menu-item" onclick="window.location.href='activity_details-rep.html'">ACTIVITY DETAILS</div>
-                <div class="activity-menu-item" onclick="showSubView('view-activity-scan')">SCAN ACTIVITY</div>
-                <div class="activity-menu-item" onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
+                <div class="activity-menu-item" data-requires-qr onclick="showSubView('view-activity-scan')">SCAN ACTIVITY</div>
+                <div class="activity-menu-item" data-requires-proof onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
                 <div class="activity-menu-item" onclick="showSubView('view-activity-participants')">ACTIVITY PARTICIPANTS</div>
             </div>
         </div>
@@ -59,7 +59,8 @@
             <div class="scan-layout">
                 <div class="scan-box">
                     <div class="scan-preview">
-                        <i class="fa-solid fa-camera"></i>
+                        <video id="qrScanVideo" playsinline hidden></video>
+                        <p id="scanStatus">Press SCAN and allow camera access.</p>
                     </div>
                     <button class="scan-btn" id="scanActionBtn" onclick="runScan()">SCAN</button>
                 </div>
@@ -150,8 +151,8 @@
             </div>
 
             <div class="verify-action-row">
-                <button class="accept-btn" onclick="resolveVerification()">ACCEPT</button>
-                <button class="reject-btn" onclick="resolveVerification()">REJECT</button>
+                <button class="accept-btn" onclick="resolveVerification('VERIFIED')">ACCEPT</button>
+                <button class="reject-btn" onclick="resolveVerification('REJECTED')">REJECT</button>
             </div>
         </div>
     
@@ -194,8 +195,8 @@
             </div>
 
             <div class="verify-action-row">
-                <button class="accept-btn" onclick="resolveVerification()">ACCEPT</button>
-                <button class="reject-btn" onclick="resolveVerification()">REJECT</button>
+                <button class="accept-btn" onclick="resolveVerification('VERIFIED')">ACCEPT</button>
+                <button class="reject-btn" onclick="resolveVerification('REJECTED')">REJECT</button>
             </div>
         </div>
     
@@ -219,7 +220,7 @@
                 </div>
             </div>
 
-            <div class="verify-list-container">
+            <div class="verify-list-container" id="verifiedSubmissionList">
                 <div class="admin-empty-subview">
                     <i class="fa-solid fa-circle-check"></i>
                     <h4>No verified activities yet.</h4>

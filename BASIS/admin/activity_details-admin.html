@@ -60,8 +60,8 @@
             </div>
 
             <div class="action-buttons-row">
-                <button class="act-btn solid-btn" onclick="showSubView('view-activity-qr')">QR CODE</button>
-                <button class="act-btn outline-btn" onclick="showSubView('view-activity-submission')">SUBMISSION</button>
+                <button class="act-btn solid-btn" data-requires-qr onclick="showSubView('view-activity-qr')">QR CODE</button>
+                <button class="act-btn outline-btn" data-requires-proof onclick="showSubView('view-activity-submission')">SUBMISSION</button>
             </div>
         </div>
     
@@ -78,7 +78,7 @@
                 <div class="qr-code-box">
                     <h3>ATTENDANCE QR CODE</h3>
                     <div class="qr-img-wrapper">
-                        <i class="fa-solid fa-qrcode"></i>
+                        <img id="activityQrImage" alt="Activity attendance QR code">
                     </div>
                 </div>
 
@@ -123,7 +123,7 @@
                 </div>
                 <div class="note-box submission-note">
                     <p><strong>Note:</strong> For Proof of Attendance, please use a geotagging camera when taking your photo. This helps verify that you attended and participated in the activity at the correct location and time.</p>
-                    <p>For Proof of Absence, submit a signed letter indicating your full name, municipality, barangay, cluster, and the reason for your absence. If you are unable to attend the activity, you are still required to assign a proxy to represent you so that the activity can still be credited as attended, subject to the program's attendance guidelines.</p>
+                    <p>For Proof of Absence, submit a signed letter indicating your full name, municipality, barangay, and the reason for your absence. If you are unable to attend the activity, you are still required to assign a proxy to represent you so that the activity can still be credited as attended, subject to the program's attendance guidelines.</p>
                 </div>
             </div>
 

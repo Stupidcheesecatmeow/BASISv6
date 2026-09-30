@@ -10,7 +10,7 @@ try {
     $input = requestInput();
     if ($action === 'me') {
         if (empty($_SESSION['user_id'])) jsonResponse(false, 'Not signed in.', 401);
-        $stmt = $pdo->prepare('SELECT id,control_number,name,email,role,status,municipality,barangay,cluster,profile_completed FROM users WHERE id=?');
+        $stmt = $pdo->prepare('SELECT id,control_number,name,email,role,status,municipality,barangay,profile_completed FROM users WHERE id=?');
         $stmt->execute([(int)$_SESSION['user_id']]);
         $user = $stmt->fetch();
         if (!$user || $user['status'] !== 'ACTIVE') { session_destroy(); jsonResponse(false, 'Account is unavailable.', 403); }

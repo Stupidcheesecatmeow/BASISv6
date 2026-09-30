@@ -214,6 +214,8 @@ QR CODE VIEW
     color: #222;
 }
 
+.admin-page .qr-img-wrapper img { width: 220px; height: 220px; image-rendering: pixelated; }
+
 .admin-page .qr-info-side {
     flex: 1;
 }

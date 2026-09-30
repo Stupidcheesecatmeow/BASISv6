@@ -1294,18 +1294,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-        const cluster =
-
-            record.cluster ||
-
-            record.clusterName ||
-
-            activity.cluster ||
-
-            "—";
-
- 
-
         const activityTitle =
 
             getActivityTitle(activity);
@@ -1377,15 +1365,6 @@ document.addEventListener("DOMContentLoaded", function () {
             barangay:
 
                 barangay,
-
- 
-
-            cluster:
-
-                cluster,
-
- 
-
             activity:
 
                 activityTitle,
@@ -2548,7 +2527,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <th>BARANGAY</th>
 
-                                        <th>CLUSTER</th>
+                                        
 
                                         <th>ACTIVITY</th>
 
@@ -2620,15 +2599,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-                                <td>
-
-                                    ${escapeHTML(
-
-                                        record.cluster
-
-                                    )}
-
-                                </td>
+                                
 
  
 
@@ -2918,7 +2889,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <th>BARANGAY</th>
 
-                    <th>CLUSTER</th>
+                    
 
                     <th>ACTIVITY</th>
 
@@ -2950,7 +2921,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <tr>
 
-                        <th colspan="5">
+                        <th colspan="4">
 
                             ${escapeHTML(
 
@@ -3020,15 +2991,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-                                <td>
-
-                                    ${escapeHTML(
-
-                                        record.cluster
-
-                                    )}
-
-                                </td>
+                                
 
  
 
@@ -3398,7 +3361,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 <th>BARANGAY</th>
 
-                                <th>CLUSTER</th>
+                                
 
                                 <th>ACTIVITY</th>
 
@@ -3470,15 +3433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-                                <td>
-
-                                    ${escapeHTML(
-
-                                        record.cluster
-
-                                    )}
-
-                                </td>
+                                
 
  
 

@@ -546,10 +546,7 @@
     box-sizing: border-box;
 }
 
-.qr-placeholder i {
-    font-size: 105px;
-    margin-bottom: 7px;
-}
+.qr-placeholder img { width: 205px; height: 205px; image-rendering: pixelated; }
 
 .qr-placeholder span {
     font-size: 13px;

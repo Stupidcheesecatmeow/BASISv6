@@ -1,13 +1,7 @@
-/* =========================================================
-   BASIS PROFILE PAGE
-   PERSONAL PAGE = NO SCROLL
-   FAMILY PAGE = INTERNAL SCROLL ONLY
-========================================================= */
 
 
-/* =========================================================
-   PROFILE OUTER LAYOUT
-========================================================= */
+
+
 
 .profile-page-main {
     padding-bottom: 120px;
@@ -17,9 +11,7 @@
     width: 100%;
 }
 
-/* =========================================================
-   PROFILE CONTAINER - SAME SIZE AS MORE PAGE
-========================================================= */
+
 
 .profile-personal-frame,
 .profile-family-frame {
@@ -36,10 +28,7 @@
 }
 
 
-/* =========================================================
-   PERSONAL CONTENT
-   Keep content inside the fixed container
-========================================================= */
+
 
 .profile-personal-frame .profile-card {
     box-sizing: border-box !important;
@@ -50,10 +39,7 @@
 }
 
 
-/* =========================================================
-   NEXT BUTTON
-   Keep it inside the container
-========================================================= */
+
 
 .profile-personal-frame .profile-card-footer {
     margin-top: 7px !important;
@@ -62,10 +48,7 @@
 }
 
 
-/* =========================================================
-   FAMILY SCROLL
-   Scroll ONLY inside Family Details
-========================================================= */
+
 
 .profile-family-frame {
     position: relative !important;
@@ -79,9 +62,7 @@
     left: 36px !important;
     right: 18px !important;
 
-    /*
-       Leave enough space above the fixed bottom navbar.
-    */
+    
     bottom: 20px !important;
 
     overflow-y: auto !important;
@@ -94,9 +75,7 @@
 }
 
 
-/* =========================================================
-   FAMILY SCROLLBAR
-========================================================= */
+
 
 .profile-family-frame .family-scroll-area::-webkit-scrollbar {
     width: 7px;
@@ -112,9 +91,7 @@
 }
 
 
-/* =========================================================
-   BOTTOM NAV STAYS SEPARATE
-========================================================= */
+
 
 .bottom-nav {
     position: fixed !important;
@@ -126,11 +103,7 @@
     z-index: 99999 !important;
 }
 
-/* =========================================================
-   PERSONAL DETAILS
-   NO SCROLL ON THIS PAGE
-   FIXED OUTER CONTAINER
-========================================================= */
+
 
 .profile-personal-frame {
     height: calc(100vh - 225px);
@@ -147,9 +120,7 @@
 }
 
 
-/* =========================================================
-   FAMILY PAGE
-========================================================= */
+
 
 .profile-family-frame {
     height: calc(100vh - 225px);
@@ -195,10 +166,7 @@
 }
 
 
-/* =========================================================
-   PROFILE CARD
-   CONTENT SPACING ADJUSTED
-========================================================= */
+
 
 .profile-card {
     padding: 5px 28px 12px;
@@ -206,9 +174,7 @@
 }
 
 
-/* =========================================================
-   PROFILE HEADER
-========================================================= */
+
 
 .profile-header-layout {
     display: flex;
@@ -223,9 +189,7 @@
 }
 
 
-/* =========================================================
-   AVATAR
-========================================================= */
+
 
 .profile-avatar-col {
     display: flex;
@@ -259,9 +223,7 @@
 }
 
 
-/* =========================================================
-   PHOTO UPLOAD
-========================================================= */
+
 
 .photo-upload-label {
     width: 100%;
@@ -287,9 +249,7 @@
 }
 
 
-/* =========================================================
-   EDIT PROFILE BUTTON
-========================================================= */
+
 
 .edit-profile-btn {
     background-color: #768a75;
@@ -314,9 +274,7 @@
 }
 
 
-/* =========================================================
-   PROFILE INFO
-========================================================= */
+
 
 .profile-info-col {
     flex: 1;
@@ -326,9 +284,7 @@
 }
 
 
-/* =========================================================
-   NAME + STATUS
-========================================================= */
+
 
 .profile-top-bar {
     display: flex;
@@ -391,18 +347,13 @@
 }
 
 
-/* =========================================================
-   FORM
-========================================================= */
+
 
 .profile-form-grid {
     display: flex;
     flex-wrap: wrap;
 
-    /*
-       Reduced vertical spacing
-       so the content fits better.
-    */
+    
     gap: 6px 12px;
 }
 
@@ -464,9 +415,7 @@
 }
 
 
-/* =========================================================
-   COLUMN WIDTHS
-========================================================= */
+
 
 .span-given {
     width: calc(23% - 10px);
@@ -512,10 +461,6 @@
     width: calc(32% - 10px);
 }
 
-.span-cluster {
-    width: calc(36% - 10px);
-}
-
 .span-school {
     width: calc(48% - 10px);
 }
@@ -529,9 +474,7 @@
 }
 
 
-/* =========================================================
-   EDIT MODE
-========================================================= */
+
 
 .edit-only {
     display: none;
@@ -540,77 +483,6 @@
 .profile-page-main.editing .edit-only {
     display: block;
 }
-
-
-/* =========================================================
-   COR SUMMARY
-========================================================= */
-
-.cor-summary-card {
-    margin-top: 8px;
-
-    width: 100%;
-
-    min-height: 54px;
-
-    border: 1px solid #c2cbc0;
-    border-radius: 8px;
-
-    padding: 10px 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    background: #f8faf7;
-
-    box-sizing: border-box;
-}
-
-.cor-summary-card strong {
-    display: block;
-
-    color: #42523f;
-
-    font-size: 11px;
-    font-weight: 900;
-}
-
-.cor-summary-card span {
-    display: block;
-
-    margin-top: 3px;
-
-    color: #768a75;
-
-    font-size: 10px;
-    font-weight: 600;
-}
-
-.cor-summary-btn {
-    width: 90px;
-    height: 34px;
-
-    border: none;
-    border-radius: 6px;
-
-    background: #42523f;
-    color: #ffffff;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 10px;
-    font-weight: 900;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   FOOTER BUTTONS
-========================================================= */
 
 .profile-card-footer {
     display: flex;
@@ -639,9 +511,7 @@
 }
 
 
-/* =========================================================
-   FAMILY SECTIONS
-========================================================= */
+
 
 .family-section {
     margin-bottom: 20px;
@@ -703,207 +573,7 @@
 
 .col-suffix {
     max-width: 90px;
-}
-
-
-/* =========================================================
-   COR SECTION
-========================================================= */
-
-.cor-section {
-    margin-top: 22px;
-
-    padding: 18px;
-
-    border: 1px solid #b9c4b6;
-    border-radius: 9px;
-
-    background: #fafcf9;
-}
-
-.cor-section-header {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    margin-bottom: 15px;
-}
-
-.cor-section-header h3 {
-    margin: 0;
-
-    color: #42523f;
-
-    font-size: 17px;
-    font-weight: 900;
-}
-
-.cor-section-header p {
-    margin: 4px 0 0;
-
-    color: #768a75;
-
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.cor-account-status {
-    min-width: 80px;
-
-    padding: 7px 12px;
-
-    border-radius: 15px;
-
-    background: #dfe9dc;
-    color: #42523f;
-
-    text-align: center;
-
-    font-size: 10px;
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   COR GRID
-========================================================= */
-
-.cor-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 15px;
-}
-
-.cor-info-box,
-.cor-upload-box {
-    border: 1px solid #c2cbc0;
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    padding: 15px;
-
-    box-sizing: border-box;
-}
-
-.cor-row {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 15px;
-
-    min-height: 38px;
-
-    border-bottom: 1px solid #edf0ec;
-}
-
-.cor-row:last-child {
-    border-bottom: none;
-}
-
-.cor-row span {
-    color: #768a75;
-
-    font-size: 10px;
-    font-weight: 800;
-}
-
-.cor-row strong {
-    color: #42523f;
-
-    font-size: 11px;
-    font-weight: 900;
-
-    text-align: right;
-}
-
-.cor-row select {
-    height: 30px;
-
-    border: 1px solid #b9c4b6;
-    border-radius: 5px;
-
-    background: #ffffff;
-
-    color: #42523f;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   COR UPLOAD
-========================================================= */
-
-.cor-upload-box {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    min-height: 170px;
-}
-
-.cor-upload-box > i {
-    font-size: 30px;
-
-    color: #768a75;
-
-    margin-bottom: 7px;
-}
-
-.cor-upload-box h4 {
-    margin: 0;
-
-    color: #42523f;
-
-    font-size: 15px;
-    font-weight: 900;
-}
-
-.cor-upload-box p {
-    margin: 3px 0 10px;
-
-    color: #9aa497;
-
-    font-size: 10px;
-    font-weight: 600;
-}
-
-.cor-upload-btn {
-    width: 125px;
-
-    padding: 8px 12px;
-
-    border-radius: 6px;
-
-    background: #768a75;
-    color: #ffffff;
-
-    font-size: 10px;
-    font-weight: 900;
-
-    cursor: pointer;
-
-    box-sizing: border-box;
-}
-
-#corFileName {
+}#corFileName {
     max-width: 90%;
 
     margin-top: 7px;
@@ -941,93 +611,12 @@
     cursor: pointer;
 }
 
-
-/* =========================================================
-   COR HISTORY
-========================================================= */
-
-.cor-history {
-    margin-top: 18px;
-}
-
-.cor-history h4 {
-    margin: 0 0 8px;
-
-    color: #42523f;
-
-    font-size: 13px;
-    font-weight: 900;
-}
-
-.cor-history-item {
-    min-height: 52px;
-
-    padding: 8px 12px;
-
-    border: 1px solid #d2d9cf;
-    border-radius: 6px;
-
-    background: #ffffff;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 7px;
-
-    box-sizing: border-box;
-}
-
-.cor-history-main strong {
-    display: block;
-
-    color: #42523f;
-
-    font-size: 11px;
-    font-weight: 900;
-}
-
-.cor-history-main span {
-    display: block;
-
-    margin-top: 2px;
-
-    color: #768a75;
-
-    font-size: 9px;
-    font-weight: 600;
-}
-
-.cor-status {
-    padding: 5px 9px;
-
-    border-radius: 12px;
-
-    background: #eef1ed;
-
-    color: #42523f;
-
-    font-size: 9px;
-    font-weight: 900;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   FAMILY FOOTER
-========================================================= */
-
 .family-footer {
     padding-bottom: 25px;
 }
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+
 
 .logout-btn {
     background-color: #cc0000;
@@ -1050,9 +639,7 @@
 }
 
 
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
+
 
 .bottom-nav {
     position: fixed;
@@ -1064,10 +651,7 @@
     z-index: 9999;
 }
 
-/* =========================================================
-   FINAL PROFILE CONTENT FIXES
-   OUTER FRAME SIZE IS NOT CHANGED
-========================================================= */
+
 
 .name-control-row {
     display: flex;
@@ -1094,7 +678,7 @@
     white-space: nowrap;
 }
 
-/* Keep personal content inside the already-fixed frame */
+
 .profile-personal-frame .profile-card {
     padding: 0 28px 6px !important;
     box-sizing: border-box;
@@ -1151,31 +735,7 @@
 .profile-personal-frame .form-group select {
     height: 27px;
     font-size: 10.5px;
-}
-
-.profile-personal-frame .cor-summary-card {
-    min-height: 45px;
-    height: 45px;
-    margin-top: 5px;
-    padding: 6px 10px;
-}
-
-.profile-personal-frame .cor-summary-card strong {
-    font-size: 9.5px;
-}
-
-.profile-personal-frame .cor-summary-card span {
-    font-size: 8.5px;
-    margin-top: 1px;
-}
-
-.profile-personal-frame .cor-summary-btn {
-    width: 82px;
-    height: 30px;
-    font-size: 8.5px;
-}
-
-.profile-personal-frame .profile-card-footer {
+}.profile-personal-frame .profile-card-footer {
     margin-top: 5px;
 }
 
@@ -1183,34 +743,14 @@
     min-width: 115px !important;
     height: 34px !important;
     font-size: 10px !important;
-}
-
-/* COR submission box */
-.cor-upload-box {
-    border: 2px dashed #b9c4b6;
-    border-radius: 9px;
-    background: #f8faf7;
-}
-
-.cor-upload-box > i {
-    font-size: 25px;
-}
-
-.cor-upload-btn {
+}.submit-cor-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
 }
 
-.submit-cor-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
 
-/* Family scroll stays internal */
 .profile-family-frame {
     overflow: hidden !important;
 }
@@ -1220,11 +760,6 @@
     overflow-x: hidden !important;
 }
 
-
-/* =========================================================
-   FINAL FIX - KEEP PERSONAL CONTENT INSIDE FIXED FRAME
-   AND KEEP FAMILY COR SUBMISSION VISIBLE
-========================================================= */
 
 .profile-personal-frame {
     box-sizing: border-box;
@@ -1288,16 +823,7 @@
 
 .profile-personal-frame .status-title {
     font-size: 24px !important;
-}
-
-.profile-personal-frame .cor-summary-card {
-    min-height: 42px !important;
-    height: 42px !important;
-    margin-top: 4px !important;
-    padding: 5px 9px !important;
-}
-
-.profile-personal-frame .profile-card-footer {
+}.profile-personal-frame .profile-card-footer {
     margin-top: 4px !important;
 }
 
@@ -1306,7 +832,7 @@
     min-width: 115px !important;
 }
 
-/* Make the family page definitely visible when JS activates it. */
+
 #view-profile-family.active {
     display: block !important;
 }
@@ -1314,45 +840,6 @@
 #view-profile.active {
     display: block !important;
 }
-
-/* COR submission bin */
-.profile-family-frame .cor-section {
-    margin-top: 14px;
-}
-
-.profile-family-frame .cor-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.profile-family-frame .cor-upload-box {
-    min-height: 155px;
-    padding: 12px;
-}
-
-.profile-family-frame .cor-upload-box h4 {
-    margin: 2px 0;
-}
-
-.profile-family-frame .cor-upload-box p {
-    margin: 2px 0 7px;
-}
-
-.profile-family-frame .submit-cor-btn,
-.profile-family-frame .cor-upload-btn {
-    height: 30px;
-}
-
-/* =========================================================
-   FINAL PROFILE SPACING FIX
-   - PERSONAL: LESS COMPRESSED
-   - FAMILY: COR / BOTTOM CONTENT NOT CUT OFF
-========================================================= */
-
-
-/* =========================================================
-   PERSONAL DETAILS
-========================================================= */
 
 .profile-personal-frame {
     height: 500px !important;
@@ -1363,9 +850,7 @@
 }
 
 
-/*
-   Give the personal content more breathing room.
-*/
+
 .profile-personal-frame .profile-card {
     padding: 8px 28px 10px !important;
 }
@@ -1377,9 +862,7 @@
 }
 
 
-/* =========================================================
-   NAME + CONTROL NUMBER
-========================================================= */
+
 
 .profile-personal-frame .profile-top-bar {
     margin-bottom: 8px !important;
@@ -1397,9 +880,7 @@
 }
 
 
-/* =========================================================
-   PERSONAL FORM
-========================================================= */
+
 
 .profile-personal-frame .profile-form-grid {
     gap: 7px 12px !important;
@@ -1422,9 +903,7 @@
 }
 
 
-/* =========================================================
-   AVATAR
-========================================================= */
+
 
 .profile-personal-frame .profile-avatar-circle {
     width: 105px !important;
@@ -1438,41 +917,6 @@
     width: 170px !important;
     min-width: 170px !important;
 }
-
-
-/* =========================================================
-   COR SUMMARY
-========================================================= */
-
-.profile-personal-frame .cor-summary-card {
-    height: 50px !important;
-    min-height: 50px !important;
-
-    margin-top: 9px !important;
-
-    padding: 8px 12px !important;
-}
-
-
-.profile-personal-frame .cor-summary-card strong {
-    font-size: 10px !important;
-}
-
-
-.profile-personal-frame .cor-summary-card span {
-    font-size: 9px !important;
-}
-
-
-.profile-personal-frame .cor-summary-btn {
-    width: 88px !important;
-    height: 32px !important;
-}
-
-
-/* =========================================================
-   NEXT BUTTON
-========================================================= */
 
 .profile-personal-frame .profile-card-footer {
     margin-top: 7px !important;
@@ -1491,9 +935,7 @@
 }
 
 
-/* =========================================================
-   FAMILY PAGE
-========================================================= */
+
 
 .profile-family-frame {
     height: 500px !important;
@@ -1504,11 +946,6 @@
 }
 
 
-/*
-   IMPORTANT:
-   Leave extra space at the bottom so the last COR
-   section can be scrolled ABOVE the fixed bottom nav.
-*/
 .profile-family-frame .family-scroll-area {
     top: 54px !important;
 
@@ -1527,9 +964,7 @@
 }
 
 
-/* =========================================================
-   FAMILY CONTENT
-========================================================= */
+
 
 .profile-family-frame .profile-card {
     padding-top: 5px !important;
@@ -1542,9 +977,7 @@
 }
 
 
-/* =========================================================
-   FAMILY FORM FIELDS
-========================================================= */
+
 
 .profile-family-frame .form-group label {
     font-size: 10px !important;
@@ -1559,61 +992,13 @@
     font-size: 11.5px !important;
 }
 
-
-/* =========================================================
-   COR SUBMISSION
-========================================================= */
-
-.profile-family-frame .cor-section {
-    margin-top: 18px !important;
-
-    padding: 16px !important;
-
-    margin-bottom: 20px !important;
-}
-
-
-.profile-family-frame .cor-grid {
-    gap: 14px !important;
-}
-
-
-.profile-family-frame .cor-upload-box {
-    min-height: 155px !important;
-
-    padding: 12px !important;
-}
-
-
-/* =========================================================
-   COR HISTORY
-========================================================= */
-
-.profile-family-frame .cor-history {
-    margin-top: 18px !important;
-
-    padding-bottom: 20px !important;
-}
-
-
-.profile-family-frame .cor-history-item {
-    min-height: 50px !important;
-}
-
-
-/* =========================================================
-   FAMILY FOOTER
-========================================================= */
-
 .profile-family-frame .family-footer {
     padding-top: 10px !important;
     padding-bottom: 30px !important;
 }
 
 
-/* =========================================================
-   CONTROL NUMBER
-========================================================= */
+
 
 .name-control-row {
     display: flex;
@@ -1648,23 +1033,17 @@
     white-space: nowrap;
 }
 
-/* =========================================================
-   FINAL FIX - FAMILY SCROLL MUST STOP ABOVE BOTTOM NAV
-   Applied to the uploaded profile CSS.
-========================================================= */
+
 
 .profile-family-frame {
     position: relative !important;
 
-    /* Keep the existing fixed-size frame */
+    
     overflow: hidden !important;
 }
 
 
-/*
-   The scroll viewport no longer reaches the fixed
-   bottom navigation. Content inside it remains scrollable.
-*/
+
 .profile-family-frame .family-scroll-area {
     position: absolute !important;
 
@@ -1672,10 +1051,7 @@
     left: 36px !important;
     right: 18px !important;
 
-    /*
-       Reserve space for the fixed bottom navigation.
-       This is the important overlap fix.
-    */
+    
     bottom: 92px !important;
 
     overflow-y: auto !important;
@@ -1691,7 +1067,7 @@
 }
 
 
-/* Chrome / Edge / Safari scrollbar */
+
 .profile-family-frame .family-scroll-area::-webkit-scrollbar {
     width: 7px;
 }
@@ -1707,30 +1083,12 @@
 
 .profile-family-frame .family-scroll-area::-webkit-scrollbar-thumb:hover {
     background: #42523f;
-}
-
-
-/*
-   Keep the last COR/history/footer content
-   comfortably inside the scrollable area.
-*/
-.profile-family-frame .cor-section {
-    margin-bottom: 20px !important;
-}
-
-.profile-family-frame .cor-history {
-    margin-bottom: 20px !important;
-    padding-bottom: 10px !important;
-}
-
-.profile-family-frame .family-footer {
+}.profile-family-frame .family-footer {
     padding-bottom: 25px !important;
 }
 
 
-/*
-   Keep the fixed bottom navigation above the page.
-*/
+
 .bottom-nav {
     position: fixed !important;
     left: 0 !important;
@@ -1740,10 +1098,7 @@
 }
 
 
-/* =========================================================
-   ADMIN-ASSIGNED ROLE
-   Role is display-only; students cannot edit it.
-========================================================= */
+
 
 #displayRole {
     color: #3b4839;
@@ -1760,113 +1115,13 @@
     white-space: nowrap;
 }
 
-/* =========================================================
-   REPRESENTATIVE PROFILE
-   Hide top-right avatar while inside Profile
-========================================================= */
+
 
 body.representative-profile-page .profile-avatar-wrapper {
     display: none !important;
-}
-
-/* =========================================================
-   COR SUBMISSION HISTORY
-========================================================= */
-
-.cor-history {
+}#corHistoryList {
     width: 100%;
-    margin-top: 20px;
-}
-
-.cor-history h4 {
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    font-weight: 800;
-    color: #222;
-}
-
-#corHistoryList {
-    width: 100%;
-}
-
-.cor-history-item {
-    width: 100%;
-    min-height: 62px;
-    box-sizing: border-box;
-
-    border: 1px solid #d6d6d6;
-    border-radius: 8px;
-
-    background: #fff;
-
-    padding: 12px 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-}
-
-.cor-history-main {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.cor-history-main strong {
-    font-size: 14px;
-    font-weight: 800;
-    color: #222;
-}
-
-.cor-history-main span {
-    font-size: 12px;
-    font-weight: 500;
-    color: #567;
-}
-
-.cor-status {
-    font-size: 11px;
-    font-weight: 800;
-    color: #555;
-    text-align: right;
-}
-
-/* EMPTY COR HISTORY */
-
-#corHistoryList .cor-history-item:has(.cor-history-main strong) {
-    box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-
-    .cor-history-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .cor-status {
-        text-align: left;
-    }
-
-}
-
-/* =========================================================
-   FIX - COR SUBMISSION HISTORY VISIBILITY
-========================================================= */
-
-.profile-family-frame .cor-history {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 70px !important;
-    overflow: visible !important;
-    box-sizing: border-box !important;
-}
-
-.profile-family-frame #corHistoryList {
+}@media (max-width: 768px) {}.profile-family-frame #corHistoryList {
     display: block !important;
     width: 100% !important;
     min-height: 55px !important;
@@ -1875,56 +1130,3 @@ body.representative-profile-page .profile-avatar-wrapper {
     visibility: visible !important;
     opacity: 1 !important;
 }
-
-.profile-family-frame #corHistoryList .cor-history-item {
-    display: flex !important;
-    width: 100% !important;
-    min-height: 52px !important;
-    height: auto !important;
-
-    padding: 10px 14px !important;
-    margin: 8px 0 0 0 !important;
-
-    border: 1px solid #d2d9cf !important;
-    border-radius: 6px !important;
-
-    background: #ffffff !important;
-
-    align-items: center !important;
-    justify-content: space-between !important;
-
-    box-sizing: border-box !important;
-
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-.profile-family-frame #corHistoryList .cor-history-main {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3px !important;
-    visibility: visible !important;
-}
-
-.profile-family-frame #corHistoryList .cor-history-main strong {
-    display: block !important;
-
-    color: #42523f !important;
-
-    font-size: 12px !important;
-    font-weight: 900 !important;
-
-    visibility: visible !important;
-}
-
-.profile-family-frame #corHistoryList .cor-history-main span {
-    display: block !important;
-
-    color: #768a75 !important;
-
-    font-size: 10px !important;
-    font-weight: 600 !important;
-
-    visibility: visible !important;
-}
-

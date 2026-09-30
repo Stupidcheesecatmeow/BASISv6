@@ -473,6 +473,7 @@
                     <button
                         type="button"
                         class="act-btn solid-btn"
+                        id="activityQrButton"
                         onclick="showSubView('view-qr')"
                     >
                         QR CODE
@@ -484,6 +485,7 @@
                     <button
                         type="button"
                         class="act-btn outline-btn"
+                        id="activityProofButton"
                         onclick="showSubView('view-submission')"
                     >
                         SUBMISSION
@@ -561,24 +563,13 @@
                         <!-- QR PLACEHOLDER -->
 
                         <div class="qr-placeholder">
-
-
-                            <i
-                                class="fa-solid fa-qrcode"
-                            ></i>
-
-
-                            <span>
-                                QR CODE
-                            </span>
-
+                            <img id="activityQrImage" alt="Activity attendance QR code">
                         </div>
 
 
                         <p class="qr-placeholder-note">
 
-                            QR generation will be
-                            available here.
+                            Present this QR code to record your activity attendance.
 
                         </p>
 
@@ -931,7 +922,7 @@
                             submit a signed letter
                             indicating your full name,
                             municipality, barangay,
-                            cluster, and the reason
+                            and the reason
                             for your absence.
 
                         </p>

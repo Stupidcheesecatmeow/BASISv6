@@ -38,73 +38,17 @@ document.addEventListener(
    LOAD ACTIVITIES
 ========================================================= */
 
-function loadActivities() {
-
-    /*
-        Activities should be stored by the
-        Create Activity page using:
-
-        localStorage.setItem(
-            "activities",
-            JSON.stringify(activities)
-        );
-    */
-
-
-    const savedActivities =
-        localStorage.getItem("activities");
-
-
-    /*
-        No created activities yet.
-    */
-
-    if (!savedActivities) {
-
-        activities = [];
-
-        renderActivities();
-
-        return;
-
-    }
-
-
+async function loadActivities() {
     try {
-
-        const parsed =
-            JSON.parse(savedActivities);
-
-
-        /*
-            Make sure the stored data
-            is an array.
-        */
-
-        if (Array.isArray(parsed)) {
-
-            activities = parsed;
-
-        } else {
-
-            activities = [];
-
-        }
-
+        const response = await fetch('../admin/api/account_api.php?action=activities', {credentials:'same-origin'});
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load activities.');
+        activities = Array.isArray(data.activities) ? data.activities : [];
     } catch (error) {
-
-        console.error(
-            "Unable to load activities:",
-            error
-        );
-
         activities = [];
-
+        console.error('Unable to load activities:', error);
     }
-
-
-    renderActivities();
-
+    renderActivities(document.getElementById('activitySearch')?.value || '');
 }
 
 
@@ -327,6 +271,13 @@ function openActivityDetail(activity) {
     currentActivity =
         activity;
 
+    const qrEnabled = ["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
+    const proofEnabled = ["proof", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
+    const qrButton = document.getElementById("activityQrButton");
+    const proofButton = document.getElementById("activityProofButton");
+    if (qrButton) qrButton.hidden = !qrEnabled;
+    if (proofButton) proofButton.hidden = !proofEnabled;
+
 
     /*
         Populate every page using
@@ -436,6 +387,12 @@ function populateActivityDetail(
 function populateQRPage(
     activity
 ) {
+
+    const qrImage = document.getElementById("activityQrImage");
+    if (qrImage) {
+        qrImage.hidden = !["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
+        if (!qrImage.hidden) qrImage.src = `../admin/api/activity_qr.php?id=${encodeURIComponent(activity.id)}`;
+    }
 
     setText(
         "qrSemester",
@@ -1073,7 +1030,7 @@ function setupFileUpload() {
 
     submitButton.addEventListener(
         "click",
-        function () {
+        async function () {
 
             const file =
                 fileInput.files[0];
@@ -1103,13 +1060,6 @@ function setupFileUpload() {
             }
 
 
-            /*
-                Front-end submission for now.
-
-                Actual server/database upload
-                can be connected later.
-            */
-
             const activityTitle =
                 currentActivity
                     ? getActivityTitle(
@@ -1123,17 +1073,28 @@ function setupFileUpload() {
                     .toUpperCase();
 
 
-            setStatus(
-                `${submissionType} file selected successfully for "${activityTitle}".`,
-                false
-            );
-
-
             submitButton.disabled = true;
-
-
-            submitButton.textContent =
-                "SUBMITTED";
+            submitButton.textContent = 'SUBMITTING...';
+            try {
+                const fileData = await new Promise((resolve,reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error('Unable to read file.'));
+                    reader.readAsDataURL(file);
+                });
+                const response = await fetch('../admin/api/account_api.php?action=submit', {
+                    method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({activity_id:currentActivity.id,submission_type:currentSubmissionType,file_name:file.name,file_data:fileData})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed.');
+                setStatus(`${submissionType} file submitted for "${activityTitle}" and is awaiting verification.`, false);
+                submitButton.textContent = 'SUBMITTED';
+            } catch (error) {
+                setStatus(error.message, true);
+                submitButton.disabled = false;
+                submitButton.textContent = 'SUBMIT FILE';
+            }
 
 
         }

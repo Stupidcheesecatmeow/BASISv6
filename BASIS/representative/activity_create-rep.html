@@ -76,7 +76,11 @@
                     <div class="form-row">
                         <div class="form-field">
                             <label>GENERATE QR CODE:</label>
-                            <select id="generateQr"><option value=""></option></select>
+                            <select id="generateQr" required>
+                                <option value="both">QR CODE + PROOF SUBMISSION</option>
+                                <option value="qr">QR CODE ONLY</option>
+                                <option value="proof">PROOF SUBMISSION ONLY</option>
+                            </select>
                         </div>
                         <div class="form-field">
                             <label>DEADLINE OF SUBMISSION:</label>
