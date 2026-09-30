@@ -315,6 +315,20 @@ function updateUser(PDO $pdo): void
 
     $role = normalizeRole($input['role'] ?? $existing['role']);
     $status = normalizeStatus($input['status'] ?? $existing['status']);
+
+    // A promotion applies only to the selected account. Keep at least one
+    // active administrator so role changes can never lock the system out.
+    if (
+        $existing['role'] === 'ADMIN' &&
+        $existing['status'] === 'ACTIVE' &&
+        ($role !== 'ADMIN' || $status !== 'ACTIVE')
+    ) {
+        $activeAdmins = $pdo->query("SELECT COUNT(*) FROM users WHERE role='ADMIN' AND status='ACTIVE'")->fetchColumn();
+        if ((int)$activeAdmins <= 1) {
+            respond(false, 'At least one active administrator must remain. Add or activate another admin before changing this account.', 409);
+        }
+    }
+
     $fields = [
         'role' => $role,
         'status' => $status,
