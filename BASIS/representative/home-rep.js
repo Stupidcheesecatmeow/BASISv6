@@ -18,7 +18,7 @@
 (function () {
     'use strict';
 
-    const PROFILE_KEY = `basisProfile_${localStorage.getItem('basisCurrentUserId') || 'guest'}`;
+    const PROFILE_KEY = `basisProfile_${sessionStorage.getItem('basisCurrentUserId') || 'guest'}`;
 
     const barangayEl = document.getElementById('representativeBarangay');
     const totalEl = document.getElementById('totalScholars');

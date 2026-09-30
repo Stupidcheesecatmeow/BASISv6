@@ -22,7 +22,7 @@ function getRegisteredAdmin() {
         basisAdmin
     */
 
-    const currentId = localStorage.getItem("basisCurrentUserId");
+    const currentId = sessionStorage.getItem("basisCurrentUserId");
     const keys = currentId ? [`basisProfile_${currentId}`] : [];
 
 
@@ -898,7 +898,7 @@ window.addEventListener(
 
         if (
 
-            event.key === `basisProfile_${localStorage.getItem("basisCurrentUserId")}`
+            event.key === `basisProfile_${sessionStorage.getItem("basisCurrentUserId")}`
 
         ) {
 

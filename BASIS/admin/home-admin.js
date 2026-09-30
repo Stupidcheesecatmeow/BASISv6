@@ -71,27 +71,6 @@ function getScholars() {
     if (Array.isArray(dashboardUsers)) {
         return dashboardUsers;
     }
-
-    const data = getStorageData([
-        "basisAdminScholars",
-        "adminScholars",
-        "basisScholars",
-        "scholars",
-        "registeredScholars"
-    ], []);
-
-    if (Array.isArray(data)) {
-        return data;
-    }
-
-    if (data && Array.isArray(data.scholars)) {
-        return data.scholars;
-    }
-
-    if (data && Array.isArray(data.users)) {
-        return data.users;
-    }
-
     return [];
 }
 
@@ -154,6 +133,14 @@ function getDashboardUsers() {
 ========================================================= */
 
 function renderOverallStatistics() {
+
+    if (!Array.isArray(dashboardUsers)) {
+        ["totalUsers", "maleUsers", "femaleUsers", "barangaySummaryTotal", "barangaySummaryMale", "barangaySummaryFemale"].forEach(function (id) {
+            const element = document.getElementById(id);
+            if (element) element.textContent = "—";
+        });
+        return;
+    }
 
     const users =
         getDashboardUsers();
@@ -271,6 +258,11 @@ function renderBarangayStatistics() {
 
 
     if (!container) return;
+
+    if (!Array.isArray(dashboardUsers)) {
+        container.innerHTML = '<p class="dashboard-load-error">User totals could not be loaded. Check your sign-in and refresh.</p>';
+        return;
+    }
 
 
     const users =
@@ -1159,7 +1151,8 @@ async function refreshDashboardUsers() {
         renderAdminDashboard();
     } catch (error) {
         console.error("Unable to refresh admin dashboard users:", error);
-        if (!Array.isArray(dashboardUsers)) renderAdminDashboard();
+        dashboardUsers = null;
+        renderAdminDashboard();
     }
 }
 
@@ -1172,6 +1165,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+        renderAdminDashboard();
         refreshDashboardUsers();
 
     }
@@ -1246,11 +1240,6 @@ window.addEventListener(
    another page modifies localStorage in
    the same browser tab/window flow.
 ========================================================= */
-
-setInterval(
-    renderAdminDashboard,
-    2000
-);
 
 setInterval(
     refreshDashboardUsers,

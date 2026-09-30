@@ -9,6 +9,16 @@ try {
     $pdo = db();
     $action = $_GET['action'] ?? '';
     $input = requestInput();
+    if ($action === 'tab-token') {
+        $id=(int)($_SESSION['user_id']??0);
+        if(!$id) jsonResponse(false,'Please sign in.',401);
+        $stmt=$pdo->prepare("SELECT id FROM users WHERE id=? AND status='ACTIVE'");
+        $stmt->execute([$id]);
+        if(!$stmt->fetchColumn()) jsonResponse(false,'Account is unavailable.',403);
+        $token=bin2hex(random_bytes(32));
+        $pdo->prepare("INSERT INTO auth_sessions(token_hash,user_id,expires_at) VALUES(?,?,datetime('now','+30 days'))")->execute([hash('sha256',$token),$id]);
+        jsonResponse(true,'',200,['token'=>$token]);
+    }
     if ($action === 'me') {
         require_once __DIR__ . '/http.php';
         $auth = authenticatedUser($pdo, true);
@@ -18,7 +28,7 @@ try {
         if (!$user || $user['status'] !== 'ACTIVE') jsonResponse(false, 'Account is unavailable.', 403);
         jsonResponse(true, '', 200, ['user' => $user]);
     }
-    if ($action === 'logout') { $header=(string)($_SERVER['HTTP_AUTHORIZATION']??''); if(preg_match('/^Bearer\s+([a-f0-9]{64})$/i',$header,$match)) $pdo->prepare('DELETE FROM auth_sessions WHERE token_hash=?')->execute([hash('sha256',$match[1])]); $_SESSION = []; session_destroy(); jsonResponse(true, 'Signed out.'); }
+    if ($action === 'logout') { $token=bearerToken(); if($token!=='') $pdo->prepare('DELETE FROM auth_sessions WHERE token_hash=?')->execute([hash('sha256',$token)]); $_SESSION = []; session_destroy(); jsonResponse(true, 'Signed out.'); }
     if ($action === 'change-password') {
         require_once __DIR__ . '/http.php';
         $id = (int)authenticatedUser($pdo, true)['id'];

@@ -12,6 +12,8 @@ document.addEventListener('click', async (event) => {
     const endpoint = new URL('admin/api/auth_api.php?action=logout', script.src);
     await fetch(endpoint, {method:'POST', credentials:'same-origin'});
   } finally {
+    sessionStorage.removeItem('basisAuthToken');
+    sessionStorage.removeItem('basisCurrentUserId');
     const script = getAuthScript();
     location.href = new URL('authentication/login.html', script.src).href;
   }
@@ -37,7 +39,7 @@ window.BASISAuth = {
     const data = {...profile};
     await this.profileRequest('PUT', data);
     if (data.id) {
-      localStorage.setItem('basisCurrentUserId', String(data.id));
+      sessionStorage.setItem('basisCurrentUserId', String(data.id));
       localStorage.setItem(`basisProfile_${data.id}`, JSON.stringify(data));
     }
     window.dispatchEvent(new CustomEvent('basis-profile-updated', {detail:data}));
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const profile = await window.BASISAuth.profileRequest('GET');
     if (profile.id) {
-      localStorage.setItem('basisCurrentUserId', String(profile.id));
+      sessionStorage.setItem('basisCurrentUserId', String(profile.id));
       localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
     }
     if (typeof window.loadPersonalForm === 'function') window.loadPersonalForm(profile);

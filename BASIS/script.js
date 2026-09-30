@@ -1,10 +1,47 @@
+/* Keep API identity scoped to this browser tab instead of the shared PHP cookie. */
+if (!window.__basisFetchIsolated) {
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = (input, init = {}) => {
+        const rawUrl = input instanceof Request ? input.url : input;
+        let target;
+        try { target = new URL(rawUrl, window.location.href); } catch { return nativeFetch(input, init); }
+        if (target.origin !== window.location.origin) return nativeFetch(input, init);
+        const attachToken = (token) => {
+            if (!token) return nativeFetch(input, init);
+            const headers = new Headers(input instanceof Request ? input.headers : undefined);
+            new Headers(init.headers || {}).forEach((value, key) => headers.set(key, value));
+            headers.set("Authorization", `Bearer ${token}`);
+            return nativeFetch(input, {...init, headers});
+        };
+        const token = sessionStorage.getItem("basisAuthToken");
+        if (token) return attachToken(token);
+        if (!window.__basisTabTokenPromise) {
+            const appScript = [...document.scripts].find((item) => {
+                try { return new URL(item.src).pathname.endsWith("/script.js"); } catch { return false; }
+            });
+            if (!appScript) return nativeFetch(input, init);
+            const authUrl = new URL("admin/api/auth_api.php?action=tab-token", appScript.src);
+            window.__basisTabTokenPromise = nativeFetch(authUrl, {credentials:"same-origin", cache:"no-store"})
+                .then(async (response) => {
+                    const data = await response.json();
+                    if (!response.ok || !data.success || !data.token) return "";
+                    sessionStorage.setItem("basisAuthToken", data.token);
+                    return data.token;
+                })
+                .catch(() => "");
+        }
+        return window.__basisTabTokenPromise.then(attachToken);
+    };
+    window.__basisFetchIsolated = true;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // Each account has its own profile record on the server. Load that record
     // for every module so the header never falls back to a shared role cache.
     const applyProfileAvatar = (profile) => {
         if (!profile || !profile.id) return;
-        localStorage.setItem("basisCurrentUserId", String(profile.id));
+        sessionStorage.setItem("basisCurrentUserId", String(profile.id));
         localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
         if (!profile.profilePhoto) return;
         document.querySelectorAll(".header-avatar").forEach((avatar) => {

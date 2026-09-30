@@ -1,10 +1,16 @@
 const form = document.getElementById('changePasswordForm');
 const message = document.getElementById('changePasswordMessage');
 const endpoint = '../admin/api/auth_api.php';
+const authHeaders = (headers = {}) => {
+  const token = sessionStorage.getItem('basisAuthToken');
+  return token ? {...headers, Authorization:`Bearer ${token}`} : headers;
+};
 
 document.getElementById('signOutLink').addEventListener('click', async (event) => {
   event.preventDefault();
-  await fetch(`${endpoint}?action=logout`, {method:'POST', credentials:'same-origin'});
+  await fetch(`${endpoint}?action=logout`, {method:'POST', credentials:'same-origin', headers:authHeaders()});
+  sessionStorage.removeItem('basisAuthToken');
+  sessionStorage.removeItem('basisCurrentUserId');
   window.location.href = 'login.html';
 });
 
@@ -16,7 +22,7 @@ form.addEventListener('submit', async (event) => {
   try {
     const response = await fetch(`${endpoint}?action=change-password`, {
       method:'POST', credentials:'same-origin',
-      headers:{'Content-Type':'application/json'},
+      headers:authHeaders({'Content-Type':'application/json'}),
       body:JSON.stringify({
         current_password:document.getElementById('currentPassword').value,
         password:document.getElementById('newPassword').value,
@@ -25,7 +31,7 @@ form.addEventListener('submit', async (event) => {
     });
     const data = await response.json();
     if (!response.ok || !data.success) throw new Error(data.message || 'Could not change password.');
-    const session = await fetch(`${endpoint}?action=me`, {credentials:'same-origin'}).then(r => r.json());
+    const session = await fetch(`${endpoint}?action=me`, {credentials:'same-origin', headers:authHeaders()}).then(r => r.json());
     const destinations = {ADMIN:'../admin/home-admin.html', REPRESENTATIVE:'../representative/home-rep.html', ISKOLAR:'../home/home.html'};
     window.location.href = destinations[session.user?.role] || 'login.html';
   } catch (error) {
