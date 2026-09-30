@@ -70,6 +70,7 @@ function listUsers(PDO $pdo): void
             email,
             role,
             status,
+            sex,
             municipality,
             barangay,
             profile_completed,

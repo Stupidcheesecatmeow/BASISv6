@@ -24,6 +24,8 @@ const BAGAC_BARANGAYS = [
     "Atilano Ricardo"
 ];
 
+let dashboardUsers = null;
+
 
 /* =========================================================
    STORAGE HELPERS
@@ -65,6 +67,10 @@ function getStorageData(keys, fallback = []) {
 ========================================================= */
 
 function getScholars() {
+
+    if (Array.isArray(dashboardUsers)) {
+        return dashboardUsers;
+    }
 
     const data = getStorageData([
         "basisAdminScholars",
@@ -171,6 +177,10 @@ function getValidScholars() {
     return getScholars()
         .map(normalizeScholar)
         .filter(isApprovedScholar)
+        .filter(function (scholar) {
+            const role = String(scholar.role || "ISKOLAR").trim().toUpperCase();
+            return ["ISKOLAR", "SCHOLAR", "STUDENT"].includes(role);
+        })
         .filter(function (scholar) {
 
             return String(
@@ -1178,6 +1188,25 @@ function renderAdminDashboard() {
     renderOngoingActivities();
 }
 
+async function refreshDashboardUsers() {
+    try {
+        const response = await fetch("api/user_api.php?action=list", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+        const data = await response.json();
+        if (!response.ok || !data.success || !Array.isArray(data.users)) {
+            throw new Error(data.message || "Unable to load user data.");
+        }
+
+        dashboardUsers = data.users;
+        renderAdminDashboard();
+    } catch (error) {
+        console.error("Unable to refresh admin dashboard users:", error);
+        if (!Array.isArray(dashboardUsers)) renderAdminDashboard();
+    }
+}
+
 
 /* =========================================================
    INITIAL LOAD
@@ -1187,7 +1216,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        renderAdminDashboard();
+        refreshDashboardUsers();
 
     }
 );
@@ -1201,7 +1230,7 @@ window.addEventListener(
     "pageshow",
     function () {
 
-        renderAdminDashboard();
+        refreshDashboardUsers();
 
     }
 );
@@ -1265,4 +1294,9 @@ window.addEventListener(
 setInterval(
     renderAdminDashboard,
     2000
+);
+
+setInterval(
+    refreshDashboardUsers,
+    10000
 );
