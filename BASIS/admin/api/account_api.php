@@ -3,6 +3,21 @@ declare(strict_types=1);
 require_once __DIR__.'/db.php'; require_once __DIR__.'/http.php';
 try {
  $pdo=db(); $user=requireUser($pdo); $method=$_SERVER['REQUEST_METHOD']??'GET'; $action=$_GET['action']??'profile'; $in=requestInput(); $uid=(int)$user['id'];
+ if($action==='representative-dashboard' && $method==='GET') {
+     if (($user['role'] ?? '') !== 'REPRESENTATIVE') jsonResponse(false,'Representative access required.',403);
+     $assignment=$pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id=?');
+     $assignment->execute([$uid]);
+     $extra=json_decode((string)($assignment->fetchColumn() ?: '{}'),true);
+     $assignedBarangay=is_array($extra)?trim((string)($extra['assignedBarangay']??'')):'';
+     if ($assignedBarangay==='') jsonResponse(true,'',200,['assignedBarangay'=>'','users'=>[]]);
+     $normalizeBarangay=static fn(string $value): string => preg_replace('/[^a-z0-9]/i','',strtolower(trim($value))) ?? '';
+     $users=$pdo->query("SELECT id,name,role,status,sex,barangay FROM users WHERE status='ACTIVE'")->fetchAll();
+     $members=[];
+     foreach($users as $member) {
+         if ($normalizeBarangay((string)($member['barangay']??''))===$normalizeBarangay($assignedBarangay)) $members[]=$member;
+     }
+     jsonResponse(true,'',200,['assignedBarangay'=>$assignedBarangay,'users'=>$members]);
+ }
  if($action==='profile' && $method==='GET') { $s=$pdo->prepare('SELECT u.id,u.control_number,u.name,u.email,u.role,u.status,u.municipality,u.barangay,u.given_name,u.surname,u.middle_name,u.suffix,u.sex,u.birthday,u.contact_no,u.religion,u.school,u.program,u.year_level,u.profile_completed,p.profile_json FROM users u LEFT JOIN account_profiles p ON p.user_id=u.id WHERE u.id=?');$s->execute([$uid]);$row=$s->fetch();$extra=json_decode($row['profile_json']??'{}',true);unset($row['profile_json']);$profile=array_merge(is_array($extra)?$extra:[],$row);$profile['registrationStatus']=in_array(strtolower($row['status']),['active','inactive'],true)?'approved':'pending';$profile['controlNumber']=$row['control_number'];$profile['givenName']=$row['given_name']??'';$profile['middleName']=$row['middle_name']??'';$profile['surname']=$row['surname']??'';$profile['suffix']=$row['suffix']??'';$profile['sex']=$row['sex']??'';$profile['birthday']=$row['birthday']??'';$profile['contact']=$row['contact_no']??'';$profile['religion']=$row['religion']??'';$profile['municipality']=$row['municipality']??'';$profile['barangay']=$row['barangay']??'';$profile['school']=$row['school']??'';$profile['program']=$row['program']??'';$profile['yearLevel']=$row['year_level']??'';$profile['studentStatus']=$row['status'];jsonResponse(true,'',200,['profile'=>$profile]); }
  if ($action === 'profile' && $method === 'PUT') {
      $profile = $in['profile'] ?? null;
