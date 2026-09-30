@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-rep.css?v=5">
+    <link rel="stylesheet" href="activity-rep.css?v=6">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 <body class="dashboard-page representative-page">
@@ -62,7 +62,7 @@
             </div>
 
             <div class="action-buttons-row">
-                <button class="act-btn solid-btn" data-requires-qr onclick="showSubView('view-activity-qr')">QR CODE</button>
+                <button class="act-btn solid-btn" data-requires-qr onclick="showSubView('view-activity-qr')">MY QR CODE</button>
                 <button class="act-btn outline-btn" data-requires-proof onclick="showSubView('view-activity-submission')">SUBMISSION</button>
             </div>
         </div>
@@ -70,46 +70,15 @@
 </section>
 
 <section id="view-activity-qr" class="page-view">
-        <div class="view-banner">
-            <h2>ACTIVITY</h2>
+    <div class="view-banner"><h2>ACTIVITY QR</h2></div>
+    <div class="view-body bordered-frame relative-frame">
+        <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
+        <div class="my-activity-qr">
+            <h3>MY ATTENDANCE QR CODE</h3>
+            <img id="activityQrImage" alt="Your activity attendance QR code">
+            <p>Show your QR to another admin or representative to record your attendance for this activity.</p>
         </div>
-        <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
-
-            <div class="qr-view-layout">
-                <div class="qr-code-box">
-                    <h3>ATTENDANCE QR CODE</h3>
-                    <div class="qr-img-wrapper">
-                        <img id="activityQrImage" alt="Activity attendance QR code">
-                    </div>
-                </div>
-
-                <div class="qr-info-side">
-                    <label for="activityQrUserSelect">ISKOLAR:</label>
-                    <select id="activityQrUserSelect"><option value="">Select an iskolar</option></select>
-                    <div class="note-box">
-                        <p><strong>Note:</strong> This QR code can only be used twice (time in and time out). Failure to have it scanned within the validity period will result in an Absent or Missing Activity status. Once the activity ended, the QR code will be deactivated and can no longer be used. Please ensure that your QR code has been successfully scanned within the activity period.</p>
-                    </div>
-
-                    <div class="sem-tag text-right" id="qrSemester"></div>
-
-                    <div class="qr-details-grid">
-                        <h2 id="qrTitle"></h2>
-                        <p><strong>TYPE OF ACTIVITY:</strong> <span id="qrType"></span></p>
-                        <p><strong>DATE:</strong> <span id="qrDate"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>TIME:</strong> <span id="qrTime"></span></p>
-                        <p><strong>VENUE:</strong> <span id="qrVenue"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>VENUE ADDRESS:</strong> <span id="qrVenueAddress"></span></p>
-                        <p><strong>NAME:</strong> <span id="qrName"></span></p>
-                        <p><strong>MUNICIPALITY:</strong> <span id="qrMunicipality"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>BARANGAY:</strong> <span id="qrBarangay"></span></p>
-                        <p><strong>DEADLINE:</strong> <span id="qrDeadline"></span></p>
-                    </div>
-
-                    <div class="btn-right-container">
-                        <button class="act-btn outline-btn download-btn">DOWNLOAD</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
+    </div>
 </section>
 
 <section id="view-activity-submission" class="page-view">
@@ -192,7 +161,7 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-rep.js?v=6"></script>
+<script src="activity-rep.js?v=20260930-activity-qr-user"></script>
 
 </body>
 </html>

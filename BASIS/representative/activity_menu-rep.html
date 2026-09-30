@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-rep.css?v=5">
+    <link rel="stylesheet" href="activity-rep.css?v=6">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 <body class="dashboard-page representative-page">
@@ -46,6 +46,10 @@
                 <div class="activity-menu-item" data-requires-proof onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
                 <div class="activity-menu-item" onclick="showSubView('view-activity-participants')">ACTIVITY PARTICIPANTS</div>
             </div>
+            <div class="activity-manage-actions">
+                <button type="button" class="activity-manage-btn" onclick="editSelectedActivity()">EDIT ACTIVITY</button>
+                <button type="button" class="activity-manage-btn activity-delete-btn" onclick="deleteSelectedActivity()">DELETE ACTIVITY</button>
+            </div>
         </div>
     
 </section>
@@ -62,9 +66,11 @@
                     <div class="scan-preview">
                         <div id="qrScannerMount" hidden></div>
                         <video id="qrScanVideo" playsinline hidden></video>
-                        <p id="scanStatus">Press SCAN and allow camera access.</p>
+                        <p id="scanStatus" aria-live="polite"></p>
                     </div>
-                    <button class="scan-btn" id="scanActionBtn" onclick="runScan()">SCAN</button>
+                    <button class="scan-btn" id="scanActionBtn" onclick="runScan()">SCAN WITH CAMERA</button>
+                    <button class="scan-import-btn" type="button" onclick="document.getElementById('qrImportFile').click()">IMPORT QR IMAGE</button>
+                    <input id="qrImportFile" type="file" accept="image/*" hidden>
                 </div>
 
                 <div class="scan-info-side">
@@ -301,7 +307,7 @@
 <script src="../script.js?v=20260930-tab-auth2"></script>
 <script src="../admin/xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="activity-rep.js?v=6"></script>
+<script src="activity-rep.js?v=7"></script>
 
 </body>
 </html>

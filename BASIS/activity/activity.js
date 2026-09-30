@@ -399,7 +399,19 @@ async function populateQRPage(
     const qrImage = document.getElementById("activityQrImage");
     if (qrImage) {
         qrImage.hidden = !["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
-        if (!qrImage.hidden) qrImage.src = `../admin/api/activity_qr.php?id=${encodeURIComponent(activity.id)}`;
+        if (!qrImage.hidden) {
+            try {
+                const response = await fetch(`../admin/api/activity_qr.php?id=${encodeURIComponent(activity.id)}`, { credentials: "same-origin", cache: "no-store" });
+                if (!response.ok) throw new Error("The QR code could not be loaded for this signed-in iskolar.");
+                const blob = await response.blob();
+                if (qrImage.dataset.qrObjectUrl) URL.revokeObjectURL(qrImage.dataset.qrObjectUrl);
+                qrImage.dataset.qrObjectUrl = URL.createObjectURL(blob);
+                qrImage.src = qrImage.dataset.qrObjectUrl;
+            } catch (error) {
+                qrImage.removeAttribute("src");
+                console.error(error.message);
+            }
+        }
     }
 
     try {

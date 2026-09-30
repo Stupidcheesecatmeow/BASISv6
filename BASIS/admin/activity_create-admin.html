@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-admin.css?v=5">
+    <link rel="stylesheet" href="activity-admin.css?v=6">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 <body class="dashboard-page admin-page">
@@ -32,10 +32,10 @@
 <main class="dash-main">
 <section class="page-view active">
         <div class="view-banner">
-            <h2>ACTIVITY</h2>
+            <h2 id="activityFormTitle">CREATE ACTIVITY</h2>
         </div>
         <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" onclick="window.location.href='activity-admin.html'"><i class="fa-solid fa-circle-xmark"></i></button>
+            <button class="close-view-btn" id="activityFormBack" onclick="window.location.href='activity-admin.html'"><i class="fa-solid fa-circle-xmark"></i></button>
 
             <div class="activity-create-grid">
                 <div class="create-form-fields">
@@ -122,7 +122,7 @@
             </div>
 
             <div class="create-btn-row">
-                <button class="create-btn" onclick="submitNewActivity()">CREATE</button>
+                <button class="create-btn" id="activitySaveBtn" onclick="submitNewActivity()">CREATE</button>
             </div>
         </div>
     
@@ -159,7 +159,7 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-admin.js?v=4"></script>
+<script src="activity-admin.js?v=7"></script>
 
 </body>
 </html>
