@@ -203,8 +203,10 @@ function renderOverallStatistics() {
         getValidScholars();
 
 
-    const total =
-        scholars.length;
+    // Match User Management: count every account, regardless of role or status.
+    const totalUsers = Array.isArray(dashboardUsers)
+        ? dashboardUsers.length
+        : scholars.length;
 
 
     const male =
@@ -235,7 +237,7 @@ function renderOverallStatistics() {
 
     const totalElement =
         document.getElementById(
-            "totalScholars"
+            "totalUsers"
         );
 
     const maleElement =
@@ -250,7 +252,7 @@ function renderOverallStatistics() {
 
 
     if (totalElement) {
-        totalElement.textContent = total;
+        totalElement.textContent = totalUsers;
     }
 
 
