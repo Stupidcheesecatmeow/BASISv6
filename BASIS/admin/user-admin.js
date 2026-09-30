@@ -265,8 +265,24 @@ function fillProfile(user) {
     $("program").value =
         user.program || "";
 
-    $("yearLevel").value =
-        user.year_level || "";
+    const yearLevel = $("yearLevel");
+    yearLevel.querySelectorAll("option[data-custom-year-level]").forEach(option => option.remove());
+    const savedYearLevel = String(user.year_level || "").trim();
+    const yearOption = Array.from(yearLevel.options).find(option =>
+        option.value.toUpperCase() === savedYearLevel.toUpperCase()
+    );
+    if (savedYearLevel && yearOption) {
+        yearLevel.value = yearOption.value;
+    } else if (savedYearLevel) {
+        const customOption = document.createElement("option");
+        customOption.value = savedYearLevel;
+        customOption.textContent = savedYearLevel;
+        customOption.dataset.customYearLevel = "true";
+        yearLevel.add(customOption);
+        yearLevel.value = savedYearLevel;
+    } else {
+        yearLevel.value = "";
+    }
 
     $("profileCompleted").value =
         Number(user.profile_completed) === 1
