@@ -5,6 +5,17 @@
 .activity-main {
     padding-bottom: 95px;
     box-sizing: border-box;
+    overflow: hidden;
+    min-height: 0;
+}
+
+body.dashboard-page.activity-dashboard-page {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* =========================================================
@@ -13,21 +24,28 @@
 
 .activity-main .page-view {
     width: 100%;
-    height: auto;
+    height: 100%;
+    flex: 1 1 0;
     min-height: 0;
-    max-height: none;
-    overflow: visible;
+    max-height: 100%;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
 .activity-main .view-body {
     width: 100%;
     height: auto;
+    flex: 1 1 auto;
     min-height: 0;
-    max-height: none;
-    overflow: visible;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     box-sizing: border-box;
 }
+
+.activity-description-image { display:block; max-width:100%; max-height:480px; margin:12px 0; object-fit:contain; border-radius:8px; }
+img[hidden] { display:none !important; }
 
 /* =========================================================
    ACTIVITY LIST FRAME
@@ -957,4 +975,148 @@
     bottom: 0;
 
     z-index: 9999;
+}
+
+/* Keep activity details and controls inside their frame at every width. */
+.activity-main .activity-detail-frame {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
+    padding: 58px clamp(16px, 2.2vw, 30px) 24px;
+}
+
+.activity-main .activity-detail-header,
+.activity-main .activity-title-block,
+.activity-main .activity-meta-grid,
+.activity-main .activity-description {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.activity-main .activity-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.activity-main .activity-meta-grid p,
+.activity-main .activity-meta-grid span,
+.activity-main .activity-type-text,
+.activity-main .sem-tag,
+.activity-main .deadline-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.activity-main .activity-detail-frame > .close-view-btn {
+    top: 14px;
+    left: 16px;
+}
+
+.activity-main .action-buttons-row {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.activity-main .action-buttons-row .act-btn {
+    max-width: 100%;
+}
+
+.activity-main .qr-view-layout {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.activity-main .qr-code-box {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.activity-main .qr-info-side,
+.activity-main .qr-details-grid {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .activity-main .activity-detail-frame {
+        padding: 54px 16px 18px;
+    }
+
+    .activity-main .activity-detail-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-top: 0;
+    }
+
+    .activity-main .activity-main-title {
+        font-size: clamp(21px, 6vw, 28px);
+    }
+
+    .activity-main .sem-tag {
+        text-align: left;
+        white-space: normal;
+    }
+
+    .activity-main .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .activity-main .action-buttons-row {
+        justify-content: stretch;
+    }
+
+    .activity-main .action-buttons-row .act-btn {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .activity-main .qr-view-layout {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .activity-main .qr-code-box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    .activity-main {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        padding-bottom: 95px !important;
+        overflow: hidden !important;
+    }
+
+    .activity-main .page-view {
+        flex: 1 1 0;
+        height: 100%;
+        max-height: 100%;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .activity-main .view-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }

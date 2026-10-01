@@ -60,14 +60,14 @@
 
     <link
         rel="stylesheet"
-        href="activity.css"
+        href="activity.css?v=20260930-activity-box-scroll"
     >
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 
 
-<body class="dashboard-page">
+<body class="dashboard-page activity-dashboard-page">
 
 
     <!-- =====================================================
@@ -437,6 +437,7 @@
                     >
                         —
                     </p>
+                    <img id="detailDescriptionImage" class="activity-description-image" alt="Activity attachment" hidden>
 
 
                     <!-- DEADLINE -->
@@ -589,30 +590,7 @@
 
                         <div class="note-box">
 
-                            <p>
-
-                                <strong>
-                                    Note:
-                                </strong>
-
-                                This QR code can only be
-                                used twice (time in and
-                                time out). Failure to have
-                                it scanned within the
-                                validity period will result
-                                in an Absent or Missing
-                                Activity status.
-
-                            </p>
-
-
-                            <p>
-
-                                Once the activity ended,
-                                the QR code will be
-                                deactivated.
-
-                            </p>
+                            <p><strong>Note:</strong> This QR code can only be used twice (time in and time out). Failure to have it scanned within the validity period will result in an Absent or Missing Activity status. Once the activity ended, the QR code will be deactivated and can no longer be used. Please ensure that your QR code has been successfully scanned within the activity period.</p>
 
                         </div>
 
@@ -782,6 +760,8 @@
                             <button
                                 type="button"
                                 class="act-btn outline-btn download-btn"
+                                id="downloadActivityQrButton"
+                                onclick="downloadActivityQr()"
                                 disabled
                             >
                                 DOWNLOAD
@@ -1354,8 +1334,8 @@
          ACTIVITY JAVASCRIPT
     ====================================================== -->
 
-    <script src="../script.js?v=20260930-tab-auth2"></script>
-    <script src="activity.js"></script>
+    <script src="../script.js?v=20260930-activity-detail-handler-fix"></script>
+    <script src="activity.js?v=20260930-activity-jpg-download"></script>
 
 </body>
 

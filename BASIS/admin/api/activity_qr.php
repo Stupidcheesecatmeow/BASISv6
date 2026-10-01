@@ -16,8 +16,8 @@ try {
     }
 
     $stmt = $pdo->prepare("SELECT a.id AS activity_id,a.name AS activity_name,a.generate_qr,
-                                  u.id AS user_id,u.name,u.control_number,u.barangay
-                           FROM activities a JOIN users u ON u.id=?
+                                  u.id AS user_id,u.name,u.given_name,u.middle_name,u.surname,u.suffix,u.barangay
+                           FROM activities a JOIN users u ON u.id=? AND u.status='ACTIVE'
                            WHERE a.id=? AND u.status='ACTIVE'");
     $stmt->execute([(int)$viewer['id'], $activityId]);
     $record = $stmt->fetch();
@@ -27,17 +27,19 @@ try {
         exit('A participant QR code is not available for this activity.');
     }
 
-    $payload = json_encode([
-        'kind' => 'BASIS_ACTIVITY_ATTENDANCE',
-        'activity_id' => (int)$record['activity_id'],
-        'activity_name' => (string)$record['activity_name'],
-        'user_id' => (int)$record['user_id'],
-        'control_number' => (string)$record['control_number'],
-        'name' => (string)$record['name'],
-        'barangay' => (string)$record['barangay'],
-        'token' => activityQrToken($pdo, (int)$record['activity_id'], (int)$record['user_id'])
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    if ($payload === false) throw new RuntimeException('Could not encode the participant QR data.');
+    // QR contents are limited to the three details requested for the participant.
+    $profileName = trim(implode(' ', array_filter([
+        trim((string)($record['given_name'] ?? '')),
+        trim((string)($record['middle_name'] ?? '')),
+        trim((string)($record['surname'] ?? '')),
+        trim((string)($record['suffix'] ?? '')),
+    ], static fn(string $part): bool => $part !== '')));
+    // Keep the QR human-readable and minimal: activity, participant, barangay.
+    $payload = implode("\n", [
+        (string)$record['activity_name'],
+        $profileName !== '' ? $profileName : (string)$record['name'],
+        (string)$record['barangay']
+    ]);
 
     header('Content-Type: image/svg+xml; charset=utf-8');
     header('Cache-Control: private, no-store');
