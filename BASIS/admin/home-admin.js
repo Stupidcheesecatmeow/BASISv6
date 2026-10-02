@@ -1248,3 +1248,379 @@ setInterval(
     refreshDashboardUsers,
     10000
 );
+
+/* =========================================================
+   CREATE ANNOUNCEMENT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal =
+        document.getElementById("announcementModal");
+
+    const openBtn =
+        document.getElementById("openAnnouncementModal");
+
+    const closeBtn =
+        document.getElementById("closeAnnouncementModal");
+
+    const cancelBtn =
+        document.getElementById("cancelAnnouncement");
+
+    const overlay =
+        document.querySelector(".announcement-modal-overlay");
+
+    const form =
+        document.getElementById("announcementForm");
+
+    const fileInput =
+        document.getElementById("announcementFile");
+
+    const fileName =
+        document.getElementById("announcementFileName");
+
+
+    /* =====================================================
+       OPEN MODAL
+    ===================================================== */
+
+    function openAnnouncementModal() {
+
+        if (!modal) return;
+
+        modal.classList.add("show");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow = "hidden";
+
+
+        /* Automatically set today's date */
+
+        const dateInput =
+            document.getElementById("announcementDate");
+
+        if (dateInput && !dateInput.value) {
+
+            const today =
+                new Date().toISOString().split("T")[0];
+
+            dateInput.value = today;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeAnnouncementModal() {
+
+        if (!modal) return;
+
+        modal.classList.remove("show");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    /* =====================================================
+       BUTTON EVENTS
+    ===================================================== */
+
+    if (openBtn) {
+
+        openBtn.addEventListener(
+            "click",
+            openAnnouncementModal
+        );
+
+    }
+
+
+    if (closeBtn) {
+
+        closeBtn.addEventListener(
+            "click",
+            closeAnnouncementModal
+        );
+
+    }
+
+
+    if (cancelBtn) {
+
+        cancelBtn.addEventListener(
+            "click",
+            closeAnnouncementModal
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            closeAnnouncementModal
+        );
+
+    }
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+    document.addEventListener("keydown", (event) => {
+
+        if (
+            event.key === "Escape" &&
+            modal &&
+            modal.classList.contains("show")
+        ) {
+
+            closeAnnouncementModal();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       FILE NAME
+    ===================================================== */
+
+    if (fileInput) {
+
+        fileInput.addEventListener("change", () => {
+
+            if (
+                fileInput.files &&
+                fileInput.files.length > 0
+            ) {
+
+                fileName.textContent =
+                    fileInput.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    "PNG, JPG, PDF, DOCX and other files";
+
+            }
+
+        });
+
+    }
+
+
+    /* =====================================================
+       PUBLISH
+    ===================================================== */
+
+    if (form) {
+
+        form.addEventListener("submit", (event) => {
+
+            event.preventDefault();
+
+
+            const title =
+                document
+                    .getElementById("announcementTitle")
+                    .value
+                    .trim();
+
+            const date =
+                document
+                    .getElementById("announcementDate")
+                    .value;
+
+            const message =
+                document
+                    .getElementById("announcementMessage")
+                    .value
+                    .trim();
+
+
+            if (!title || !date || !message) {
+
+                alert(
+                    "Please complete the announcement details."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * TEMPORARY FRONT-END ONLY
+             *
+             * Later we will connect this to PHP/SQLite.
+             */
+
+            addAnnouncementCard(
+                title,
+                date,
+                message,
+                fileInput
+            );
+
+
+            form.reset();
+
+            fileName.textContent =
+                "PNG, JPG, PDF, DOCX and other files";
+
+            closeAnnouncementModal();
+
+        });
+
+    }
+
+
+    /* =====================================================
+       ADD ANNOUNCEMENT CARD
+    ===================================================== */
+
+    function addAnnouncementCard(
+        title,
+        date,
+        message,
+        fileInput
+    ) {
+
+        const container =
+            document.getElementById(
+                "announcementsBox"
+            );
+
+        if (!container) return;
+
+
+        /* Remove empty state */
+
+        const empty =
+            container.querySelector(
+                ".announcement-empty"
+            );
+
+        if (empty) {
+
+            empty.remove();
+
+        }
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "announcement-card";
+
+
+        const formattedDate =
+            new Date(date).toLocaleDateString(
+                "en-US",
+                {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            );
+
+
+        card.innerHTML = `
+
+            <div class="announcement-card-header">
+
+                <h3 class="announcement-card-title">
+                    ${escapeHTML(title)}
+                </h3>
+
+                <span class="announcement-card-date">
+                    ${formattedDate}
+                </span>
+
+            </div>
+
+            <p class="announcement-card-message">
+                ${escapeHTML(message)}
+            </p>
+
+        `;
+
+
+        /* Attachment */
+
+        if (
+            fileInput &&
+            fileInput.files &&
+            fileInput.files.length > 0
+        ) {
+
+            const file =
+                fileInput.files[0];
+
+
+            const attachment =
+                document.createElement("div");
+
+
+            attachment.className =
+                "announcement-attachment";
+
+
+            attachment.innerHTML = `
+
+                <i class="fa-solid fa-paperclip"></i>
+
+                ${escapeHTML(file.name)}
+
+            `;
+
+
+            card.appendChild(attachment);
+
+        }
+
+
+        container.prepend(card);
+
+    }
+
+
+    /* =====================================================
+       BASIC HTML ESCAPE
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+});

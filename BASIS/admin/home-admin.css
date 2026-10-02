@@ -989,3 +989,1010 @@ body.admin-page {
     padding: 10px !important;
 }
 
+/* =========================================================
+   ADMIN HOME
+   BARANGAY + ANNOUNCEMENTS
+========================================================= */
+
+.admin-page .admin-home-grid {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    margin-top: 0;
+
+    align-items: stretch;
+
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.admin-page .admin-panel {
+
+    width: 100%;
+    min-width: 0;
+
+    height: 250px;
+    min-height: 250px;
+
+    border: 2px solid #405840;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
+
+.admin-page .admin-panel-header {
+
+    width: 100%;
+    height: 58px;
+
+    padding: 8px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1.5px solid #405840;
+
+    box-sizing: border-box;
+
+}
+
+
+.admin-page .admin-panel-title {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.admin-page .admin-panel-title h2 {
+
+    margin: 0;
+
+    color: #405840;
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: .4px;
+
+}
+
+
+.admin-page .admin-panel-title span {
+
+    margin-top: 4px;
+
+    color: #777777;
+
+    font-size: 8px;
+
+    line-height: 1;
+
+    font-weight: 600;
+
+    letter-spacing: .5px;
+
+}
+
+
+/* =========================================================
+   CREATE ANNOUNCEMENT PLUS BUTTON
+========================================================= */
+
+.admin-page .create-announcement-btn {
+
+    width: 35px;
+    height: 35px;
+
+    flex: 0 0 35px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #405840;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+
+}
+
+
+.admin-page .create-announcement-btn i {
+
+    font-size: 15px;
+
+}
+
+
+.admin-page .create-announcement-btn:hover {
+
+    background: #334933;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(64, 88, 64, .18);
+
+}
+
+
+.admin-page .create-announcement-btn:active {
+
+    transform: scale(.95);
+
+}
+
+
+/* =========================================================
+   BARANGAY CONTENT
+========================================================= */
+
+.admin-page .barangay-panel
+.barangay-scroll-container {
+
+    width: 100%;
+
+    height: calc(250px - 58px);
+
+    min-height: 0;
+
+    padding: 8px;
+
+    border: 0;
+
+    border-radius: 0;
+
+    background: #ffffff;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    align-content: start;
+
+    gap: 7px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   ANNOUNCEMENT LIST
+========================================================= */
+
+.admin-page .announcement-list {
+
+    width: 100%;
+
+    height: calc(250px - 58px);
+
+    min-height: 0;
+
+    padding: 9px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   EMPTY ANNOUNCEMENT
+========================================================= */
+
+.admin-page .announcement-empty {
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 150px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #777777;
+
+}
+
+
+.admin-page .announcement-empty i {
+
+    margin-bottom: 8px;
+
+    color: #405840;
+
+    font-size: 25px;
+
+}
+
+
+.admin-page .announcement-empty span {
+
+    color: #405840;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+.admin-page .announcement-empty small {
+
+    margin-top: 3px;
+
+    color: #999999;
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   ANNOUNCEMENT CARD
+========================================================= */
+
+.admin-page .announcement-card {
+
+    width: 100%;
+
+    margin-bottom: 8px;
+
+    padding: 10px;
+
+    border: 1.5px solid #dce3da;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+
+}
+
+
+.admin-page .announcement-card:hover {
+
+    border-color: #405840;
+
+    box-shadow:
+        0 3px 10px rgba(64, 88, 64, .08);
+
+}
+
+
+.admin-page .announcement-card:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.admin-page .announcement-card-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+}
+
+
+.admin-page .announcement-card-title {
+
+    margin: 0;
+
+    color: #405840;
+
+    font-size: 12px;
+
+    line-height: 1.2;
+
+    font-weight: 900;
+
+}
+
+
+.admin-page .announcement-card-date {
+
+    flex: 0 0 auto;
+
+    color: #888888;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+}
+
+
+.admin-page .announcement-card-message {
+
+    margin: 7px 0 0;
+
+    color: #555555;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+}
+
+
+.admin-page .announcement-attachment {
+
+    margin-top: 7px;
+
+    padding: 6px 8px;
+
+    border-radius: 6px;
+
+    background: #eef1ed;
+
+    color: #405840;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.admin-page .announcement-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+
+.admin-page .announcement-modal.show {
+
+    display: flex;
+
+}
+
+
+.admin-page .announcement-modal-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(20, 30, 20, .42);
+
+    backdrop-filter: blur(4px);
+
+}
+
+
+/* =========================================================
+   MODAL CARD
+========================================================= */
+
+.admin-page .announcement-modal-card {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(560px, 100%);
+
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 2px solid #405840;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, .20);
+
+    animation:
+        announcementModalIn .18s ease;
+
+}
+
+
+@keyframes announcementModalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(10px) scale(.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.admin-page .announcement-modal-header {
+
+    padding: 18px 20px 15px;
+
+    border-bottom: 1px solid #e3e8e1;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.admin-page .modal-eyebrow {
+
+    color: #405840;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+}
+
+
+.admin-page .announcement-modal-header h2 {
+
+    margin: 3px 0 3px;
+
+    color: #405840;
+
+    font-size: 21px;
+
+    font-weight: 900;
+
+}
+
+
+.admin-page .announcement-modal-header p {
+
+    margin: 0;
+
+    color: #888888;
+
+    font-size: 10px;
+
+}
+
+
+.admin-page .announcement-modal-close {
+
+    width: 32px;
+    height: 32px;
+
+    flex: 0 0 32px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: #eef1ed;
+
+    color: #405840;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.admin-page .announcement-modal-close:hover {
+
+    background: #405840;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.admin-page .announcement-form {
+
+    padding: 18px 20px 20px;
+
+}
+
+
+.admin-page .announcement-field {
+
+    width: 100%;
+
+    margin-bottom: 14px;
+
+}
+
+
+.admin-page .announcement-field label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #405840;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.admin-page .announcement-field label span {
+
+    color: #999999;
+
+    font-weight: 500;
+
+}
+
+
+.admin-page .announcement-field input[type="text"],
+.admin-page .announcement-field input[type="date"],
+.admin-page .announcement-field textarea {
+
+    width: 100%;
+
+    border: 1.5px solid #cfd8cd;
+
+    border-radius: 7px;
+
+    padding: 10px 11px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #405840;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 11px;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+
+}
+
+
+.admin-page .announcement-field textarea {
+
+    min-height: 110px;
+
+    resize: vertical;
+
+}
+
+
+.admin-page .announcement-field input:focus,
+.admin-page .announcement-field textarea:focus {
+
+    border-color: #405840;
+
+    box-shadow:
+        0 0 0 3px rgba(64, 88, 64, .08);
+
+}
+
+
+.admin-page .announcement-field input::placeholder,
+.admin-page .announcement-field textarea::placeholder {
+
+    color: #aaa;
+
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+========================================================= */
+
+.admin-page .announcement-upload {
+
+    width: 100%;
+
+    min-height: 62px;
+
+    padding: 10px;
+
+    border: 1.5px dashed #aebaaa;
+
+    border-radius: 8px;
+
+    background: #f8faf7;
+
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .18s ease,
+        background .18s ease;
+
+}
+
+
+.admin-page .announcement-upload:hover {
+
+    border-color: #405840;
+
+    background: #eef1ed;
+
+}
+
+
+.admin-page .announcement-upload > i {
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 7px;
+
+    background: #405840;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+}
+
+
+.admin-page .announcement-upload div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+}
+
+
+.admin-page .announcement-upload strong {
+
+    color: #405840;
+
+    font-size: 10px;
+
+}
+
+
+.admin-page .announcement-upload small {
+
+    margin-top: 2px;
+
+    color: #999999;
+
+    font-size: 8px;
+
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.admin-page .announcement-form-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding-top: 4px;
+
+}
+
+
+.admin-page .announcement-cancel-btn,
+.admin-page .announcement-publish-btn {
+
+    min-height: 36px;
+
+    border-radius: 7px;
+
+    padding: 0 14px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+.admin-page .announcement-cancel-btn {
+
+    border: 1.5px solid #cfd8cd;
+
+    background: #ffffff;
+
+    color: #666666;
+
+}
+
+
+.admin-page .announcement-cancel-btn:hover {
+
+    background: #f4f5f3;
+
+}
+
+
+.admin-page .announcement-publish-btn {
+
+    border: 1.5px solid #405840;
+
+    background: #405840;
+
+    color: #ffffff;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+}
+
+
+.admin-page .announcement-publish-btn:hover {
+
+    background: #334933;
+
+}
+
+
+/* =========================================================
+   MODAL MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .admin-page .admin-home-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+
+    }
+
+
+    .admin-page .admin-panel {
+
+        height: 240px;
+
+        min-height: 240px;
+
+    }
+
+
+    .admin-page .barangay-panel
+    .barangay-scroll-container {
+
+        height: calc(240px - 58px);
+
+    }
+
+
+    .admin-page .announcement-list {
+
+        height: calc(240px - 58px);
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .admin-page .admin-panel {
+
+        height: 225px;
+
+        min-height: 225px;
+
+    }
+
+
+    .admin-page .admin-panel-title h2 {
+
+        font-size: 17px;
+
+    }
+
+
+    .admin-page .create-announcement-btn {
+
+        width: 32px;
+        height: 32px;
+
+        flex-basis: 32px;
+
+    }
+
+
+    .admin-page .announcement-modal {
+
+        padding: 10px;
+
+    }
+
+
+    .admin-page .announcement-modal-card {
+
+        max-height: calc(100vh - 20px);
+
+        border-radius: 10px;
+
+    }
+
+
+    .admin-page .announcement-modal-header {
+
+        padding: 15px;
+
+    }
+
+
+    .admin-page .announcement-form {
+
+        padding: 15px;
+
+    }
+
+
+    .admin-page .announcement-form-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .admin-page .announcement-cancel-btn,
+    .admin-page .announcement-publish-btn {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+}
