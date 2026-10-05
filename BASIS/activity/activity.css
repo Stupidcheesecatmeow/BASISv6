@@ -963,6 +963,57 @@ img[hidden] { display:none !important; }
     font-weight: 800;
 }
 
+/* Keep the scholar proof submission layout aligned with admin and representative. */
+.activity-dashboard-page .submission-top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 18px;
+}
+.activity-dashboard-page .submission-top-info h3 {
+    color: #42523f;
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 4px;
+}
+.activity-dashboard-page .submission-top-info p {
+    color: #42523f;
+    font-size: 13px;
+    margin: 0;
+}
+.activity-dashboard-page .submission-note { flex: 1; }
+.activity-dashboard-page .submission-main-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 35px;
+}
+.activity-dashboard-page .submission-bin-box {
+    width: 260px;
+    flex: 0 0 260px;
+    padding: 18px;
+    border: 2px solid #a7b1a3;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.activity-dashboard-page .submission-bin-box h3 { font-size: 16px; margin-bottom: 18px; }
+.activity-dashboard-page .upload-drop-area { height: 180px; min-height: 0; }
+.activity-dashboard-page .upload-drop-area i { font-size: 56px; margin-bottom: 10px; }
+.activity-dashboard-page .submission-details-side { flex: 1; }
+.activity-dashboard-page .attendance-toggle-bar { gap: 15px; margin-bottom: 18px; }
+.activity-dashboard-page .toggle-tab { height: 42px; min-height: 42px; font-size: 15px; }
+.activity-dashboard-page .sub-activity-info { gap: 6px; margin-bottom: 14px; }
+.activity-dashboard-page .sub-activity-info h2 { font-size: 22px; margin-bottom: 4px; }
+.activity-dashboard-page .sub-activity-info p { font-size: 13px; }
+
+@media (max-width: 850px) {
+    .activity-dashboard-page .submission-top-info,
+    .activity-dashboard-page .submission-main-layout { flex-direction: column; }
+    .activity-dashboard-page .submission-top-info > *,
+    .activity-dashboard-page .submission-details-side { width: 100%; }
+    .activity-dashboard-page .submission-bin-box { width: min(100%, 420px); flex-basis: auto; }
+}
+
 /* =========================================================
    BOTTOM NAV
 ========================================================= */

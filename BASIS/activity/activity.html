@@ -60,7 +60,7 @@
 
     <link
         rel="stylesheet"
-        href="activity.css?v=20261005-attachment-box"
+        href="activity.css?v=20261005-submission-parity"
     >
 
     <link rel="stylesheet" href="../responsive.css?v=1">
@@ -879,7 +879,7 @@
 
                     <!-- NOTE -->
 
-                    <div class="note-box flex-2">
+                    <div class="note-box submission-note">
 
 
                         <p>
@@ -889,13 +889,8 @@
                             </strong>
 
                             For Proof of Attendance,
-                            please use a geotagging
-                            camera when taking your
-                            photo. This helps verify
-                            that you attended and
-                            participated in the activity
-                            at the correct location and
-                            time.
+                            upload a JPG photo showing
+                            your attendance at the activity.
 
                         </p>
 
@@ -903,11 +898,10 @@
                         <p>
 
                             For Proof of Absence,
-                            submit a signed letter
+                            upload a PDF excuse letter
                             indicating your full name,
-                            municipality, barangay,
-                            and the reason
-                            for your absence.
+                            municipality, barangay, and
+                            reason for your absence.
 
                         </p>
 
@@ -938,9 +932,10 @@
 
                         <!-- UPLOAD AREA -->
 
-                        <div
+                        <label
                             class="upload-drop-area"
                             id="uploadDropArea"
+                            for="fileUploadInput"
                         >
 
 
@@ -961,16 +956,13 @@
                             </span>
 
 
-                            <!-- FILE INPUT -->
-
-                            <input
-                                type="file"
-                                id="fileUploadInput"
-                                accept=".jpg,.jpeg,image/jpeg"
-                                hidden
-                            >
-
-                        </div>
+                        </label>
+                        <input
+                            type="file"
+                            id="fileUploadInput"
+                            accept=".jpg,.jpeg,image/jpeg"
+                            hidden
+                        >
 
 
 
@@ -1033,7 +1025,7 @@
                                 type="button"
                                 class="toggle-tab active"
                                 id="tabAttendance"
-                                onclick="setSubmissionTab('attendance')"
+                                onclick="setOwnSubmissionTab('attendance')"
                             >
                                 ATTENDANCE
                             </button>
@@ -1043,7 +1035,7 @@
                                 type="button"
                                 class="toggle-tab"
                                 id="tabAbsence"
-                                onclick="setSubmissionTab('absence')"
+                                onclick="setOwnSubmissionTab('absence')"
                             >
                                 ABSENCE
                             </button>
@@ -1335,7 +1327,7 @@
     ====================================================== -->
 
     <script src="../script.js?v=20260930-activity-detail-handler-fix"></script>
-    <script src="activity.js?v=20260930-activity-jpg-download"></script>
+    <script src="activity.js?v=20261005-submission-parity"></script>
 
 </body>
 

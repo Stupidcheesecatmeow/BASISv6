@@ -42,6 +42,10 @@ try {
             getActivities($pdo);
             break;
 
+        case 'activity-proofs':
+            getActivityProofs($pdo);
+            break;
+
         default:
             respond(false, 'Unknown action.', 400);
     }
@@ -404,7 +408,7 @@ function getActivities(PDO $pdo): void
         respond(false, 'User not found.', 404);
     }
 
-    $stmt = $pdo->prepare("SELECT a.name AS activity_title,
+    $stmt = $pdo->prepare("SELECT a.id AS activity_id, a.name AS activity_title,
         CASE WHEN UPPER(COALESCE(att.status,'')) IN ('PRESENT','ATTENDED') AND TRIM(COALESCE(att.time_in,''))<>'' THEN 'Attended'
              WHEN EXISTS (SELECT 1 FROM submissions s WHERE s.activity_id=a.id AND s.user_id=? AND s.status='VERIFIED' AND s.submission_type='attendance') THEN 'Attended'
              ELSE 'Absent' END AS status
@@ -415,6 +419,35 @@ function getActivities(PDO $pdo): void
 
     respond(true, '', 200, [
         'activities' => $stmt->fetchAll()
+    ]);
+}
+
+function getActivityProofs(PDO $pdo): void
+{
+    $input = input();
+    $userId = (int)($input['id'] ?? 0);
+    $activityId = (int)($input['activity_id'] ?? 0);
+    if ($userId <= 0 || $activityId <= 0) {
+        respond(false, 'Invalid user or activity.', 422);
+    }
+
+    $user = fetchUser($pdo, $userId);
+    if (!$user) {
+        respond(false, 'User not found.', 404);
+    }
+
+    $activity = $pdo->prepare('SELECT name FROM activities WHERE id=?');
+    $activity->execute([$activityId]);
+    $activityName = $activity->fetchColumn();
+    if ($activityName === false) {
+        respond(false, 'Activity not found.', 404);
+    }
+
+    $stmt = $pdo->prepare('SELECT submission_type, file_name, file_data, status, submitted_at FROM submissions WHERE user_id=? AND activity_id=? ORDER BY submission_type');
+    $stmt->execute([$userId, $activityId]);
+    respond(true, '', 200, [
+        'activity_title' => $activityName,
+        'uploads' => $stmt->fetchAll()
     ]);
 }
 

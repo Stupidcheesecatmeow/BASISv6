@@ -52,6 +52,8 @@ document.addEventListener(
 
         setupFileUpload();
 
+        setSubmissionTab('attendance');
+
     }
 );
 
@@ -895,65 +897,33 @@ if (filterButton) {
    SUBMISSION TAB
 ========================================================= */
 
-function setSubmissionTab(
-    type
-) {
-
+function setSubmissionTab(type) {
     currentSubmissionType = type === 'absence' ? 'absence' : 'attendance';
+    document.getElementById('tabAttendance')?.classList.toggle('active', currentSubmissionType === 'attendance');
+    document.getElementById('tabAbsence')?.classList.toggle('active', currentSubmissionType === 'absence');
 
-
-    const attendanceTab =
-        document.getElementById(
-            "tabAttendance"
-        );
-
-
-    const absenceTab =
-        document.getElementById(
-            "tabAbsence"
-        );
-
-
-    if (!attendanceTab || !absenceTab) {
-
-        return;
-
+    const input = document.getElementById('fileUploadInput');
+    const hint = document.getElementById('proofFileTypeHint');
+    const acceptedTypes = currentSubmissionType === 'attendance'
+        ? '.jpg,.jpeg,image/jpeg'
+        : '.pdf,application/pdf';
+    if (input) {
+        input.accept = acceptedTypes;
+        input.setAttribute('accept', acceptedTypes);
     }
+    if (hint) hint.textContent = currentSubmissionType === 'attendance'
+        ? 'JPG photo only'
+        : 'PDF excuse letter only';
 
-
-    attendanceTab.classList.remove(
-        "active"
-    );
-
-
-    absenceTab.classList.remove(
-        "active"
-    );
-
-
-    if (type === "attendance") {
-
-        attendanceTab.classList.add(
-            "active"
-        );
-
-    } else {
-
-        absenceTab.classList.add(
-            "active"
-        );
-
+    const file = input?.files?.[0];
+    if (file && !isAllowedFile(file)) {
+        if (input) input.value = '';
+        const selected = document.querySelector('#selectedFile span');
+        if (selected) selected.textContent = 'No file selected';
     }
-
-
-    const input=document.getElementById('fileUploadInput');
-    const hint=document.getElementById('proofFileTypeHint');
-    if(input)input.accept=currentSubmissionType==='attendance'?'.jpg,.jpeg,image/jpeg':'.pdf,application/pdf';
-    if(hint)hint.textContent=currentSubmissionType==='attendance'?'JPG only':'PDF only';
-    const file=input?.files?.[0];
-    if(file&&!isAllowedFile(file)){input.value='';const label=document.querySelector('#selectedFile span');if(label)label.textContent='No file selected';}
-
 }
+window.setSubmissionTab = setSubmissionTab;
+window.setOwnSubmissionTab = setSubmissionTab;
 
 
 
@@ -1003,21 +973,6 @@ function setupFileUpload() {
         return;
 
     }
-
-
-
-    /* ================================================
-       CLICK UPLOAD AREA
-    ================================================= */
-
-    dropArea.addEventListener(
-        "click",
-        function () {
-
-            fileInput.click();
-
-        }
-    );
 
 
 

@@ -621,6 +621,10 @@ VERIFY DETAIL ATTENDANCE and ABSENCE
     text-align: center;
 }
 
+.representative-page .submitted-file-preview .proof-image-preview { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.representative-page .submitted-file-preview .proof-pdf-preview { display: block; width: 100%; height: 100%; border: 0; }
+.representative-page .submitted-file-preview { height: 340px; max-height: 56vh; }
+
 .representative-page .verify-action-row {
     display: flex;
     justify-content: flex-end;

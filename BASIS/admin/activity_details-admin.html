@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-admin.css?v=8">
+    <link rel="stylesheet" href="activity-admin.css?v=9">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
 <body class="dashboard-page admin-page">
@@ -102,56 +102,15 @@
 </section>
 
 <section id="view-activity-submission" class="page-view">
-        <div class="view-banner">
-            <h2>ACTIVITY</h2>
+    <div class="view-banner"><h2>ACTIVITY</h2></div>
+    <div class="view-body bordered-frame relative-frame submission-page-frame">
+        <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
+        <div class="submission-top-info"><div class="submission-sem-info"><h3 id="submissionSemester"></h3><p><strong>SUBMISSION DUE DATE:</strong> <span id="submissionDeadline"></span> &nbsp;&nbsp; <strong>TIME:</strong> <span id="submissionTime"></span></p></div><div class="note-box submission-note"><p><strong>Note:</strong> Attendance requires a JPG photo showing your attendance at the activity. Absence requires a PDF excuse letter explaining your absence.</p></div></div>
+        <div class="submission-main-layout">
+            <div class="submission-bin-box"><h3>SUBMISSION BIN</h3><label class="upload-drop-area" id="uploadDropArea" for="fileUploadInput"><i class="fa-solid fa-cloud-arrow-up"></i><p>UPLOAD FILE HERE</p><span id="proofFileTypeHint">JPG only</span></label><input id="fileUploadInput" type="file" accept=".jpg,.jpeg,image/jpeg" hidden><div class="selected-file" id="selectedFile"><i class="fa-solid fa-file"></i><span>No file selected</span></div><button type="button" class="submit-file-btn" id="submitFileBtn">SUBMIT FILE</button><p class="upload-status" id="uploadStatus" aria-live="polite"></p></div>
+            <div class="submission-details-side"><div class="attendance-toggle-bar"><button type="button" class="toggle-tab active" id="tabAttendance" onclick="setOwnSubmissionTab('attendance')">ATTENDANCE</button><button type="button" class="toggle-tab" id="tabAbsence" onclick="setOwnSubmissionTab('absence')">ABSENCE</button></div><div class="sub-activity-info"><h2 id="submissionTitle"></h2><p><strong>TYPE OF ACTIVITY:</strong> <span id="submissionType"></span></p><p><strong>DATE:</strong> <span id="submissionDate"></span></p><p><strong>TIME:</strong> <span id="submissionActivityTime"></span></p><p><strong>VENUE:</strong> <span id="submissionVenue"></span></p><p><strong>VENUE ADDRESS:</strong> <span id="submissionVenueAddress"></span></p></div><div class="btn-right-container"><button type="button" class="act-btn outline-btn" onclick="showSubView('view-activity-details')">DONE</button></div></div>
         </div>
-        <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
-
-            <div class="submission-top-info">
-                <div>
-                    <h3 id="submissionSemester"></h3>
-                    <p><strong>SUBMISSION DUE</strong></p>
-                    <p><strong>DATE:</strong> <span id="submissionDate"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>TIME:</strong> <span id="submissionTime"></span></p>
-                </div>
-                <div class="note-box submission-note">
-                    <p><strong>Note:</strong> For Proof of Attendance, please use a geotagging camera when taking your photo. This helps verify that you attended and participated in the activity at the correct location and time.</p>
-                    <p>For Proof of Absence, submit a signed letter indicating your full name, municipality, barangay, and the reason for your absence. If you are unable to attend the activity, you are still required to assign a proxy to represent you so that the activity can still be credited as attended, subject to the program's attendance guidelines.</p>
-                </div>
-            </div>
-
-            <div class="submission-main-layout">
-                <div class="submission-bin-box">
-                    <h3>SUBMISSION BIN</h3>
-                    <div class="upload-drop-area">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <p>UPLOAD FILE HERE</p>
-                        <input type="file" hidden>
-                    </div>
-                </div>
-
-                <div class="submission-details-side">
-                    <div class="attendance-toggle-bar">
-                        <button class="toggle-tab active" id="tabAttendance" onclick="setSubmissionTab('attendance')">ATTENDANCE</button>
-                        <button class="toggle-tab" id="tabAbsence" onclick="setSubmissionTab('absence')">ABSENCE</button>
-                    </div>
-
-                    <div class="sub-activity-info">
-                        <h2 id="qrTitle"></h2>
-                        <p><strong>TYPE OF ACTIVITY:</strong> <span id="qrType"></span></p>
-                        <p><strong>DATE:</strong> <span id="submissionDate"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>TIME:</strong> <span id="submissionTime"></span></p>
-                        <p><strong>VENUE:</strong> <span id="submissionVenue"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>VENUE ADDRESS:</strong> <span id="submissionVenueAddress"></span></p>
-                        <p><strong>NAME:</strong> <span id="qrName"></span></p>
-                        <!-- <p><strong>MUNICIPALITY:</strong> <span id="submissionMunicipality"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>BARANGAY:</strong> <span id="submissionBarangay"></span></p> -->
-                    </div>
-
-                    <div class="btn-right-container">
-                        <button class="act-btn outline-btn" onclick="showSubView('view-activity-details')">DONE</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
+    </div>
 </section>
 </main>
 
@@ -185,7 +144,8 @@
 </nav>
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
-<script src="activity-admin.js?v=20261005-full-scan"></script>
+<script src="activity-admin.js?v=20261005-proof-preview"></script>
+<script src="../activity/activity-own-proof.js?v=20261005-inline-proof"></script>
 
 </body>
 </html>

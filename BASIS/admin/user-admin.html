@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="../style.css">
 
     <!-- USER MANAGEMENT ONLY -->
-    <link rel="stylesheet" href="user-admin.css?v=7">
+    <link rel="stylesheet" href="user-admin.css?v=8">
 
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
@@ -332,6 +332,7 @@
 
                 <div class="activity-table-frame">
                     <table class="activities-table">
+                        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
                         <thead>
                             <tr>
                                 <th>ACTIVITY</th>
@@ -348,6 +349,15 @@
             </div>
         </div>
     </section>
+
+<div id="activityProofModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="activityProofTitle">
+    <div class="modal-card activity-proof-modal-card">
+        <button type="button" class="modal-close" data-close="activityProofModal" aria-label="Close">×</button>
+        <h2 id="activityProofTitle">ACTIVITY PROOFS</h2>
+        <p class="modal-help" id="activityProofSubtitle"></p>
+        <div id="activityProofList" class="activity-proof-list"><p>Loading uploads…</p></div>
+    </div>
+</div>
 
 </main>
 
@@ -570,7 +580,7 @@
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
-<script src="user-admin.js?v=10"></script>
+<script src="user-admin.js?v=12"></script>
 
 </body>
 </html>

@@ -634,17 +634,86 @@ async function openActivities() {
         activities.forEach(item => {
 
             const tr = document.createElement("tr");
+            tr.className = "activity-proof-row";
+            tr.tabIndex = 0;
+            tr.setAttribute("role", "button");
+            tr.setAttribute("aria-label", `View proofs for ${item.activity_title || "activity"}`);
 
             tr.innerHTML = `
                 <td>${escapeHtml(item.activity_title || "—")}</td>
                 <td>${escapeHtml(item.status || "Absent")}</td>
             `;
 
+            tr.addEventListener("click", () => openActivityProofs(item));
+            tr.addEventListener("keydown", event => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openActivityProofs(item);
+                }
+            });
+
             tbody.appendChild(tr);
         });
 
     } catch (error) {
         toast(error.message, true);
+    }
+}
+
+async function openActivityProofs(activity) {
+    const list = $("activityProofList");
+    const modal = $("activityProofModal");
+    $("activityProofTitle").textContent = activity.activity_title || "ACTIVITY PROOFS";
+    $("activityProofSubtitle").textContent = `${selectedUser?.name || "User"} · ${activity.status || "Absent"}`;
+    list.replaceChildren(Object.assign(document.createElement("p"), { textContent: "Loading uploads…" }));
+    openModal("activityProofModal");
+
+    try {
+        const data = await api("activity-proofs", {
+            method: "POST",
+            body: { id: selectedUser.id, activity_id: activity.activity_id }
+        });
+        const uploads = data.uploads || [];
+        list.replaceChildren();
+        if (!uploads.length) {
+            const empty = document.createElement("p");
+            empty.className = "activity-proof-empty";
+            empty.textContent = "No upload available.";
+            list.appendChild(empty);
+            return;
+        }
+
+        uploads.forEach(upload => {
+            const card = document.createElement("article");
+            card.className = "activity-proof-card";
+            const heading = document.createElement("strong");
+            heading.textContent = upload.submission_type === "absence" ? "ABSENCE PROOF · PDF" : "ATTENDANCE PROOF · JPG";
+            const detail = document.createElement("span");
+            detail.textContent = `${upload.file_name || "Uploaded proof"} · ${upload.status || "PENDING"}`;
+            card.append(heading, detail);
+            if (upload.file_data) {
+                if (upload.submission_type === "attendance") {
+                    const image = document.createElement("img");
+                    image.src = upload.file_data;
+                    image.alt = `Attendance proof from ${selectedUser?.name || "user"}`;
+                    image.className = "activity-proof-image";
+                    card.appendChild(image);
+                } else {
+                    const pdf = document.createElement("iframe");
+                    pdf.src = upload.file_data;
+                    pdf.title = `Absence excuse letter from ${selectedUser?.name || "user"}`;
+                    pdf.className = "activity-proof-pdf";
+                    card.appendChild(pdf);
+                }
+            }
+            list.appendChild(card);
+        });
+    } catch (error) {
+        list.replaceChildren();
+        const message = document.createElement("p");
+        message.className = "activity-proof-empty";
+        message.textContent = error.message || "Could not load uploaded proofs.";
+        list.appendChild(message);
     }
 }
 
