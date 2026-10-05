@@ -20,7 +20,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     >
 
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=20261005-feedback-replies">
     <link rel="stylesheet" href="more-rep.css?v=20261005-report-v2">
     <link rel="stylesheet" href="../responsive.css?v=1">
 </head>
@@ -471,6 +471,10 @@
                             required
                         ></textarea>
 
+                        <label for="feedbackImage">ATTACH IMAGE (OPTIONAL)</label>
+                        <input type="file" id="feedbackImage" accept="image/jpeg,image/png,image/webp">
+                        <small>JPG, PNG, or WebP · up to 2 MB</small>
+
                     </div>
 
 
@@ -628,10 +632,11 @@
 </nav>
 
 
-<script src="../script.js?v=20260930-tab-auth2"></script>
+<script src="../script.js?v=20261005-user-name-header"></script>
 <script src="../admin/xlsx.full.min.js?v=0.20.3"></script>
-<script src="more-rep.js"></script>
+<script src="more-rep.js?v=20261005-live-feedback"></script>
 <script src="report-rep.js?v=20261005-report-v2"></script>
+<script src="../feedback-live.js?v=20261005-feedback-replies"></script>
 
 </body>
 </html>

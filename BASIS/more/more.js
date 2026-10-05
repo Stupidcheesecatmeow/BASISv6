@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        if (viewId === "feedbackHistoryView") {
+        if (viewId === "feedbackHistoryView" && !window.BASISFeedbackLive) {
 
             renderFeedbackHistory();
 
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
        SUBMIT FEEDBACK
     ====================================================== */
 
-    if (feedbackForm) {
+    if (feedbackForm && !window.BASISFeedbackLive) {
 
         feedbackForm.addEventListener(
             "submit",
@@ -940,7 +940,7 @@ document.addEventListener("DOMContentLoaded", function () {
        SEARCH
     ====================================================== */
 
-    if (feedbackSearch) {
+    if (feedbackSearch && !window.BASISFeedbackLive) {
 
         feedbackSearch.addEventListener(
             "input",
@@ -960,7 +960,7 @@ document.addEventListener("DOMContentLoaded", function () {
        FILTER
     ====================================================== */
 
-    if (filterButton) {
+    if (filterButton && !window.BASISFeedbackLive) {
 
         filterButton.addEventListener(
             "click",

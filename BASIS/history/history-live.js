@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const date = new Date(String(value).slice(0,10) + (String(value).length <= 10 ? 'T00:00:00' : ''));
         return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
     };
+    const deadlinePassed = item => {
+        const explicit= item.deadlineDate || item.deadline_date || '';
+        const date=explicit || item.date || item.activity_date || '';
+        if(!date)return false;
+        const time=explicit ? (item.deadlineTime || item.deadline_time || '23:59:59') : (item.endTime || item.end_time || '23:59:59');
+        const due=new Date(`${String(date).slice(0,10)}T${time}`);
+        return !Number.isNaN(due.getTime()) && due.getTime() <= Date.now();
+    };
     const views = isAdmin
             ? {announcements:'view-history-admin-announcements',announcementDetail:'view-history-admin-announcement-detail',notifications:'view-history-admin-notifications',notificationDetail:'view-history-admin-notification-detail',announcementList:'adminAnnouncementHistoryList',notificationList:'adminNotificationHistoryList',title:'adminAnnouncementDetailTitle',date:'adminAnnouncementDetailDate',description:'adminAnnouncementDetailDescription',image:'adminAnnouncementDetailImage',noticeTitle:'adminNotificationDetailTitle',noticeDate:'adminNotificationDetailDate',noticeBody:'adminNotificationDetailBody',activityPage:'../admin/activity_menu-admin.html',selectedActivity:'basisAdminSelectedActivityId'}
         : isRep
@@ -72,10 +80,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(activityList){
             try {
                 const activityData=await fetchData('activities');
-                const today=new Date();today.setHours(0,0,0,0);
-                const ended=(activityData.activities||[]).filter(item=>{const raw=String(item.deadlineDate||item.deadline_date||item.date||item.activity_date||'').slice(0,10);if(!raw)return false;const due=new Date(raw+'T00:00:00');return !Number.isNaN(due.getTime())&&due<=today;});
+                const ended=(activityData.activities||[]).filter(deadlinePassed);
                 activityList.replaceChildren();if(!ended.length)addEmpty(activityList,'No activity history yet.');
-                ended.forEach(item=>{const row=document.createElement('article');row.className='history-item-row';const title=document.createElement('h4');title.textContent=item.name||item.title||'ACTIVITY';const meta=document.createElement('div');meta.className='history-item-meta';meta.textContent=formatDate(item.deadlineDate||item.deadline_date||item.date||item.activity_date);const status=document.createElement('p');status.textContent=['PRESENT','ATTENDED'].includes(String(item.attendance_status||'').toUpperCase())?'Attended':'Absent';row.append(title,meta,status);activityList.appendChild(row);});
+                ended.forEach(item=>{const row=document.createElement('button');row.type='button';row.className='history-item-row history-clickable-row';row.style.cssText='width:100%;text-align:left;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer;';const title=document.createElement('h4');title.textContent=item.name||item.title||'ACTIVITY';const meta=document.createElement('div');meta.className='history-item-meta';meta.textContent=formatDate(item.deadlineDate||item.deadline_date||item.date||item.activity_date);const status=document.createElement('p');status.textContent=['PRESENT','ATTENDED'].includes(String(item.attendance_status||'').toUpperCase())?'Attended':'Absent';row.append(title,meta,status);row.addEventListener('click',()=>{sessionStorage.setItem(views.selectedActivity,String(item.id));window.location.href=new URL(views.activityPage,baseScript.src).href;});activityList.appendChild(row);});
             }catch(error){console.warn('Could not load activity history:',error.message);}
         }
         if(notificationList){

@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-        if (viewId === "feedbackInboxView") {
+        if (viewId === "feedbackInboxView" && !window.BASISFeedbackLive) {
 
             renderFeedbackInbox();
 
@@ -5163,7 +5163,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (feedbackInboxSearch) {
+    if (feedbackInboxSearch && !window.BASISFeedbackLive) {
 
  
 
@@ -5213,7 +5213,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (feedbackInboxFilter) {
+    if (feedbackInboxFilter && !window.BASISFeedbackLive) {
 
  
 

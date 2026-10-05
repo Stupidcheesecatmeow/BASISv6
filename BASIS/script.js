@@ -38,10 +38,24 @@ if (!window.__basisFetchIsolated) {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    const applyWelcomeName = (profile) => {
+        if (!profile) return;
+        const firstName = String(profile.givenName || profile.given_name || String(profile.name || "").trim().split(/\s+/)[0] || "").trim();
+        if (!firstName) return;
+        document.querySelectorAll(".welcome-text h1").forEach((heading) => {
+            heading.textContent = `MABUHAY, ${firstName.toLocaleUpperCase()}!`;
+        });
+    };
+    document.querySelectorAll(".welcome-text h1").forEach((heading) => {
+        heading.textContent = "MABUHAY!";
+    });
+
     // Each account has its own profile record on the server. Load that record
     // for every module so the header never falls back to a shared role cache.
     const applyProfileAvatar = (profile) => {
-        if (!profile || !profile.id) return;
+        if (!profile) return;
+        applyWelcomeName(profile);
+        if (!profile.id) return;
         sessionStorage.setItem("basisCurrentUserId", String(profile.id));
         localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
         if (!profile.profilePhoto) return;
@@ -139,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.addEventListener('storage', event => { if (event.key === 'basisAnnouncementPublished') loadAnnouncements(); });
         setInterval(loadAnnouncements, 30000);
     }
-    if (script && document.querySelector(".header-avatar")) {
+    if (script && (document.querySelector(".header-avatar") || document.querySelector(".welcome-text h1"))) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
             credentials: "same-origin",
             cache: "no-store"

@@ -12,6 +12,7 @@ async function getActivities(){ return (await activityRequest('list')).activitie
 async function getSelectedActivity(){ const id=sessionStorage.getItem(SELECTED_ACTIVITY_KEY); if(!id)return null; return (await activityRequest(`get&id=${encodeURIComponent(id)}`)).activity; }
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 function formatDate(v){ if(!v)return ''; const d=new Date(v+'T00:00:00'); return Number.isNaN(d.getTime())?v:d.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}); }
+function hasActivityDeadlinePassed(a,now=new Date()){const explicit=a.deadlineDate||a.deadline_date||'',date=explicit||a.date||a.activity_date||'';if(!date)return false;const time=explicit?(a.deadlineTime||a.deadline_time||'23:59:59'):(a.endTime||a.end_time||'23:59:59');const due=new Date(`${String(date).slice(0,10)}T${time}`);return !Number.isNaN(due.getTime())&&due<=now;}
 function setText(id,v){ const e=document.getElementById(id); if(e)e.textContent=v||''; }
 function setAll(sel,v){ document.querySelectorAll(sel).forEach(e=>e.textContent=v||''); }
 function semesterLabel(a){ return [a?.academicYear||'',a?.semester||''].filter(Boolean).join(' '); }
@@ -38,7 +39,7 @@ function fillActivityDetails(a){
 
 
 async function renderActivityList(){
- const list=document.getElementById('adminActivityList'); if(!list)return; let items=[]; try{items=await getActivities();}catch(e){list.textContent=e.message;return;} list.innerHTML='';
+ const list=document.getElementById('adminActivityList'); if(!list)return; let items=[]; try{items=(await getActivities()).filter(a=>!hasActivityDeadlinePassed(a));}catch(e){list.textContent=e.message;return;} list.innerHTML='';
  if(!items.length){ list.innerHTML='<div class="admin-no-activity"><i class="fa-solid fa-book-open"></i><h3>No activities yet.</h3><p>Created activities will appear here.</p></div>'; return; }
  items.forEach(a=>{ const card=document.createElement('div'); card.className='admin-activity-card'; card.innerHTML=`<div><h3>${escapeHtml(a.name)}</h3><span>${escapeHtml(formatDate(a.date||a.activity_date))}</span></div><button class="open-activity-btn" type="button">OPEN</button>`; card.querySelector('button').onclick=()=>{sessionStorage.setItem(SELECTED_ACTIVITY_KEY,String(a.id));window.location.href='activity_menu-admin.html';}; list.appendChild(card); });
 }

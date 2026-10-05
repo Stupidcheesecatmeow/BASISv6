@@ -76,6 +76,24 @@ async function loadActivities() {
         console.error('Unable to load activities:', error);
     }
     renderActivities(document.getElementById('activitySearch')?.value || '');
+
+    const historyActivityId = sessionStorage.getItem('basisSelectedActivityId');
+    if (historyActivityId) {
+        sessionStorage.removeItem('basisSelectedActivityId');
+        const historyActivity = activities.find(activity => String(activity.id) === String(historyActivityId));
+        if (historyActivity) await openActivityDetail(historyActivity);
+    }
+}
+
+function hasActivityDeadlinePassed(activity, now = new Date()) {
+    const explicitDeadline = activity.deadlineDate || activity.deadline_date || '';
+    const date = explicitDeadline || activity.date || activity.activity_date || '';
+    if (!date) return false;
+    const time = explicitDeadline
+        ? (activity.deadlineTime || activity.deadline_time || '23:59:59')
+        : (activity.endTime || activity.end_time || '23:59:59');
+    const due = new Date(`${String(date).slice(0,10)}T${time}`);
+    return !Number.isNaN(due.getTime()) && due.getTime() <= now.getTime();
 }
 
 
@@ -118,6 +136,8 @@ function renderActivities(
     const filteredActivities =
         activities.filter(
             function (activity) {
+
+                if (hasActivityDeadlinePassed(activity)) return false;
 
                 if (!search) {
 

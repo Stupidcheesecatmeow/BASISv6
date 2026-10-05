@@ -13,7 +13,20 @@ async function renderScorecardButtons() {
         if (!response.ok || !data.success) throw new Error(data.message || 'Could not load your scorecard.');
         currentScorecardData = data;
         const profile = data.profile || {};
-        const activities = Array.isArray(data.activities) ? data.activities : [];
+        const scorecardActivities = Array.isArray(data.activities) ? data.activities : [];
+        const activityResponse = await fetch('../admin/api/account_api.php?action=activities', {credentials:'same-origin',cache:'no-store'});
+        const activityData = await activityResponse.json();
+        if (!activityResponse.ok || !activityData.success) throw new Error(activityData.message || 'Could not load attendance records.');
+        const attendanceActivities = (activityData.activities || [])
+            .filter(activity => ['PRESENT','ATTENDED'].includes(String(activity.attendance_status || activity.status || '').toUpperCase()) || String(activity.time_in || '').trim() !== '')
+            .map(activity => ({...activity, title:activity.title || activity.name, academicYear:activity.academicYear || activity.academic_year, status:activity.attendance_status || activity.status || 'ATTENDED'}));
+        const mergedActivities = new Map();
+        [...scorecardActivities, ...attendanceActivities].forEach(activity => {
+            const key = String(activity.id || activity.activity_id || `${activity.title || activity.name}|${activity.date || activity.attendance_date}`);
+            mergedActivities.set(key, {...mergedActivities.get(key), ...activity});
+        });
+        const activities = [...mergedActivities.values()];
+        currentScorecardData.activities = activities;
         const periods = new Map();
         activities.forEach(activity => {
             const ay = activity.academicYear || activity.academic_year || defaultAcademicYear();
@@ -46,6 +59,17 @@ function defaultAcademicYear() {
 function defaultSemester() {
     const month = new Date().getMonth();
     return month >= 7 || month === 0 ? '1st Semester' : '2nd Semester';
+}
+
+function normalizeScorecardSemester(value) {
+    const normalized = String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    if (/^(1st|first) semester$/.test(normalized)) return '1st semester';
+    if (/^(2nd|second) semester$/.test(normalized)) return '2nd semester';
+    return normalized;
+}
+
+function normalizeScorecardAcademicYear(value) {
+    return String(value || '').trim().replace(/[\u2010-\u2015\u2212]/g, '-').replace(/\s+/g, '');
 }
 
 function escapeScorecardText(value) {
@@ -101,7 +125,7 @@ function showNoScorecardMessage() {
 
 function openScorecardDetail(academicYear, semester) {
     const data = currentScorecardData;
-    if (!data?.profileComplete) return;
+    if (!data) return;
     selectedScorecardPeriod = {academicYear,semester};
     loadProfileInfo(data.profile || {});
     const ayTitle=document.getElementById('scorecardAYTitle');
@@ -109,8 +133,8 @@ function openScorecardDetail(academicYear, semester) {
     if(ayTitle)ayTitle.textContent=`AY: ${academicYear}`;
     if(semTitle)semTitle.textContent=String(semester).toUpperCase();
     const attended=(data.activities||[]).filter(activity =>
-        String(activity.academicYear||activity.academic_year||academicYear)===String(academicYear) &&
-        String(activity.semester||semester).toLowerCase()===String(semester).toLowerCase()
+        normalizeScorecardAcademicYear(activity.academicYear||activity.academic_year||academicYear)===normalizeScorecardAcademicYear(academicYear) &&
+        normalizeScorecardSemester(activity.semester||semester)===normalizeScorecardSemester(semester)
     );
     populateActivityRows(attended);
     showSubView('view-scorecard-detail');

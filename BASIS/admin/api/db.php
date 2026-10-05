@@ -184,6 +184,22 @@ function db(): PDO
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     )");
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_feedback_user ON feedback(user_id,created_at)');
+    $feedbackColumns = $pdo->query('PRAGMA table_info(feedback)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('image_name', $feedbackColumns, true)) {
+        $pdo->exec("ALTER TABLE feedback ADD COLUMN image_name TEXT NOT NULL DEFAULT ''");
+    }
+    if (!in_array('image_data', $feedbackColumns, true)) {
+        $pdo->exec("ALTER TABLE feedback ADD COLUMN image_data TEXT NOT NULL DEFAULT ''");
+    }
+    if (!in_array('admin_reply', $feedbackColumns, true)) {
+        $pdo->exec("ALTER TABLE feedback ADD COLUMN admin_reply TEXT NOT NULL DEFAULT ''");
+    }
+    if (!in_array('replied_at', $feedbackColumns, true)) {
+        $pdo->exec("ALTER TABLE feedback ADD COLUMN replied_at TEXT NOT NULL DEFAULT ''");
+    }
+    if (!in_array('replied_by', $feedbackColumns, true)) {
+        $pdo->exec('ALTER TABLE feedback ADD COLUMN replied_by INTEGER');
+    }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS announcements (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
