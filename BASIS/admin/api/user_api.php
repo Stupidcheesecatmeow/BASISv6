@@ -398,44 +398,21 @@ function getActivities(PDO $pdo): void
         respond(false, 'Invalid user ID.', 422);
     }
 
-    /*
-     * Uses the existing attendance table when available.
-     * Your existing BASIS attendance table has:
-     * activity_id, fullname, inb_number, attendance_date,
-     * time_in, time_out.
-     */
-
-    $tableExists = $pdo->query("
-        SELECT name
-        FROM sqlite_master
-        WHERE type='table'
-        AND name='attendance'
-    ")->fetch();
-
-    if (!$tableExists) {
-        respond(true, '', 200, ['activities' => []]);
-    }
-
     $user = fetchUser($pdo, $id);
 
     if (!$user) {
         respond(false, 'User not found.', 404);
     }
 
-    $stmt = $pdo->prepare("
-        SELECT
-            COALESCE(a.name, 'ACTIVITY') AS activity_title,
-            att.time_in,
-            att.time_out,
-            '—' AS submission
-        FROM activity_attendance att
-        LEFT JOIN activities a
-            ON a.id = att.activity_id
-        WHERE att.user_id = ?
-        ORDER BY att.attendance_date DESC, att.id DESC
-    ");
+    $stmt = $pdo->prepare("SELECT a.name AS activity_title,
+        CASE WHEN UPPER(COALESCE(att.status,'')) IN ('PRESENT','ATTENDED') AND TRIM(COALESCE(att.time_in,''))<>'' THEN 'Attended'
+             WHEN EXISTS (SELECT 1 FROM submissions s WHERE s.activity_id=a.id AND s.user_id=? AND s.status='VERIFIED') THEN 'Attended'
+             ELSE 'Absent' END AS status
+        FROM activities a LEFT JOIN activity_attendance att ON att.activity_id=a.id AND att.user_id=?
+        WHERE COALESCE(NULLIF(a.deadline_date,''),a.activity_date)<>'' AND COALESCE(NULLIF(a.deadline_date,''),a.activity_date)<=date('now','localtime')
+        ORDER BY COALESCE(NULLIF(a.deadline_date,''),a.activity_date) DESC,a.id DESC");
 
-    $stmt->execute([$id]);
+    $stmt->execute([$id, $id]);
 
     respond(true, '', 200, [
         'activities' => $stmt->fetchAll()

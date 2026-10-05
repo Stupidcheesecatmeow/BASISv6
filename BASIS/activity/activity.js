@@ -549,30 +549,19 @@ window.downloadActivityQr = async function () {
     if (!objectUrl || !currentActivity) return;
     const safeName = getActivityTitle(currentActivity).replace(/[^a-z0-9_-]+/gi, "_").replace(/^_+|_+$/g, "") || "activity";
     try {
-        const qr = new Image();
-        qr.src = objectUrl;
-        await qr.decode();
-        const canvas = document.createElement("canvas");
-        canvas.width = 1200;
-        canvas.height = 1200;
-        const context = canvas.getContext("2d");
-        if (!context) throw new Error("Could not prepare the QR image for download.");
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.imageSmoothingEnabled = false;
-        context.drawImage(qr, 0, 0, canvas.width, canvas.height);
-        const jpgBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.96));
-        if (!jpgBlob) throw new Error("Could not convert the QR image to JPG.");
-        const jpgUrl = URL.createObjectURL(jpgBlob);
+        const svgResponse = await fetch(objectUrl);
+        const svgBlob = await svgResponse.blob();
+        if (!svgBlob.type.includes("svg")) throw new Error("The QR image is not available as SVG.");
+        const svgUrl = URL.createObjectURL(svgBlob);
         const link = document.createElement("a");
-        link.href = jpgUrl;
-        link.download = `BASIS_${safeName}_attendance_QR.jpg`;
+        link.href = svgUrl;
+        link.download = `BASIS_${safeName}_attendance_QR.svg`;
         document.body.appendChild(link);
         link.click();
         link.remove();
-        setTimeout(() => URL.revokeObjectURL(jpgUrl), 1000);
+        setTimeout(() => URL.revokeObjectURL(svgUrl), 1000);
     } catch (error) {
-        alert(error.message || "Could not download the QR as a JPG.");
+        alert(error.message || "Could not download the QR as an SVG.");
     }
 };
 

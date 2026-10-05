@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }).catch((error) => { console.warn('Could not load activities on home.', error); });
     }
     const announcementsBox = document.getElementById('announcementsBox');
-    if (script && announcementsBox && !document.getElementById('openAnnouncementModal')) {
+    if (script && announcementsBox && !(document.getElementById('openAnnouncementModal') && window.location.pathname.toLowerCase().includes('/admin/'))) {
         const renderAnnouncements = (announcements) => {
             announcementsBox.replaceChildren();
             if (!announcements.length) {
@@ -152,6 +152,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }).catch((error) => console.warn("Could not load account avatar.", error));
     }
     
+    if (script && document.querySelector('.bottom-nav a[href*="history"]')) {
+        const historyLink = document.querySelector('.bottom-nav a[href*="history"]');
+        fetch(new URL('admin/api/account_api.php?action=notifications', script.src), {credentials:'same-origin',cache:'no-store'})
+            .then(response => response.json()).then(data => {
+                if (!data.success || !(data.notifications || []).some(item => !Number(item.isRead))) return;
+                historyLink.classList.add('has-new-notifications');
+                if (!historyLink.querySelector('.history-notification-dot')) { const dot=document.createElement('span');dot.className='history-notification-dot';dot.setAttribute('aria-label','New notifications');historyLink.appendChild(dot); }
+            }).catch(() => {});
+    }
+
     // Helper function to toggle header avatar visibility
     function toggleHeaderAvatar(isProfileView) {
         const headerAvatar = document.querySelector('.profile-avatar-wrapper');

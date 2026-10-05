@@ -93,6 +93,12 @@
                         <strong>DESCRIPTION</strong>
                         <p class="desc-text" id="scanDescription"></p>
                     </div>
+                    <form class="activity-own-proof" id="activityOwnProof" data-requires-proof hidden>
+                        <label for="activityOwnProofFile">SUBMIT YOUR PROOF</label>
+                        <input id="activityOwnProofFile" type="file" required>
+                        <button type="submit">UPLOAD PROOF</button>
+                        <span id="activityOwnProofStatus" aria-live="polite"></span>
+                    </form>
                 </div>
             </div>
         </div>
@@ -308,6 +314,7 @@
 <script src="../admin/xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="activity-rep.js?v=20261005-full-scan"></script>
+<script src="../activity/activity-own-proof.js?v=20261005"></script>
 
 </body>
 </html>

@@ -25,6 +25,17 @@
     const maleEl = document.getElementById('maleScholars');
     const femaleEl = document.getElementById('femaleScholars');
 
+    const announcementModal=document.getElementById('announcementModal');
+    const announcementForm=document.getElementById('announcementForm');
+    const announcementFile=document.getElementById('announcementFile');
+    const announcementFileName=document.getElementById('announcementFileName');
+    const closeAnnouncement=()=>{announcementModal?.classList.remove('show');announcementModal?.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+    document.getElementById('openAnnouncementModal')?.addEventListener('click',()=>{const date=document.getElementById('announcementDate');if(date&&!date.value)date.value=new Date().toISOString().slice(0,10);announcementModal?.classList.add('show');announcementModal?.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';});
+    document.getElementById('closeAnnouncementModal')?.addEventListener('click',closeAnnouncement);
+    document.getElementById('cancelAnnouncement')?.addEventListener('click',closeAnnouncement);
+    announcementFile?.addEventListener('change',()=>{if(announcementFileName)announcementFileName.textContent=announcementFile.files?.[0]?.name||'';});
+    announcementForm?.addEventListener('submit',async event=>{event.preventDefault();const submit=announcementForm.querySelector('[type=submit]');submit.disabled=true;try{let attachmentData='';const file=announcementFile?.files?.[0];if(file){if(file.size>5*1024*1024)throw new Error('Attachment must be 5 MB or smaller.');attachmentData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Unable to read attachment.'));reader.readAsDataURL(file);});}const response=await fetch('../admin/api/account_api.php?action=announcements',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:document.getElementById('announcementTitle').value.trim(),date:document.getElementById('announcementDate').value,message:document.getElementById('announcementMessage').value.trim(),attachment_name:file?.name||'',attachment_data:attachmentData})});const data=await response.json();if(!response.ok||!data.success)throw new Error(data.message||'Announcement could not be published.');announcementForm.reset();closeAnnouncement();localStorage.setItem('basisAnnouncementPublished',String(Date.now()));window.location.reload();}catch(error){alert(error.message);}finally{submit.disabled=false;}});
+
     const BARANGAYS = [
         'Bagumbayan',
         'Banawang',

@@ -467,6 +467,8 @@
 
     overflow: hidden !important;
 }
+#view-history-admin-announcement-detail .view-body { display:flex; flex-direction:column; max-height:calc(100vh - 190px); min-height:0; }
+#view-history-admin-announcement-detail .history-detail-layout { flex:1 1 auto; min-height:0; overflow:auto; }
 
 
 .history-detail-layout,

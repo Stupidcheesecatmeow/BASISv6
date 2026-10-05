@@ -68,6 +68,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const selectedId=sessionStorage.getItem('basisSelectedAnnouncementId');
         if(selectedId){const selected=announcements.find(item=>String(item.id)===String(selectedId));sessionStorage.removeItem('basisSelectedAnnouncementId');if(selected)openAnnouncement(selected);}
         const notices=notificationData.notifications||[];
+        const activityList=document.getElementById(isAdmin?'adminActivityHistoryList':isRep?'repActivityHistoryList':'activityHistoryList');
+        if(activityList){
+            try {
+                const activityData=await fetchData('activities');
+                const today=new Date();today.setHours(0,0,0,0);
+                const ended=(activityData.activities||[]).filter(item=>{const raw=String(item.deadlineDate||item.deadline_date||item.date||item.activity_date||'').slice(0,10);if(!raw)return false;const due=new Date(raw+'T00:00:00');return !Number.isNaN(due.getTime())&&due<=today;});
+                activityList.replaceChildren();if(!ended.length)addEmpty(activityList,'No activity history yet.');
+                ended.forEach(item=>{const row=document.createElement('article');row.className='history-item-row';const title=document.createElement('h4');title.textContent=item.name||item.title||'ACTIVITY';const meta=document.createElement('div');meta.className='history-item-meta';meta.textContent=formatDate(item.deadlineDate||item.deadline_date||item.date||item.activity_date);const status=document.createElement('p');status.textContent=['PRESENT','ATTENDED'].includes(String(item.attendance_status||'').toUpperCase())?'Attended':'Absent';row.append(title,meta,status);activityList.appendChild(row);});
+            }catch(error){console.warn('Could not load activity history:',error.message);}
+        }
         if(notificationList){
             notificationList.replaceChildren();
             if(!notices.length) addEmpty(notificationList,'No notification history yet.');
@@ -82,6 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 notificationList.appendChild(row);
             });
         }
+        fetch(new URL('../admin/api/account_api.php?action=notifications',baseScript.src),{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:'{}'}).catch(()=>{});
     } catch(error) {
         console.warn('Could not load live history:',error.message);
     }

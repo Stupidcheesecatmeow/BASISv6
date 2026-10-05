@@ -637,9 +637,7 @@ async function openActivities() {
 
             tr.innerHTML = `
                 <td>${escapeHtml(item.activity_title || "—")}</td>
-                <td>${escapeHtml(item.time_in || "—")}</td>
-                <td>${escapeHtml(item.time_out || "—")}</td>
-                <td>${escapeHtml(item.submission || "—")}</td>
+                <td>${escapeHtml(item.status || "Absent")}</td>
             `;
 
             tbody.appendChild(tr);

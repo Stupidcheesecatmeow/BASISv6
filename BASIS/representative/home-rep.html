@@ -112,7 +112,7 @@
         <!-- ANNOUNCEMENTS / ONGOING ACTIVITY -->
         <div class="dash-grid representative-grid">
             <div class="grid-item flex-announcements">
-                <h2>ANNOUNCEMENTS!</h2>
+                <div class="rep-announcement-heading"><h2>ANNOUNCEMENTS!</h2><button id="openAnnouncementModal" type="button" aria-label="Create announcement">+</button></div>
                 <div class="bordered-box" id="announcementsBox">
                     <div class="placeholder-text">No announcements yet.</div>
                 </div>
@@ -166,6 +166,21 @@
     </div>
 
 </nav>
+
+<div class="rep-announcement-modal" id="announcementModal" aria-hidden="true">
+    <div class="rep-announcement-card">
+        <button type="button" id="closeAnnouncementModal" aria-label="Close">×</button>
+        <h2>Create Announcement</h2>
+        <p>This announcement will appear on every user's dashboard.</p>
+        <form id="announcementForm">
+            <label>Title<input id="announcementTitle" required maxlength="160"></label>
+            <label>Date<input id="announcementDate" type="date" required></label>
+            <label>Message<textarea id="announcementMessage" required maxlength="5000"></textarea></label>
+            <label>Attachment (optional)<input id="announcementFile" type="file"><small id="announcementFileName"></small></label>
+            <div><button id="cancelAnnouncement" type="button">Cancel</button><button type="submit">Publish</button></div>
+        </form>
+    </div>
+</div>
 
 <script src="../script.js?v=20261005-live-announcements"></script>
 <script src="home-rep.js?v=5"></script>

@@ -190,10 +190,15 @@ function db(): PDO
         title TEXT NOT NULL,
         message TEXT NOT NULL DEFAULT '',
         activity_id INTEGER,
+        is_read INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY(activity_id) REFERENCES activities(id) ON DELETE CASCADE
     )");
+    $notificationColumns = $pdo->query('PRAGMA table_info(notifications)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('is_read', $notificationColumns, true)) {
+        $pdo->exec('ALTER TABLE notifications ADD COLUMN is_read INTEGER NOT NULL DEFAULT 0');
+    }
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id,created_at DESC,id DESC)');
 
     return $pdo;
