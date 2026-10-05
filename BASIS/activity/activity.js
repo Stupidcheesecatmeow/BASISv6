@@ -899,8 +899,7 @@ function setSubmissionTab(
     type
 ) {
 
-    currentSubmissionType =
-        type;
+    currentSubmissionType = type === 'absence' ? 'absence' : 'attendance';
 
 
     const attendanceTab =
@@ -947,12 +946,12 @@ function setSubmissionTab(
     }
 
 
-    /*
-        The uploaded file is still handled
-        the same way. The selected tab tells
-        the system whether the submission is
-        attendance or absence.
-    */
+    const input=document.getElementById('fileUploadInput');
+    const hint=document.getElementById('proofFileTypeHint');
+    if(input)input.accept=currentSubmissionType==='attendance'?'.jpg,.jpeg,image/jpeg':'.pdf,application/pdf';
+    if(hint)hint.textContent=currentSubmissionType==='attendance'?'JPG only':'PDF only';
+    const file=input?.files?.[0];
+    if(file&&!isAllowedFile(file)){input.value='';const label=document.querySelector('#selectedFile span');if(label)label.textContent='No file selected';}
 
 }
 
@@ -1144,7 +1143,7 @@ function setupFileUpload() {
             if (!file) {
 
                 setStatus(
-                    "Please select a PDF or PNG file first.",
+                    `Please select a ${currentSubmissionType==='attendance'?'JPG photo':'PDF excuse letter'} first.`,
                     true
                 );
 
@@ -1156,7 +1155,7 @@ function setupFileUpload() {
             if (!isAllowedFile(file)) {
 
                 setStatus(
-                    "Only PDF and PNG files are allowed.",
+                    currentSubmissionType==='attendance' ? "Attendance proof must be a JPG photo." : "Absence proof must be a PDF letter.",
                     true
                 );
 
@@ -1230,9 +1229,8 @@ function handleSelectedFile(
 
 
     if (!file) {
-
+        selectedFile.innerHTML = '<i class="fa-solid fa-file"></i><span>No file selected</span>';
         return;
-
     }
 
 
@@ -1243,14 +1241,14 @@ function handleSelectedFile(
             <i class="fa-solid fa-circle-xmark"></i>
 
             <span>
-                Invalid file. PDF or PNG only.
+                Invalid file. ${currentSubmissionType==='attendance'?'JPG only.':'PDF only.'}
             </span>
 
         `;
 
 
         setStatus(
-            "Only PDF and PNG files are allowed.",
+            currentSubmissionType==='attendance' ? "Attendance proof must be a JPG photo." : "Absence proof must be a PDF letter.",
             true
         );
 
@@ -1309,14 +1307,12 @@ function isAllowedFile(
         file.name.toLowerCase();
 
 
-    const allowedExtension =
-        fileName.endsWith(".pdf") ||
-        fileName.endsWith(".png");
-
-
-    const allowedMime =
-        file.type === "application/pdf" ||
-        file.type === "image/png";
+    const allowedExtension = currentSubmissionType === 'attendance'
+        ? (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg'))
+        : fileName.endsWith('.pdf');
+    const allowedMime = currentSubmissionType === 'attendance'
+        ? file.type === 'image/jpeg'
+        : file.type === 'application/pdf';
 
 
     return (

@@ -47,6 +47,7 @@
             <div class="activity-menu-list">
                 <div class="activity-menu-item" onclick="window.location.href='activity_details-rep.html'">ACTIVITY DETAILS</div>
                 <div class="activity-menu-item" data-requires-qr onclick="showSubView('view-activity-scan')">SCAN ACTIVITY</div>
+                <div class="activity-menu-item" data-requires-proof onclick="showSubView('view-activity-submit-proof')">SUBMIT PROOF</div>
                 <div class="activity-menu-item" data-requires-proof onclick="showSubView('view-activity-verify')">VERIFY ACTIVITY</div>
                 <div class="activity-menu-item" onclick="showSubView('view-activity-participants')">ACTIVITY PARTICIPANTS</div>
             </div>
@@ -93,16 +94,22 @@
                         <strong>DESCRIPTION</strong>
                         <p class="desc-text" id="scanDescription"></p>
                     </div>
-                    <form class="activity-own-proof" id="activityOwnProof" data-requires-proof hidden>
-                        <label for="activityOwnProofFile">SUBMIT YOUR PROOF</label>
-                        <input id="activityOwnProofFile" type="file" required>
-                        <button type="submit">UPLOAD PROOF</button>
-                        <span id="activityOwnProofStatus" aria-live="polite"></span>
-                    </form>
                 </div>
             </div>
         </div>
     
+</section>
+
+<section id="view-activity-submit-proof" class="page-view">
+    <div class="view-banner"><h2>ACTIVITY</h2></div>
+    <div class="view-body bordered-frame relative-frame submission-page-frame">
+        <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
+        <div class="submission-top-info"><div class="submission-sem-info"><h3 id="submissionSemester"></h3><p><strong>SUBMISSION DUE DATE:</strong> <span id="submissionDeadline"></span> &nbsp;&nbsp; <strong>TIME:</strong> <span id="submissionTime"></span></p></div><div class="note-box submission-note"><p><strong>Note:</strong> For Proof of Attendance, upload a JPG photo showing your attendance at the activity.</p><p>For Proof of Absence, upload a PDF excuse letter explaining your absence.</p></div></div>
+        <div class="submission-main-layout">
+            <div class="submission-bin-box"><h3>SUBMISSION BIN</h3><label class="upload-drop-area" id="uploadDropArea" for="fileUploadInput"><i class="fa-solid fa-cloud-arrow-up"></i><p>UPLOAD FILE HERE</p><span id="proofFileTypeHint">JPG only</span></label><input id="fileUploadInput" type="file" accept=".jpg,.jpeg,image/jpeg" hidden><div class="selected-file" id="selectedFile"><i class="fa-solid fa-file"></i><span>No file selected</span></div><button type="button" class="submit-file-btn" id="submitFileBtn">SUBMIT FILE</button><p class="upload-status" id="uploadStatus" aria-live="polite"></p></div>
+            <div class="submission-details-side"><div class="attendance-toggle-bar"><button type="button" class="toggle-tab active" id="tabAttendance" onclick="setOwnSubmissionTab('attendance')">ATTENDANCE</button><button type="button" class="toggle-tab" id="tabAbsence" onclick="setOwnSubmissionTab('absence')">ABSENCE</button></div><div class="sub-activity-info"><h2 id="submissionTitle"></h2><p><strong>TYPE OF ACTIVITY:</strong> <span id="submissionType"></span></p><p><strong>DATE:</strong> <span id="submissionDate"></span></p><p><strong>TIME:</strong> <span id="submissionActivityTime"></span></p><p><strong>VENUE:</strong> <span id="submissionVenue"></span></p><p><strong>VENUE ADDRESS:</strong> <span id="submissionVenueAddress"></span></p></div><div class="btn-right-container"><button type="button" class="act-btn outline-btn" onclick="showSubView('view-activity-menu')">DONE</button></div></div>
+        </div>
+    </div>
 </section>
 
 <section id="view-activity-verify" class="page-view">
@@ -122,8 +129,8 @@
                     <h4>No submissions yet.</h4>
                     <p>Attendance and absence submissions will appear here.</p>
                 </div>
-                <button class="verified-activities-btn" onclick="showSubView('view-activity-verified')">VERIFIED ACTIVITIES</button>
             </div>
+            <button class="verified-activities-btn" onclick="showSubView('view-activity-verified')">VERIFIED ACTIVITIES</button>
         </div>
     
 </section>

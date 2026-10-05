@@ -110,6 +110,8 @@
                     <span>TERMS AND CONDITIONS</span>
                 </button>
 
+                <button type="button" class="more-menu-card" data-open-view="reportView"><span>REPORT</span></button>
+
 
                 <button
                     type="button"
@@ -312,6 +314,22 @@
 
         </div>
 
+
+
+        <div class="more-view more-detail-view" id="reportView">
+            <button type="button" class="more-close-btn" data-close-view>×</button>
+            <div class="more-inner-header report-header"><h2>GENERATE REPORT</h2><div class="report-header-actions"><button type="button" class="report-action-btn" id="repGenerateReport">GENERATE</button><button type="button" class="report-action-btn" id="repExportReport">EXCEL</button><button type="button" class="clear-report-btn" id="repClearReport">CLEAR</button></div></div>
+            <div class="more-inner-scroll report-scroll"><div class="report-builder">
+                <div class="report-intro"><h3>ACTIVITY PARTICIPATION REPORT</h3><p>Choose activities, semesters, and academic years to review participation for your assigned barangay.</p></div>
+                <div class="rep-report-filters">
+                    <section class="report-filter-card"><h4>ACTIVITY</h4><div class="checkbox-list" id="repReportActivityFilters">Loading activities…</div></section>
+                    <section class="report-filter-card"><h4>SEMESTER</h4><label><input type="checkbox" class="rep-report-semester" value="FIRST SEMESTER"> FIRST SEMESTER</label><label><input type="checkbox" class="rep-report-semester" value="SECOND SEMESTER"> SECOND SEMESTER</label></section>
+                    <section class="report-filter-card"><h4>ACADEMIC YEAR</h4><div class="checkbox-list" id="repReportYearFilters">Choose activities first.</div></section>
+                </div>
+                <div class="report-result-toolbar"><div><strong>GENERATED REPORT</strong><span id="repReportResultCount">0 records</span></div></div>
+                <div class="report-results" id="repReportResults"><div class="report-empty-state"><h3>No report generated yet.</h3><p>Select the filters and click GENERATE.</p></div></div>
+            </div></div>
+        </div>
 
 
         <!-- =================================================
@@ -611,7 +629,9 @@
 
 
 <script src="../script.js?v=20260930-tab-auth2"></script>
+<script src="../admin/xlsx.full.min.js?v=0.20.3"></script>
 <script src="more-rep.js"></script>
+<script src="report-rep.js?v=20261005"></script>
 
 </body>
 </html>

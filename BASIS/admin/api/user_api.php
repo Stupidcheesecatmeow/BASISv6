@@ -406,10 +406,9 @@ function getActivities(PDO $pdo): void
 
     $stmt = $pdo->prepare("SELECT a.name AS activity_title,
         CASE WHEN UPPER(COALESCE(att.status,'')) IN ('PRESENT','ATTENDED') AND TRIM(COALESCE(att.time_in,''))<>'' THEN 'Attended'
-             WHEN EXISTS (SELECT 1 FROM submissions s WHERE s.activity_id=a.id AND s.user_id=? AND s.status='VERIFIED') THEN 'Attended'
+             WHEN EXISTS (SELECT 1 FROM submissions s WHERE s.activity_id=a.id AND s.user_id=? AND s.status='VERIFIED' AND s.submission_type='attendance') THEN 'Attended'
              ELSE 'Absent' END AS status
         FROM activities a LEFT JOIN activity_attendance att ON att.activity_id=a.id AND att.user_id=?
-        WHERE COALESCE(NULLIF(a.deadline_date,''),a.activity_date)<>'' AND COALESCE(NULLIF(a.deadline_date,''),a.activity_date)<=date('now','localtime')
         ORDER BY COALESCE(NULLIF(a.deadline_date,''),a.activity_date) DESC,a.id DESC");
 
     $stmt->execute([$id, $id]);
