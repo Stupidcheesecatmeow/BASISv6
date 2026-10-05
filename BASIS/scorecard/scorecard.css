@@ -178,9 +178,9 @@
     padding:10px 0;
 }
 
-.scorecard-vertical-bar.right-bar {
-    width:25px;
-}
+/* .scorecard-vertical-bar.right-bar {
+    width:10px;
+} */
 
 /* STACKED TEXT */
 .stacked-text {
@@ -312,7 +312,7 @@
 }
 
 /* ACTIVITY ROW */
-.activity-form-row {
+/* .activity-form-row {
     display:flex;
     gap:12px;
     width:100%;
@@ -358,6 +358,58 @@
 
 .field-group input:read-only {
     cursor:default;
+} */
+
+.activity-form-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(120px, .34fr) minmax(100px, .24fr);
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.field-group.title-field {
+    min-width: 0;
+}
+
+.field-group.category-field {
+    min-width: 0;
+}
+
+.field-group.date-field {
+    min-width: 0;
+}
+
+.field-group label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #768a75;
+}
+
+.field-group input {
+    border: 1.5px solid #a3b2a0;
+    border-radius: 4px;
+    padding: 3px 8px;
+    height: 28px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #222222;
+    background-color: #ffffff;
+    outline: none;
+}
+
+.field-group input:read-only {
+    cursor: default;
 }
 
 /* MAIN CONTENT */
