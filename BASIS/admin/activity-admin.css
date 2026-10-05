@@ -184,6 +184,12 @@ ACTIVITY MENU Details, Scan  Verify Participants
 .admin-page .activity-manage-btn:hover { background:#edf2eb; }
 .admin-page .activity-delete-btn { background:#b42318; color:#fff; }
 .admin-page .activity-delete-btn:hover { background:#8f1c13; }
+.admin-page #view-activity-menu .inner-banner-header { gap:12px; flex-wrap:wrap; }
+.admin-page #view-activity-menu .activity-manage-actions { display:flex; align-items:center; justify-content:flex-end; gap:8px; margin-left:auto; flex-wrap:wrap; }
+@media (max-width:560px) {
+    .admin-page #view-activity-menu .activity-manage-actions { width:100%; }
+    .admin-page #view-activity-menu .activity-manage-btn { flex:1; padding:9px 10px; }
+}
 
 /* =========================================================
 QR CODE VIEW

@@ -576,9 +576,26 @@
 
 
 
-<script src="../script.js?v=20260930-tab-auth2"></script>
+<div class="announcement-modal" id="announcementModal" aria-hidden="true">
+    <div class="announcement-modal-overlay"></div>
+    <div class="announcement-modal-card" role="dialog" aria-modal="true" aria-labelledby="announcementModalTitle">
+        <div class="announcement-modal-header">
+            <div><span class="modal-eyebrow">BASIS • ADMIN</span><h2 id="announcementModalTitle">Create Announcement</h2><p>This announcement will appear on every user's dashboard.</p></div>
+            <button type="button" class="announcement-modal-close" id="closeAnnouncementModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form class="announcement-form" id="announcementForm">
+            <div class="announcement-field"><label for="announcementTitle">TITLE</label><input id="announcementTitle" type="text" required maxlength="160"></div>
+            <div class="announcement-field"><label for="announcementDate">DATE</label><input id="announcementDate" type="date" required></div>
+            <div class="announcement-field"><label for="announcementMessage">MESSAGE</label><textarea id="announcementMessage" required maxlength="5000"></textarea></div>
+            <div class="announcement-field"><label>ATTACHMENT <span>(optional)</span></label><label class="announcement-upload" for="announcementFile"><i class="fa-solid fa-paperclip"></i><div><strong>Choose a file</strong><small id="announcementFileName">PNG, JPG, PDF, DOCX and other files (up to 5 MB)</small></div></label><input id="announcementFile" type="file" hidden></div>
+            <div class="announcement-form-actions"><button class="announcement-cancel-btn" id="cancelAnnouncement" type="button">CANCEL</button><button class="announcement-publish-btn" type="submit">PUBLISH</button></div>
+        </form>
+    </div>
+</div>
 
-<script src="home-admin.js?v=7"></script>
+<script src="../script.js?v=20261005-announcements"></script>
+
+<script src="home-admin.js?v=20261005-announcements-participation"></script>
 
 
 </body>

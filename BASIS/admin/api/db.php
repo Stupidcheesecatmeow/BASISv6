@@ -170,5 +170,18 @@ function db(): PDO
     )");
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_feedback_user ON feedback(user_id,created_at)');
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS announcements (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        announcement_date TEXT NOT NULL DEFAULT '',
+        message TEXT NOT NULL,
+        attachment_name TEXT NOT NULL DEFAULT '',
+        attachment_data TEXT NOT NULL DEFAULT '',
+        created_by INTEGER,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+    )");
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_announcements_created ON announcements(created_at DESC,id DESC)');
+
     return $pdo;
 }

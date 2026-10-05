@@ -789,6 +789,24 @@ function renderLatestActivity() {
         absent;
 }
 
+async function refreshLatestActivity() {
+    try {
+        const response = await fetch('api/account_api.php?action=admin-dashboard', {credentials:'same-origin',cache:'no-store'});
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Could not load activity participation.');
+        const title=document.getElementById('latestActivityTitle');
+        const total=document.getElementById('latestTotalParticipants');
+        const attended=document.getElementById('latestAttended');
+        const absent=document.getElementById('latestAbsent');
+        if(title)title.textContent=data.activity?.name ? String(data.activity.name).toUpperCase() : 'NO ACTIVITY YET';
+        if(total)total.textContent=Number(data.totalParticipants||0);
+        if(attended)attended.textContent=Number(data.attended||0);
+        if(absent)absent.textContent=Number(data.absent||0);
+    } catch(error) {
+        console.warn('Could not refresh latest activity participation:',error.message);
+    }
+}
+
 
 /* =========================================================
    ANNOUNCEMENTS
@@ -841,47 +859,16 @@ function renderAnnouncements() {
     if (!container) return;
 
 
-    const announcements =
-        getAnnouncements();
-
-
+    container.innerHTML = '<div class="announcement-empty"><span>Loading announcements…</span></div>';
+    fetch('api/account_api.php?action=announcements', {credentials:'same-origin',cache:'no-store'})
+        .then(async response => { const data=await response.json(); if(!response.ok||!data.success)throw new Error(data.message||'Unable to load announcements.'); return Array.isArray(data.announcements)?data.announcements:[]; })
+        .then(announcements => {
     container.innerHTML = "";
-
-
     if (!announcements.length) {
-
-        container.innerHTML = `
-            <div class="empty-message">
-                No announcements yet.
-            </div>
-        `;
-
+        container.innerHTML = '<div class="announcement-empty"><i class="fa-regular fa-bell"></i><span>No announcements yet.</span><small>Click the + button to create an announcement.</small></div>';
         return;
     }
-
-
-    const sorted =
-        [...announcements].sort(
-            function (a, b) {
-
-                return new Date(
-                    b.createdAt ||
-                    b.created_at ||
-                    b.date ||
-                    0
-                ) -
-                new Date(
-                    a.createdAt ||
-                    a.created_at ||
-                    a.date ||
-                    0
-                );
-
-            }
-        );
-
-
-    sorted.forEach(function (announcement) {
+    announcements.forEach(function (announcement) {
 
         const card =
             document.createElement("div");
@@ -897,6 +884,7 @@ function renderAnnouncements() {
 
 
         const description =
+            announcement.message ||
             announcement.description ||
             announcement.body ||
             announcement.content ||
@@ -932,10 +920,21 @@ function renderAnnouncements() {
 
         `;
 
+        if (announcement.attachment_data) {
+            const link = document.createElement('a');
+            link.className = 'announcement-attachment';
+            link.href = announcement.attachment_data;
+            link.download = announcement.attachment_name || 'announcement-attachment';
+            link.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`;
+            card.appendChild(link);
+        }
+
 
         container.appendChild(card);
 
     });
+        })
+        .catch(error => { console.warn('Unable to load announcements:',error.message); container.replaceChildren(); const status=document.createElement('div');status.className='announcement-empty';status.textContent=error.message||'Unable to load announcements.';container.appendChild(status); });
 }
 
 
@@ -1131,6 +1130,7 @@ function renderAdminDashboard() {
     renderBarangayStatistics();
 
     renderLatestActivity();
+    refreshLatestActivity();
 
     renderAnnouncements();
 
@@ -1432,7 +1432,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (form) {
 
-        form.addEventListener("submit", (event) => {
+        form.addEventListener("submit", async (event) => {
 
             event.preventDefault();
 
@@ -1466,26 +1466,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /*
-             * TEMPORARY FRONT-END ONLY
-             *
-             * Later we will connect this to PHP/SQLite.
-             */
-
-            addAnnouncementCard(
-                title,
-                date,
-                message,
-                fileInput
-            );
-
-
-            form.reset();
-
-            fileName.textContent =
-                "PNG, JPG, PDF, DOCX and other files";
-
-            closeAnnouncementModal();
+            const publishButton=form.querySelector('[type="submit"]');
+            if(publishButton){publishButton.disabled=true;publishButton.textContent='PUBLISHING…';}
+            try {
+                let attachmentData='',attachmentName='';
+                const file=fileInput?.files?.[0];
+                if(file){
+                    if(file.size>5*1024*1024)throw new Error('Announcement attachments must be 5 MB or smaller.');
+                    attachmentName=file.name;
+                    attachmentData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(new Error('Could not read the attachment.'));reader.readAsDataURL(file);});
+                }
+                const response=await fetch('api/account_api.php?action=announcements',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,message,attachment_name:attachmentName,attachment_data:attachmentData})});
+                const result=await response.json();
+                if(!response.ok||!result.success)throw new Error(result.message||'Announcement could not be published.');
+                localStorage.setItem('basisAnnouncementPublished',String(Date.now()));
+                renderAnnouncements();
+                form.reset();
+                if(fileName)fileName.textContent='PNG, JPG, PDF, DOCX and other files (up to 5 MB)';
+                closeAnnouncementModal();
+            } catch(error) {
+                alert(error.message||'Announcement could not be published.');
+            } finally {
+                if(publishButton){publishButton.disabled=false;publishButton.textContent='PUBLISH';}
+            }
 
         });
 

@@ -96,6 +96,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }).catch((error) => { console.warn('Could not load activities on home.', error); });
     }
+    const announcementsBox = document.getElementById('announcementsBox');
+    if (script && announcementsBox && !document.getElementById('openAnnouncementModal')) {
+        const renderAnnouncements = (announcements) => {
+            announcementsBox.replaceChildren();
+            if (!announcements.length) {
+                const empty = document.createElement('div'); empty.className = 'representative-empty';
+                const label = document.createElement('span'); label.textContent = 'No announcements yet.'; empty.appendChild(label); announcementsBox.appendChild(empty); return;
+            }
+            announcements.forEach((announcement) => {
+                const card = document.createElement('article'); card.className = 'home-announcement-item';
+                const title = document.createElement('h3'); title.textContent = announcement.title || 'Announcement'; card.appendChild(title);
+                const date = document.createElement('small'); date.textContent = announcement.date || announcement.created_at || ''; card.appendChild(date);
+                const message = document.createElement('p'); message.textContent = announcement.message || ''; card.appendChild(message);
+                if (announcement.attachment_data) {
+                    const attachment = document.createElement('a'); attachment.href = announcement.attachment_data; attachment.download = announcement.attachment_name || 'announcement-attachment'; attachment.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`; card.appendChild(attachment);
+                }
+                announcementsBox.appendChild(card);
+            });
+        };
+        const loadAnnouncements = () => fetch(new URL('admin/api/account_api.php?action=announcements', script.src), {credentials:'same-origin',cache:'no-store'})
+            .then(async response => { const data = await response.json(); if (!response.ok || !data.success) throw new Error(data.message || 'Announcements could not be loaded.'); renderAnnouncements(Array.isArray(data.announcements) ? data.announcements : []); })
+            .catch(error => console.warn('Could not load announcements on home.', error));
+        loadAnnouncements();
+        window.addEventListener('pageshow', loadAnnouncements);
+        window.addEventListener('focus', loadAnnouncements);
+        window.addEventListener('storage', event => { if (event.key === 'basisAnnouncementPublished') loadAnnouncements(); });
+        setInterval(loadAnnouncements, 30000);
+    }
     if (script && document.querySelector(".header-avatar")) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
             credentials: "same-origin",

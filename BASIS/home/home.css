@@ -265,6 +265,12 @@
 .home-activity-item:last-child { border-bottom: 0; }
 .home-activity-item h3 { margin: 0 0 5px; font-size: 16px; font-weight: 800; }
 .home-activity-item p { margin: 3px 0; font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; }
+.home-announcement-item { padding:12px 14px; border-bottom:1px solid #d9e0d7; color:#42523f; overflow-wrap:anywhere; }
+.home-announcement-item:last-child { border-bottom:0; }
+.home-announcement-item h3 { margin:0 0 4px; font-size:16px; font-weight:800; }
+.home-announcement-item small { color:#768a75; font-size:11px; font-weight:700; }
+.home-announcement-item p { margin:6px 0; font-size:13px; line-height:1.5; white-space:pre-wrap; }
+.home-announcement-item a { color:#42523f; font-size:12px; font-weight:700; }
 
 @media (max-width: 900px) {
     .dash-grid { flex-direction: column; }
