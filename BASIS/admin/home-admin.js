@@ -908,36 +908,100 @@ function renderAnnouncements() {
             "";
 
 
+        // card.innerHTML = `
+
+        //     <h3>
+        //         ${escapeHtml(title)}
+        //     </h3>
+
+        //     <p>
+        //         ${escapeHtml(description)}
+        //     </p>
+
+        //     ${
+        //         date
+        //             ? `
+        //                 <div class="dashboard-info-meta">
+        //                     ${escapeHtml(formatDate(date))}
+        //                 </div>
+        //               `
+        //             : ""
+        //     }
+
+        // `;
+
+                const attachmentName =
+            announcement.attachment_name || "";
+
+        const attachmentData =
+            announcement.attachment_data || "";
+
+        const isImage =
+            attachmentData &&
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(
+                attachmentName
+            );
+
         card.innerHTML = `
+            <div class="announcement-content-container">
 
-            <h3>
-                ${escapeHtml(title)}
-            </h3>
+                <!-- LEFT SIDE -->
+                <div class="announcement-content-details">
 
-            <p>
-                ${escapeHtml(description)}
-            </p>
+                    <h3 class="announcement-content-title">
+                        ${escapeHtml(title)}
+                    </h3>
 
-            ${
-                date
-                    ? `
-                        <div class="dashboard-info-meta">
-                            ${escapeHtml(formatDate(date))}
+                    ${
+                        date
+                            ? `
+                            <span class="announcement-content-date">
+                                ${escapeHtml(formatDate(date))}
+                            </span>
+                            `
+                            : ""
+                    }
+
+                    <p class="announcement-content-message">
+                        ${escapeHtml(description)}
+                    </p>
+
+                </div>
+
+
+                <!-- RIGHT SIDE -->
+                ${
+                    isImage
+                        ? `
+                        <div class="announcement-content-image">
+
+                            <img
+                                src="${attachmentData}"
+                                alt="${escapeHtml(title)}"
+                            >
+
                         </div>
-                      `
-                    : ""
-            }
+                        `
+                        : `
+                        <div class="announcement-content-image no-image">
 
+                            <i class="fa-regular fa-image"></i>
+
+                        </div>
+                        `
+                }
+
+            </div>
         `;
 
-        if (announcement.attachment_data) {
-            const link = document.createElement('a');
-            link.className = 'announcement-attachment';
-            link.href = announcement.attachment_data;
-            link.download = announcement.attachment_name || 'announcement-attachment';
-            link.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`;
-            card.appendChild(link);
-        }
+        // if (announcement.attachment_data) {
+        //     const link = document.createElement('a');
+        //     link.className = 'announcement-attachment';
+        //     link.href = announcement.attachment_data;
+        //     link.download = announcement.attachment_name || 'announcement-attachment';
+        //     link.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`;
+        //     card.appendChild(link);
+        // }
 
 
         container.appendChild(card);

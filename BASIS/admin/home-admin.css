@@ -202,7 +202,7 @@ body.admin-page {
     text-align: center;
 
     color: #405840;
-    font-size: 13px;
+    font-size: 17px;
     line-height: 1;
     font-weight: 900;
     text-transform: uppercase;
@@ -224,7 +224,7 @@ body.admin-page {
     text-align: center;
 
     color: #405840;
-    font-size: 11px;
+    font-size: 25px;
     line-height: 1.1;
     font-weight: 800;
 }
@@ -1466,7 +1466,7 @@ body.admin-page {
 
     z-index: 2;
 
-    width: min(560px, 100%);
+    width: min(1120px, 100%);
 
     max-height: calc(100vh - 40px);
 
@@ -1881,6 +1881,220 @@ body.admin-page {
 
 }
 
+/* =========================================================
+   ANNOUNCEMENT CONTENT CONTAINER
+========================================================= */
+
+.admin-page .announcement-content-container {
+    width: 100%;
+    min-height: 170px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 145px;
+    gap: 14px;
+
+    padding: 10px;
+
+    border: 1.5px solid #dce3da;
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+    overflow: hidden;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+}
+
+.admin-page .announcement-content-container:hover {
+    border-color: #405840;
+
+    box-shadow:
+        0 3px 10px rgba(64, 88, 64, .08);
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.admin-page .announcement-content-details {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* SMALL LABEL */
+
+.admin-page .announcement-content-label {
+    margin-bottom: 3px;
+
+    color: #405840;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 900;
+    letter-spacing: .7px;
+
+    text-transform: uppercase;
+}
+
+
+/* TITLE */
+
+.admin-page .announcement-content-title {
+    margin: 0;
+
+    color: #405840;
+
+    font-size: 18px;
+    line-height: 1.25;
+
+    font-weight: 900;
+
+    word-break: break-word;
+}
+
+
+/* DATE */
+
+.admin-page .announcement-content-date {
+    margin-top: 4px;
+
+    color: #7b7777;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 600;
+}
+
+
+/* MESSAGE */
+
+.admin-page .announcement-content-message {
+    margin: 8px 0 0;
+
+    color: #555555;
+
+    font-size: 13px;
+    line-height: 1.45;
+
+    word-break: break-word;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   ATTACHMENT
+========================================================= */
+
+.admin-page .announcement-content-attachment {
+    width: fit-content;
+    max-width: 100%;
+
+    margin-top: 8px;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: #eef1ed;
+
+    color: #405840;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-page .announcement-content-attachment i {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   RIGHT IMAGE CONTAINER
+========================================================= */
+
+.admin-page .announcement-content-image {
+    width: 145px;
+    height: 150px;
+
+    border-radius: 8px;
+
+    background: #eef1ed;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* IMAGE */
+
+.admin-page .announcement-content-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* WHEN THERE IS NO IMAGE */
+
+.admin-page .announcement-content-image.no-image {
+    border: 1px dashed #cfd8cd;
+
+    background: #f8faf7;
+
+    color: #a0a89d;
+
+    font-size: 22px;
+}
+
+
+/* =========================================================
+   MULTIPLE ANNOUNCEMENTS
+========================================================= */
+
+.admin-page .announcement-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+
+    padding: 9px;
+
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+}
 
 /* =========================================================
    MODAL MOBILE
