@@ -13,28 +13,28 @@ async function renderScorecardButtons() {
         if (!response.ok || !data.success) throw new Error(data.message || 'Could not load your scorecard.');
         currentScorecardData = data;
         const profile = data.profile || {};
+        if (!data.profileComplete) {
+            showNoScorecardMessage();
+            loadProfileInfo(profile);
+            return;
+        }
+        // The scorecard API only returns activities the user attended. The activity
+        // list is used only to discover semesters that should have their own card.
         const scorecardActivities = Array.isArray(data.activities) ? data.activities : [];
         const activityResponse = await fetch('../admin/api/account_api.php?action=activities', {credentials:'same-origin',cache:'no-store'});
         const activityData = await activityResponse.json();
         if (!activityResponse.ok || !activityData.success) throw new Error(activityData.message || 'Could not load attendance records.');
-        const attendanceActivities = (activityData.activities || [])
-            .filter(activity => ['PRESENT','ATTENDED'].includes(String(activity.attendance_status || activity.status || '').toUpperCase()) || String(activity.time_in || '').trim() !== '')
-            .map(activity => ({...activity, title:activity.title || activity.name, academicYear:activity.academicYear || activity.academic_year, status:activity.attendance_status || activity.status || 'ATTENDED'}));
-        const mergedActivities = new Map();
-        [...scorecardActivities, ...attendanceActivities].forEach(activity => {
-            const key = String(activity.id || activity.activity_id || `${activity.title || activity.name}|${activity.date || activity.attendance_date}`);
-            mergedActivities.set(key, {...mergedActivities.get(key), ...activity});
-        });
-        const activities = [...mergedActivities.values()];
-        currentScorecardData.activities = activities;
+        currentScorecardData.activities = scorecardActivities;
         const periods = new Map();
-        activities.forEach(activity => {
-            const ay = activity.academicYear || activity.academic_year || defaultAcademicYear();
-            const semester = activity.semester || defaultSemester();
+        const initialPeriod = {academicYear:defaultAcademicYear(),semester:defaultSemester()};
+        periods.set(`${initialPeriod.academicYear}|${initialPeriod.semester}`, initialPeriod);
+        (activityData.activities || []).forEach(activity => {
+            const ay = activity.academicYear || activity.academic_year || '';
+            const semester = activity.semester || '';
+            if (!ay.trim() || !isRecognizedSemester(semester)) return;
             const key = `${ay}|${semester}`;
             if (!periods.has(key)) periods.set(key, {academicYear:ay,semester});
         });
-        if (!periods.size) periods.set(`${defaultAcademicYear()}|${defaultSemester()}`, {academicYear:defaultAcademicYear(),semester:defaultSemester()});
         listContainer.replaceChildren();
         [...periods.values()].forEach(period => {
             const button = document.createElement('button');
@@ -66,6 +66,17 @@ function normalizeScorecardSemester(value) {
     if (/^(1st|first) semester$/.test(normalized)) return '1st semester';
     if (/^(2nd|second) semester$/.test(normalized)) return '2nd semester';
     return normalized;
+}
+
+function isRecognizedSemester(value) {
+    return ['1st semester', '2nd semester'].includes(normalizeScorecardSemester(value));
+}
+
+function scorecardSemesterLabel(value) {
+    const normalized = normalizeScorecardSemester(value);
+    if (normalized === '1st semester') return 'FIRST SEMESTER';
+    if (normalized === '2nd semester') return 'SECOND SEMESTER';
+    return String(value || defaultSemester()).toUpperCase();
 }
 
 function normalizeScorecardAcademicYear(value) {
@@ -107,9 +118,7 @@ function showNoScorecardMessage() {
                 No available scorecards yet.
             </h3>
 
-            <p>
-                Please complete your Profile first.
-            </p>
+            <p>Please complete your Profile first.</p>
 
         </div>
 
@@ -131,7 +140,7 @@ function openScorecardDetail(academicYear, semester) {
     const ayTitle=document.getElementById('scorecardAYTitle');
     const semTitle=document.getElementById('scorecardSemTitle');
     if(ayTitle)ayTitle.textContent=`AY: ${academicYear}`;
-    if(semTitle)semTitle.textContent=String(semester).toUpperCase();
+    if(semTitle)semTitle.textContent=scorecardSemesterLabel(semester);
     const attended=(data.activities||[]).filter(activity =>
         normalizeScorecardAcademicYear(activity.academicYear||activity.academic_year||academicYear)===normalizeScorecardAcademicYear(academicYear) &&
         normalizeScorecardSemester(activity.semester||semester)===normalizeScorecardSemester(semester)
@@ -250,23 +259,26 @@ function populateActivityRows(
     if(!column)return;
     column.querySelectorAll('.activity-form-row,.scorecard-no-activities').forEach(element=>element.remove());
     if(!activities.length){
-        const empty=document.createElement('p');
-        empty.className='scorecard-no-activities';
-        empty.textContent='No attended activities for this semester yet.';
-        column.appendChild(empty);
-        return;
+        activities=[];
     }
-    activities.forEach(activity=>{
+    const rowsToRender=Math.max(6,activities.length);
+    for(let index=0;index<rowsToRender;index++){
+        const activity=activities[index]||{};
         const row=document.createElement('div');row.className='activity-form-row';
         const titleGroup=document.createElement('div');titleGroup.className='field-group title-field';
         const titleLabel=document.createElement('label');titleLabel.textContent='Activity Title:';
         const title=document.createElement('input');title.type='text';title.readOnly=true;title.value=activity.title||activity.name||'';
         titleGroup.append(titleLabel,title);
+        const categoryGroup=document.createElement('div');categoryGroup.className='field-group category-field';
+        const categoryLabel=document.createElement('label');categoryLabel.textContent='Category:';
+        const category=document.createElement('input');category.type='text';category.readOnly=true;
+        category.value=String(activity.type||activity.category||'').replace(/\s+Activity$/i,'');
+        categoryGroup.append(categoryLabel,category);
         const dateGroup=document.createElement('div');dateGroup.className='field-group date-field';
         const dateLabel=document.createElement('label');dateLabel.textContent='Date:';
-        const date=document.createElement('input');date.type='text';date.readOnly=true;date.value=activity.attendance_date||activity.date||'';
-        dateGroup.append(dateLabel,date);row.append(titleGroup,dateGroup);column.appendChild(row);
-    });
+        const date=document.createElement('input');date.type='text';date.readOnly=true;date.value=activity.date||activity.attendance_date||'';
+        dateGroup.append(dateLabel,date);row.append(titleGroup,categoryGroup,dateGroup);column.appendChild(row);
+    }
 }
 
 

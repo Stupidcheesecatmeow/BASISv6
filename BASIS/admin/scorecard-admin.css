@@ -873,7 +873,8 @@
 #view-scorecard-detail .scorecard-inner-card, #view-scorecard-detail .scorecard-content-area { min-width:0; }
 #view-scorecard-detail .scholar-info-column, #view-scorecard-detail .activity-log-column { min-width:0; overflow-wrap:anywhere; }
 #view-scorecard-detail .activity-log-column { flex:1; }
-#view-scorecard-detail .activity-form-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(96px, .34fr); gap:10px; }
+#view-scorecard-detail .activity-form-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(120px, .34fr) minmax(100px, .24fr); gap:10px; }
+#view-scorecard-detail .field-group.category-field { min-width:0; }
 #view-scorecard-detail .field-group.date-field { width:auto; min-width:0; }
 @media (max-width:900px) {
     #view-scorecard-detail .scorecard-inner-card { align-items:stretch; }
