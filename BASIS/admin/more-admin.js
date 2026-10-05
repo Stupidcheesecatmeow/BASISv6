@@ -130,11 +130,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-        if (viewId === "reportView") {
+        if (viewId === "reportView" && !window.BASISAdminApiReport) {
 
             loadReportFilters();
 
             renderReportEmpty();
+
+        }
+
+        if (viewId === "reportView" && window.BASISAdminApiReport) {
+
+            window.loadAdminApiReportFilters();
 
         }
 
@@ -5343,7 +5349,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (generateReportBtn) {
+    if (generateReportBtn && !window.BASISAdminApiReport) {
 
  
 
@@ -5361,7 +5367,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (exportExcelBtn) {
+    if (exportExcelBtn && !window.BASISAdminApiReport) {
 
  
 
@@ -5379,7 +5385,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (exportPdfBtn) {
+    if (exportPdfBtn && !window.BASISAdminApiReport) {
 
  
 
@@ -5397,7 +5403,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-    if (clearReportBtn) {
+    if (clearReportBtn && !window.BASISAdminApiReport) {
 
  
 
