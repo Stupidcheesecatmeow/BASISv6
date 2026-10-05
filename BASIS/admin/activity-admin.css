@@ -110,9 +110,10 @@ CREATE ACTIVITY FORM
 .admin-page .description-field {
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
 }
 
-.admin-page .description-field textarea {
+/* .admin-page .description-field textarea {
     flex: 1;
     min-height: 260px;
     border: 1.5px solid #a3b2a0;
@@ -124,6 +125,29 @@ CREATE ACTIVITY FORM
     resize: none;
     outline: none;
     font-family: inherit;
+} */
+
+.admin-page .description-field textarea {
+    width: 100%;
+    height: 230px;
+    min-height: 230px;
+    max-height: 230px;
+
+    flex: none;
+
+    border: 1.5px solid #a3b2a0;
+    border-radius: 6px;
+    padding: 12px;
+
+    font-size: 13px;
+    font-style: italic;
+    color: #42523f;
+
+    resize: none;
+    outline: none;
+    font-family: inherit;
+
+    box-sizing: border-box;
 }
 
 .admin-page .description-field input[type="file"] { display: block; width: 100%; margin-top: 8px; color: #42523f; }
@@ -257,7 +281,7 @@ QR CODE VIEW
 /* =========================================================
 ACTIVITY DETAIL HEADER  (not shared sa style.css)
 ========================================================= */
-
+/* 
 .admin-page .activity-detail-header {
     display: flex;
     justify-content: space-between;
@@ -313,6 +337,279 @@ ACTIVITY DETAIL HEADER  (not shared sa style.css)
     display: flex;
     justify-content: flex-end;
     gap: 16px;
+    margin-top: 22px;
+} */
+
+/* =========================================================
+   ACTIVITY DETAILS
+   LEFT TEXT / RIGHT IMAGE
+========================================================= */
+
+.admin-page .activity-detail-layout {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 420px;
+
+    gap: 35px;
+
+    align-items: start;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   LEFT INFORMATION
+========================================================= */
+
+.admin-page .activity-detail-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+}
+
+
+/* CLOSE BUTTON */
+
+.admin-page .activity-detail-info .close-view-btn {
+    position: static;
+
+    align-self: flex-start;
+
+    margin-bottom: 18px;
+}
+
+
+/* HEADER */
+
+.admin-page .activity-detail-header {
+    display: flex;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    margin-bottom: 8px;
+}
+
+
+/* TITLE */
+
+.admin-page .activity-main-title {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 800;
+
+    color: #42523f;
+
+    text-transform: uppercase;
+
+    line-height: 1.1;
+}
+
+
+/* TYPE */
+
+.admin-page .activity-type-text {
+    margin-top: 6px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    color: #42523f;
+}
+
+
+/* SEMESTER */
+
+.admin-page .activity-detail-sem {
+    align-self: flex-start;
+
+    margin: 4px 0 16px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ACTIVITY META
+========================================================= */
+
+.admin-page .activity-meta-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px 45px;
+
+    margin: 0;
+}
+
+.admin-page .activity-meta-grid p {
+    margin: 0;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #42523f;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.admin-page .activity-detail-info .divider {
+    width: 100%;
+
+    margin: 18px 0;
+
+    border: 0;
+
+    border-top: 1px solid #a3b2a0;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.admin-page .activity-description {
+    margin: 0;
+}
+
+.admin-page .activity-description > strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #42523f;
+}
+
+.admin-page .activity-description .desc-text {
+    margin: 0;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #42523f;
+
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+/* DEADLINE */
+
+.admin-page .deadline-text {
+    margin-top: 14px;
+
+    font-size: 13px;
+
+    color: #42523f;
+}
+
+
+/* =========================================================
+   RIGHT IMAGE
+========================================================= */
+
+.admin-page .activity-detail-image-side {
+    width: 100%;
+
+    padding-top: 48px;
+}
+
+
+.admin-page .activity-detail-image-box {
+    width: 100%;
+
+    height: 330px;
+
+    border: 1.5px solid #a3b2a0;
+
+    border-radius: 10px;
+
+    background: #f7f9f6;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* ACTUAL IMAGE */
+
+.admin-page .activity-detail-image {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+}
+
+
+/* EMPTY IMAGE */
+
+.admin-page .activity-detail-image-empty {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    width: 100%;
+    height: 100%;
+
+    color: #a3b2a0;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.admin-page .activity-detail-image-empty i {
+    font-size: 42px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.admin-page .action-buttons-row {
+    display: flex;
+
+    justify-content: flex-start;
+
+    gap: 12px;
+
     margin-top: 22px;
 }
 
@@ -755,3 +1052,635 @@ ACTIVITY PARTICIPANTS TABLE
 .admin-page .activity-own-proof button { border:0; border-radius:6px; padding:9px 14px; background:#42523f; color:#fff; font-weight:700; cursor:pointer; }
 .admin-page .activity-own-proof button:disabled { opacity:.6; }
 .admin-page .activity-own-proof span { flex-basis:100%; }
+
+/* =========================================================
+   EDIT / CREATE ACTIVITY — COMPACT FORM LAYOUT
+========================================================= */
+
+.admin-page .activity-create-grid {
+    align-items: start;
+}
+
+/* LEFT SIDE FORM */
+.admin-page .create-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    height: auto;
+    align-self: start;
+}
+
+/* Prevent rows from stretching */
+.admin-page .create-form-fields .form-row {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 14px;
+
+    height: auto;
+}
+
+/* Individual fields */
+.admin-page .create-form-fields .form-field {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+}
+
+/* Activity name */
+.admin-page .create-form-fields > .form-field {
+    flex: none;
+}
+
+/* RIGHT DESCRIPTION */
+.admin-page .description-field {
+    height: 100%;
+    min-height: 0;
+}
+
+.admin-page .description-field textarea {
+    height: 315px;
+    min-height: 315px;
+    flex: none;
+}
+
+
+/* =========================================================
+   REDUCE THE SPACE INSIDE THE MAIN FRAME
+========================================================= */
+
+.admin-page .view-body.relative-frame {
+    padding-top: 22px;
+    padding-bottom: 18px;
+}
+
+
+/* =========================================================
+   CREATE / SAVE BUTTON
+========================================================= */
+
+.admin-page .create-btn-row {
+    margin-top: 14px;
+}
+
+/* =========================================================
+   ACTIVITY CREATE / EDIT FRAME
+========================================================= */
+
+.admin-page .activity-create-grid {
+    min-height: 0;
+}
+
+.admin-page .activity-create-grid > * {
+    min-height: 0;
+}
+
+.admin-page .create-form-fields {
+    min-height: 0;
+}
+
+.admin-page .description-field {
+    min-height: 0;
+}
+
+.admin-page .description-field label {
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+
+.admin-page .description-field input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+    color: #42523f;
+}
+
+.admin-page .activity-image-preview {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    max-height: 220px;
+
+    margin-top: 8px;
+    padding: 0;
+
+    object-fit: contain;
+    object-position: top center;
+
+    border: 1px solid #a3b2a0;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   EDIT / CREATE ACTIVITY — FINAL COMPACT LAYOUT
+========================================================= */
+
+/* Main two-column layout */
+.admin-page .activity-create-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+
+    align-items: start !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+
+/* LEFT FORM */
+.admin-page .create-form-fields {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    height: fit-content !important;
+    min-height: 0 !important;
+
+    align-self: start !important;
+}
+
+
+/* RIGHT DESCRIPTION */
+.admin-page .description-field {
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content !important;
+    min-height: 0 !important;
+
+    align-self: start !important;
+}
+
+
+/* DESCRIPTION BOX */
+.admin-page .description-field textarea {
+    width: 100%;
+
+    height: 120px !important;
+    min-height: 120px !important;
+    max-height: 120px !important;
+
+    flex: none !important;
+
+    box-sizing: border-box;
+
+    border: 1.5px solid #a3b2a0;
+    border-radius: 6px;
+
+    padding: 12px;
+
+    font-size: 13px;
+    font-style: italic;
+    color: #42523f;
+
+    resize: none;
+    outline: none;
+
+    font-family: inherit;
+}
+
+
+/* ATTACH LABEL */
+.admin-page .description-field label {
+    font-size: 11px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+
+
+/* FILE INPUT */
+.admin-page .description-field input[type="file"] {
+    width: 100%;
+
+    margin-top: 0;
+
+    color: #42523f;
+}
+
+
+/* IMAGE PREVIEW */
+.admin-page .activity-image-preview {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    height: 180px;
+    max-height: 180px;
+
+    margin-top: 8px;
+
+    padding: 0;
+
+    object-fit: contain;
+
+    border: 1px solid #a3b2a0;
+    border-radius: 6px;
+
+    background: #f7f9f6;
+
+    box-sizing: border-box;
+}
+
+
+/* BUTTON */
+.admin-page .create-btn-row {
+    margin-top: 14px;
+}
+
+/* =========================================================
+   ATTACH PICTURE — CUSTOM FILE UPLOAD UI
+========================================================= */
+
+.admin-page .description-field input[type="file"] {
+    width: 100%;
+    height: 35px;
+
+    margin-top: 0;
+    padding: 5px;
+
+    box-sizing: border-box;
+
+    border: 1.5px dashed #a3b2a0;
+    border-radius: 7px;
+
+    background: #f7f9f6;
+    color: #768a75;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* CHOOSE FILE BUTTON */
+.admin-page .description-field input[type="file"]::file-selector-button {
+    height: 30px;
+
+    margin-right: 10px;
+    padding: 0 14px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #42523f;
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.admin-page .description-field input[type="file"]::file-selector-button:hover {
+    background: #313d2f;
+}
+
+/* =========================================================
+   ACTIVITY DETAILS — POLISHED UI
+========================================================= */
+
+.admin-page #view-activity-details .view-body {
+    padding: 28px 38px 32px !important;
+}
+
+
+/* MAIN LAYOUT */
+.admin-page .activity-detail-layout {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 400px;
+
+    gap: 32px;
+
+    align-items: start;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   LEFT INFORMATION CARD
+========================================================= */
+
+.admin-page .activity-detail-info {
+    position: relative;
+
+    padding: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #d7ded4;
+
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 3px 12px rgba(66, 82, 63, 0.06);
+}
+
+
+/* CLOSE */
+
+.admin-page .activity-detail-info .close-view-btn {
+    width: 32px;
+    height: 32px;
+
+    margin: 0 0 16px 0 !important;
+
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #42523f;
+
+    color: #ffffff;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+
+/* TITLE */
+
+.admin-page .activity-detail-header {
+    margin: 0 !important;
+}
+
+.admin-page .activity-main-title {
+    margin: 0;
+
+    font-size: 30px;
+
+    line-height: 1.1;
+
+    font-weight: 900;
+
+    color: #42523f;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* TYPE */
+
+.admin-page .activity-type-text {
+    margin-top: 7px;
+
+    font-size: 13px;
+
+    color: #72806e;
+
+    font-weight: 600;
+}
+
+.admin-page .activity-type-text strong {
+    color: #42523f;
+
+    font-weight: 800;
+}
+
+
+/* SEMESTER BADGE */
+
+.admin-page .activity-detail-sem {
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    margin: 16px 0 20px !important;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: #edf2ec;
+
+    color: #42523f;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .2px;
+}
+
+
+/* =========================================================
+   INFORMATION BOXES
+========================================================= */
+
+.admin-page .activity-meta-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin: 0 !important;
+}
+
+.admin-page .activity-meta-grid p {
+    margin: 0 !important;
+
+    padding: 12px 13px;
+
+    border: 1px solid #dce3da;
+
+    border-radius: 8px;
+
+    background: #f7f9f6;
+
+    color: #42523f;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+}
+
+.admin-page .activity-meta-grid p strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 10px;
+
+    color: #7b8977;
+
+    letter-spacing: .4px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.admin-page .activity-detail-info .divider {
+    display: none;
+}
+
+.admin-page .activity-description {
+    margin-top: 20px !important;
+
+    padding: 15px;
+
+    border-radius: 9px;
+
+    background: #f7f9f6;
+
+    border: 1px solid #dce3da;
+}
+
+.admin-page .activity-description > strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 12px;
+
+    letter-spacing: .4px;
+
+    color: #42523f;
+}
+
+.admin-page .activity-description .desc-text {
+    margin: 0 !important;
+
+    color: #536250;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   DEADLINE
+========================================================= */
+
+.admin-page .deadline-text {
+    margin: 12px 0 0 !important;
+
+    padding-left: 2px;
+
+    color: #42523f;
+
+    font-size: 11px;
+}
+
+.admin-page .deadline-text strong {
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.admin-page .action-buttons-row {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px !important;
+}
+
+.admin-page .action-buttons-row .act-btn {
+    min-height: 42px;
+
+    padding: 0 20px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   RIGHT PHOTO CARD
+========================================================= */
+
+.admin-page .activity-detail-image-side {
+    padding-top: 0;
+
+    width: 100%;
+}
+
+
+.admin-page .activity-detail-image-box {
+    position: relative;
+
+    width: 100%;
+
+    height: 430px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #f1f4ef;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 14px rgba(66, 82, 63, 0.10);
+}
+
+
+/* IMAGE */
+
+.admin-page .activity-detail-image-box .activity-detail-image {
+    width: 100% !important;
+
+    height: 100% !important;
+
+    padding: 0 !important;
+
+    object-fit: cover;
+
+    display: block !important;
+}
+
+
+/* EMPTY */
+
+.admin-page .activity-detail-image-empty {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    color: #9aa698;
+}
+
+.admin-page .activity-detail-image-empty i {
+    font-size: 42px;
+}
+

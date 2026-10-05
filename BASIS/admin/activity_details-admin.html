@@ -37,7 +37,7 @@
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="window.location.href='activity_menu-admin.html'"><i class="fa-solid fa-circle-xmark"></i></button>
 
-            <div class="activity-detail-header">
+            <!-- <div class="activity-detail-header">
                 <div>
                     <h2 class="activity-main-title" id="detailActivityTitle"></h2>
                     <div class="activity-type-text"><strong>TYPE OF ACTIVITY:</strong> <span id="detailActivityType"></span></div>
@@ -64,7 +64,134 @@
             <div class="action-buttons-row">
                 <button class="act-btn solid-btn" data-requires-qr onclick="showSubView('view-activity-qr')">MY QR CODE</button>
                 <button class="act-btn outline-btn" data-requires-proof onclick="showSubView('view-activity-submission')">SUBMISSION</button>
+            </div> -->
+
+                <div class="activity-detail-layout">
+
+        <!-- =====================================================
+            LEFT — ACTIVITY INFORMATION
+        ====================================================== -->
+        <div class="activity-detail-info">
+
+            <div class="activity-detail-header">
+
+                <div>
+                    <h2
+                        class="activity-main-title"
+                        id="detailActivityTitle"
+                    ></h2>
+
+                    <div class="activity-type-text">
+                        <strong>TYPE OF ACTIVITY:</strong>
+                        <span id="detailActivityType"></span>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- SEMESTER -->
+            <div
+                class="sem-tag activity-detail-sem"
+                id="detailSemester"
+            ></div>
+
+            <!-- ACTIVITY DETAILS -->
+            <div class="activity-meta-grid">
+
+                <p>
+                    <strong>DATE:</strong>
+                    <span id="detailDate"></span>
+                </p>
+
+                <p>
+                    <strong>TIME:</strong>
+                    <span id="detailTime"></span>
+                </p>
+
+                <p>
+                    <strong>VENUE:</strong>
+                    <span id="detailVenue"></span>
+                </p>
+
+                <p>
+                    <strong>VENUE ADDRESS:</strong>
+                    <span id="detailVenueAddress"></span>
+                </p>
+
+            </div>
+
+            <hr class="divider">
+
+            <!-- DESCRIPTION -->
+            <div class="activity-description">
+
+                <strong>DESCRIPTION</strong>
+
+                <p
+                    class="desc-text"
+                    id="detailDescription"
+                ></p>
+
+                <p class="deadline-text">
+                    <em>
+                        <strong>Deadline:</strong>
+                        <span id="detailDeadline"></span>
+                    </em>
+                </p>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="action-buttons-row">
+
+                <button
+                    class="act-btn solid-btn"
+                    data-requires-qr
+                    onclick="showSubView('view-activity-qr')"
+                >
+                    MY QR CODE
+                </button>
+
+                <button
+                    class="act-btn outline-btn"
+                    data-requires-proof
+                    onclick="showSubView('view-activity-submission')"
+                >
+                    SUBMISSION
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+            RIGHT — ACTIVITY IMAGE
+        ====================================================== -->
+        <div class="activity-detail-image-side">
+
+            <div class="activity-detail-image-box">
+
+                <img
+                    id="detailDescriptionImage"
+                    class="activity-detail-image"
+                    alt="Activity attachment"
+                    hidden
+                >
+
+                <div
+                    class="activity-detail-image-empty"
+                    id="activityDetailImageEmpty"
+                >
+                    <i class="fa-regular fa-image"></i>
+                    <span>No activity picture</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
         </div>
     
 </section>

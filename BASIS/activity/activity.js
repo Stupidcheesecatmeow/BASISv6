@@ -444,14 +444,37 @@ function populateActivityDetail(
         "detailDescription",
         getActivityDescription(activity)
     );
-    const descriptionImage = document.getElementById('detailDescriptionImage');
-    if (descriptionImage) {
-        const image = activity.description_image || activity.descriptionImage || '';
-        descriptionImage.hidden = !image;
-        if (image) descriptionImage.src = image;
-        else descriptionImage.removeAttribute('src');
-    }
+    // const descriptionImage = document.getElementById('detailDescriptionImage');
+    // if (descriptionImage) {
+    //     const image = activity.description_image || activity.descriptionImage || '';
+    //     descriptionImage.hidden = !image;
+    //     if (image) descriptionImage.src = image;
+    //     else descriptionImage.removeAttribute('src');
+    // }
 
+const descriptionImage =
+    document.getElementById('detailDescriptionImage');
+
+const imageEmpty =
+    document.getElementById('activityDetailImageEmpty');
+
+const imageSource =
+    activity.description_image || '';
+
+if (descriptionImage) {
+    descriptionImage.hidden = !imageSource;
+
+    if (imageSource) {
+        descriptionImage.src = imageSource;
+    } else {
+        descriptionImage.removeAttribute('src');
+    }
+}
+
+if (imageEmpty) {
+    imageEmpty.style.display =
+        imageSource ? 'none' : 'flex';
+}
 
     setText(
         "detailDeadline",
