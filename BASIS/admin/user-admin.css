@@ -98,8 +98,8 @@ button {
 }
 
 .search-box {
-    width: 190px;
-    height: 25px;
+    width: 390px;
+    height: 27px;
 
     display: flex;
     align-items: center;
@@ -111,9 +111,10 @@ button {
 
 .search-box i {
     color: var(--dark);
-    font-size: 16px;
+    font-size: 23px;
     font-style: normal;
     margin-right: 5px;
+    margin-bottom: 4px;
 }
 
 .search-box input {
@@ -130,12 +131,12 @@ button {
     border-radius: 6px;
     background: var(--white);
     color: var(--dark);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
 }
 
 .small-btn {
-    height: 25px;
+    height: 27px;
     padding: 0 16px;
 }
 
@@ -326,8 +327,8 @@ button {
     border: 0;
     border-radius: 50%;
 
-    background: var(--dark);
-    color: white;
+    background: white;
+    color: #405840;
 
     font-size: 18px;
     font-weight: 900;
@@ -552,15 +553,156 @@ button {
     font-size: 9px;
 }
 
-.activities-table .activity-proof-row { cursor: pointer; }
+/* .activities-table .activity-proof-row { cursor: pointer; }
 .activities-table .activity-proof-row:hover,
 .activities-table .activity-proof-row:focus-visible { background: #edf2ec; outline: 2px solid var(--green); outline-offset: -2px; }
-.activity-proof-modal-card { width: min(680px, 100%); }
+.activity-proof-modal-card { width: min(780px, 100%); }
 .activity-proof-list { display: grid; gap: 10px; }
 .activity-proof-card { display: grid; gap: 7px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: #f5f7f4; color: var(--green); }
 .activity-proof-image { display: block; max-width: 100%; max-height: 62vh; margin: 4px auto; object-fit: contain; }
 .activity-proof-pdf { display: block; width: 100%; height: 58vh; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
-.activity-proof-empty { padding: 22px; text-align: center; border: 1px dashed var(--border); color: var(--green); }
+.activity-proof-empty { padding: 22px; text-align: center; border: 1px dashed var(--border); color: var(--green); } */
+
+.activities-table .activity-proof-row {
+    cursor: pointer;
+}
+
+.activities-table .activity-proof-row:hover,
+.activities-table .activity-proof-row:focus-visible {
+    background: #edf2ec;
+    outline: 2px solid var(--green);
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   ACTIVITY PROOF MODAL
+========================================================= */
+
+.activity-proof-modal-card {
+    width: min(1300px, 100%);
+}
+
+
+/* =========================================================
+   PROOF LIST
+========================================================= */
+
+.activity-proof-list {
+    display: grid;
+    gap: 12px;
+}
+
+
+/* =========================================================
+   PROOF CARD
+========================================================= */
+
+.activity-proof-card {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 360px;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: #f5f7f4;
+    color: var(--green);
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.activity-proof-card > strong,
+.activity-proof-card > span {
+    grid-column: 1;
+}
+
+.activity-proof-card > strong {
+    align-self: end;
+
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.activity-proof-card > span {
+    align-self: start;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   RIGHT SIDE IMAGE
+========================================================= */
+
+.activity-proof-image {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+
+    width: 100%;
+    height: 260px;
+
+    display: block;
+
+    margin: 0;
+
+    object-fit: contain;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   PDF
+========================================================= */
+
+.activity-proof-pdf {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+
+    width: 100%;
+    height: 260px;
+
+    display: block;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.activity-proof-empty {
+    padding: 22px;
+
+    text-align: center;
+
+    border: 1px dashed var(--border);
+
+    color: var(--green);
+}
 
 .empty-activity {
     min-height: 190px;
@@ -1510,6 +1652,74 @@ body.user-admin-page {
     margin: 0;
 
     grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+/* =========================================================
+   MODAL CLOSE BUTTON
+   SAME STYLE AS ANNOUNCEMENT MODAL
+========================================================= */
+
+.user-admin-page .modal-close {
+       width: 32px;
+    height: 32px;
+
+    flex: 0 0 32px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: #eef1ed;
+
+    color: #405840;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+    /* position: absolute;
+
+    top: 10px;
+    right: 12px;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: #edf1eb;
+    color: #42523f;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease; */
+}
+
+.user-admin-page .modal-close:hover {
+    background: #405840;
+    color: #ffffff;
+}
+
+.user-admin-page .modal-close:active {
+    transform: scale(0.96);
 }
 
 /* Import and credentials modal adapt to narrow screens without clipping. */
