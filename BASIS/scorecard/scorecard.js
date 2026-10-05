@@ -12,7 +12,6 @@ async function renderScorecardButtons() {
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error(data.message || 'Could not load your scorecard.');
         currentScorecardData = data;
-        if (!data.profileComplete) { showNoScorecardMessage(); return; }
         const profile = data.profile || {};
         const activities = Array.isArray(data.activities) ? data.activities : [];
         const periods = new Map();
@@ -180,7 +179,13 @@ function loadProfileInfo(user) {
         "info-year-level":
             user.yearLevel || user.year_level,
 
+        "info-year":
+            user.yearLevel || user.year_level,
+
         "info-control-number":
+            user.control_number,
+
+        "info-control":
             user.control_number
 
     };
@@ -217,7 +222,7 @@ function loadProfileInfo(user) {
 function populateActivityRows(
     activities
 ) {
-    const column=document.querySelector('.activity-log-column');
+    const column=document.getElementById('activityRows')||document.querySelector('.activity-log-column');
     if(!column)return;
     column.querySelectorAll('.activity-form-row,.scorecard-no-activities').forEach(element=>element.remove());
     if(!activities.length){

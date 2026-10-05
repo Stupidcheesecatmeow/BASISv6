@@ -183,5 +183,18 @@ function db(): PDO
     )");
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_announcements_created ON announcements(created_at DESC,id DESC)');
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS notifications (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        type TEXT NOT NULL DEFAULT 'notification',
+        title TEXT NOT NULL,
+        message TEXT NOT NULL DEFAULT '',
+        activity_id INTEGER,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY(activity_id) REFERENCES activities(id) ON DELETE CASCADE
+    )");
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id,created_at DESC,id DESC)');
+
     return $pdo;
 }

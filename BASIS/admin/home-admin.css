@@ -1227,6 +1227,8 @@ body.admin-page {
     box-sizing: border-box;
 
 }
+.admin-page .clickable-announcement { cursor:pointer; }
+.admin-page .clickable-announcement:focus-visible { outline:3px solid #dda12d; outline-offset:2px; }
 
 
 /* =========================================================

@@ -128,7 +128,7 @@ CREATE ACTIVITY FORM
 
 .representative-page .description-field input[type="file"] { display: block; width: 100%; margin-top: 8px; color: #42523f; }
 .representative-page .activity-image-preview { display: block; max-width: 100%; max-height: 220px; margin-top: 10px; object-fit: contain; border: 1px solid #a3b2a0; border-radius: 6px; }
-.representative-page .activity-description-image { display: block; max-width: 100%; max-height: 480px; margin: 12px 0; object-fit: contain; border-radius: 8px; }
+.representative-page .activity-description-image { display:block; width:min(100%,460px); max-height:260px; margin:12px 0; padding:8px; box-sizing:border-box; object-fit:contain; border:1px solid #a3b2a0; border-radius:8px; background:#f7f9f6; }
 .representative-page img[hidden] { display: none !important; }
 
 .representative-page .create-btn-row {
@@ -447,7 +447,7 @@ SCAN ACTIVITY VIEW
 }
 
 .representative-page .scan-box {
-    width: min(420px, 46vw);
+    width: min(540px, 48vw);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -469,7 +469,8 @@ SCAN ACTIVITY VIEW
 .representative-page .scan-preview:has(#qrScannerMount:not([hidden])) p { display:none; }
 .representative-page .scan-preview p:empty { display:none; }
 .representative-page #qrScannerMount { position:absolute; inset:0; width:100%; height:100%; max-width:100%; }
-.representative-page #qrScannerMount > div { width:100% !important; height:100% !important; }
+.representative-page #qrScannerMount > div { position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; max-width:none !important; }
+.representative-page #qrScannerMount div { max-width:none !important; }
 .representative-page #qrScannerMount video,.representative-page #qrScanVideo { display:block; width:100% !important; height:100% !important; max-width:100%; object-fit:cover; }
 .representative-page .scan-preview #scanStatus:not(:empty) { position:absolute; z-index:5; left:0; right:0; bottom:0; margin:0; padding:9px 12px; background:rgba(255,255,255,.9); color:#42523f; font-size:13px; }
 .representative-page .scan-import-btn { width:100%; padding:9px 12px; border:1.5px solid #42523f; border-radius:20px; background:#fff; color:#42523f; font-size:14px; font-weight:800; cursor:pointer; }
@@ -496,6 +497,12 @@ SCAN ACTIVITY VIEW
 
 .representative-page .scan-btn:hover {
     background: #f2f5f0;
+}
+
+@media (max-width:900px) {
+    .representative-page .scan-layout { flex-direction:column; }
+    .representative-page .scan-box { width:100%; }
+    .representative-page .scan-preview { height:clamp(320px,55vh,560px); }
 }
 
 .representative-page .scan-info-side {

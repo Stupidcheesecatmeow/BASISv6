@@ -112,6 +112,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (announcement.attachment_data) {
                     const attachment = document.createElement('a'); attachment.href = announcement.attachment_data; attachment.download = announcement.attachment_name || 'announcement-attachment'; attachment.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`; card.appendChild(attachment);
                 }
+                card.classList.add('clickable-announcement');
+                card.tabIndex = 0;
+                card.setAttribute('role', 'button');
+                const openAnnouncement = () => {
+                    if (!announcement.id) return;
+                    sessionStorage.setItem('basisSelectedAnnouncementId', String(announcement.id));
+                    const page = window.location.pathname.toLowerCase().includes('/admin/')
+                        ? 'admin/history-admin.html'
+                        : window.location.pathname.toLowerCase().includes('/representative/')
+                            ? 'representative/history-rep.html'
+                            : 'history/history.html';
+                    window.location.href = new URL(page, script.src).href;
+                };
+                card.addEventListener('click', (event) => { if (!event.target.closest('a')) openAnnouncement(); });
+                card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openAnnouncement(); } });
                 announcementsBox.appendChild(card);
             });
         };

@@ -876,6 +876,16 @@ function renderAnnouncements() {
 
         card.className =
             "dashboard-info-card";
+        card.classList.add("clickable-announcement");
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        const openAnnouncement = () => {
+            if (!announcement.id) return;
+            sessionStorage.setItem("basisSelectedAnnouncementId", String(announcement.id));
+            window.location.href = "history-admin.html";
+        };
+        card.addEventListener("click", event => { if (!event.target.closest("a")) openAnnouncement(); });
+        card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openAnnouncement(); } });
 
 
         const title =

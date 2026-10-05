@@ -44,7 +44,7 @@ body.dashboard-page.activity-dashboard-page {
     box-sizing: border-box;
 }
 
-.activity-description-image { display:block; max-width:100%; max-height:480px; margin:12px 0; object-fit:contain; border-radius:8px; }
+.activity-description-image { display:block; width:min(100%,460px); max-height:260px; margin:12px 0; padding:8px; box-sizing:border-box; object-fit:contain; border:1px solid #a3b2a0; border-radius:8px; background:#f7f9f6; }
 img[hidden] { display:none !important; }
 
 /* =========================================================

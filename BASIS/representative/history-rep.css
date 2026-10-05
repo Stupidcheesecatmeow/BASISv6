@@ -545,6 +545,7 @@
 
     box-sizing: border-box;
 }
+.media-placeholder-box[hidden] { display:none; }
 
 
 .announcement-img {
@@ -554,6 +555,7 @@
 
     object-fit: contain;
 }
+.history-announcement-attachment { display:inline-block; padding:10px 14px; color:#42523f; font-weight:800; overflow-wrap:anywhere; }
 
 
 /* =========================================================
