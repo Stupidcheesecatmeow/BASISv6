@@ -1,5 +1,6 @@
 /* =========================================================
    BASIS ADMIN HOME
+   SIDEBAR + DASHBOARD LOGIC
 ========================================================= */
 
 
@@ -26,6 +27,93 @@ const BAGAC_BARANGAYS = [
 
 let dashboardUsers = null;
 let dashboardLoadError = "";
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sidebar = document.getElementById("adminSidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const sidebarClose = document.getElementById("sidebarClose");
+
+    function openSidebar() {
+        if (!sidebar) return;
+
+        sidebar.classList.add("open");
+
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add("show");
+        }
+
+        document.body.classList.add("sidebar-open");
+    }
+
+    function closeSidebar() {
+        if (!sidebar) return;
+
+        sidebar.classList.remove("open");
+
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove("show");
+        }
+
+        document.body.classList.remove("sidebar-open");
+    }
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener("click", function () {
+
+            if (sidebar && sidebar.classList.contains("open")) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+
+        });
+    }
+
+    if (sidebarClose) {
+        sidebarClose.addEventListener("click", closeSidebar);
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", closeSidebar);
+    }
+
+    /*
+       Close sidebar after clicking a navigation item
+       on smaller screens.
+    */
+
+    document.querySelectorAll(".sidebar-nav .nav-item").forEach(function (item) {
+
+        item.addEventListener("click", function () {
+
+            if (window.innerWidth <= 900) {
+                closeSidebar();
+            }
+
+        });
+
+    });
+
+    /*
+       Close sidebar when resizing back to desktop.
+    */
+
+    window.addEventListener("resize", function () {
+
+        if (window.innerWidth > 900) {
+            closeSidebar();
+        }
+
+    });
+
+});
 
 
 /* =========================================================
@@ -57,6 +145,7 @@ function getStorageData(keys, fallback = []) {
             );
 
         }
+
     }
 
     return fallback;
@@ -72,6 +161,7 @@ function getScholars() {
     if (Array.isArray(dashboardUsers)) {
         return dashboardUsers;
     }
+
     return [];
 }
 
@@ -112,6 +202,7 @@ function normalizeScholar(scholar) {
 
         barangay
     };
+
 }
 
 
@@ -120,12 +211,24 @@ function normalizeScholar(scholar) {
 ========================================================= */
 
 function getDashboardUsers() {
+
     return getScholars()
+
         .map(normalizeScholar)
+
         .filter(function (user) {
-            const status = String(user.status || "ACTIVE").trim().toUpperCase();
+
+            const status =
+                String(
+                    user.status || "ACTIVE"
+                )
+                    .trim()
+                    .toUpperCase();
+
             return status === "ACTIVE";
+
         });
+
 }
 
 
@@ -136,19 +239,32 @@ function getDashboardUsers() {
 function renderOverallStatistics() {
 
     if (!Array.isArray(dashboardUsers)) {
-        ["totalUsers", "maleUsers", "femaleUsers", "barangaySummaryTotal", "barangaySummaryMale", "barangaySummaryFemale"].forEach(function (id) {
-            const element = document.getElementById(id);
-            if (element) element.textContent = "—";
+
+        [
+            "totalUsers",
+            "maleUsers",
+            "femaleUsers"
+        ].forEach(function (id) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+                element.textContent = "—";
+            }
+
         });
+
         return;
     }
+
 
     const users =
         getDashboardUsers();
 
 
-    // Match User Management while excluding inactive accounts.
-    const totalUsers = users.length;
+    const totalUsers =
+        users.length;
 
 
     const male =
@@ -173,19 +289,17 @@ function renderOverallStatistics() {
         }).length;
 
 
-    /* -----------------------------------------
-       ORIGINAL ADMIN SUMMARY
-    ----------------------------------------- */
-
     const totalElement =
         document.getElementById(
             "totalUsers"
         );
 
+
     const maleElement =
         document.getElementById(
             "maleUsers"
         );
+
 
     const femaleElement =
         document.getElementById(
@@ -194,55 +308,22 @@ function renderOverallStatistics() {
 
 
     if (totalElement) {
-        totalElement.textContent = totalUsers;
+        totalElement.textContent =
+            totalUsers;
     }
 
 
     if (maleElement) {
-        maleElement.textContent = male;
+        maleElement.textContent =
+            male;
     }
 
 
     if (femaleElement) {
-        femaleElement.textContent = female;
+        femaleElement.textContent =
+            female;
     }
 
-
-    /* -----------------------------------------
-       COMPACT BARANGAY SUMMARY
-    ----------------------------------------- */
-
-    const barangayTotal =
-        document.getElementById(
-            "barangaySummaryTotal"
-        );
-
-
-    const barangayMale =
-        document.getElementById(
-            "barangaySummaryMale"
-        );
-
-
-    const barangayFemale =
-        document.getElementById(
-            "barangaySummaryFemale"
-        );
-
-
-    if (barangayTotal) {
-        barangayTotal.textContent = totalUsers;
-    }
-
-
-    if (barangayMale) {
-        barangayMale.textContent = male;
-    }
-
-
-    if (barangayFemale) {
-        barangayFemale.textContent = female;
-    }
 }
 
 
@@ -260,8 +341,18 @@ function renderBarangayStatistics() {
 
     if (!container) return;
 
+
     if (!Array.isArray(dashboardUsers)) {
-        container.innerHTML = `<p class="dashboard-load-error">${escapeHtml(dashboardLoadError || "Loading user totals…")}</p>`;
+
+        container.innerHTML = `
+            <p class="dashboard-load-error">
+                ${escapeHtml(
+                    dashboardLoadError ||
+                    "Loading user totals…"
+                )}
+            </p>
+        `;
+
         return;
     }
 
@@ -332,7 +423,9 @@ function renderBarangayStatistics() {
 
                 <div class="barangay-stat total">
 
-                    <span>TOTAL</span>
+                    <span>
+                        TOTAL
+                    </span>
 
                     <strong>
                         ${total}
@@ -343,7 +436,9 @@ function renderBarangayStatistics() {
 
                 <div class="barangay-stat">
 
-                    <span>MALE</span>
+                    <span>
+                        MALE
+                    </span>
 
                     <strong>
                         ${male}
@@ -354,7 +449,9 @@ function renderBarangayStatistics() {
 
                 <div class="barangay-stat">
 
-                    <span>FEMALE</span>
+                    <span>
+                        FEMALE
+                    </span>
 
                     <strong>
                         ${female}
@@ -363,12 +460,14 @@ function renderBarangayStatistics() {
                 </div>
 
             </div>
+
         `;
 
 
         container.appendChild(card);
 
     });
+
 }
 
 
@@ -378,21 +477,17 @@ function renderBarangayStatistics() {
 
 function getActivities() {
 
-    const data = getStorageData([
-        "basisActivities",
-        "adminActivities",
-        "activities",
-        "basisAdminActivities",
-        "basisRepresentativeHistory"
-    ], []);
+    const data =
+        getStorageData([
+            "basisActivities",
+            "adminActivities",
+            "activities",
+            "basisAdminActivities",
+            "basisRepresentativeHistory"
+        ], []);
 
 
     if (Array.isArray(data)) {
-
-        /*
-            If history contains mixed records,
-            keep activities only.
-        */
 
         return data.filter(function (item) {
 
@@ -400,7 +495,7 @@ function getActivities() {
                 !item.type ||
                 String(item.type)
                     .toLowerCase() ===
-                    "activity"
+                "activity"
             );
 
         });
@@ -412,11 +507,14 @@ function getActivities() {
         data &&
         Array.isArray(data.activities)
     ) {
+
         return data.activities;
+
     }
 
 
     return [];
+
 }
 
 
@@ -438,22 +536,24 @@ function getLatestActivity() {
     const sorted =
         [...activities].sort(function (a, b) {
 
-            const dateA = new Date(
-                a.createdAt ||
-                a.created_at ||
-                a.date ||
-                a.activityDate ||
-                0
-            ).getTime();
+            const dateA =
+                new Date(
+                    a.createdAt ||
+                    a.created_at ||
+                    a.date ||
+                    a.activityDate ||
+                    0
+                ).getTime();
 
 
-            const dateB = new Date(
-                b.createdAt ||
-                b.created_at ||
-                b.date ||
-                b.activityDate ||
-                0
-            ).getTime();
+            const dateB =
+                new Date(
+                    b.createdAt ||
+                    b.created_at ||
+                    b.date ||
+                    b.activityDate ||
+                    0
+                ).getTime();
 
 
             return dateB - dateA;
@@ -462,6 +562,7 @@ function getLatestActivity() {
 
 
     return sorted[0];
+
 }
 
 
@@ -471,13 +572,10 @@ function getLatestActivity() {
 
 function getActivityAttendance(activity) {
 
-    /*
-        Try attendance stored directly
-        inside the activity.
-    */
-
     if (
-        Array.isArray(activity.attendance)
+        Array.isArray(
+            activity.attendance
+        )
     ) {
 
         return activity.attendance;
@@ -486,7 +584,9 @@ function getActivityAttendance(activity) {
 
 
     if (
-        Array.isArray(activity.participants)
+        Array.isArray(
+            activity.participants
+        )
     ) {
 
         return activity.participants;
@@ -495,17 +595,15 @@ function getActivityAttendance(activity) {
 
 
     if (
-        Array.isArray(activity.attendanceRecords)
+        Array.isArray(
+            activity.attendanceRecords
+        )
     ) {
 
         return activity.attendanceRecords;
 
     }
 
-
-    /*
-        Try shared attendance storage.
-    */
 
     const attendance =
         getStorageData([
@@ -562,7 +660,9 @@ function getActivityAttendance(activity) {
                 String(recordActivityId) ===
                 String(activityId)
             ) {
+
                 return true;
+
             }
 
 
@@ -571,7 +671,9 @@ function getActivityAttendance(activity) {
                 recordTitle &&
                 activityTitle === recordTitle
             ) {
+
                 return true;
+
             }
 
 
@@ -579,6 +681,7 @@ function getActivityAttendance(activity) {
 
         }
     );
+
 }
 
 
@@ -603,14 +706,11 @@ function isAttended(record) {
         status === "absent" ||
         status === "not attended"
     ) {
+
         return false;
+
     }
 
-
-    /*
-        If the record has a time-in,
-        treat it as attended.
-    */
 
     if (
         record.timeIn ||
@@ -618,17 +718,14 @@ function isAttended(record) {
         record.attended === true ||
         record.present === true
     ) {
+
         return true;
+
     }
 
 
-    /*
-        If no status is provided,
-        an attendance record itself
-        represents an attendee.
-    */
-
     return true;
+
 }
 
 
@@ -662,15 +759,15 @@ function renderLatestActivity() {
         );
 
 
-    /* Safety check */
-
     if (
         !titleElement ||
         !totalElement ||
         !attendedElement ||
         !absentElement
     ) {
+
         return;
+
     }
 
 
@@ -684,10 +781,13 @@ function renderLatestActivity() {
             "NO ACTIVITY YET";
 
         totalElement.textContent = "0";
+
         attendedElement.textContent = "0";
+
         absentElement.textContent = "0";
 
         return;
+
     }
 
 
@@ -704,11 +804,6 @@ function renderLatestActivity() {
     const attendance =
         getActivityAttendance(activity);
 
-
-    /*
-        If activity already contains
-        explicit totals, use them.
-    */
 
     let attended =
         Number(
@@ -734,10 +829,6 @@ function renderLatestActivity() {
             NaN
         );
 
-
-    /*
-        Otherwise calculate from records.
-    */
 
     if (
         Number.isNaN(attended)
@@ -787,24 +878,119 @@ function renderLatestActivity() {
 
     absentElement.textContent =
         absent;
+
 }
 
+
+/* =========================================================
+   LIVE ACTIVITY API
+========================================================= */
+
 async function refreshLatestActivity() {
+
     try {
-        const response = await fetch('api/account_api.php?action=admin-dashboard', {credentials:'same-origin',cache:'no-store'});
-        const data = await response.json();
-        if (!response.ok || !data.success) throw new Error(data.message || 'Could not load activity participation.');
-        const title=document.getElementById('latestActivityTitle');
-        const total=document.getElementById('latestTotalParticipants');
-        const attended=document.getElementById('latestAttended');
-        const absent=document.getElementById('latestAbsent');
-        if(title)title.textContent=data.activity?.name ? String(data.activity.name).toUpperCase() : 'NO ACTIVITY YET';
-        if(total)total.textContent=Number(data.totalParticipants||0);
-        if(attended)attended.textContent=Number(data.attended||0);
-        if(absent)absent.textContent=Number(data.absent||0);
-    } catch(error) {
-        console.warn('Could not refresh latest activity participation:',error.message);
+
+        const response =
+            await fetch(
+                "api/account_api.php?action=admin-dashboard",
+                {
+                    credentials: "same-origin",
+                    cache: "no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Could not load activity participation."
+            );
+
+        }
+
+
+        const title =
+            document.getElementById(
+                "latestActivityTitle"
+            );
+
+
+        const total =
+            document.getElementById(
+                "latestTotalParticipants"
+            );
+
+
+        const attended =
+            document.getElementById(
+                "latestAttended"
+            );
+
+
+        const absent =
+            document.getElementById(
+                "latestAbsent"
+            );
+
+
+        if (title) {
+
+            title.textContent =
+                data.activity?.name
+                    ? String(
+                        data.activity.name
+                    ).toUpperCase()
+                    : "NO ACTIVITY YET";
+
+        }
+
+
+        if (total) {
+
+            total.textContent =
+                Number(
+                    data.totalParticipants || 0
+                );
+
+        }
+
+
+        if (attended) {
+
+            attended.textContent =
+                Number(
+                    data.attended || 0
+                );
+
+        }
+
+
+        if (absent) {
+
+            absent.textContent =
+                Number(
+                    data.absent || 0
+                );
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Could not refresh latest activity participation:",
+            error.message
+        );
+
     }
+
 }
 
 
@@ -832,20 +1018,22 @@ function getAnnouncements() {
         data &&
         Array.isArray(data.announcements)
     ) {
+
         return data.announcements;
+
     }
 
 
     return [];
+
 }
 
 
-function renderAnnouncements() {
+/* =========================================================
+   RENDER ANNOUNCEMENTS
+========================================================= */
 
-    /*
-        Support both the original HTML IDs
-        and the compact/generated IDs.
-    */
+function renderAnnouncements() {
 
     const container =
         document.getElementById(
@@ -859,156 +1047,308 @@ function renderAnnouncements() {
     if (!container) return;
 
 
-    container.innerHTML = '<div class="announcement-empty"><span>Loading announcements…</span></div>';
-    fetch('api/account_api.php?action=announcements', {credentials:'same-origin',cache:'no-store'})
-        .then(async response => { const data=await response.json(); if(!response.ok||!data.success)throw new Error(data.message||'Unable to load announcements.'); return Array.isArray(data.announcements)?data.announcements:[]; })
+    container.innerHTML = `
+        <div class="announcement-empty">
+            <span>
+                Loading announcements…
+            </span>
+        </div>
+    `;
+
+
+    fetch(
+        "api/account_api.php?action=announcements",
+        {
+            credentials: "same-origin",
+            cache: "no-store"
+        }
+    )
+
+        .then(async response => {
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load announcements."
+                );
+
+            }
+
+
+            return Array.isArray(
+                data.announcements
+            )
+                ? data.announcements
+                : [];
+
+        })
+
+
         .then(announcements => {
-    container.innerHTML = "";
-    if (!announcements.length) {
-        container.innerHTML = '<div class="announcement-empty"><i class="fa-regular fa-bell"></i><span>No announcements yet.</span><small>Click the + button to create an announcement.</small></div>';
-        return;
-    }
-    announcements.forEach(function (announcement) {
 
-        const card =
-            document.createElement("div");
+            container.innerHTML = "";
 
 
-        card.className =
-            "dashboard-info-card";
-        card.classList.add("clickable-announcement");
-        card.tabIndex = 0;
-        card.setAttribute("role", "button");
-        const openAnnouncement = () => {
-            if (!announcement.id) return;
-            sessionStorage.setItem("basisSelectedAnnouncementId", String(announcement.id));
-            window.location.href = "history-admin.html";
-        };
-        card.addEventListener("click", event => { if (!event.target.closest("a")) openAnnouncement(); });
-        card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openAnnouncement(); } });
+            if (!announcements.length) {
+
+                container.innerHTML = `
+
+                    <div class="announcement-empty">
+
+                        <i class="fa-regular fa-bell"></i>
+
+                        <span>
+                            No announcements yet.
+                        </span>
+
+                        <small>
+                            Click the + button to create an announcement.
+                        </small>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
 
 
-        const title =
-            announcement.title ||
-            "ANNOUNCEMENT";
+            announcements.forEach(
+                function (announcement) {
+
+                    const card =
+                        document.createElement("div");
 
 
-        const description =
-            announcement.message ||
-            announcement.description ||
-            announcement.body ||
-            announcement.content ||
-            "";
+                    card.className =
+                        "dashboard-info-card";
 
 
-        const date =
-            announcement.date ||
-            announcement.createdAt ||
-            announcement.created_at ||
-            "";
+                    card.classList.add(
+                        "clickable-announcement"
+                    );
 
 
-        // card.innerHTML = `
+                    card.tabIndex = 0;
 
-        //     <h3>
-        //         ${escapeHtml(title)}
-        //     </h3>
 
-        //     <p>
-        //         ${escapeHtml(description)}
-        //     </p>
+                    card.setAttribute(
+                        "role",
+                        "button"
+                    );
 
-        //     ${
-        //         date
-        //             ? `
-        //                 <div class="dashboard-info-meta">
-        //                     ${escapeHtml(formatDate(date))}
-        //                 </div>
-        //               `
-        //             : ""
-        //     }
 
-        // `;
+                    const openAnnouncement =
+                        () => {
 
-                const attachmentName =
-            announcement.attachment_name || "";
+                            if (!announcement.id) {
+                                return;
+                            }
 
-        const attachmentData =
-            announcement.attachment_data || "";
+                            sessionStorage.setItem(
+                                "basisSelectedAnnouncementId",
+                                String(announcement.id)
+                            );
 
-        const isImage =
-            attachmentData &&
-            /\.(jpg|jpeg|png|gif|webp)$/i.test(
-                attachmentName
+                            window.location.href =
+                                "history-admin.html";
+
+                        };
+
+
+                    card.addEventListener(
+                        "click",
+                        event => {
+
+                            if (
+                                !event.target.closest("a")
+                            ) {
+
+                                openAnnouncement();
+
+                            }
+
+                        }
+                    );
+
+
+                    card.addEventListener(
+                        "keydown",
+                        event => {
+
+                            if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                            ) {
+
+                                event.preventDefault();
+
+                                openAnnouncement();
+
+                            }
+
+                        }
+                    );
+
+
+                    const title =
+                        announcement.title ||
+                        "ANNOUNCEMENT";
+
+
+                    const description =
+                        announcement.message ||
+                        announcement.description ||
+                        announcement.body ||
+                        announcement.content ||
+                        "";
+
+
+                    const date =
+                        announcement.date ||
+                        announcement.createdAt ||
+                        announcement.created_at ||
+                        "";
+
+
+                    const attachmentName =
+                        announcement.attachment_name ||
+                        "";
+
+
+                    const attachmentData =
+                        announcement.attachment_data ||
+                        "";
+
+
+                    const isImage =
+                        attachmentData &&
+                        /\.(jpg|jpeg|png|gif|webp)$/i.test(
+                            attachmentName
+                        );
+
+
+                    card.innerHTML = `
+
+                        <div class="announcement-content-container">
+
+                            <div class="announcement-content-details">
+
+                                <span class="announcement-content-label">
+                                    ANNOUNCEMENT
+                                </span>
+
+                                <h3 class="announcement-content-title">
+
+                                    ${escapeHtml(title)}
+
+                                </h3>
+
+                                ${
+                                    date
+                                        ? `
+
+                                            <span class="announcement-content-date">
+
+                                                ${escapeHtml(
+                                                    formatDate(date)
+                                                )}
+
+                                            </span>
+
+                                        `
+                                        : ""
+                                }
+
+
+                                <p class="announcement-content-message">
+
+                                    ${escapeHtml(
+                                        description
+                                    )}
+
+                                </p>
+
+                            </div>
+
+
+                            ${
+                                isImage
+
+                                    ? `
+
+                                        <div class="announcement-content-image">
+
+                                            <img
+                                                src="${attachmentData}"
+                                                alt="${escapeHtml(title)}"
+                                            >
+
+                                        </div>
+
+                                    `
+
+                                    : `
+
+                                        <div class="announcement-content-image no-image">
+
+                                            <i class="fa-regular fa-image"></i>
+
+                                        </div>
+
+                                    `
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
             );
 
-        card.innerHTML = `
-            <div class="announcement-content-container">
-
-                <!-- LEFT SIDE -->
-                <div class="announcement-content-details">
-
-                    <h3 class="announcement-content-title">
-                        ${escapeHtml(title)}
-                    </h3>
-
-                    ${
-                        date
-                            ? `
-                            <span class="announcement-content-date">
-                                ${escapeHtml(formatDate(date))}
-                            </span>
-                            `
-                            : ""
-                    }
-
-                    <p class="announcement-content-message">
-                        ${escapeHtml(description)}
-                    </p>
-
-                </div>
-
-
-                <!-- RIGHT SIDE -->
-                ${
-                    isImage
-                        ? `
-                        <div class="announcement-content-image">
-
-                            <img
-                                src="${attachmentData}"
-                                alt="${escapeHtml(title)}"
-                            >
-
-                        </div>
-                        `
-                        : `
-                        <div class="announcement-content-image no-image">
-
-                            <i class="fa-regular fa-image"></i>
-
-                        </div>
-                        `
-                }
-
-            </div>
-        `;
-
-        // if (announcement.attachment_data) {
-        //     const link = document.createElement('a');
-        //     link.className = 'announcement-attachment';
-        //     link.href = announcement.attachment_data;
-        //     link.download = announcement.attachment_name || 'announcement-attachment';
-        //     link.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`;
-        //     card.appendChild(link);
-        // }
-
-
-        container.appendChild(card);
-
-    });
         })
-        .catch(error => { console.warn('Unable to load announcements:',error.message); container.replaceChildren(); const status=document.createElement('div');status.className='announcement-empty';status.textContent=error.message||'Unable to load announcements.';container.appendChild(status); });
+
+
+        .catch(error => {
+
+            console.warn(
+                "Unable to load announcements:",
+                error.message
+            );
+
+
+            container.replaceChildren();
+
+
+            const status =
+                document.createElement("div");
+
+
+            status.className =
+                "announcement-empty";
+
+
+            status.textContent =
+                error.message ||
+                "Unable to load announcements.";
+
+
+            container.appendChild(status);
+
+        });
+
 }
 
 
@@ -1017,11 +1357,6 @@ function renderAnnouncements() {
 ========================================================= */
 
 function renderOngoingActivities() {
-
-    /*
-        Support both the original HTML IDs
-        and the compact/generated IDs.
-    */
 
     const container =
         document.getElementById(
@@ -1068,63 +1403,73 @@ function renderOngoingActivities() {
     if (!ongoing.length) {
 
         container.innerHTML = `
+
             <div class="empty-message">
+
                 No ongoing activity.
+
             </div>
+
         `;
 
         return;
+
     }
 
 
-    ongoing.forEach(function (activity) {
+    ongoing.forEach(
+        function (activity) {
 
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "dashboard-info-card";
+            const card =
+                document.createElement("div");
 
 
-        card.innerHTML = `
+            card.className =
+                "dashboard-info-card";
 
-            <h3>
-                ${escapeHtml(
-                    activity.title ||
-                    activity.name ||
-                    "ACTIVITY"
-                )}
-            </h3>
 
-            <p>
-                ${
-                    escapeHtml(
+            card.innerHTML = `
+
+                <h3>
+
+                    ${escapeHtml(
+                        activity.title ||
+                        activity.name ||
+                        "ACTIVITY"
+                    )}
+
+                </h3>
+
+
+                <p>
+
+                    ${escapeHtml(
                         activity.description ||
                         activity.venue ||
                         "Activity is currently ongoing."
-                    )
-                }
-            </p>
+                    )}
 
-            <div class="dashboard-info-meta">
+                </p>
 
-                ${
-                    escapeHtml(
+
+                <div class="dashboard-info-meta">
+
+                    ${escapeHtml(
                         activity.date ||
                         activity.activityDate ||
                         ""
-                    )
-                }
+                    )}
 
-            </div>
+                </div>
 
-        `;
+            `;
 
 
-        container.appendChild(card);
+            container.appendChild(card);
 
-    });
+        }
+    );
+
 }
 
 
@@ -1146,7 +1491,9 @@ function formatDate(value) {
             date.getTime()
         )
     ) {
+
         return String(value);
+
     }
 
 
@@ -1158,6 +1505,7 @@ function formatDate(value) {
             year: "numeric"
         }
     );
+
 }
 
 
@@ -1170,26 +1518,32 @@ function escapeHtml(value) {
     return String(
         value ?? ""
     )
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
         );
+
 }
 
 
@@ -1204,33 +1558,81 @@ function renderAdminDashboard() {
     renderBarangayStatistics();
 
     renderLatestActivity();
+
     refreshLatestActivity();
 
     renderAnnouncements();
 
     renderOngoingActivities();
+
 }
 
+
+/* =========================================================
+   REFRESH DASHBOARD USERS
+========================================================= */
+
 async function refreshDashboardUsers() {
+
     try {
-        const response = await fetch("api/user_api.php?action=list", {
-            credentials: "same-origin",
-            cache: "no-store"
-        });
-        const data = await response.json();
-        if (!response.ok || !data.success || !Array.isArray(data.users)) {
-            throw new Error(data.message || "Unable to load user data.");
+
+        const response =
+            await fetch(
+                "api/user_api.php?action=list",
+                {
+                    credentials: "same-origin",
+                    cache: "no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !Array.isArray(data.users)
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load user data."
+            );
+
         }
 
-        dashboardUsers = data.users;
+
+        dashboardUsers =
+            data.users;
+
+
         dashboardLoadError = "";
+
+
         renderAdminDashboard();
+
     } catch (error) {
-        console.error("Unable to refresh admin dashboard users:", error);
+
+        console.error(
+            "Unable to refresh admin dashboard users:",
+            error
+        );
+
+
         dashboardUsers = null;
-        dashboardLoadError = error.message || "User totals could not be loaded. Check your sign-in.";
+
+
+        dashboardLoadError =
+            error.message ||
+            "User totals could not be loaded. Check your sign-in.";
+
+
         renderAdminDashboard();
+
     }
+
 }
 
 
@@ -1243,6 +1645,7 @@ document.addEventListener(
     function () {
 
         renderAdminDashboard();
+
         refreshDashboardUsers();
 
     }
@@ -1310,12 +1713,6 @@ window.addEventListener(
 
 /* =========================================================
    LIVE REFRESH
-=========================================================
-
-   This is useful while developing locally.
-   It makes the dashboard update even when
-   another page modifies localStorage in
-   the same browser tab/window flow.
 ========================================================= */
 
 setInterval(
@@ -1323,381 +1720,638 @@ setInterval(
     10000
 );
 
+
 /* =========================================================
    CREATE ANNOUNCEMENT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    const modal =
-        document.getElementById("announcementModal");
+        const modal =
+            document.getElementById(
+                "announcementModal"
+            );
 
-    const openBtn =
-        document.getElementById("openAnnouncementModal");
 
-    const closeBtn =
-        document.getElementById("closeAnnouncementModal");
+        const openBtn =
+            document.getElementById(
+                "openAnnouncementModal"
+            );
 
-    const cancelBtn =
-        document.getElementById("cancelAnnouncement");
 
-    const overlay =
-        document.querySelector(".announcement-modal-overlay");
+        const closeBtn =
+            document.getElementById(
+                "closeAnnouncementModal"
+            );
 
-    const form =
-        document.getElementById("announcementForm");
 
-    const fileInput =
-        document.getElementById("announcementFile");
+        const cancelBtn =
+            document.getElementById(
+                "cancelAnnouncement"
+            );
 
-    const fileName =
-        document.getElementById("announcementFileName");
 
+        const overlay =
+            document.querySelector(
+                ".announcement-modal-overlay"
+            );
 
-    /* =====================================================
-       OPEN MODAL
-    ===================================================== */
 
-    function openAnnouncementModal() {
+        const form =
+            document.getElementById(
+                "announcementForm"
+            );
 
-        if (!modal) return;
 
-        modal.classList.add("show");
+        const fileInput =
+            document.getElementById(
+                "announcementFile"
+            );
 
-        modal.setAttribute(
-            "aria-hidden",
-            "false"
-        );
 
-        document.body.style.overflow = "hidden";
+        const fileName =
+            document.getElementById(
+                "announcementFileName"
+            );
 
 
-        /* Automatically set today's date */
+        /* =====================================================
+           OPEN MODAL
+        ===================================================== */
 
-        const dateInput =
-            document.getElementById("announcementDate");
+        function openAnnouncementModal() {
 
-        if (dateInput && !dateInput.value) {
+            if (!modal) return;
 
-            const today =
-                new Date().toISOString().split("T")[0];
 
-            dateInput.value = today;
+            modal.classList.add(
+                "show"
+            );
 
-        }
 
-    }
+            modal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
 
 
-    /* =====================================================
-       CLOSE MODAL
-    ===================================================== */
+            document.body.style.overflow =
+                "hidden";
 
-    function closeAnnouncementModal() {
 
-        if (!modal) return;
-
-        modal.classList.remove("show");
-
-        modal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-        document.body.style.overflow = "";
-
-    }
-
-
-    /* =====================================================
-       BUTTON EVENTS
-    ===================================================== */
-
-    if (openBtn) {
-
-        openBtn.addEventListener(
-            "click",
-            openAnnouncementModal
-        );
-
-    }
-
-
-    if (closeBtn) {
-
-        closeBtn.addEventListener(
-            "click",
-            closeAnnouncementModal
-        );
-
-    }
-
-
-    if (cancelBtn) {
-
-        cancelBtn.addEventListener(
-            "click",
-            closeAnnouncementModal
-        );
-
-    }
-
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            closeAnnouncementModal
-        );
-
-    }
-
-
-    /* =====================================================
-       ESC KEY
-    ===================================================== */
-
-    document.addEventListener("keydown", (event) => {
-
-        if (
-            event.key === "Escape" &&
-            modal &&
-            modal.classList.contains("show")
-        ) {
-
-            closeAnnouncementModal();
-
-        }
-
-    });
-
-
-    /* =====================================================
-       FILE NAME
-    ===================================================== */
-
-    if (fileInput) {
-
-        fileInput.addEventListener("change", () => {
-
-            if (
-                fileInput.files &&
-                fileInput.files.length > 0
-            ) {
-
-                fileName.textContent =
-                    fileInput.files[0].name;
-
-            } else {
-
-                fileName.textContent =
-                    "PNG, JPG, PDF, DOCX and other files";
-
-            }
-
-        });
-
-    }
-
-
-    /* =====================================================
-       PUBLISH
-    ===================================================== */
-
-    if (form) {
-
-        form.addEventListener("submit", async (event) => {
-
-            event.preventDefault();
-
-
-            const title =
-                document
-                    .getElementById("announcementTitle")
-                    .value
-                    .trim();
-
-            const date =
-                document
-                    .getElementById("announcementDate")
-                    .value;
-
-            const message =
-                document
-                    .getElementById("announcementMessage")
-                    .value
-                    .trim();
-
-
-            if (!title || !date || !message) {
-
-                alert(
-                    "Please complete the announcement details."
+            const dateInput =
+                document.getElementById(
+                    "announcementDate"
                 );
 
-                return;
+
+            if (
+                dateInput &&
+                !dateInput.value
+            ) {
+
+                const today =
+                    new Date()
+                        .toISOString()
+                        .split("T")[0];
+
+
+                dateInput.value =
+                    today;
 
             }
-
-
-            const publishButton=form.querySelector('[type="submit"]');
-            if(publishButton){publishButton.disabled=true;publishButton.textContent='PUBLISHING…';}
-            try {
-                let attachmentData='',attachmentName='';
-                const file=fileInput?.files?.[0];
-                if(file){
-                    if(file.size>5*1024*1024)throw new Error('Announcement attachments must be 5 MB or smaller.');
-                    attachmentName=file.name;
-                    attachmentData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(new Error('Could not read the attachment.'));reader.readAsDataURL(file);});
-                }
-                const response=await fetch('api/account_api.php?action=announcements',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,message,attachment_name:attachmentName,attachment_data:attachmentData})});
-                const result=await response.json();
-                if(!response.ok||!result.success)throw new Error(result.message||'Announcement could not be published.');
-                localStorage.setItem('basisAnnouncementPublished',String(Date.now()));
-                renderAnnouncements();
-                form.reset();
-                if(fileName)fileName.textContent='PNG, JPG, PDF, DOCX and other files (up to 5 MB)';
-                closeAnnouncementModal();
-            } catch(error) {
-                alert(error.message||'Announcement could not be published.');
-            } finally {
-                if(publishButton){publishButton.disabled=false;publishButton.textContent='PUBLISH';}
-            }
-
-        });
-
-    }
-
-
-    /* =====================================================
-       ADD ANNOUNCEMENT CARD
-    ===================================================== */
-
-    function addAnnouncementCard(
-        title,
-        date,
-        message,
-        fileInput
-    ) {
-
-        const container =
-            document.getElementById(
-                "announcementsBox"
-            );
-
-        if (!container) return;
-
-
-        /* Remove empty state */
-
-        const empty =
-            container.querySelector(
-                ".announcement-empty"
-            );
-
-        if (empty) {
-
-            empty.remove();
 
         }
 
 
-        const card =
-            document.createElement("div");
+        /* =====================================================
+           CLOSE MODAL
+        ===================================================== */
 
-        card.className =
-            "announcement-card";
+        function closeAnnouncementModal() {
+
+            if (!modal) return;
 
 
-        const formattedDate =
-            new Date(date).toLocaleDateString(
-                "en-US",
-                {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric"
-                }
+            modal.classList.remove(
+                "show"
             );
 
 
-        card.innerHTML = `
-
-            <div class="announcement-card-header">
-
-                <h3 class="announcement-card-title">
-                    ${escapeHTML(title)}
-                </h3>
-
-                <span class="announcement-card-date">
-                    ${formattedDate}
-                </span>
-
-            </div>
-
-            <p class="announcement-card-message">
-                ${escapeHTML(message)}
-            </p>
-
-        `;
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
 
 
-        /* Attachment */
+            document.body.style.overflow =
+                "";
 
-        if (
-            fileInput &&
-            fileInput.files &&
-            fileInput.files.length > 0
+        }
+
+
+        /* =====================================================
+           BUTTON EVENTS
+        ===================================================== */
+
+        if (openBtn) {
+
+            openBtn.addEventListener(
+                "click",
+                openAnnouncementModal
+            );
+
+        }
+
+
+        if (closeBtn) {
+
+            closeBtn.addEventListener(
+                "click",
+                closeAnnouncementModal
+            );
+
+        }
+
+
+        if (cancelBtn) {
+
+            cancelBtn.addEventListener(
+                "click",
+                closeAnnouncementModal
+            );
+
+        }
+
+
+        if (overlay) {
+
+            overlay.addEventListener(
+                "click",
+                closeAnnouncementModal
+            );
+
+        }
+
+
+        /* =====================================================
+           ESC KEY
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (
+                    event.key === "Escape" &&
+                    modal &&
+                    modal.classList.contains("show")
+                ) {
+
+                    closeAnnouncementModal();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           FILE NAME
+        ===================================================== */
+
+        if (fileInput) {
+
+            fileInput.addEventListener(
+                "change",
+                () => {
+
+                    if (
+                        fileInput.files &&
+                        fileInput.files.length > 0
+                    ) {
+
+                        fileName.textContent =
+                            fileInput.files[0].name;
+
+                    } else {
+
+                        fileName.textContent =
+                            "PNG, JPG, PDF, DOCX and other files";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           PUBLISH
+        ===================================================== */
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                async (event) => {
+
+                    event.preventDefault();
+
+
+                    const title =
+                        document
+                            .getElementById(
+                                "announcementTitle"
+                            )
+                            .value
+                            .trim();
+
+
+                    const date =
+                        document
+                            .getElementById(
+                                "announcementDate"
+                            )
+                            .value;
+
+
+                    const message =
+                        document
+                            .getElementById(
+                                "announcementMessage"
+                            )
+                            .value
+                            .trim();
+
+
+                    if (
+                        !title ||
+                        !date ||
+                        !message
+                    ) {
+
+                        alert(
+                            "Please complete the announcement details."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const publishButton =
+                        form.querySelector(
+                            '[type="submit"]'
+                        );
+
+
+                    if (publishButton) {
+
+                        publishButton.disabled =
+                            true;
+
+                        publishButton.textContent =
+                            "PUBLISHING…";
+
+                    }
+
+
+                    try {
+
+                        let attachmentData = "";
+                        let attachmentName = "";
+
+
+                        const file =
+                            fileInput?.files?.[0];
+
+
+                        if (file) {
+
+                            if (
+                                file.size >
+                                5 * 1024 * 1024
+                            ) {
+
+                                throw new Error(
+                                    "Announcement attachments must be 5 MB or smaller."
+                                );
+
+                            }
+
+
+                            attachmentName =
+                                file.name;
+
+
+                            attachmentData =
+                                await new Promise(
+                                    (resolve, reject) => {
+
+                                        const reader =
+                                            new FileReader();
+
+
+                                        reader.onload =
+                                            () => {
+
+                                                resolve(
+                                                    String(
+                                                        reader.result ||
+                                                        ""
+                                                    )
+                                                );
+
+                                            };
+
+
+                                        reader.onerror =
+                                            () => {
+
+                                                reject(
+                                                    new Error(
+                                                        "Could not read the attachment."
+                                                    )
+                                                );
+
+                                            };
+
+
+                                        reader.readAsDataURL(
+                                            file
+                                        );
+
+                                    }
+                                );
+
+                        }
+
+
+                        const response =
+                            await fetch(
+                                "api/account_api.php?action=announcements",
+                                {
+                                    method: "POST",
+                                    credentials: "same-origin",
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            title,
+
+                                            date,
+
+                                            message,
+
+                                            attachment_name:
+                                                attachmentName,
+
+                                            attachment_data:
+                                                attachmentData
+
+                                        })
+
+                                }
+                            );
+
+
+                        const result =
+                            await response.json();
+
+
+                        if (
+                            !response.ok ||
+                            !result.success
+                        ) {
+
+                            throw new Error(
+                                result.message ||
+                                "Announcement could not be published."
+                            );
+
+                        }
+
+
+                        localStorage.setItem(
+                            "basisAnnouncementPublished",
+                            String(
+                                Date.now()
+                            )
+                        );
+
+
+                        renderAnnouncements();
+
+
+                        form.reset();
+
+
+                        if (fileName) {
+
+                            fileName.textContent =
+                                "PNG, JPG, PDF, DOCX and other files (up to 5 MB)";
+
+                        }
+
+
+                        closeAnnouncementModal();
+
+                    } catch (error) {
+
+                        alert(
+                            error.message ||
+                            "Announcement could not be published."
+                        );
+
+                    } finally {
+
+                        if (publishButton) {
+
+                            publishButton.disabled =
+                                false;
+
+                            publishButton.textContent =
+                                "PUBLISH";
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           ADD ANNOUNCEMENT CARD
+        ===================================================== */
+
+        function addAnnouncementCard(
+            title,
+            date,
+            message,
+            fileInput
         ) {
 
-            const file =
-                fileInput.files[0];
+            const container =
+                document.getElementById(
+                    "announcementsBox"
+                );
 
 
-            const attachment =
-                document.createElement("div");
+            if (!container) return;
 
 
-            attachment.className =
-                "announcement-attachment";
+            const empty =
+                container.querySelector(
+                    ".announcement-empty"
+                );
 
 
-            attachment.innerHTML = `
+            if (empty) {
+                empty.remove();
+            }
 
-                <i class="fa-solid fa-paperclip"></i>
 
-                ${escapeHTML(file.name)}
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "announcement-card";
+
+
+            const formattedDate =
+                new Date(date)
+                    .toLocaleDateString(
+                        "en-US",
+                        {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric"
+                        }
+                    );
+
+
+            card.innerHTML = `
+
+                <div class="announcement-card-header">
+
+                    <h3 class="announcement-card-title">
+
+                        ${escapeHTML(title)}
+
+                    </h3>
+
+
+                    <span class="announcement-card-date">
+
+                        ${formattedDate}
+
+                    </span>
+
+                </div>
+
+
+                <p class="announcement-card-message">
+
+                    ${escapeHTML(message)}
+
+                </p>
 
             `;
 
 
-            card.appendChild(attachment);
+            if (
+                fileInput &&
+                fileInput.files &&
+                fileInput.files.length > 0
+            ) {
+
+                const file =
+                    fileInput.files[0];
+
+
+                const attachment =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                attachment.className =
+                    "announcement-attachment";
+
+
+                attachment.innerHTML = `
+
+                    <i class="fa-solid fa-paperclip"></i>
+
+                    ${escapeHTML(
+                        file.name
+                    )}
+
+                `;
+
+
+                card.appendChild(
+                    attachment
+                );
+
+            }
+
+
+            container.prepend(
+                card
+            );
 
         }
 
 
-        container.prepend(card);
+        /* =====================================================
+           BASIC HTML ESCAPE
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
 
     }
-
-
-    /* =====================================================
-       BASIC HTML ESCAPE
-    ===================================================== */
-
-    function escapeHTML(value) {
-
-        return String(value)
-
-            .replace(/&/g, "&amp;")
-
-            .replace(/</g, "&lt;")
-
-            .replace(/>/g, "&gt;")
-
-            .replace(/"/g, "&quot;")
-
-            .replace(/'/g, "&#039;");
-
-    }
-
-});
+);
