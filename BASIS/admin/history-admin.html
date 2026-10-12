@@ -1,362 +1,1217 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>BASIS - Admin History</title>
 
+    <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SYSTEM CSS -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="home-admin.css">
-    <link rel="stylesheet" href="history-admin.css">
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="history-admin.css?v=2">
 </head>
 
-<body class="dashboard-page admin-history-page">
 
-<header class="dash-header">
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
+<body class="dashboard-page admin-page">
 
-    <div class="header-right">
-        <div class="welcome-text">
-    <h1>MABUHAY, ADMIN!</h1>
-    <span>WELCOME TO BASIS</span>
+
+<!-- =========================================================
+     SIDEBAR OVERLAY
+========================================================= -->
+
+<div class="sidebar-overlay"
+     id="sidebarOverlay">
 </div>
 
-<div class="profile-avatar-wrapper"
-     onclick="window.location.href='profile-admin.html'">
 
-    <img
-        src="../images/profile_default.jpg"
-        alt="Admin Profile"
-        class="header-avatar"
-    >
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
 
-</div>
+<aside class="admin-sidebar"
+       id="adminSidebar">
+
+    <!-- BRAND -->
+    <div class="sidebar-brand">
+
+        <div class="brand-mark">
+            <img src="../images/LOGO.png"
+                 alt="BASIS Logo">
+        </div>
+
+        <div class="brand-copy">
+            <strong>BASIS</strong>
+            <span>ADMIN PANEL</span>
+        </div>
+
+        <button class="sidebar-close"
+                id="sidebarClose"
+                type="button">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
     </div>
-</header>
 
-<main class="dash-main">
 
-    <!-- HISTORY MENU -->
-    <section id="view-history-admin" class="page-view active">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
+    <!-- PROFILE -->
+    <div class="sidebar-profile">
+
+        <img src="../images/profile_default.jpg"
+             alt="Admin Profile">
+
+        <div>
+            <strong>ADMIN</strong>
+            <span>System Administrator</span>
         </div>
 
-        <div class="view-body bordered-frame relative-frame">
-            <div class="history-menu-list">
+    </div>
 
-                <div class="history-menu-card">
-                    <h3>ANNOUNCEMENTS</h3>
-                    <button class="open-activity-btn" type="button"
-                            onclick="showAdminHistoryView('view-history-admin-announcements')">
-                        OPEN
-                    </button>
+
+    <!-- NAVIGATION -->
+    <nav class="sidebar-nav"
+         aria-label="Admin navigation">
+
+        <div class="sidebar-section-label">
+            MAIN MENU
+        </div>
+
+
+        <a class="sidebar-link"
+           href="home-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-house"></i>
+            </span>
+
+            <span class="sidebar-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a class="sidebar-link"
+           href="user-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-users"></i>
+            </span>
+
+            <span class="sidebar-text">
+                User Management
+            </span>
+
+        </a>
+
+
+        <a class="sidebar-link"
+           href="scorecard-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-address-card"></i>
+            </span>
+
+            <span class="sidebar-text">
+                Scorecard
+            </span>
+
+        </a>
+
+
+        <a class="sidebar-link"
+           href="activity-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-book-open"></i>
+            </span>
+
+            <span class="sidebar-text">
+                Activities
+            </span>
+
+        </a>
+
+
+        <a class="sidebar-link active history-nav-link"
+           href="history-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </span>
+
+            <span class="sidebar-text">History</span>
+            <span class="history-nav-badge" data-history-notification-badge hidden>0</span>
+
+        </a>
+
+
+        <div class="sidebar-section-label">
+            SYSTEM
+        </div>
+
+
+        <a class="sidebar-link"
+           href="more-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-ellipsis"></i>
+            </span>
+
+            <span class="sidebar-text">
+                More
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- FOOTER -->
+    <div class="sidebar-footer">
+
+        <a class="sidebar-link sidebar-profile-link"
+           href="profile-admin.html">
+
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-user-gear"></i>
+            </span>
+
+            <span class="sidebar-text">
+                My Profile
+            </span>
+
+        </a>
+
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     ADMIN SHELL
+========================================================= -->
+
+<div class="admin-shell">
+
+
+    <!-- =====================================================
+         TOPBAR
+    ====================================================== -->
+
+    <header class="admin-topbar">
+
+        <div class="topbar-left">
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    type="button">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+
+            <div class="page-heading">
+
+                <span class="page-eyebrow">
+                    BASIS • ADMIN
+                </span>
+
+                <h1>
+                    History
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+            <div class="welcome-copy">
+
+                <span>
+                    WELCOME BACK
+                </span>
+
+                <strong>
+                    MABUHAY, ADMIN!
+                </strong>
+
+            </div>
+
+
+            <a class="topbar-avatar"
+               href="profile-admin.html">
+
+                <img src="../images/profile_default.jpg"
+                     alt="Admin Profile">
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="dash-main">
+
+
+        <!-- =================================================
+             HISTORY HOME
+        ================================================== -->
+
+        <section id="view-history-admin"
+                 class="page-view active">
+
+
+            <div class="history-summary-grid">
+
+
+                <!-- ANNOUNCEMENTS -->
+
+                <div class="history-summary-card"
+                     onclick="showAdminHistoryView('view-history-admin-announcements')">
+
+                    <div class="history-card-icon">
+
+                        <i class="fa-solid fa-bullhorn"></i>
+
+                    </div>
+
+
+                    <div class="history-card-main">
+
+                        <span class="history-card-label">
+                            SYSTEM RECORDS
+                        </span>
+
+                        <h3>
+                            Announcements
+                        </h3>
+
+                        <p>
+                            View published announcements and their details.
+                        </p>
+
+
+                        <div class="history-card-footer">
+
+                            <span>
+                                <strong id="historyAnnouncementCount">
+                                    0
+                                </strong>
+                                Records
+                            </span>
+
+
+                            <button type="button"
+                                    onclick="event.stopPropagation(); showAdminHistoryView('view-history-admin-announcements')">
+
+                                VIEW HISTORY
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="history-menu-card">
-                    <h3>ACTIVITIES</h3>
-                    <button class="open-activity-btn" type="button"
-                            onclick="showAdminHistoryView('view-history-admin-activities')">
-                        OPEN
-                    </button>
+
+
+                <!-- ACTIVITIES -->
+
+                <div class="history-summary-card"
+                     onclick="showAdminHistoryView('view-history-admin-activities')">
+
+                    <div class="history-card-icon">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                    </div>
+
+
+                    <div class="history-card-main">
+
+                        <span class="history-card-label">
+                            ACTIVITY RECORDS
+                        </span>
+
+                        <h3>
+                            Activities
+                        </h3>
+
+                        <p>
+                            View activities created in the admin module.
+                        </p>
+
+
+                        <div class="history-card-footer">
+
+                            <span>
+                                <strong id="historyActivityCount">
+                                    0
+                                </strong>
+                                Records
+                            </span>
+
+
+                            <button type="button"
+                                    onclick="event.stopPropagation(); showAdminHistoryView('view-history-admin-activities')">
+
+                                VIEW HISTORY
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="history-menu-card">
-                    <h3>NOTIFICATIONS</h3>
-                    <button class="open-activity-btn" type="button"
-                            onclick="showAdminHistoryView('view-history-admin-notifications')">
-                        OPEN
-                    </button>
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="history-summary-card"
+                     onclick="showAdminHistoryView('view-history-admin-notifications')">
+
+                    <div class="history-card-icon">
+
+                        <i class="fa-regular fa-bell"></i>
+
+                    </div>
+
+
+                    <div class="history-card-main">
+
+                        <span class="history-card-label">
+                            SYSTEM UPDATES
+                        </span>
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+                        <p>
+                            View available notification records.
+                        </p>
+
+
+                        <div class="history-card-footer">
+
+                            <span>
+                                <strong id="historyNotificationCount">
+                                    0
+                                </strong>
+                                Records
+                            </span>
+
+
+                            <button type="button"
+                                    onclick="event.stopPropagation(); showAdminHistoryView('view-history-admin-notifications')">
+
+                                VIEW HISTORY
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
-        </div>
-    </section>
+
+        </section>
 
 
-    <!-- ANNOUNCEMENT HISTORY -->
-    <section id="view-history-admin-announcements" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
 
-        <div class="view-body bordered-frame relative-frame history-sub-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+        <!-- =================================================
+             ANNOUNCEMENT HISTORY
+        ================================================== -->
 
-            <div class="inner-banner-header">
-                <h3>ANNOUNCEMENT HISTORY</h3>
+        <section id="view-history-admin-announcements"
+                 class="page-view">
 
-                <div class="search-filter-controls">
-                    <div class="search-input-wrapper">
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
+                        onclick="showAdminHistoryView('view-history-admin')">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div>
+
+                    <span>
+                        HISTORY
+                    </span>
+
+                    <h2>
+                        Announcement History
+                    </h2>
+
+                </div>
+
+
+                <div class="history-sub-icon">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-record-panel">
+
+                <div class="history-record-toolbar">
+
+                    <div>
+
+                        <span>
+                            ANNOUNCEMENTS
+                        </span>
+
+                        <h3>
+                            Published Announcements
+                        </h3>
+
+                    </div>
+
+
+                    <div class="history-search-box">
+
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input id="adminAnnouncementSearch"
-                               type="text"
-                               placeholder="Search announcements...">
+
+                        <input
+                            id="adminAnnouncementSearch"
+                            type="text"
+                            placeholder="Search announcements..."
+                        >
+
                     </div>
-                    <button class="filter-btn" type="button">FILTER</button>
+
                 </div>
+
+
+                <div class="history-items-container"
+                     id="adminAnnouncementHistoryList">
+                </div>
+
             </div>
 
-            <div class="history-items-container" id="adminAnnouncementHistoryList"></div>
-        </div>
-    </section>
+        </section>
 
 
-    <!-- ACTIVITY HISTORY -->
-    <section id="view-history-admin-activities" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
 
-        <div class="view-body bordered-frame relative-frame history-sub-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+        <!-- =================================================
+             ACTIVITY HISTORY
+        ================================================== -->
 
-            <div class="inner-banner-header">
-                <h3>ACTIVITY HISTORY</h3>
+        <section id="view-history-admin-activities"
+                 class="page-view">
 
-                <div class="search-filter-controls">
-                    <div class="search-input-wrapper">
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
+                        onclick="showAdminHistoryView('view-history-admin')">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div>
+
+                    <span>
+                        HISTORY
+                    </span>
+
+                    <h2>
+                        Activity History
+                    </h2>
+
+                </div>
+
+
+                <div class="history-sub-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-record-panel">
+
+                <div class="history-record-toolbar">
+
+                    <div>
+
+                        <span>
+                            ACTIVITY RECORDS
+                        </span>
+
+                        <h3>
+                            Created Activities
+                        </h3>
+
+                    </div>
+
+
+                    <div class="history-search-box">
+
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input id="adminActivitySearch"
-                               type="text"
-                               placeholder="Search activities...">
+
+                        <input
+                            id="adminActivitySearch"
+                            type="text"
+                            placeholder="Search activities..."
+                        >
+
                     </div>
-                    <button class="filter-btn" type="button">FILTER</button>
+
                 </div>
+
+
+                <div class="history-items-container"
+                     id="adminActivityHistoryList">
+                </div>
+
             </div>
 
-            <div class="history-items-container" id="adminActivityHistoryList"></div>
-        </div>
-    </section>
+        </section>
 
 
-    <!-- NOTIFICATION HISTORY -->
-    <section id="view-history-admin-notifications" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
 
-        <div class="view-body bordered-frame relative-frame history-sub-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+        <!-- =================================================
+             NOTIFICATION HISTORY
+        ================================================== -->
 
-            <div class="inner-banner-header">
-                <h3>NOTIFICATION HISTORY</h3>
+        <section id="view-history-admin-notifications"
+                 class="page-view">
 
-                <div class="search-filter-controls">
-                    <div class="search-input-wrapper">
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
+                        onclick="showAdminHistoryView('view-history-admin')">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div>
+
+                    <span>
+                        HISTORY
+                    </span>
+
+                    <h2>
+                        Notification History
+                    </h2>
+
+                </div>
+
+
+                <div class="history-sub-icon">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-record-panel">
+
+                <div class="history-record-toolbar">
+
+                    <div>
+
+                        <span>
+                            SYSTEM UPDATES
+                        </span>
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+                    </div>
+
+
+                    <div class="history-search-box">
+
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input id="adminNotificationSearch"
-                               type="text"
-                               placeholder="Search notifications...">
+
+                        <input
+                            id="adminNotificationSearch"
+                            type="text"
+                            placeholder="Search notifications..."
+                        >
+
                     </div>
-                    <button class="filter-btn" type="button">FILTER</button>
-                </div>
-            </div>
 
-            <div class="history-items-container" id="adminNotificationHistoryList"></div>
-        </div>
-    </section>
-
-
-    <!-- ANNOUNCEMENT DETAIL -->
-    <section id="view-history-admin-announcement-detail" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
-
-        <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin-announcements')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-
-            <div class="inner-banner-header standalone-title">
-                <h3>ANNOUNCEMENT HISTORY</h3>
-            </div>
-
-            <div class="history-detail-layout">
-                <div class="detail-text-side">
-                    <h2 class="detail-title" id="adminAnnouncementDetailTitle">ANNOUNCEMENT TITLE</h2>
-                    <span class="detail-date" id="adminAnnouncementDetailDate">xx/xx/xxxx</span>
-                    <p class="desc-text" id="adminAnnouncementDetailDescription"></p>
                 </div>
 
-                <div class="detail-media-side">
-                    <div class="media-placeholder-box">
-                        <img src="../images/image-icon.png"
-                             alt="Announcement Image"
-                             class="announcement-img"
-                             id="adminAnnouncementDetailImage">
-                    </div>
+
+                <div class="history-items-container"
+                     id="adminNotificationHistoryList">
                 </div>
+
             </div>
 
-            <div class="btn-right-container">
-                <button class="act-btn solid-btn" type="button"
+        </section>
+
+
+
+        <!-- =================================================
+             ANNOUNCEMENT DETAIL
+        ================================================== -->
+
+        <section id="view-history-admin-announcement-detail"
+                 class="page-view">
+
+
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
                         onclick="showAdminHistoryView('view-history-admin-announcements')">
-                    CLOSE
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
                 </button>
-            </div>
-        </div>
-    </section>
 
 
-    <!-- ACTIVITY DETAIL -->
-    <section id="view-history-admin-activity-detail" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
+                <div>
 
-        <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin-activities')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+                    <span>
+                        HISTORY
+                    </span>
 
-            <div class="inner-banner-header standalone-title">
-                <h3>ACTIVITY HISTORY</h3>
-            </div>
+                    <h2>
+                        Announcement Details
+                    </h2>
 
-            <div class="history-activity-detail-grid">
-
-                <div class="activity-info-left">
-                    <h2 class="detail-title" id="adminActivityDetailTitle">ACTIVITY TITLE</h2>
-                    <span class="detail-date" id="adminActivityDetailDate">xx/xx/xxxx</span>
-                    <p class="desc-text" id="adminActivityDetailDescription"></p>
                 </div>
 
-                <div class="activity-info-right">
-                    <div class="sem-tag text-right mb-15" id="adminActivityDetailSemester">
-                        2026 – 2027 FIRST SEMESTER
-                    </div>
 
-                    <div class="sub-activity-info compact-info">
-                        <h2 id="adminActivityName">ACTIVITY TITLE</h2>
-                        <p><strong>TYPE OF ACTIVITY:</strong> <span id="adminActivityType"></span></p>
-                        <p><strong>DATE:</strong> <span id="adminActivityDate"></span></p>
-                        <p><strong>TIME:</strong> <span id="adminActivityTime"></span></p>
-                        <p><strong>VENUE:</strong> <span id="adminActivityVenue"></span></p>
-                        <p><strong>VENUE ADDRESS:</strong> <span id="adminActivityAddress"></span></p>
-                        <p><strong>NAME:</strong> <span id="adminActivityNamePerson"></span></p>
-                        <!-- <p><strong>MUNICIPALITY:</strong> <span id="adminActivityMunicipality"></span></p>
-                        <p><strong>BARANGAY:</strong> <span id="adminActivityBarangay"></span></p> -->
-                    </div>
+                <div class="history-sub-icon">
 
-                    <div class="submitted-file-box">
-                        ACTIVITY RECORD
-                    </div>
+                    <i class="fa-solid fa-bullhorn"></i>
+
                 </div>
 
             </div>
 
-            <div class="btn-right-container">
-                <button class="act-btn solid-btn" type="button"
+
+            <div class="history-detail-panel">
+
+
+                <div class="history-detail-top">
+
+                    <div class="history-detail-type">
+
+                        <i class="fa-solid fa-bullhorn"></i>
+
+                        ANNOUNCEMENT
+
+                    </div>
+
+
+                    <span class="detail-date"
+                          id="adminAnnouncementDetailDate">
+                        —
+                    </span>
+
+                </div>
+
+
+
+                <div class="announcement-detail-layout">
+
+
+                    <!-- IMAGE -->
+
+                    <div class="announcement-detail-image-box">
+
+                        <img
+                            id="adminAnnouncementDetailImage"
+                            class="announcement-detail-image"
+                            src=""
+                            alt="Announcement image"
+                        >
+
+
+                        <div
+                            id="adminAnnouncementDetailImagePlaceholder"
+                            class="detail-image-placeholder">
+
+                            <i class="fa-regular fa-image"></i>
+
+                            <span>
+                                No image attached
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONTENT -->
+
+                    <div class="announcement-detail-content">
+
+                        <span class="detail-section-label">
+                            ANNOUNCEMENT
+                        </span>
+
+                        <h2
+                            id="adminAnnouncementDetailTitle"
+                            class="detail-title">
+                            ANNOUNCEMENT TITLE
+                        </h2>
+
+
+                        <div class="detail-content-box">
+
+                            <span>
+                                MESSAGE
+                            </span>
+
+                            <p
+                                id="adminAnnouncementDetailDescription">
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="history-detail-divider"></div>
+
+
+                <div class="history-detail-actions">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACTIVITY DETAIL
+        ================================================== -->
+
+        <section id="view-history-admin-activity-detail"
+                 class="page-view">
+
+
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
                         onclick="showAdminHistoryView('view-history-admin-activities')">
-                    CLOSE
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
                 </button>
-            </div>
-        </div>
-    </section>
 
 
-    <!-- NOTIFICATION DETAIL -->
-    <section id="view-history-admin-notification-detail" class="page-view">
-        <div class="view-banner">
-            <h2>HISTORY</h2>
-        </div>
+                <div>
 
-        <div class="view-body bordered-frame relative-frame">
-            <button class="close-view-btn" type="button"
-                    onclick="showAdminHistoryView('view-history-admin-notifications')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+                    <span>
+                        HISTORY
+                    </span>
 
-            <div class="inner-banner-header standalone-title">
-                <h3>NOTIFICATION HISTORY</h3>
-            </div>
+                    <h2>
+                        Activity Details
+                    </h2>
 
-            <div class="notification-detail-card">
-                <h2 class="notification-title" id="adminNotificationDetailTitle">NOTIFICATION TITLE</h2>
-                <span class="notification-date" id="adminNotificationDetailDate">xx/xx/xxxx</span>
-                <p class="notification-body" id="adminNotificationDetailBody"></p>
-
-                <div class="notification-action-row">
-                    <button class="act-btn solid-btn" type="button"
-                            onclick="showAdminHistoryView('view-history-admin-notifications')">
-                        CLOSE
-                    </button>
                 </div>
+
+
+                <div class="history-sub-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
             </div>
-        </div>
-    </section>
-
-</main>
 
 
-<nav class="bottom-nav">
+            <div class="history-detail-panel">
 
-    <div class="bottom-nav-inner">
 
-        <!-- HOME -->
-        <a class="nav-item" href="home-admin.html">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+                <div class="history-detail-top">
 
-        <!-- USER -->
-        <a class="nav-item" href="user-admin.html">
-            <i class="fa-solid fa-user"></i>
-            <span>User</span>
-        </a>
+                    <div class="history-detail-type">
 
-        <!-- SCORECARD -->
-        <a class="nav-item" href="scorecard-admin.html">
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
+                        <i class="fa-solid fa-calendar-check"></i>
 
-        <!-- ACTIVITY -->
-        <a class="nav-item" href="activity-admin.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
+                        ACTIVITY
 
-        <!-- HISTORY -->
-        <a class="nav-item active" href="history-admin.html">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
+                    </div>
 
-        <!-- MORE -->
-        <a class="nav-item" href="more-admin.html">
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
 
-    </div>
+                    <span
+                        class="detail-date"
+                        id="adminActivityDetailDate">
+                        —
+                    </span>
 
-</nav>
+                </div>
 
-    <script src="../script.js?v=20261005-user-name-header"></script>
-<script src="history-admin.js?v=20261005-live-history"></script>
-<script src="../history/history-live.js?v=20261005-deadline-history"></script>
 
+
+                <div class="activity-detail-layout">
+
+
+                    <!-- LEFT -->
+
+                    <div class="activity-detail-main">
+
+
+                        <div class="activity-detail-image-box">
+
+                            <img
+                                id="adminActivityDetailImage"
+                                class="activity-detail-image"
+                                src=""
+                                alt="Activity image"
+                            >
+
+
+                            <div
+                                id="adminActivityDetailImagePlaceholder"
+                                class="detail-image-placeholder">
+
+                                <i class="fa-regular fa-image"></i>
+
+                                <span>
+                                    No activity image
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-description-content">
+
+                            <span class="detail-section-label">
+                                ACTIVITY DESCRIPTION
+                            </span>
+
+
+                            <h2
+                                id="adminActivityDetailTitle"
+                                class="detail-title">
+                                ACTIVITY TITLE
+                            </h2>
+
+
+                            <p
+                                id="adminActivityDetailDescription"
+                                class="detail-description">
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RIGHT -->
+
+                    <div class="activity-meta-card">
+
+                        <span class="activity-meta-label">
+                            ACTIVITY INFORMATION
+                        </span>
+
+
+                        <h3 id="adminActivityName">
+                            ACTIVITY TITLE
+                        </h3>
+
+
+                        <div class="activity-meta-row">
+
+                            <span>
+                                TYPE
+                            </span>
+
+                            <strong id="adminActivityType">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="activity-meta-row">
+
+                            <span>
+                                DATE
+                            </span>
+
+                            <strong id="adminActivityDate">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="activity-meta-row">
+
+                            <span>
+                                TIME
+                            </span>
+
+                            <strong id="adminActivityTime">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="activity-meta-row">
+
+                            <span>
+                                VENUE
+                            </span>
+
+                            <strong id="adminActivityVenue">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="activity-meta-row">
+
+                            <span>
+                                VENUE ADDRESS
+                            </span>
+
+                            <strong id="adminActivityAddress">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="history-detail-divider"></div>
+
+
+                <div class="history-detail-actions">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             NOTIFICATION DETAIL
+        ================================================== -->
+
+        <section id="view-history-admin-notification-detail"
+                 class="page-view">
+
+
+            <div class="history-sub-header">
+
+                <button class="history-back-btn"
+                        type="button"
+                        onclick="showAdminHistoryView('view-history-admin-notifications')">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div>
+
+                    <span>
+                        HISTORY
+                    </span>
+
+                    <h2>
+                        Notification Details
+                    </h2>
+
+                </div>
+
+
+                <div class="history-sub-icon">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-detail-panel">
+
+
+                <div class="history-detail-top">
+
+                    <div class="history-detail-type">
+
+                        <i class="fa-regular fa-bell"></i>
+
+                        NOTIFICATION
+
+                    </div>
+
+
+                    <span
+                        class="detail-date"
+                        id="adminNotificationDetailDate">
+                        —
+                    </span>
+
+                </div>
+
+
+
+                <div class="notification-detail-layout">
+
+
+                    <!-- ICON -->
+
+                    <div class="notification-detail-icon">
+
+                        <i class="fa-regular fa-bell"></i>
+
+                    </div>
+
+
+
+                    <!-- CONTENT -->
+
+                    <div class="notification-detail-content">
+
+                        <span class="detail-section-label">
+                            SYSTEM NOTIFICATION
+                        </span>
+
+
+                        <h2
+                            id="adminNotificationDetailTitle"
+                            class="detail-title">
+                            NOTIFICATION TITLE
+                        </h2>
+
+
+                        <div class="notification-message-box">
+
+                            <span>
+                                MESSAGE
+                            </span>
+
+                            <p
+                                id="adminNotificationDetailBody">
+                            </p>
+
+                        </div>
+
+
+                        <div class="notification-type-badge"
+                             id="adminNotificationDetailType">
+
+                            ACTIVITY
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="history-detail-divider"></div>
+
+
+                <div class="history-detail-actions">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<script src="../script.js"></script>
+<script src="history-admin.js?v=2"></script>
+<script src="../auth.js?v=3"></script>
+
+<script src="history-status.js?v=2"></script>
 </body>
 </html>
