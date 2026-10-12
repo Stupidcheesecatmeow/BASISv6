@@ -68,24 +68,39 @@ function listUsers(PDO $pdo): void
 {
     $stmt = $pdo->query("
         SELECT
-            id,
-            control_number,
-            name,
-            email,
-            role,
-            status,
-            sex,
-            municipality,
-            barangay,
-            profile_completed,
-            created_at,
-            updated_at
-        FROM users
-        ORDER BY id DESC
+            u.id,
+            u.control_number,
+            u.name,
+            u.email,
+            u.role,
+            u.status,
+            u.sex,
+            u.municipality,
+            u.barangay,
+            u.profile_completed,
+            u.created_at,
+            u.updated_at,
+            p.profile_json
+        FROM users u
+        LEFT JOIN account_profiles p ON p.user_id = u.id
+        ORDER BY u.id DESC
     ");
 
+    $users = $stmt->fetchAll();
+
+    foreach ($users as &$user) {
+        $profile = json_decode((string)($user['profile_json'] ?? '{}'), true);
+        $profile = is_array($profile) ? $profile : [];
+        $user['surname'] = (string)($profile['surname'] ?? $profile['lastName'] ?? '');
+        $user['given_name'] = (string)($profile['given_name'] ?? $profile['givenName'] ?? $profile['firstName'] ?? '');
+        $user['middle_name'] = (string)($profile['middle_name'] ?? $profile['middleName'] ?? '');
+        $user['suffix'] = (string)($profile['suffix'] ?? '');
+        unset($user['profile_json']);
+    }
+    unset($user);
+
     respond(true, '', 200, [
-        'users' => $stmt->fetchAll()
+        'users' => $users
     ]);
 }
 
@@ -124,8 +139,17 @@ function createUser(PDO $pdo): void
 {
     $input = input();
 
-    $name = clean($input['name'] ?? '');
-    $email = strtolower(trim($input['email'] ?? ''));
+    $surname = clean((string)($input['surname'] ?? ''));
+    $givenName = clean((string)($input['given_name'] ?? ''));
+    $middleName = clean((string)($input['middle_name'] ?? ''));
+    $providedName = clean((string)($input['name'] ?? ''));
+
+    // Keep multi-word name parts intact. Prefer explicit fields from the Add User form.
+    $name = ($surname !== '' || $givenName !== '' || $middleName !== '')
+        ? trim(implode(' ', array_filter([$givenName, $middleName, $surname], static fn($part) => $part !== '')))
+        : $providedName;
+
+    $email = strtolower(trim((string)($input['email'] ?? '')));
 
     $role = normalizeRole($input['role'] ?? 'ISKOLAR');
     $status = normalizeStatus($input['status'] ?? 'ACTIVE');
@@ -172,6 +196,7 @@ function createUser(PDO $pdo): void
     ]);
 
     $id = (int)$pdo->lastInsertId();
+    saveNameParts($pdo, $id, $surname, $givenName, $middleName);
     saveRepresentativeBarangay($pdo, $id, $role, $assignedBarangay);
 
     $user = fetchUser($pdo, $id);
@@ -190,7 +215,7 @@ function importUsers(PDO $pdo): void
 {
     $input = input();
 
-    $rows = $input['rows'] ?? [];
+    $rows = $input['rows'] ?? $input['users'] ?? [];
 
     if (!is_array($rows) || count($rows) === 0) {
         respond(false, 'No Excel rows received.', 422);
@@ -209,8 +234,16 @@ function importUsers(PDO $pdo): void
 
             $excelRow = $index + 2;
 
-            $name = clean($row['name'] ?? '');
-            $email = strtolower(trim($row['email'] ?? ''));
+            $surname = clean((string)($row['surname'] ?? $row['SURNAME'] ?? ''));
+            $givenName = clean((string)($row['given_name'] ?? $row['GIVEN NAME'] ?? $row['GIVEN_NAME'] ?? ''));
+            $middleName = clean((string)($row['middle_name'] ?? $row['MIDDLE NAME'] ?? $row['MIDDLE_NAME'] ?? ''));
+            $providedName = clean((string)($row['name'] ?? $row['NAME'] ?? ''));
+
+            $name = ($surname !== '' || $givenName !== '' || $middleName !== '')
+                ? trim(implode(' ', array_filter([$givenName, $middleName, $surname], static fn($part) => $part !== '')))
+                : $providedName;
+
+            $email = strtolower(trim((string)($row['email'] ?? $row['EMAIL'] ?? '')));
 
             if ($name === '' || $email === '') {
                 $skipped++;
@@ -257,6 +290,7 @@ function importUsers(PDO $pdo): void
             ]);
 
             $id = (int)$pdo->lastInsertId();
+            saveNameParts($pdo, $id, $surname, $givenName, $middleName);
 
             $imported++;
 
@@ -264,6 +298,9 @@ function importUsers(PDO $pdo): void
                 'id' => $id,
                 'control_number' => $controlNumber,
                 'name' => $name,
+                'surname' => $surname,
+                'given_name' => $givenName,
+                'middle_name' => $middleName,
                 'email' => $email,
                 'password' => $password
             ];
@@ -544,6 +581,26 @@ function fetchUser(PDO $pdo, int $id): ?array
     $user['assignedBarangay'] = is_array($profile)
         ? (string)($profile['assignedBarangay'] ?? '')
         : '';
+    $user['surname'] = is_array($profile)
+        ? (string)($profile['surname'] ?? $profile['lastName'] ?? '')
+        : '';
+    $user['given_name'] = is_array($profile)
+        ? (string)($profile['given_name'] ?? $profile['givenName'] ?? $profile['firstName'] ?? '')
+        : '';
+    $user['middle_name'] = is_array($profile)
+        ? (string)($profile['middle_name'] ?? $profile['middleName'] ?? '')
+        : '';
+    $user['suffix'] = is_array($profile)
+        ? (string)($profile['suffix'] ?? '')
+        : '';
+    $user['sex'] = $user['sex'] ?? (is_array($profile) ? (string)($profile['sex'] ?? '') : '');
+    $user['birthday'] = is_array($profile) ? (string)($profile['birthday'] ?? '') : '';
+    $user['contact_no'] = is_array($profile) ? (string)($profile['contact'] ?? $profile['contactNo'] ?? '') : '';
+    $user['religion'] = is_array($profile) ? (string)($profile['religion'] ?? '') : '';
+    $user['school'] = is_array($profile) ? (string)($profile['school'] ?? '') : '';
+    $user['program'] = is_array($profile) ? (string)($profile['program'] ?? '') : '';
+    $user['year_level'] = is_array($profile) ? (string)($profile['yearLevel'] ?? $profile['year_level'] ?? '') : '';
+    $user['profile_completed'] = $user['profile_completed'] ?? (is_array($profile) ? (string)($profile['profileCompleted'] ?? '') : '');
 
     return $user;
 }
@@ -566,6 +623,38 @@ function validateRepresentativeBarangay(string $role, string $barangay): void
     }
 
     respond(false, 'Select a valid Bagac barangay for the representative.', 422);
+}
+
+
+function saveNameParts(PDO $pdo, int $userId, string $surname, string $givenName, string $middleName): void
+{
+    // Do not create blank name-part keys when the request only supplies a legacy full name.
+    if ($surname === '' && $givenName === '' && $middleName === '') {
+        return;
+    }
+
+    $stmt = $pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    $profile = json_decode((string)($stmt->fetchColumn() ?: '{}'), true);
+    $profile = is_array($profile) ? $profile : [];
+
+    $profile['surname'] = $surname !== '' ? $surname : (string)($profile['surname'] ?? $profile['lastName'] ?? '');
+    $profile['given_name'] = $givenName !== '' ? $givenName : (string)($profile['given_name'] ?? $profile['givenName'] ?? $profile['firstName'] ?? '');
+    $profile['middle_name'] = $middleName !== '' ? $middleName : (string)($profile['middle_name'] ?? $profile['middleName'] ?? '');
+
+    $json = json_encode($profile, JSON_UNESCAPED_UNICODE);
+    if ($json === false) {
+        throw new RuntimeException('Could not save the user name fields.');
+    }
+
+    $save = $pdo->prepare(
+        'INSERT INTO account_profiles(user_id, profile_json, updated_at)
+         VALUES(?,?,CURRENT_TIMESTAMP)
+         ON CONFLICT(user_id) DO UPDATE SET
+             profile_json=excluded.profile_json,
+             updated_at=CURRENT_TIMESTAMP'
+    );
+    $save->execute([$userId, $json]);
 }
 
 function saveRepresentativeBarangay(PDO $pdo, int $userId, string $role, string $barangay): void

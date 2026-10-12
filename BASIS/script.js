@@ -38,6 +38,23 @@ if (!window.__basisFetchIsolated) {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+/* =========================================================
+   INITIAL ACTIVITY VIEW
+========================================================= */
+
+ACTIVITY_SUB_VIEWS.forEach(id => {
+
+    const view = document.getElementById(id);
+
+    if (!view) return;
+
+    view.classList.remove('active');
+    view.style.display = 'none';
+
+});
+
+showSubView('view-activity-menu');
+
     const applyWelcomeName = (profile) => {
         if (!profile) return;
         const firstName = String(profile.givenName || profile.given_name || String(profile.name || "").trim().split(/\s+/)[0] || "").trim();
@@ -322,3 +339,74 @@ document.addEventListener("DOMContentLoaded", function () {
         currentX = 0;
     }
 });
+
+/* =====================================================
+   BASIS — SYNC PROFILE PHOTO TO ALL AVATARS
+===================================================== */
+
+(function () {
+    const DEFAULT_PHOTO = "../images/profile_default.jpg";
+
+    function getProfileStorageKey() {
+        const userId =
+            sessionStorage.getItem("basisCurrentUserId") || "guest";
+
+        return `basisProfile_${userId}`;
+    }
+
+    function syncProfileAvatars() {
+        try {
+            const storageKey = getProfileStorageKey();
+            const savedProfile = localStorage.getItem(storageKey);
+
+            if (!savedProfile) return;
+
+            const profile = JSON.parse(savedProfile);
+            const photo = profile.profilePhoto || "";
+
+            // Update sidebar and topbar avatars only.
+            const avatarImages = document.querySelectorAll(
+                ".sidebar-profile img, .topbar-avatar img"
+            );
+
+            avatarImages.forEach(function (img) {
+                if (photo) {
+                    img.src = photo;
+                } else if (
+                    !img.getAttribute("src") ||
+                    img.getAttribute("src").trim() === ""
+                ) {
+                    img.src = DEFAULT_PHOTO;
+                }
+            });
+        } catch (error) {
+            console.error("Unable to sync profile avatars:", error);
+        }
+    }
+
+    // Make the function available to other page scripts.
+    window.BASISSyncProfileAvatars = syncProfileAvatars;
+
+    // Load the saved profile picture when a page opens.
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            syncProfileAvatars
+        );
+    } else {
+        syncProfileAvatars();
+    }
+
+    // Update avatars immediately after changing the profile photo.
+    window.addEventListener(
+        "basis:profile-photo-updated",
+        syncProfileAvatars
+    );
+
+    // Also update if the profile changes in another browser tab.
+    window.addEventListener("storage", function (event) {
+        if (event.key === getProfileStorageKey()) {
+            syncProfileAvatars();
+        }
+    });
+})();

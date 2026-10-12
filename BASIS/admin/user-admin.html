@@ -3,363 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>BASIS - Admin User Management</title>
 
-    <!-- SAME GLOBAL AS ADMIN HOME -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-    <!-- SAME GLOBAL CSS AS ADMIN HOME -->
     <link rel="stylesheet" href="../style.css">
-
-    <!-- USER MANAGEMENT ONLY -->
-    <link rel="stylesheet" href="user-admin.css?v=8">
-
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="home-admin.css?v=7">
+    <link rel="stylesheet" href="user-admin.css?v=13">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
 <body class="dashboard-page admin-page user-admin-page">
 
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<header class="dash-header">
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
 
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
-
-    <div class="header-right">
-        <div class="welcome-text">
-            <h1>MABUHAY, ADMIN!</h1>
-            <span>WELCOME TO BASIS</span>
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
-        <div
-            class="profile-avatar-wrapper"
-            onclick="window.location.href='profile-admin.html'"
-        >
-            <img
-                src="../images/profile_default.jpg"
-                alt="Admin Profile"
-                class="header-avatar"
-            >
-        </div>
-    </div>
-
-</header>
-
-<main class="dash-main user-admin-main">
-    <section class="page-view active user-admin-content">
-
-    <!-- ================= USER LIST ================= -->
-    <section id="userListView" class="main-card">
-
-        <div class="card-titlebar">
-            <h2>USER MANAGEMENT</h2>
-
-            <div class="title-actions">
-                <div class="search-box">
-                    <i>⌕</i>
-                    <input id="userSearch" type="search" placeholder="Search users...">
-                </div>
-
-                <button id="filterBtn" class="small-btn">FILTER</button>
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Admin Profile">
+            <div>
+                <strong>ADMIN</strong>
+                <span>System Administrator</span>
             </div>
         </div>
 
-        <div class="toolbar">
-            <div class="toolbar-left">
-                <button id="importExcelBtn" class="action-btn">
-                    <span></span> IMPORT EXCEL
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+
+            <div class="sidebar-section-label">MAIN MENU</div>
+
+            <a class="sidebar-link" href="home-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <a class="sidebar-link active" href="user-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="sidebar-text">User Management</span>
+            </a>
+
+            <a class="sidebar-link" href="scorecard-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
+
+            <a class="sidebar-link" href="activity-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link" href="history-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="profile-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
                 </button>
 
-                <button id="addUserBtn" class="action-btn secondary">
-                    <span>＋</span> ADD USER
-                </button>
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • ADMIN</span>
+                    <h1>User Management</h1>
+                </div>
             </div>
 
-            <div class="toolbar-right">
-                <span id="userCount">0 USERS</span>
-            </div>
-        </div>
-
-        <div class="table-frame">
-            <table class="users-table">
-                <thead>
-                    <tr>
-                        <th>CONTROL NO.</th>
-                        <th>NAME</th>
-                        <th>BARANGAY</th>
-                        <th>ROLE</th>
-                        <th>STATUS</th>
-                        <th>MANAGE PROFILE</th>
-                    </tr>
-                </thead>
-
-                <tbody id="usersTableBody"></tbody>
-            </table>
-
-            <div id="emptyUsers" class="empty-table">
-                <div class="empty-icon">♙</div>
-                <h3>No users yet.</h3>
-                <p>Import an Excel file or add a user manually.</p>
-            </div>
-        </div>
-
-    </section>
-
-
-    <!-- ================= USER DETAIL ================= -->
-    <section id="userDetailView" class="main-card detail-view hidden">
-
-        <div class="card-titlebar">
-            <h2>USER MANAGEMENT</h2>
-        </div>
-
-        <div class="detail-card">
-
-            <button id="closeDetailBtn" class="circle-close" title="Back">×</button>
-
-            <aside class="profile-side">
-                <div id="detailAvatar" class="large-avatar">👨🏻‍💼</div>
-
-                <button id="viewActivitiesBtn" class="profile-action">ACTIVITIES</button>
-                <button type="submit" form="userForm" class="profile-action save-user-changes">SAVE CHANGES</button>
-                <button id="deleteUserBtn" class="profile-action danger">DELETE USER</button>
-            </aside>
-
-            <div class="profile-content">
-
-                <div class="profile-heading">
-                    <div>
-                        <h3 id="detailName">JUAN DELA CRUZ</h3>
-                        <p id="detailLocation">—</p>
-                    </div>
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, ADMIN!</strong>
                 </div>
 
-                <div class="credentials-box">
-                    <div>
-                        <label>CONTROL NO.</label>
-                        <strong id="detailControlNo">—</strong>
-                    </div>
-
-                    <div>
-                        <label>EMAIL ADDRESS</label>
-                        <strong id="detailEmail">—</strong>
-                    </div>
-
-                    <div>
-                        <label>INITIAL PASSWORD</label>
-                        <div class="password-display">
-                            <input id="detailPassword" type="password" readonly placeholder="Only shown when generated/imported">
-                            <button id="showPasswordBtn" type="button">SHOW</button>
-                        </div>
-                    </div>
-                </div>
-
-                <form id="userForm">
-                    <div class="form-grid three">
-                        <div class="field">
-                            <label>ROLE:</label>
-                            <select id="role">
-                                <option value="ISKOLAR">ISKOLAR</option>
-                                <option value="REPRESENTATIVE">REPRESENTATIVE</option>
-                                <option value="ADMIN">ADMIN</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label>STATUS:</label>
-                            <select id="status">
-                                <option value="ACTIVE">ACTIVE</option>
-                                <option value="INACTIVE">INACTIVE</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label>SEX:</label>
-                            <select id="sex" disabled>
-                                <option value="">—</option>
-                                <option>MALE</option>
-                                <option>FEMALE</option>
-                                <option>OTHER</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div id="assignedBarangayField" class="form-grid hidden">
-                        <div class="field">
-                            <label>REPRESENTATIVE BARANGAY:</label>
-                            <select id="assignedBarangay">
-                                <option value="">SELECT BARANGAY</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid five">
-                        <div class="field">
-                            <label>GIVEN NAME:</label>
-                            <input id="givenName" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>SURNAME:</label>
-                            <input id="surname" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>MIDDLE NAME:</label>
-                            <input id="middleName" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>SUFFIX:</label>
-                            <input id="suffix" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>BIRTHDAY:</label>
-                            <input id="birthday" type="date" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-grid four">
-                        <div class="field">
-                            <label>CONTACT NO.:</label>
-                            <input id="contactNo" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>RELIGION:</label>
-                            <input id="religion" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>MUNICIPALITY:</label>
-                            <input id="municipality" type="text" value="BAGAC" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>BARANGAY:</label>
-                            <select id="barangay" disabled>
-                                <option value="">—</option>
-                                <option>Bagumbayan</option>
-                                <option>Banawang</option>
-                                <option>Binuangan</option>
-                                <option>Binukawan</option>
-                                <option>Ibaba</option>
-                                <option>Ibis</option>
-                                <option>Pagasa</option>
-                                <option>Parang</option>
-                                <option>Paysawan</option>
-                                <option>Quinawan</option>
-                                <option>San Antonio</option>
-                                <option>Saysain</option>
-                                <option>Tabing-ilog</option>
-                                <option>Atilano Ricardo</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid three">
-                        <div class="field">
-                            <label>SCHOOL:</label>
-                            <input id="school" type="text" readonly>
-                        </div>
-
-                        <div class="field">
-                            <label>PROGRAM:</label>
-                            <input id="program" type="text" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-grid two">
-                        <div class="field">
-                            <label>YEAR LEVEL:</label>
-                            <select id="yearLevel" disabled>
-                                <option value="">—</option>
-                                <option>1ST YEAR</option>
-                                <option>2ND YEAR</option>
-                                <option>3RD YEAR</option>
-                                <option>4TH YEAR</option>
-                                <option>5TH YEAR</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label>PROFILE COMPLETED:</label>
-                            <input id="profileCompleted" type="text" readonly>
-                        </div>
-                    </div>
-
-                </form>
+                <a class="topbar-avatar" href="profile-admin.html" aria-label="Open admin profile">
+                    <img src="../images/profile_default.jpg" alt="Admin Profile">
+                </a>
             </div>
-        </div>
-    </section>
+        </header>
 
+        <!-- MAIN -->
+        <main class="dash-main user-admin-main">
+            <section id="userListView" class="page-view active user-admin-content">
 
-    <!-- ================= ACTIVITIES VIEW ================= -->
-    <section id="activitiesView" class="main-card detail-view hidden">
+                <!-- ACADEMIC PERIOD -->
 
-        <div class="card-titlebar">
-            <h2>USER ACTIVITIES</h2>
-        </div>
+                    <!-- TOOLBAR -->
+                    <div class="user-list-panel">
+                        <div class="user-list-header">
+                            <div class="user-list-title">
+                                <div class="user-list-title-icon">
+                                    <i class="fa-solid fa-user-group"></i>
+                                </div>
+                                <div>
+                                    <h3>Registered Users</h3>
+                                    <p>Search, filter, import, or create an account.</p>
+                                </div>
+                            </div>
 
-        <div class="detail-card activity-detail-card">
-            <button id="closeActivitiesBtn" class="circle-close">×</button>
+                            <div class="user-list-actions">
+                                <div class="user-search-box">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input id="userSearch" type="search" placeholder="Search users...">
+                                </div>
 
-            <aside class="profile-side">
-                <div id="activityAvatar" class="large-avatar">👨🏻‍💼</div>
-                <button id="backToProfileBtn" class="profile-action">PROFILE</button>
-            </aside>
+                                <button id="filterBtn" class="user-tool-btn filter">
+                                    <i class="fa-solid fa-sliders"></i>
+                                    FILTER
+                                </button>
 
-            <div class="profile-content">
-                <div class="profile-heading">
-                    <div>
-                        <h3 id="activityUserName">JUAN DELA CRUZ</h3>
-                        <p id="activityUserLocation">—</p>
-                    </div>
-                </div>
+                                <button id="importExcelBtn" class="user-tool-btn primary">
+                                    <i class="fa-solid fa-file-import"></i>
+                                    IMPORT
+                                </button>
 
-                <div class="activity-table-frame">
-                    <table class="activities-table">
-                        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+                                <button id="addUserBtn" class="user-tool-btn outline">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    ADD USER
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="user-table-frame">
+                            <table class="users-table">
                         <thead>
                             <tr>
-                                <th>ACTIVITY</th>
+                                <th>CONTROL NO.</th>
+                                <th>SURNAME</th>
+                                <th>GIVEN NAME</th>
+                                <th>MIDDLE NAME</th>
+                                <th>BARANGAY</th>
+                                <th>ROLE</th>
                                 <th>STATUS</th>
+                                <th>ACTION</th>
                             </tr>
                         </thead>
-                        <tbody id="activitiesTableBody"></tbody>
-                    </table>
+                        <tbody id="usersTableBody"></tbody>
+                            </table>
 
-                    <div id="emptyActivities" class="empty-activity">
-                        No activity records yet.
+                            <div id="emptyUsers" class="empty-table">
+                                <div class="empty-user-icon">
+                                    <i class="fa-solid fa-user-group"></i>
+                                </div>
+                                <h3>No users found</h3>
+                                <p>Import an Excel file or add a user manually.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USER DETAIL -->
+                <section id="userDetailView" class="user-management-card detail-view hidden">
+
+                    <div class="detail-header">
+                        <div class="detail-header-left">
+                            <button id="closeDetailBtn" class="back-detail-btn" title="Back">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                            <div>
+                                <span class="user-eyebrow">USER PROFILE</span>
+                                <h2>Account Details</h2>
+                            </div>
+                        </div>
+
+                        <div class="detail-header-badge">
+                            <i class="fa-solid fa-id-card"></i>
+                            <span>USER MANAGEMENT</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-body">
+                        <aside class="profile-side">
+                            <div id="detailAvatar" class="large-avatar">👨🏻‍🎓</div>
+
+                            <div class="profile-side-name">
+                                <strong id="detailName">JUAN DELA CRUZ</strong>
+                                <span id="detailLocation">BAGAC</span>
+                            </div>
+
+                            <div class="profile-actions">
+                                <button id="viewActivitiesBtn" class="profile-action">
+                                    <i class="fa-solid fa-list-check"></i>
+                                    ACTIVITIES
+                                </button>
+
+                                <button type="submit" form="userForm" class="profile-action save-user-changes">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    SAVE CHANGES
+                                </button>
+
+                                <button id="deleteUserBtn" class="profile-action danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                    DELETE USER
+                                </button>
+                            </div>
+                        </aside>
+
+                        <div class="profile-content">
+                            <div class="profile-section-heading">
+                                <div>
+                                    <span>ACCOUNT INFORMATION</span>
+                                    <h3>Credentials & Access</h3>
+                                </div>
+                            </div>
+
+                            <div class="credentials-box">
+                                <div class="credential-card">
+                                    <span>CONTROL NO.</span>
+                                    <strong id="detailControlNo">—</strong>
+                                </div>
+
+                                <div class="credential-card">
+                                    <span>EMAIL ADDRESS</span>
+                                    <strong id="detailEmail">—</strong>
+                                </div>
+
+                                <div class="credential-card">
+                                    <span>INITIAL PASSWORD</span>
+                                    <div class="password-display">
+                                        <input id="detailPassword" type="password" readonly placeholder="Only shown when generated/imported">
+                                        <button id="showPasswordBtn" type="button">SHOW</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form id="userForm">
+                                <div class="profile-section-heading compact">
+                                    <div>
+                                        <span>ACCOUNT ACCESS</span>
+                                        <h3>Role & Status</h3>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid three">
+                                    <div class="field">
+                                        <label>ROLE</label>
+                                        <select id="role">
+                                            <option value="ISKOLAR">ISKOLAR</option>
+                                            <option value="REPRESENTATIVE">REPRESENTATIVE</option>
+                                            <option value="ADMIN">ADMIN</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>STATUS</label>
+                                        <select id="status">
+                                            <option value="ACTIVE">ACTIVE</option>
+                                            <option value="INACTIVE">INACTIVE</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>SEX</label>
+                                        <select id="sex" disabled>
+                                            <option value="">—</option>
+                                            <option>MALE</option>
+                                            <option>FEMALE</option>
+                                            <option>OTHER</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="assignedBarangayField" class="form-grid hidden">
+                                    <div class="field">
+                                        <label>REPRESENTATIVE BARANGAY</label>
+                                        <select id="assignedBarangay">
+                                            <option value="">SELECT BARANGAY</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="profile-section-heading compact">
+                                    <div>
+                                        <span>PERSONAL INFORMATION</span>
+                                        <h3>Basic Details</h3>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid five">
+                                    <div class="field">
+                                        <label>SURNAME</label>
+                                        <input id="surname" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>GIVEN NAME</label>
+                                        <input id="givenName" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>MIDDLE NAME</label>
+                                        <input id="middleName" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>SUFFIX</label>
+                                        <input id="suffix" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>BIRTHDAY</label>
+                                        <input id="birthday" type="date" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid four">
+                                    <div class="field">
+                                        <label>CONTACT NO.</label>
+                                        <input id="contactNo" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>RELIGION</label>
+                                        <input id="religion" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>MUNICIPALITY</label>
+                                        <input id="municipality" type="text" value="BAGAC" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>BARANGAY</label>
+                                        <select id="barangay" disabled>
+                                            <option value="">—</option>
+                                            <option>Bagumbayan</option>
+                                            <option>Banawang</option>
+                                            <option>Binuangan</option>
+                                            <option>Binukawan</option>
+                                            <option>Ibaba</option>
+                                            <option>Ibis</option>
+                                            <option>Pagasa</option>
+                                            <option>Parang</option>
+                                            <option>Paysawan</option>
+                                            <option>Quinawan</option>
+                                            <option>San Antonio</option>
+                                            <option>Saysain</option>
+                                            <option>Tabing-ilog</option>
+                                            <option>Atilano Ricardo</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid three">
+                                    <div class="field">
+                                        <label>SCHOOL</label>
+                                        <input id="school" type="text" readonly>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>PROGRAM</label>
+                                        <input id="program" type="text" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid two">
+                                    <div class="field">
+                                        <label>YEAR LEVEL</label>
+                                        <select id="yearLevel" disabled>
+                                            <option value="">—</option>
+                                            <option>1ST YEAR</option>
+                                            <option>2ND YEAR</option>
+                                            <option>3RD YEAR</option>
+                                            <option>4TH YEAR</option>
+                                            <option>5TH YEAR</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>PROFILE COMPLETED</label>
+                                        <input id="profileCompleted" type="text" readonly>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ACTIVITIES VIEW -->
+                <section id="activitiesView" class="user-management-card detail-view hidden">
+
+                    <div class="detail-header">
+                        <div class="detail-header-left">
+                            <button id="closeActivitiesBtn" class="back-detail-btn" title="Back">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                            <div>
+                                <span class="user-eyebrow">USER HISTORY</span>
+                                <h2>Activity Records</h2>
+                            </div>
+                        </div>
+
+                        <div class="detail-header-badge">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>ACTIVITIES</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-body activity-detail-body">
+                        <aside class="profile-side activity-profile-side">
+                            <div id="activityAvatar" class="large-avatar">👨🏻‍🎓</div>
+
+                            <div class="profile-side-name">
+                                <strong id="activityUserName">JUAN DELA CRUZ</strong>
+                                <span id="activityUserLocation">BAGAC</span>
+                            </div>
+
+                            <button id="backToProfileBtn" class="profile-action">
+                                <i class="fa-solid fa-user"></i>
+                                PROFILE
+                            </button>
+                        </aside>
+
+                        <div class="profile-content">
+                            <div class="profile-section-heading">
+                                <div>
+                                    <span>PARTICIPATION</span>
+                                    <h3>Activity Attendance</h3>
+                                </div>
+                            </div>
+
+                            <div class="activity-table-frame">
+                                <table class="activities-table">
+                                    <colgroup>
+                                        <col style="width:60%">
+                                        <col style="width:40%">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>ACTIVITY</th>
+                                            <th>STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="activitiesTableBody"></tbody>
+                                </table>
+
+                                <div id="emptyActivities" class="empty-activity">
+                                    <i class="fa-solid fa-calendar-xmark"></i>
+                                    <strong>No activity records yet.</strong>
+                                    <span>This user has no recorded participation.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ACTIVITY PROOF MODAL -->
+                <div id="activityProofModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="activityProofTitle">
+                    <div class="modal-card activity-proof-modal-card">
+                        <button type="button" class="modal-close" data-close="activityProofModal" aria-label="Close">×</button>
+                        <h2 id="activityProofTitle">ACTIVITY PROOFS</h2>
+                        <p class="modal-help" id="activityProofSubtitle"></p>
+                        <div id="activityProofList" class="activity-proof-list"><p>Loading uploads…</p></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-<div id="activityProofModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="activityProofTitle">
-    <div class="modal-card activity-proof-modal-card">
-        <button type="button" class="modal-close" data-close="activityProofModal" aria-label="Close">×</button>
-        <h2 id="activityProofTitle">ACTIVITY PROOFS</h2>
-        <p class="modal-help" id="activityProofSubtitle"></p>
-        <div id="activityProofList" class="activity-proof-list"><p>Loading uploads…</p></div>
-    </div>
-</div>
-
-</main>
+            </section>
+        </main>
 
 <!-- ================= IMPORT MODAL ================= -->
 <div id="importModal" class="modal hidden">
@@ -368,9 +519,13 @@
         <button class="modal-close" data-close="importModal">×</button>
 
         <h2>IMPORT USERS</h2>
-        <p class="modal-help">
-            Upload an Excel file containing <strong>NAME</strong> and <strong>EMAIL</strong> columns.
-        </p>
+            <p class="modal-help">
+                Upload an Excel file containing
+                <strong>SURNAME</strong>,
+                <strong>GIVEN NAME</strong>,
+                <strong>MIDDLE NAME</strong>,
+                and <strong>EMAIL</strong> columns.
+            </p>
 
         <div id="dropZone" class="drop-zone">
             <div class="upload-icon"><i class="fa-solid fa-file-excel"></i></div>
@@ -387,7 +542,10 @@
 
         <div class="sample-format">
             <strong>Required columns:</strong>
-            NAME &nbsp; | &nbsp; EMAIL
+            SURNAME &nbsp; | &nbsp;
+            GIVEN NAME &nbsp; | &nbsp;
+            MIDDLE NAME &nbsp; | &nbsp;
+            EMAIL
         </div>
 
         <div class="modal-actions">
@@ -448,14 +606,44 @@
         <h2>ADD USER</h2>
 
         <div class="manual-grid">
+
             <div>
-                <label>NAME</label>
-                <input id="newName" type="text" placeholder="Full name">
+                <label>SURNAME</label>
+                <input
+                    id="newSurname"
+                    type="text"
+                    placeholder="Surname"
+                >
             </div>
+
+
+            <div>
+                <label>GIVEN NAME</label>
+                <input
+                    id="newGivenName"
+                    type="text"
+                    placeholder="Given name"
+                >
+            </div>
+
+
+            <div>
+                <label>MIDDLE NAME</label>
+                <input
+                    id="newMiddleName"
+                    type="text"
+                    placeholder="Middle name"
+                >
+            </div>
+
 
             <div>
                 <label>EMAIL</label>
-                <input id="newEmail" type="email" placeholder="Email address">
+                <input
+                    id="newEmail"
+                    type="email"
+                    placeholder="Email address"
+                >
             </div>
 
             <div>
@@ -539,48 +727,10 @@
 
 <div id="toast" class="toast"></div>
 
-
-<nav class="bottom-nav">
-
-    <div class="bottom-nav-inner">
-
-        <a class="nav-item" href="home-admin.html">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-
-        <a class="nav-item active" href="user-admin.html">
-            <i class="fa-solid fa-user"></i>
-            <span>User</span>
-        </a>
-
-        <a class="nav-item" href="scorecard-admin.html">
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
-
-        <a class="nav-item" href="activity-admin.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
-
-        <a class="nav-item" href="history-admin.html">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
-
-        <a class="nav-item" href="more-admin.html">
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
-
-    </div>
-</nav>
-
-
 <script src="../script.js?v=20261005-user-name-header"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
-<script src="user-admin.js?v=12"></script>
+<script src="user-admin.js?v=15"></script>
+<script src="../auth.js?v=3"></script>
 
 </body>
 </html>

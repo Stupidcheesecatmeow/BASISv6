@@ -3,26 +3,69 @@ const getAuthScript = () => [...document.scripts].find((item) => {
   catch { return false; }
 });
 
-document.addEventListener('click', async (event) => {
-  const button = event.target.closest('[data-logout]');
-  if (!button) return;
-  button.disabled = true;
-  try {
-    const script = getAuthScript();
-    const endpoint = new URL('admin/api/auth_api.php?action=logout', script.src);
-    await fetch(endpoint, {method:'POST', credentials:'same-origin'});
-  } finally {
-    sessionStorage.removeItem('basisAuthToken');
-    sessionStorage.removeItem('basisCurrentUserId');
-    const script = getAuthScript();
-    location.href = new URL('authentication/login.html', script.src).href;
-  }
+/* =========================================================
+   BASIS — SHARED LOGOUT HANDLER
+========================================================= */
+
+document.addEventListener("click", async function (event) {
+    const button = event.target.closest("[data-logout]");
+
+    if (!button || button.disabled) return;
+
+    button.disabled = true;
+
+    try {
+        const script = [...document.scripts].find(item => {
+            try {
+                return new URL(item.src).pathname.endsWith("/auth.js");
+            } catch {
+                return false;
+            }
+        });
+
+        if (!script) {
+            throw new Error("Authentication script not found.");
+        }
+
+        const endpoint = new URL(
+            "admin/api/auth_api.php?action=logout",
+            script.src
+        );
+
+        const response = await fetch(endpoint, {
+            method: "POST",
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("Server logout request failed.");
+        }
+
+    } catch (error) {
+        console.error("Logout error:", error);
+
+    } finally {
+        sessionStorage.removeItem("basisAuthToken");
+        sessionStorage.removeItem("basisCurrentUserId");
+
+        const script = [...document.scripts].find(item => {
+            try {
+                return new URL(item.src).pathname.endsWith("/auth.js");
+            } catch {
+                return false;
+            }
+        });
+
+        if (script) {
+            window.location.replace(
+                new URL("authentication/login.html", script.src).href
+            );
+        }
+    }
 });
 
 const authScript = getAuthScript();
-const logoutStyle = document.createElement('style');
-logoutStyle.textContent = '[data-logout]{background:#b42318!important;border-color:#b42318!important;color:#fff!important}[data-logout]:hover{background:#8f1c13!important;border-color:#8f1c13!important}';
-document.head.appendChild(logoutStyle);
 const accountEndpoint = new URL('admin/api/account_api.php', authScript.src);
 window.BASISAuth = {
   async profileRequest(method, profile) {
@@ -62,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     if (error.message === 'Please sign in.') {
       const script = getAuthScript();
-      location.href = new URL('authentication/login.html', script.src).href;
+location.href = new URL('login/index.php', script.src).href;
     } else {
       console.error(error);
     }
