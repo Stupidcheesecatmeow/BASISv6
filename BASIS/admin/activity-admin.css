@@ -1348,13 +1348,13 @@ ACTIVITY PARTICIPANTS TABLE
    ACTIVITY DETAILS — POLISHED UI
 ========================================================= */
 
-.admin-page #view-activity-details .view-body {
+/* .admin-page #view-activity-details .view-body {
     padding: 28px 38px 32px !important;
-}
+} */
 
 
 /* MAIN LAYOUT */
-.admin-page .activity-detail-layout {
+/* .admin-page .activity-detail-layout {
     display: grid;
 
     grid-template-columns: minmax(0, 1fr) 400px;
@@ -1364,14 +1364,14 @@ ACTIVITY PARTICIPANTS TABLE
     align-items: start;
 
     width: 100%;
-}
+} */
 
 
 /* =========================================================
    LEFT INFORMATION CARD
 ========================================================= */
 
-.admin-page .activity-detail-info {
+/* .admin-page .activity-detail-info {
     position: relative;
 
     padding: 24px;
@@ -1385,12 +1385,12 @@ ACTIVITY PARTICIPANTS TABLE
     box-sizing: border-box;
 
     box-shadow: 0 3px 12px rgba(66, 82, 63, 0.06);
-}
+} */
 
 
 /* CLOSE */
 
-.admin-page .activity-detail-info .close-view-btn {
+/* .admin-page .activity-detail-info .close-view-btn {
     width: 32px;
     height: 32px;
 
@@ -1410,12 +1410,12 @@ ACTIVITY PARTICIPANTS TABLE
     border: none;
 
     cursor: pointer;
-}
+} */
 
 
 /* TITLE */
 
-.admin-page .activity-detail-header {
+/* .admin-page .activity-detail-header {
     margin: 0 !important;
 }
 
@@ -1431,12 +1431,12 @@ ACTIVITY PARTICIPANTS TABLE
     color: #42523f;
 
     letter-spacing: -0.5px;
-}
+} */
 
 
 /* TYPE */
 
-.admin-page .activity-type-text {
+/* .admin-page .activity-type-text {
     margin-top: 7px;
 
     font-size: 13px;
@@ -1450,12 +1450,12 @@ ACTIVITY PARTICIPANTS TABLE
     color: #42523f;
 
     font-weight: 800;
-}
+} */
 
 
 /* SEMESTER BADGE */
 
-.admin-page .activity-detail-sem {
+/* .admin-page .activity-detail-sem {
     display: inline-flex;
 
     align-items: center;
@@ -1477,14 +1477,14 @@ ACTIVITY PARTICIPANTS TABLE
     font-weight: 800;
 
     letter-spacing: .2px;
-}
+} */
 
 
 /* =========================================================
    INFORMATION BOXES
 ========================================================= */
 
-.admin-page .activity-meta-grid {
+/* .admin-page .activity-meta-grid {
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -1522,14 +1522,14 @@ ACTIVITY PARTICIPANTS TABLE
     color: #7b8977;
 
     letter-spacing: .4px;
-}
+} */
 
 
 /* =========================================================
    DESCRIPTION
 ========================================================= */
 
-.admin-page .activity-detail-info .divider {
+/* .admin-page .activity-detail-info .divider {
     display: none;
 }
 
@@ -1567,14 +1567,14 @@ ACTIVITY PARTICIPANTS TABLE
     line-height: 1.6;
 
     font-weight: 500;
-}
+} */
 
 
 /* =========================================================
    DEADLINE
 ========================================================= */
 
-.admin-page .deadline-text {
+/* .admin-page .deadline-text {
     margin: 12px 0 0 !important;
 
     padding-left: 2px;
@@ -1586,13 +1586,13 @@ ACTIVITY PARTICIPANTS TABLE
 
 .admin-page .deadline-text strong {
     font-weight: 800;
-}
+} */
 
 
 /* =========================================================
    BUTTONS
 ========================================================= */
-
+/* 
 .admin-page .action-buttons-row {
     display: flex;
 
@@ -1613,14 +1613,14 @@ ACTIVITY PARTICIPANTS TABLE
     font-weight: 800;
 
     cursor: pointer;
-}
+} */
 
 
 /* =========================================================
    RIGHT PHOTO CARD
 ========================================================= */
 
-.admin-page .activity-detail-image-side {
+/* .admin-page .activity-detail-image-side {
     padding-top: 0;
 
     width: 100%;
@@ -1643,12 +1643,12 @@ ACTIVITY PARTICIPANTS TABLE
     overflow: hidden;
 
     box-shadow: 0 4px 14px rgba(66, 82, 63, 0.10);
-}
+} */
 
 
 /* IMAGE */
 
-.admin-page .activity-detail-image-box .activity-detail-image {
+/* .admin-page .activity-detail-image-box .activity-detail-image {
     width: 100% !important;
 
     height: 100% !important;
@@ -1658,12 +1658,12 @@ ACTIVITY PARTICIPANTS TABLE
     object-fit: cover;
 
     display: block !important;
-}
+} */
 
 
 /* EMPTY */
 
-.admin-page .activity-detail-image-empty {
+/* .admin-page .activity-detail-image-empty {
     display: none;
 
     width: 100%;
@@ -1682,5 +1682,4058 @@ ACTIVITY PARTICIPANTS TABLE
 
 .admin-page .activity-detail-image-empty i {
     font-size: 42px;
+} */
+
+
+/* =========================================================
+   BASIS ADMIN — ACTIVITY UI REDESIGN
+   History-inspired • UI ONLY
+   Existing HTML, JS, API and functionality preserved
+========================================================= */
+
+.admin-page {
+    --activity-green: #405c43;
+    --activity-green-dark: #304933;
+    --activity-green-soft: #edf3ed;
+    --activity-bg: #f7f8f5;
+    --activity-text: #263329;
+    --activity-muted: #7b857d;
+    --activity-border: #dfe5dd;
+    --activity-shadow: 0 8px 26px rgba(48, 73, 51, .07);
 }
 
+/* PAGE SPACING */
+
+.admin-page .dash-main {
+    box-sizing: border-box;
+}
+
+.admin-page .page-view {
+    min-width: 0;
+}
+
+.admin-page .view-banner.search-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    border: 1px solid var(--activity-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+    box-sizing: border-box;
+}
+
+.admin-page .view-banner.search-banner h2 {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: -.4px;
+}
+
+/* SEARCH AND FILTER */
+
+/* .admin-page .search-filter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-width: 0;
+}
+
+.admin-page .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 360px;
+    max-width: 100%;
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid var(--activity-border);
+    border-radius: 10px;
+    background: #fafbf9;
+    box-sizing: border-box;
+}
+
+.admin-page .search-input-wrapper i {
+    color: var(--activity-muted);
+    font-size: 13px;
+}
+
+.admin-page .search-input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--activity-text);
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.admin-page .search-input-wrapper input::placeholder {
+    color: #a1aaa3;
+}
+
+.admin-page .filter-btn {
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid var(--activity-border);
+    border-radius: 10px;
+    background: var(--activity-green-soft);
+    color: var(--activity-green);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page .filter-btn:hover {
+    background: var(--activity-green);
+    color: #fff;
+} */
+
+/* MAIN ACTIVITY PANEL */
+
+.admin-page .view-body.bordered-frame {
+    position: relative;
+    min-width: 0;
+    min-height: 570px;
+    padding: 22px;
+    padding-bottom: 84px;
+    border: 1px solid var(--activity-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+    box-sizing: border-box;
+}
+
+/* ACTIVITY LIST */
+
+.admin-page .admin-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    width: 100%;
+    min-width: 0;
+}
+
+/* ACTIVITY CARD */
+
+.admin-page .admin-activity-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+    padding: 20px 22px;
+    border: 1px solid var(--activity-border);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--activity-text);
+    box-shadow: 0 3px 12px rgba(48, 73, 51, .035);
+    box-sizing: border-box;
+    transition: border-color .2s ease,
+                box-shadow .2s ease,
+                transform .2s ease;
+}
+
+.admin-page .admin-activity-card:hover {
+    border-color: #c7d5c5;
+    box-shadow: 0 8px 22px rgba(48, 73, 51, .08);
+    transform: translateY(-2px);
+}
+
+.admin-page .admin-activity-card > div {
+    position: relative;
+    min-width: 0;
+    flex: 1;
+    padding-left: 15px;
+}
+
+.admin-page .admin-activity-card > div::before {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 0;
+    width: 4px;
+    border-radius: 10px;
+    background: var(--activity-green);
+    content: "";
+}
+
+.admin-page .admin-activity-card h3 {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .admin-activity-card span {
+    display: block;
+    margin-top: 7px;
+    color: var(--activity-muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* OPEN ACTIVITY BUTTON */
+
+.admin-page .admin-activity-card .open-activity-btn {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 100px;
+    min-height: 38px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.admin-page .admin-activity-card .open-activity-btn:hover {
+    background: var(--activity-green-dark);
+    transform: translateY(-1px);
+}
+
+/* EMPTY STATE */
+
+.admin-page .admin-no-activity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 275px;
+    padding: 30px 18px;
+    border: 1px dashed #d5ded3;
+    border-radius: 13px;
+    background: #fafbf9;
+    color: var(--activity-text);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.admin-page .admin-no-activity > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    background: var(--activity-green-soft);
+    color: var(--activity-green);
+    font-size: 22px;
+}
+
+.admin-page .admin-no-activity h3 {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.admin-page .admin-no-activity p {
+    margin: 7px 0 0;
+    color: var(--activity-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ADD ACTIVITY BUTTON */
+
+.admin-page .add-activity-fab {
+    position: absolute;
+    right: 24px;
+    bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 49px;
+    height: 49px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--activity-green);
+    color: #fff;
+    font-size: 19px;
+    box-shadow: 0 5px 15px rgba(48, 73, 51, .18);
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.admin-page .add-activity-fab:hover {
+    background: var(--activity-green-dark);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   CREATE / EDIT ACTIVITY FORM
+========================================================= */
+
+.admin-page .activity-create-grid {
+    gap: 22px;
+}
+
+.admin-page .activity-create-grid > * {
+    min-width: 0;
+}
+
+.admin-page .create-form-fields {
+    gap: 17px;
+}
+
+.admin-page .create-form-fields .form-row {
+    gap: 15px;
+}
+
+.admin-page .form-field {
+    gap: 7px;
+    min-width: 0;
+}
+
+.admin-page .form-field label,
+.admin-page .description-field > label {
+    color: var(--activity-text);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.admin-page .form-field input,
+.admin-page .form-field select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--activity-border);
+    border-radius: 9px;
+    outline: none;
+    background: #fafbf9;
+    color: var(--activity-text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    box-sizing: border-box;
+    transition: border-color .2s ease,
+                box-shadow .2s ease;
+}
+
+.admin-page .form-field input:focus,
+.admin-page .form-field select:focus,
+.admin-page .description-field textarea:focus {
+    border-color: #8ba68a;
+    box-shadow: 0 0 0 3px rgba(64, 92, 67, .09);
+}
+
+.admin-page .description-field textarea {
+    width: 100%;
+    min-height: 120px !important;
+    height: 120px !important;
+    max-height: 120px !important;
+    padding: 13px;
+    border: 1px solid var(--activity-border);
+    border-radius: 9px;
+    background: #fafbf9;
+    color: var(--activity-text);
+    font-family: inherit;
+    font-size: 12px;
+    font-style: normal;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.admin-page .description-field input[type="file"] {
+    height: auto;
+    min-height: 40px;
+    padding: 6px;
+    border: 1px dashed #cbd6c9;
+    border-radius: 9px;
+    background: #fafbf9;
+    color: var(--activity-muted);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.admin-page .description-field input[type="file"]::file-selector-button {
+    min-height: 29px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--activity-green-soft);
+    color: var(--activity-green);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page .activity-image-preview {
+    max-width: 100%;
+    border: 1px solid var(--activity-border);
+    border-radius: 10px;
+    background: #fafbf9;
+}
+
+.admin-page .create-btn-row {
+    margin-top: 20px;
+}
+
+.admin-page .create-btn {
+    min-height: 42px;
+    padding: 0 25px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.admin-page .create-btn:hover {
+    background: var(--activity-green-dark);
+}
+
+/* =========================================================
+   ACTIVITY DETAILS
+========================================================= */
+
+.admin-page #view-activity-details .view-body {
+    padding: 24px !important;
+}
+
+.admin-page .activity-detail-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 38%);
+    gap: 22px;
+    align-items: start;
+}
+
+.admin-page .activity-detail-info {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid var(--activity-border);
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+    box-sizing: border-box;
+}
+
+.admin-page .activity-detail-info .close-view-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background: var(--activity-green-soft);
+    color: var(--activity-green);
+}
+
+.admin-page .activity-main-title {
+    font-size: clamp(21px, 2.2vw, 29px);
+    line-height: 1.3;
+    color: var(--activity-text);
+    overflow-wrap: anywhere;
+}
+
+.admin-page .activity-type-text {
+    color: var(--activity-muted);
+    font-size: 12px;
+}
+
+.admin-page .activity-detail-sem {
+    padding: 7px 11px;
+    border: 1px solid #dfe8dc;
+    border-radius: 20px;
+    background: var(--activity-green-soft);
+    color: var(--activity-green);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.admin-page .activity-meta-grid {
+    gap: 10px;
+}
+
+.admin-page .activity-meta-grid p {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--activity-border);
+    border-radius: 10px;
+    background: #fafbf9;
+    color: var(--activity-text);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .activity-meta-grid p strong {
+    color: var(--activity-muted);
+    font-size: 9px;
+}
+
+.admin-page .activity-description {
+    padding: 15px;
+    border: 1px solid var(--activity-border);
+    border-radius: 10px;
+    background: #fafbf9;
+}
+
+.admin-page .activity-description > strong {
+    color: var(--activity-text);
+    font-size: 12px;
+}
+
+.admin-page .activity-description .desc-text {
+    color: #59645b;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.admin-page .deadline-text {
+    color: var(--activity-muted);
+    font-size: 11px;
+}
+
+.admin-page .activity-detail-image-side {
+    min-width: 0;
+}
+
+.admin-page .activity-detail-image-box {
+    height: 340px;
+    border: 1px solid var(--activity-border);
+    border-radius: 15px;
+    background: #f5f7f4;
+    box-shadow: var(--activity-shadow);
+}
+
+.admin-page .activity-detail-image-box .activity-detail-image {
+    object-fit: contain;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+.admin-page .activity-detail-image-empty {
+    display: flex;
+    color: var(--activity-muted);
+}
+
+.admin-page .activity-detail-image-empty i {
+    color: var(--activity-green);
+}
+
+.admin-page .action-buttons-row {
+    flex-wrap: wrap;
+}
+
+.admin-page .action-buttons-row .act-btn {
+    border-radius: 9px;
+}
+
+/* =========================================================
+   ACTIVITY MENU / MANAGEMENT
+========================================================= */
+
+.admin-page .activity-menu-list,
+.admin-page .verify-list-container {
+    padding: 15px;
+    border: 1px solid var(--activity-border);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+}
+
+.admin-page .activity-menu-item,
+.admin-page .verify-item-row {
+    border: 1px solid var(--activity-border);
+    border-radius: 11px;
+    background: #fff;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.admin-page .activity-menu-item:hover,
+.admin-page .verify-item-row:hover {
+    border-color: #c7d5c5;
+    background: #f7f9f6;
+}
+
+.admin-page .activity-menu-item {
+    color: var(--activity-green);
+    font-size: 13px;
+}
+
+.admin-page .activity-manage-btn {
+    border: 1px solid var(--activity-border);
+    border-radius: 9px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.admin-page .activity-manage-btn:hover {
+    background: var(--activity-green-dark);
+}
+
+.admin-page .activity-delete-btn,
+.admin-page .reject-btn,
+.admin-page .verify-btn {
+    background: #b42318;
+    color: #fff;
+}
+
+.admin-page .activity-delete-btn:hover,
+.admin-page .reject-btn:hover,
+.admin-page .verify-btn:hover {
+    background: #8f1c13;
+}
+
+/* =========================================================
+   QR / SUBMISSION / SCAN / VERIFICATION
+========================================================= */
+
+.admin-page .qr-code-box,
+.admin-page .submission-bin-box {
+    border: 1px solid var(--activity-border);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+}
+
+.admin-page .qr-code-box h3,
+.admin-page .submission-bin-box h3,
+.admin-page .submission-top-info h3 {
+    color: var(--activity-text);
+}
+
+.admin-page .qr-img-wrapper {
+    border-radius: 10px;
+    background: #fafbf9;
+}
+
+.admin-page .download-btn,
+.admin-page .scan-btn,
+.admin-page .scan-import-btn,
+.admin-page .verified-activities-btn,
+.admin-page .accept-btn {
+    border-radius: 9px;
+    font-family: inherit;
+}
+
+.admin-page .download-btn,
+.admin-page .verified-activities-btn,
+.admin-page .accept-btn {
+    background: var(--activity-green);
+    color: #fff;
+}
+
+.admin-page .upload-drop-area {
+    border-color: #cbd6c9;
+    border-radius: 11px;
+    background: #fafbf9;
+}
+
+.admin-page .upload-drop-area i {
+    color: var(--activity-green);
+}
+
+.admin-page .toggle-tab {
+    border: 1px solid var(--activity-border);
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.admin-page .toggle-tab.active {
+    border-color: var(--activity-green);
+    background: var(--activity-green);
+}
+
+.admin-page .scan-preview {
+    border-color: var(--activity-border);
+    border-radius: 13px;
+    background: #f5f7f4;
+}
+
+.admin-page .submitted-file-preview {
+    border-color: var(--activity-border);
+    border-radius: 12px;
+    background: #fafbf9;
+}
+
+.admin-page .participants-table-wrap {
+    border: 1px solid var(--activity-border);
+    border-radius: 12px;
+    box-shadow: var(--activity-shadow);
+}
+
+.admin-page .participants-table thead th {
+    padding: 14px 10px;
+    background: var(--activity-green);
+    border-color: rgba(255,255,255,.12);
+    font-size: 10px;
+}
+
+.admin-page .participants-table tbody td {
+    padding: 9px 8px;
+    border-color: #edf0ec;
+    color: var(--activity-text);
+    font-size: 11px;
+}
+
+.admin-page .participants-table tbody tr:nth-child(even) {
+    background: #fafbf9;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+    .admin-page .activity-detail-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(240px, 36%);
+        gap: 16px;
+    }
+
+    .admin-page .activity-detail-info {
+        padding: 18px;
+    }
+
+    .admin-page .activity-detail-image-box {
+        height: 290px;
+    }
+
+    .admin-page .activity-create-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+    .admin-page .view-banner.search-banner {
+        align-items: stretch;
+        padding: 17px;
+    }
+
+    .admin-page .view-banner.search-banner h2 {
+        font-size: 20px;
+    }
+
+    .admin-page .search-filter-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        width: 100%;
+    }
+
+    .admin-page .search-input-wrapper {
+        width: 100%;
+    }
+
+    .admin-page .filter-btn {
+        padding: 0 13px;
+    }
+
+    .admin-page .view-body.bordered-frame {
+        min-height: 300px;
+        padding: 14px;
+        padding-bottom: 78px;
+    }
+
+    .admin-page .admin-activity-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .admin-page .admin-activity-card h3 {
+        font-size: 14px;
+    }
+
+    .admin-page .admin-activity-card .open-activity-btn {
+        min-width: 76px;
+        min-height: 36px;
+        padding: 0 11px;
+        font-size: 9px;
+    }
+
+    .admin-page .add-activity-fab {
+        right: 16px;
+        bottom: 15px;
+        width: 45px;
+        height: 45px;
+        border-radius: 13px;
+    }
+
+    .admin-page .activity-create-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page .create-form-fields .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-page .activity-detail-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page .activity-detail-image-side {
+        grid-row: 1;
+    }
+
+    .admin-page .activity-detail-image-box {
+        height: 260px;
+    }
+
+    .admin-page #view-activity-details .view-body {
+        padding: 14px !important;
+    }
+
+    .admin-page .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .admin-page .qr-view-layout,
+    .admin-page .submission-main-layout,
+    .admin-page .scan-layout,
+    .admin-page .verify-detail-grid {
+        flex-direction: column;
+    }
+
+    .admin-page .qr-code-box,
+    .admin-page .submission-bin-box,
+    .admin-page .scan-box {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .admin-page .verify-item-row {
+        gap: 12px;
+        padding: 13px;
+    }
+
+    .admin-page .verify-action-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 420px) {
+    .admin-page .view-banner.search-banner {
+        padding: 13px;
+    }
+
+    .admin-page .view-body.bordered-frame {
+        padding: 10px;
+        padding-bottom: 70px;
+    }
+
+    .admin-page .admin-activity-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-page .admin-activity-card > div {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .admin-page .admin-activity-card .open-activity-btn {
+        align-self: flex-end;
+    }
+
+    .admin-page .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page .activity-detail-info {
+        padding: 15px;
+    }
+
+    .admin-page .activity-detail-image-box {
+        height: 220px;
+    }
+
+    .admin-page .action-buttons-row {
+        flex-direction: column;
+    }
+
+    .admin-page .action-buttons-row .act-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   BASIS ADMIN — ACTIVITY MENU UI
+   History-inspired green theme
+   Append at the END of activity-admin.css
+========================================================= */
+
+.admin-page {
+    --menu-green: #405c43;
+    --menu-green-dark: #304933;
+    --menu-green-soft: #edf3ed;
+    --menu-bg: #f7f8f5;
+    --menu-text: #263329;
+    --menu-muted: #7b857d;
+    --menu-border: #dfe5dd;
+    --menu-shadow: 0 8px 24px rgba(48, 73, 51, .07);
+}
+
+/* Main content spacing */
+
+.admin-page #view-activity-menu,
+.admin-page #view-activity-scan,
+.admin-page #view-activity-verify,
+.admin-page #view-activity-verify-attendance,
+.admin-page #view-activity-verify-absence,
+.admin-page #view-activity-verified,
+.admin-page #view-activity-participants {
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-page .view-banner {
+    margin-bottom: 18px;
+}
+
+.admin-page .view-banner h2 {
+    color: var(--menu-text);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -.3px;
+}
+
+.admin-page .view-body.bordered-frame {
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid var(--menu-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--menu-shadow);
+    box-sizing: border-box;
+}
+
+/* Section heading */
+
+.admin-page .inner-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 42px 20px 0;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--menu-border);
+}
+
+.admin-page .inner-banner-header h3 {
+    margin: 0;
+    color: var(--menu-text);
+    font-size: 18px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #menuActivityTitle {
+    font-size: 22px;
+    line-height: 1.4;
+}
+
+/* Back / close button */
+
+.admin-page .view-body > .close-view-btn {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--menu-border);
+    border-radius: 10px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page .view-body > .close-view-btn:hover {
+    border-color: var(--menu-green);
+    background: var(--menu-green);
+    color: #fff;
+}
+
+/* Edit and delete */
+
+.admin-page #view-activity-menu .activity-manage-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-left: auto;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--menu-green);
+    border-radius: 9px;
+    background: var(--menu-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn:hover {
+    background: var(--menu-green-dark);
+    border-color: var(--menu-green-dark);
+    transform: translateY(-1px);
+}
+
+.admin-page #view-activity-menu .activity-manage-btn.activity-delete-btn {
+    border-color: #f0d5d3;
+    background: #fff3f2;
+    color: #b42318;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn.activity-delete-btn:hover {
+    border-color: #b42318;
+    background: #b42318;
+    color: #fff;
+}
+
+/* Activity menu cards */
+
+.admin-page #view-activity-menu .activity-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.admin-page #view-activity-menu .activity-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    min-height: 100px;
+    padding: 20px;
+    border: 1px solid var(--menu-border);
+    border-radius: 13px;
+    background: #fff;
+    color: var(--menu-text);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.6;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page #view-activity-menu .activity-menu-item::before {
+    display: inline-flex;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    font-family: "Font Awesome 6 Free";
+    font-size: 17px;
+    font-weight: 900;
+    content: "\f15c";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(2)::before {
+    background: #f1f3e9;
+    color: #687642;
+    content: "\f029";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(3)::before {
+    background: #eaf5ee;
+    color: #39805a;
+    content: "\f14a";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(4)::before {
+    background: #eef1f7;
+    color: #6477a0;
+    content: "\f0c0";
+}
+
+.admin-page #view-activity-menu .activity-menu-item::after {
+    margin-left: auto;
+    color: #9ba79b;
+    font-family: "Font Awesome 6 Free";
+    font-size: 12px;
+    font-weight: 900;
+    content: "\f054";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:hover {
+    border-color: #b9cbb7;
+    background: #fafcf9;
+    box-shadow: var(--menu-shadow);
+    transform: translateY(-2px);
+}
+
+/* Scan activity layout */
+
+.admin-page #view-activity-scan .scan-layout {
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: stretch;
+    gap: 22px;
+}
+
+.admin-page #view-activity-scan .scan-box,
+.admin-page #view-activity-scan .scan-info-side {
+    width: auto;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--menu-border);
+    border-radius: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan .scan-box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.admin-page #view-activity-scan .scan-preview {
+    position: relative;
+    width: 100%;
+    height: clamp(280px, 38vw, 420px);
+    min-height: 260px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px dashed #cbd6c9;
+    border-radius: 12px;
+    background: #f5f7f4;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan #qrScannerMount {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.admin-page #view-activity-scan #qrScannerMount video,
+.admin-page #view-activity-scan #qrScanVideo {
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.admin-page #view-activity-scan .scan-btn,
+.admin-page #view-activity-scan .scan-import-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 14px;
+    border: 1px solid var(--menu-green);
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page #view-activity-scan .scan-btn {
+    background: var(--menu-green);
+    color: #fff;
+}
+
+.admin-page #view-activity-scan .scan-btn:hover {
+    background: var(--menu-green-dark);
+}
+
+.admin-page #view-activity-scan .scan-import-btn {
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+}
+
+.admin-page #view-activity-scan .scan-import-btn:hover {
+    background: #dfe9de;
+}
+
+.admin-page #view-activity-scan .activity-main-title {
+    color: var(--menu-text);
+    font-size: 20px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-scan .sem-tag {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.admin-page #view-activity-scan .activity-type-text {
+    margin: 10px 0 14px;
+    color: var(--menu-muted);
+    font-size: 11px;
+}
+
+.admin-page #view-activity-scan .activity-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.admin-page #view-activity-scan .activity-meta-grid p {
+    min-width: 0;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--menu-border);
+    border-radius: 9px;
+    background: #fafbf9;
+    color: var(--menu-text);
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-scan .activity-meta-grid p strong {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--menu-muted);
+    font-size: 9px;
+}
+
+.admin-page #view-activity-scan .deadline-text {
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 9px;
+    background: #f5f6ed;
+    color: var(--menu-text);
+    font-size: 11px;
+}
+
+.admin-page #view-activity-scan .deadline-text strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.admin-page #view-activity-scan .activity-description {
+    margin: 0;
+    padding: 14px;
+    border: 1px solid var(--menu-border);
+    border-radius: 10px;
+    background: #fafbf9;
+}
+
+.admin-page #view-activity-scan .activity-description > strong {
+    color: var(--menu-text);
+    font-size: 11px;
+}
+
+.admin-page #view-activity-scan .desc-text {
+    margin-top: 7px;
+    color: var(--menu-muted);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* Verify submissions */
+
+.admin-page #view-activity-verify .verify-list-container,
+.admin-page #view-activity-verified .verify-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    min-height: 180px;
+    padding: 15px;
+    border: 1px solid var(--menu-border);
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: var(--menu-shadow);
+    box-sizing: border-box;
+}
+
+.admin-page .verify-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--menu-border);
+    border-radius: 11px;
+    background: #fff;
+    transition: .2s ease;
+}
+
+.admin-page .verify-item-row:hover {
+    border-color: #c4d3c2;
+    background: #fafcf9;
+}
+
+.admin-page .verify-item-row h4 {
+    margin: 0;
+    color: var(--menu-text);
+    font-size: 13px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .verify-item-row small {
+    display: block;
+    margin-top: 5px;
+    color: var(--menu-muted);
+    font-size: 11px;
+}
+
+.admin-page .verify-item-row .verify-btn {
+    flex: 0 0 auto;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--menu-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page .verify-item-row .verify-btn:hover {
+    background: var(--menu-green-dark);
+}
+
+.admin-page #view-activity-verify .verified-activities-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 41px;
+    margin-top: 18px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--menu-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page #view-activity-verify .verified-activities-btn:hover {
+    background: var(--menu-green-dark);
+}
+
+/* Verification detail */
+
+.admin-page #view-activity-verify-attendance .verify-detail-grid,
+.admin-page #view-activity-verify-absence .verify-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    align-items: start;
+    gap: 18px;
+}
+
+.admin-page #view-activity-verify-attendance .verify-detail-left,
+.admin-page #view-activity-verify-absence .verify-detail-left,
+.admin-page #view-activity-verify-attendance .verify-detail-right,
+.admin-page #view-activity-verify-absence .verify-detail-right {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--menu-border);
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-verify-attendance .activity-meta-grid,
+.admin-page #view-activity-verify-absence .activity-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: 15px;
+}
+
+.admin-page #view-activity-verify-attendance .activity-meta-grid p,
+.admin-page #view-activity-verify-absence .activity-meta-grid p {
+    min-width: 0;
+    margin: 0;
+    padding: 11px;
+    border: 1px solid var(--menu-border);
+    border-radius: 9px;
+    background: #fafbf9;
+    color: var(--menu-text);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-verify-attendance .activity-meta-grid strong,
+.admin-page #view-activity-verify-absence .activity-meta-grid strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--menu-muted);
+    font-size: 9px;
+}
+
+.admin-page #view-activity-verify-attendance .submitted-file-preview,
+.admin-page #view-activity-verify-absence .submitted-file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 250px;
+    max-height: 55vh;
+    padding: 12px;
+    border: 1px dashed #cbd6c9;
+    border-radius: 11px;
+    background: #f7f9f6;
+    color: var(--menu-muted);
+    box-sizing: border-box;
+}
+
+.admin-page .submitted-file-preview .proof-image-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.admin-page .submitted-file-preview .proof-pdf-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.admin-page #view-activity-verify-attendance .verify-action-row,
+.admin-page #view-activity-verify-absence .verify-action-row {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.admin-page #view-activity-verify-attendance .accept-btn,
+.admin-page #view-activity-verify-absence .accept-btn,
+.admin-page #view-activity-verify-attendance .reject-btn,
+.admin-page #view-activity-verify-absence .reject-btn {
+    min-height: 41px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page #view-activity-verify-attendance .accept-btn,
+.admin-page #view-activity-verify-absence .accept-btn {
+    background: var(--menu-green);
+    color: #fff;
+}
+
+.admin-page #view-activity-verify-attendance .reject-btn,
+.admin-page #view-activity-verify-absence .reject-btn {
+    background: #fff1f0;
+    color: #b42318;
+}
+
+/* Verified status labels */
+
+.admin-page .verified-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.admin-page .verified-status-badge.accepted {
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+}
+
+.admin-page .verified-status-badge.rejected {
+    background: #fff1f0;
+    color: #b42318;
+}
+
+/* Search and filters */
+
+.admin-page #view-activity-verified .search-filter-controls,
+.admin-page #view-activity-participants .search-filter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    min-width: 0;
+}
+
+.admin-page #view-activity-verified .search-input-wrapper,
+.admin-page #view-activity-participants .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 260px;
+    max-width: 100%;
+    min-width: 0;
+    height: 41px;
+    padding: 0 12px;
+    border: 1px solid var(--menu-border);
+    border-radius: 9px;
+    background: #fafbf9;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-verified .search-input-wrapper i,
+.admin-page #view-activity-participants .search-input-wrapper i {
+    color: var(--menu-muted);
+    font-size: 12px;
+}
+
+.admin-page #view-activity-verified .search-input-wrapper input,
+.admin-page #view-activity-participants .search-input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--menu-text);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.admin-page #view-activity-verified .search-input-wrapper:focus-within,
+.admin-page #view-activity-participants .search-input-wrapper:focus-within {
+    border-color: #8ba68a;
+    box-shadow: 0 0 0 3px rgba(64, 92, 67, .08);
+}
+
+.admin-page #view-activity-verified .filter-btn,
+.admin-page #view-activity-participants .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 41px;
+    padding: 0 13px;
+    border: 1px solid var(--menu-border);
+    border-radius: 9px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page #view-activity-verified .filter-btn:hover,
+.admin-page #view-activity-participants .filter-btn:hover {
+    background: var(--menu-green);
+    color: #fff;
+}
+
+/* Participants table */
+
+.admin-page #view-activity-participants .participants-table-wrap {
+    width: 100%;
+    margin-top: 5px;
+    overflow-x: auto;
+    border: 1px solid var(--menu-border);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.admin-page #view-activity-participants .participants-table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+}
+
+.admin-page #view-activity-participants .participants-table thead th {
+    padding: 14px 12px;
+    border: 0;
+    background: var(--menu-green);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-page #view-activity-participants .participants-table tbody td {
+    height: auto;
+    padding: 13px 12px;
+    border-top: 1px solid #edf0ec;
+    border-right: 0;
+    color: var(--menu-text);
+    font-size: 11px;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:nth-child(even) {
+    background: #fafbf9;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:hover {
+    background: #f1f5f0;
+}
+
+.admin-page #view-activity-participants .empty-table-cell {
+    height: 150px !important;
+    color: var(--menu-muted);
+    font-size: 12px;
+    text-align: center !important;
+}
+
+/* Empty states */
+
+.admin-page #view-activity-verify .admin-empty-subview,
+.admin-page #view-activity-verified .admin-empty-subview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 190px;
+    padding: 25px 16px;
+    border: 1px dashed #d5ded3;
+    border-radius: 12px;
+    background: #fafbf9;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview > i,
+.admin-page #view-activity-verified .admin-empty-subview > i {
+    margin-bottom: 12px;
+    color: var(--menu-green);
+    font-size: 32px;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview h4,
+.admin-page #view-activity-verified .admin-empty-subview h4 {
+    margin: 0;
+    color: var(--menu-text);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview p,
+.admin-page #view-activity-verified .admin-empty-subview p {
+    margin: 7px 0 0;
+    color: var(--menu-muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* Tablet */
+
+@media (max-width: 1000px) {
+    .admin-page #view-activity-scan .scan-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page #view-activity-scan .scan-preview {
+        height: 360px;
+    }
+
+    .admin-page #view-activity-verify-attendance .verify-detail-grid,
+    .admin-page #view-activity-verify-absence .verify-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+    .admin-page .view-body.bordered-frame {
+        padding: 17px 14px;
+        border-radius: 13px;
+    }
+
+    .admin-page .view-banner h2 {
+        font-size: 19px;
+    }
+
+    .admin-page .inner-banner-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 13px;
+        padding-right: 36px;
+        padding-bottom: 16px;
+    }
+
+    .admin-page .inner-banner-header h3,
+    .admin-page #menuActivityTitle {
+        font-size: 17px;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-btn {
+        flex: 1;
+        padding: 0 10px;
+        font-size: 9px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 11px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item {
+        min-height: 82px;
+        padding: 15px;
+        font-size: 11px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item::before {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .admin-page #view-activity-scan .scan-box,
+    .admin-page #view-activity-scan .scan-info-side {
+        padding: 13px;
+    }
+
+    .admin-page #view-activity-scan .scan-preview {
+        min-height: 260px;
+        height: 300px;
+    }
+
+    .admin-page #view-activity-scan .activity-meta-grid,
+    .admin-page #view-activity-verify-attendance .activity-meta-grid,
+    .admin-page #view-activity-verify-absence .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page #view-activity-verified .search-filter-controls,
+    .admin-page #view-activity-participants .search-filter-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        width: 100%;
+    }
+
+    .admin-page #view-activity-verified .search-input-wrapper,
+    .admin-page #view-activity-participants .search-input-wrapper {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .admin-page #view-activity-verified .filter-btn,
+    .admin-page #view-activity-participants .filter-btn {
+        min-width: 0;
+        padding: 0 10px;
+        font-size: 9px;
+    }
+
+    .admin-page .verify-item-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-page .verify-item-row .verify-btn {
+        align-self: flex-end;
+    }
+
+    .admin-page #view-activity-verify-attendance .verify-action-row,
+    .admin-page #view-activity-verify-absence .verify-action-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-page #view-activity-verify-attendance .accept-btn,
+    .admin-page #view-activity-verify-attendance .reject-btn,
+    .admin-page #view-activity-verify-absence .accept-btn,
+    .admin-page #view-activity-verify-absence .reject-btn {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .admin-page .view-body.bordered-frame {
+        padding: 13px 10px;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-actions {
+        flex-direction: column;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-btn {
+        width: 100%;
+        min-height: 39px;
+    }
+
+    .admin-page #view-activity-scan .scan-preview {
+        height: 250px;
+        min-height: 230px;
+    }
+}
+
+/* =========================================================
+   BASIS ADMIN — ACTIVITY MENU FINAL POLISH
+   UI ONLY — preserve existing HTML, JS and API
+========================================================= */
+
+.admin-page #view-activity-menu {
+    --menu-green: #405c43;
+    --menu-green-dark: #304933;
+    --menu-green-soft: #edf3ed;
+    --menu-text: #263329;
+    --menu-muted: #778277;
+    --menu-border: #e0e7de;
+}
+
+/* Main activity section header */
+.admin-page #view-activity-menu .view-banner {
+    margin: 0 0 18px;
+    padding: 20px 26px;
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    background: var(--menu-green);
+    border: 0;
+    border-radius: 13px 13px 0 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-menu .view-banner h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+/* Main white panel — remove unnecessary height and empty space */
+.admin-page #view-activity-menu .view-body.bordered-frame {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    padding: 22px 24px 26px;
+    border: 1px solid var(--menu-border);
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 22px rgba(48, 73, 51, .055);
+    box-sizing: border-box;
+}
+
+/* Close button */
+.admin-page #view-activity-menu .view-body > .close-view-btn {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 0 12px;
+    padding: 0;
+    border: 1px solid #dce6da;
+    border-radius: 10px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    font-size: 17px;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.admin-page #view-activity-menu .view-body > .close-view-btn:hover {
+    background: var(--menu-green);
+    color: #fff;
+}
+
+/* Activity name header */
+.admin-page #view-activity-menu .inner-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    min-width: 0;
+    margin: 0 0 22px;
+    padding: 18px 20px;
+    border: 0;
+    border-radius: 10px;
+    background: #edf2eb;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-menu #menuActivityTitle {
+    flex: 1 1 220px;
+    min-width: 0;
+    margin: 0;
+    color: var(--menu-text);
+    font-size: clamp(19px, 2vw, 25px);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -.35px;
+    overflow-wrap: anywhere;
+}
+
+/* Edit and delete buttons */
+.admin-page #view-activity-menu .activity-manage-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 39px;
+    padding: 0 16px;
+    border: 1px solid var(--menu-green);
+    border-radius: 8px;
+    background: var(--menu-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn:hover {
+    background: var(--menu-green-dark);
+    transform: translateY(-1px);
+}
+
+/* Delete stays visually distinct */
+.admin-page #view-activity-menu .activity-manage-btn.activity-delete-btn {
+    border-color: #f0d4d1;
+    background: #fff4f2;
+    color: #b42318;
+}
+
+.admin-page #view-activity-menu .activity-manage-btn.activity-delete-btn:hover {
+    border-color: #b42318;
+    background: #b42318;
+    color: #fff;
+}
+
+/* Two-column action cards */
+.admin-page #view-activity-menu .activity-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-menu .activity-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    min-width: 0;
+    min-height: 86px;
+    margin: 0;
+    padding: 17px 18px;
+    border: 1px solid var(--menu-border);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--menu-text);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: border-color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease,
+                transform .2s ease;
+}
+
+/* Icon backgrounds */
+.admin-page #view-activity-menu .activity-menu-item::before {
+    display: inline-flex;
+    flex: 0 0 44px;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    border-radius: 11px;
+    background: var(--menu-green-soft);
+    color: var(--menu-green);
+    font-family: "Font Awesome 6 Free";
+    font-size: 16px;
+    font-weight: 900;
+    content: "\f15c";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(2)::before {
+    background: #f1f3e9;
+    color: #687642;
+    content: "\f029";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(3)::before {
+    background: #eaf5ee;
+    color: #39805a;
+    content: "\f14a";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:nth-child(4)::before {
+    background: #eef1f7;
+    color: #6477a0;
+    content: "\f0c0";
+}
+
+/* Right arrow */
+.admin-page #view-activity-menu .activity-menu-item::after {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    color: #9aa79a;
+    font-family: "Font Awesome 6 Free";
+    font-size: 11px;
+    font-weight: 900;
+    content: "\f054";
+}
+
+.admin-page #view-activity-menu .activity-menu-item:hover {
+    border-color: #b9cbb7;
+    background: #fafcf9;
+    box-shadow: 0 5px 15px rgba(48, 73, 51, .07);
+    transform: translateY(-2px);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .admin-page #view-activity-menu .view-body.bordered-frame {
+        padding: 19px;
+    }
+
+    .admin-page #view-activity-menu .inner-banner-header {
+        padding: 16px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-list {
+        gap: 12px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item {
+        min-height: 80px;
+        padding: 14px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .admin-page #view-activity-menu .view-banner {
+        min-height: 60px;
+        padding: 16px 18px;
+        border-radius: 10px;
+    }
+
+    .admin-page #view-activity-menu .view-banner h2 {
+        font-size: 18px;
+    }
+
+    .admin-page #view-activity-menu .view-body.bordered-frame {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .admin-page #view-activity-menu .inner-banner-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 13px;
+        padding: 15px;
+        margin-bottom: 16px;
+    }
+
+    .admin-page #view-activity-menu #menuActivityTitle {
+        flex: auto;
+        font-size: 20px;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        gap: 8px;
+    }
+
+    .admin-page #view-activity-menu .activity-manage-btn {
+        width: 100%;
+        min-width: 0;
+        padding: 0 8px;
+        font-size: 9px;
+        white-space: normal;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item {
+        min-height: 75px;
+        padding: 13px;
+        font-size: 11px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item::before {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+}
+/* =====================================================
+   BASIS ADMIN — ACTIVITY UI REDESIGN
+   Paste at the VERY BOTTOM of activity-admin.css
+   UI ONLY — keep existing HTML IDs and JavaScript
+===================================================== */
+
+.admin-page {
+    --activity-green: #405c43;
+    --activity-green-dark: #304832;
+    --activity-green-light: #edf3ec;
+    --activity-bg: #f5f7f3;
+    --activity-border: #dfe6dc;
+    --activity-text: #28362b;
+    --activity-muted: #7a867b;
+    --activity-shadow: 0 12px 32px rgba(40, 60, 42, .07);
+}
+
+/* MAIN VIEW */
+
+.admin-page .dash-main {
+    background: var(--activity-bg);
+}
+
+.admin-page .page-view {
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-page .view-body.bordered-frame {
+    position: relative;
+    min-width: 0;
+    padding: 30px;
+    margin: 10px 0 24px;
+    overflow: visible;
+    border: 1px solid var(--activity-border);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: var(--activity-shadow);
+    box-sizing: border-box;
+}
+
+/* CLOSE / BACK BUTTON */
+
+.admin-page .view-body > .close-view-btn {
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 0 20px;
+    padding: 0;
+    border: 1px solid var(--activity-border);
+    border-radius: 13px;
+    background: var(--activity-green-light);
+    color: var(--activity-green);
+    font-size: 20px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page .view-body > .close-view-btn:hover {
+    background: var(--activity-green);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* SECTION HEADERS */
+
+.admin-page .inner-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 0 0 22px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--activity-border);
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.admin-page .inner-banner-header h3 {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #menuActivityTitle,
+.admin-page #participantsActivityTitle {
+    color: var(--activity-text);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+/* ACTIVITY MENU */
+
+.admin-page #view-activity-menu .activity-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.admin-page #view-activity-menu .activity-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 125px;
+    padding: 26px;
+    border: 1px solid var(--activity-border);
+    border-radius: 17px;
+    background: #fff;
+    color: var(--activity-text);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    box-shadow: 0 5px 18px rgba(40, 60, 42, .04);
+    box-sizing: border-box;
+    transition: transform .2s ease, box-shadow .2s ease,
+                border-color .2s ease, background .2s ease;
+}
+
+.admin-page #view-activity-menu .activity-menu-item::after {
+    content: "\f061";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--activity-green-light);
+    color: var(--activity-green);
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
+.admin-page #view-activity-menu .activity-menu-item:hover {
+    transform: translateY(-3px);
+    border-color: #a8bba5;
+    background: #fbfcfa;
+    box-shadow: 0 12px 26px rgba(40, 60, 42, .09);
+}
+
+/* EDIT / DELETE ACTIONS */
+
+.admin-page .activity-manage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.admin-page .activity-manage-btn {
+    min-height: 43px;
+    padding: 12px 18px;
+    border: 1px solid var(--activity-border);
+    border-radius: 11px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page .activity-manage-btn:hover {
+    background: var(--activity-green-dark);
+    transform: translateY(-1px);
+}
+
+.admin-page .activity-delete-btn {
+    border-color: #f0d7d4;
+    background: #fff4f2;
+    color: #a52e26;
+}
+
+.admin-page .activity-delete-btn:hover {
+    background: #a52e26;
+    color: #fff;
+}
+
+/* SEARCH AND FILTER */
+
+.admin-page .search-filter-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 100%;
+}
+
+.admin-page .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: min(320px, 100%);
+    min-height: 46px;
+    padding: 0 15px;
+    border: 1px solid var(--activity-border);
+    border-radius: 12px;
+    background: #fafbf9;
+    box-sizing: border-box;
+}
+
+.admin-page .search-input-wrapper i {
+    color: var(--activity-muted);
+}
+
+.admin-page .search-input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--activity-text);
+    font: inherit;
+    font-size: 12px;
+}
+
+.admin-page .filter-btn,
+.admin-page .verified-activities-btn {
+    min-height: 44px;
+    padding: 12px 18px;
+    border: 1px solid var(--activity-green);
+    border-radius: 11px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-page .filter-btn:hover,
+.admin-page .verified-activities-btn:hover {
+    background: var(--activity-green-dark);
+}
+
+/* PARTICIPANTS TABLE */
+
+.admin-page #view-activity-participants .participants-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--activity-border);
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(40, 60, 42, .04);
+}
+
+.admin-page #view-activity-participants .participants-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-page #view-activity-participants .participants-table thead th {
+    padding: 17px 18px;
+    border: 0;
+    background: var(--activity-green);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-page #view-activity-participants .participants-table tbody td {
+    padding: 17px 18px;
+    border: 0;
+    border-bottom: 1px solid #edf0eb;
+    color: var(--activity-text);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:nth-child(even) {
+    background: #fafbf9;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:hover {
+    background: var(--activity-green-light);
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-page #view-activity-participants .empty-table-cell {
+    height: 150px !important;
+    color: var(--activity-muted);
+    text-align: center !important;
+}
+
+/* VERIFY / VERIFIED EMPTY STATE */
+
+.admin-page #view-activity-verify .verify-list-container,
+.admin-page #view-activity-verified .verify-list-container {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--activity-border);
+    border-radius: 16px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview,
+.admin-page #view-activity-verified .admin-empty-subview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 30px 18px;
+    border: 1px dashed #cbd8c9;
+    border-radius: 14px;
+    background: #f9fbf8;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview > i,
+.admin-page #view-activity-verified .admin-empty-subview > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
+    border-radius: 20px;
+    background: var(--activity-green-light);
+    color: var(--activity-green);
+    font-size: 27px;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview h4,
+.admin-page #view-activity-verified .admin-empty-subview h4 {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview p,
+.admin-page #view-activity-verified .admin-empty-subview p {
+    max-width: 420px;
+    margin: 9px 0 0;
+    color: var(--activity-muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.admin-page #view-activity-verify .verified-activities-btn {
+    margin-top: 20px;
+}
+
+/* SCAN VIEW */
+
+.admin-page #view-activity-scan .scan-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 26px;
+}
+
+.admin-page #view-activity-scan .scan-box,
+.admin-page #view-activity-scan .scan-info-side {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--activity-border);
+    border-radius: 17px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan .scan-preview {
+    width: 100%;
+    height: 340px;
+    min-height: 340px;
+    padding: 12px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan #qrScannerMount {
+    flex: 1;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.admin-page #view-activity-scan #qrScannerMount #qrScannerMount__scan_region {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.admin-page #view-activity-scan #qrScannerMount video {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+}
+
+.admin-page #view-activity-scan #scanStatus {
+    color: var(--activity-muted);
+    font-size: 12px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-scan .scan-btn,
+.admin-page #view-activity-scan .scan-import-btn {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--activity-green);
+    border-radius: 11px;
+    background: var(--activity-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page #view-activity-scan .scan-import-btn {
+    background: #fff;
+    color: var(--activity-green);
+}
+
+.admin-page #view-activity-scan .scan-import-btn:hover {
+    background: var(--activity-green-light);
+}
+
+/* ACTIVITY INFORMATION */
+
+.admin-page .activity-detail-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.admin-page .activity-main-title {
+    margin: 0;
+    color: var(--activity-text);
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .sem-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    background: var(--activity-green-light);
+    color: var(--activity-green);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.admin-page .activity-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.admin-page .activity-meta-grid p {
+    min-width: 0;
+    margin: 0;
+    padding: 15px;
+    border: 1px solid var(--activity-border);
+    border-radius: 12px;
+    background: #fafbf9;
+    color: var(--activity-text);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .activity-meta-grid p strong {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--activity-muted);
+    font-size: 10px;
+    letter-spacing: .4px;
+}
+
+.admin-page .deadline-text {
+    margin-top: 16px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f5f6ee;
+    color: var(--activity-text);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .activity-description {
+    margin-top: 16px;
+    padding: 18px;
+    border: 1px solid var(--activity-border);
+    border-radius: 13px;
+    background: #fafbf9;
+    color: var(--activity-text);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .activity-description > strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.admin-page .activity-description .desc-text {
+    margin: 0;
+    color: var(--activity-muted);
+    white-space: pre-wrap;
+}
+
+/* VERIFY DETAILS */
+
+.admin-page .verify-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    gap: 22px;
+}
+
+.admin-page .verify-detail-left,
+.admin-page .verify-detail-right {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--activity-border);
+    border-radius: 15px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page .submitted-file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 260px;
+    padding: 18px;
+    border: 1px dashed #cbd8c9;
+    border-radius: 13px;
+    background: #f8faf7;
+    overflow-wrap: anywhere;
+}
+
+.admin-page .verify-action-row {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.admin-page .verify-action-row button {
+    min-width: 125px;
+    min-height: 44px;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 11px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-page .verify-action-row .accept-btn {
+    background: var(--activity-green);
+    color: #fff;
+}
+
+.admin-page .verify-action-row .reject-btn {
+    background: #fff1ef;
+    color: #a52e26;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .admin-page #view-activity-scan .scan-layout,
+    .admin-page .verify-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page #view-activity-scan .scan-preview {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 700px) {
+    .admin-page .view-body.bordered-frame {
+        padding: 18px;
+        border-radius: 15px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page #view-activity-menu .activity-menu-item {
+        min-height: 95px;
+        padding: 20px;
+    }
+
+    .admin-page .inner-banner-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .admin-page .activity-manage-actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .admin-page .activity-manage-actions button {
+        flex: 1;
+    }
+
+    .admin-page .search-filter-controls {
+        width: 100%;
+    }
+
+    .admin-page .search-input-wrapper {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .admin-page .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page .scan-box,
+    .admin-page #view-activity-scan .scan-info-side,
+    .admin-page .verify-detail-left,
+    .admin-page .verify-detail-right {
+        padding: 15px;
+    }
+
+    .admin-page .verify-action-row {
+        flex-direction: column;
+    }
+
+    .admin-page .verify-action-row button {
+        width: 100%;
+    }
+}
+
+/* Styles previously embedded in activity_menu-admin.html */
+/* BASIS — Activity pages final UI correction */
+
+.admin-page {
+    --act-green: #405b43;
+    --act-green-dark: #304832;
+    --act-pale: #f2f5f0;
+    --act-border: #e0e6dd;
+    --act-text: #29362b;
+    --act-muted: #7b867c;
+}
+
+/* Consistent content container */
+.admin-page #view-activity-menu,
+.admin-page #view-activity-scan,
+.admin-page #view-activity-verify,
+.admin-page #view-activity-verify-attendance,
+.admin-page #view-activity-verify-absence,
+.admin-page #view-activity-verified,
+.admin-page #view-activity-participants {
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-page .view-body.bordered-frame {
+    padding: 24px;
+    border: 1px solid var(--act-border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 26px rgba(40, 60, 42, .055);
+    box-sizing: border-box;
+}
+
+/* Close button */
+.admin-page .view-body > .close-view-btn {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0 0 18px;
+    padding: 0;
+    border: 1px solid var(--act-border);
+    border-radius: 11px;
+    background: var(--act-pale);
+    color: var(--act-green);
+    font-size: 19px;
+}
+
+/* Remove awkward full-width green heading bars */
+.admin-page #view-activity-verify .inner-banner-header,
+.admin-page #view-activity-verified .inner-banner-header,
+.admin-page #view-activity-participants .inner-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 0 18px;
+    margin: 0 0 22px;
+    border: 0;
+    border-bottom: 1px solid var(--act-border);
+    border-radius: 0;
+    background: transparent;
+}
+
+.admin-page #view-activity-verify .inner-banner-header h3,
+.admin-page #view-activity-verified .inner-banner-header h3,
+.admin-page #view-activity-participants .inner-banner-header h3 {
+    margin: 0;
+    color: var(--act-text);
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+/* Activity menu cards */
+.admin-page #view-activity-menu .activity-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.admin-page #view-activity-menu .activity-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100px;
+    gap: 12px;
+    padding: 22px;
+    border: 1px solid var(--act-border);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--act-text);
+    font-size: 13px;
+    font-weight: 800;
+    box-shadow: 0 4px 14px rgba(40, 60, 42, .035);
+    transition: .2s ease;
+}
+
+.admin-page #view-activity-menu .activity-menu-item:hover {
+    border-color: #aabca7;
+    background: #f8faf7;
+    transform: translateY(-2px);
+}
+
+/* Scan layout */
+.admin-page #view-activity-scan .scan-layout {
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.admin-page #view-activity-scan .scan-box,
+.admin-page #view-activity-scan .scan-info-side {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--act-border);
+    border-radius: 15px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan .scan-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    height: auto;
+    padding: 14px;
+    border: 1px dashed #cbd7c8;
+    border-radius: 12px;
+    background: #f7f9f6;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-scan #qrScannerMount {
+    width: 100%;
+    max-width: 100%;
+}
+
+.admin-page #view-activity-scan #qrScannerMount video,
+.admin-page #view-activity-scan #qrScannerMount canvas {
+    max-width: 100%;
+}
+
+.admin-page #view-activity-scan .scan-btn,
+.admin-page #view-activity-scan .scan-import-btn {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 12px;
+    border-radius: 10px;
+}
+
+/* Verify empty state */
+.admin-page #view-activity-verify .verify-list-container,
+.admin-page #view-activity-verified .verify-list-container {
+    padding: 14px;
+    border: 1px solid var(--act-border);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview,
+.admin-page #view-activity-verified .admin-empty-subview {
+    min-height: 220px;
+    padding: 24px;
+    border: 1px dashed #cbd7c8;
+    border-radius: 12px;
+    background: #f8faf7;
+    text-align: center;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview > i,
+.admin-page #view-activity-verified .admin-empty-subview > i {
+    margin-bottom: 14px;
+    color: var(--act-green);
+    font-size: 30px;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview h4,
+.admin-page #view-activity-verified .admin-empty-subview h4 {
+    margin: 0;
+    color: var(--act-text);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.admin-page #view-activity-verify .admin-empty-subview p,
+.admin-page #view-activity-verified .admin-empty-subview p {
+    margin-top: 8px;
+    color: var(--act-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Participants search */
+.admin-page #view-activity-participants .search-filter-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-page #view-activity-participants .search-input-wrapper {
+    width: 260px;
+    max-width: 100%;
+    min-height: 42px;
+    border: 1px solid var(--act-border);
+    border-radius: 10px;
+    background: #f9faf8;
+}
+
+.admin-page #view-activity-participants .filter-btn {
+    min-height: 42px;
+    border-radius: 10px;
+}
+
+/* Participants table */
+.admin-page #view-activity-participants .participants-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--act-border);
+    border-radius: 13px;
+    background: #fff;
+}
+
+.admin-page #view-activity-participants .participants-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-page #view-activity-participants .participants-table thead th {
+    padding: 15px 16px;
+    border: 0;
+    background: var(--act-green);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: left;
+}
+
+.admin-page #view-activity-participants .participants-table tbody td {
+    padding: 15px 16px;
+    border: 0;
+    border-bottom: 1px solid #edf0eb;
+    color: var(--act-text);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:nth-child(even) {
+    background: #fafbf9;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:hover {
+    background: #f1f5ef;
+}
+
+.admin-page #view-activity-participants .participants-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Activity detail verification layout */
+.admin-page .verify-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    align-items: start;
+    gap: 18px;
+}
+
+.admin-page .verify-detail-left,
+.admin-page .verify-detail-right {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--act-border);
+    border-radius: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.admin-page .submitted-file-preview {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .admin-page #view-activity-scan .scan-layout,
+    .admin-page .verify-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .admin-page .view-body.bordered-frame {
+        padding: 15px;
+    }
+
+    .admin-page #view-activity-menu .activity-menu-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-page #view-activity-verify .inner-banner-header,
+    .admin-page #view-activity-verified .inner-banner-header,
+    .admin-page #view-activity-participants .inner-banner-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .admin-page #view-activity-participants .search-filter-controls,
+    .admin-page #view-activity-participants .search-input-wrapper {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   BASIS ACTIVITY UI — CONSOLIDATED LAYOUT RULES
+   Single final ruleset for details, scanner, search/filter.
+========================================================= */
+.admin-page {
+    --activity-ui-green: #405b43;
+    --activity-ui-dark: #2f4332;
+    --activity-ui-light: #edf3ec;
+    --activity-ui-bg: #f7f9f6;
+    --activity-ui-border: #dfe6dc;
+    --activity-ui-text: #29362b;
+    --activity-ui-muted: #758175;
+}
+.admin-page .dash-main,
+.admin-page .dash-main > .page-view,
+.admin-page .view-body,
+.admin-page .activity-detail-layout,
+.admin-page .activity-detail-info,
+.admin-page .activity-detail-image-side { min-width: 0; box-sizing: border-box; }
+
+.admin-page .dash-main { padding-bottom: 28px; }
+.admin-page .view-body.bordered-frame {
+    margin: 0 0 26px;
+    padding: clamp(18px, 2.2vw, 32px);
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(48,67,50,.055);
+    overflow: visible;
+}
+.admin-page .view-body > .close-view-btn {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 0 22px;
+    padding: 0;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 12px;
+    background: var(--activity-ui-light);
+    color: var(--activity-ui-green);
+    cursor: pointer;
+}
+.admin-page .view-body > .close-view-btn:hover { background: #e1eadf; }
+
+/* Activity details: two columns only while there is enough room. */
+.admin-page #view-activity-details .activity-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, .85fr);
+    align-items: start;
+    gap: clamp(18px, 2vw, 30px);
+    width: 100%;
+}
+.admin-page #view-activity-details .activity-detail-info,
+.admin-page #view-activity-details .activity-detail-image-side {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: clamp(18px, 2vw, 28px);
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(48,67,50,.035);
+}
+.admin-page #view-activity-details .activity-detail-info {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.admin-page #view-activity-details .activity-detail-header {
+    display: block;
+    margin: 0 0 12px;
+    min-width: 0;
+}
+.admin-page #view-activity-details .activity-main-title {
+    margin: 0;
+    color: var(--activity-ui-text);
+    font-size: clamp(24px, 2.1vw, 34px);
+    font-weight: 900;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-details .activity-type-text {
+    margin-top: 12px;
+    color: var(--activity-ui-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-details .activity-type-text strong { color: var(--activity-ui-text); }
+.admin-page #view-activity-details .activity-detail-sem {
+    align-self: flex-start;
+    max-width: 100%;
+    margin: 14px 0 20px;
+    padding: 12px 16px;
+    border-radius: 24px;
+    background: var(--activity-ui-light);
+    color: var(--activity-ui-green);
+    font-size: 12px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-details .activity-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+}
+.admin-page #view-activity-details .activity-meta-grid p {
+    min-width: 0;
+    margin: 0;
+    padding: 15px 16px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 14px;
+    background: var(--activity-ui-bg);
+    color: var(--activity-ui-text);
+    font-size: 13px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-details .activity-meta-grid p strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--activity-ui-muted);
+    font-size: 11px;
+    font-weight: 800;
+}
+.admin-page #view-activity-details .activity-meta-grid p span { font-weight: 700; }
+.admin-page #view-activity-details .divider {
+    width: 100%;
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid var(--activity-ui-border);
+}
+.admin-page #view-activity-details .activity-description {
+    min-width: 0;
+    margin: 0;
+    padding: 17px 18px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 14px;
+    background: var(--activity-ui-bg);
+}
+.admin-page #view-activity-details .activity-description > strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--activity-ui-text);
+    font-size: 13px;
+    font-weight: 900;
+}
+.admin-page #view-activity-details #detailDescription {
+    margin: 0;
+    color: #647365;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+.admin-page #view-activity-details .deadline-text {
+    margin: 16px 0 0;
+    color: var(--activity-ui-muted);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-details .activity-detail-image-side { padding: 20px; }
+.admin-page #view-activity-details .activity-detail-image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 280px;
+    height: clamp(280px, 32vw, 430px);
+    padding: 12px;
+    border: 1px dashed #cbd7c8;
+    border-radius: 16px;
+    background: var(--activity-ui-bg);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-details .activity-detail-image-box img,
+.admin-page #view-activity-details #detailDescriptionImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 8px;
+    object-fit: contain;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-details #detailDescriptionImage[hidden],
+.admin-page img[hidden],
+.admin-page #qrScannerMount[hidden],
+.admin-page #qrScanVideo[hidden] { display: none !important; }
+.admin-page #view-activity-details .activity-detail-image-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 220px;
+    color: #9aa79a;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+.admin-page #view-activity-details .activity-detail-image-empty i { font-size: 42px; }
+.admin-page #view-activity-details .action-buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+/* Scanner: fixed parent height lets html5-qrcode calculate a visible video box. */
+.admin-page #view-activity-scan .scan-layout {
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: stretch;
+    gap: 22px;
+}
+.admin-page #view-activity-scan .scan-box,
+.admin-page #view-activity-scan .scan-info-side {
+    width: auto;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 16px;
+    background: #fff;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-scan .scan-box { display: flex; flex-direction: column; gap: 12px; }
+.admin-page #view-activity-scan .scan-preview {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: clamp(300px, 36vw, 440px);
+    min-height: 280px;
+    padding: 0;
+    border: 1px dashed #cbd7c8;
+    border-radius: 14px;
+    background: #f5f7f4;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-scan #qrScannerMount:not([hidden]) {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+.admin-page #view-activity-scan #qrScannerMount > div {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+.admin-page #view-activity-scan #qrScannerMount video,
+.admin-page #view-activity-scan #qrScanVideo {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+}
+.admin-page #view-activity-scan .scan-preview #scanStatus:not(:empty) {
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 10px 12px;
+    background: rgba(255,255,255,.94);
+    color: var(--activity-ui-green);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-scan .scan-btn,
+.admin-page #view-activity-scan .scan-import-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid var(--activity-ui-green);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--activity-ui-green);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-scan .scan-btn:hover,
+.admin-page #view-activity-scan .scan-import-btn:hover { background: var(--activity-ui-light); }
+
+/* Verified / participant controls and scroll-safe table. */
+.admin-page #view-activity-verified .search-filter-controls,
+.admin-page #view-activity-participants .search-filter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    min-width: 0;
+}
+.admin-page #view-activity-verified .search-input-wrapper,
+.admin-page #view-activity-participants .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 250px;
+    max-width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 10px;
+    background: #fafbf9;
+    box-sizing: border-box;
+}
+.admin-page #view-activity-verified .search-input-wrapper input,
+.admin-page #view-activity-participants .search-input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--activity-ui-text);
+    font: inherit;
+    font-size: 12px;
+}
+.admin-page #view-activity-verified .filter-btn,
+.admin-page #view-activity-participants .filter-btn,
+.admin-page #view-activity-participants .export-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 10px;
+    background: var(--activity-ui-light);
+    color: var(--activity-ui-green);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.admin-page #view-activity-participants .export-btn {
+    background: var(--activity-ui-green);
+    border-color: var(--activity-ui-green);
+    color: #fff;
+}
+.admin-page #view-activity-participants .participants-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 13px;
+    background: #fff;
+}
+.admin-page #view-activity-participants .participants-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.admin-page #view-activity-participants .participants-table th {
+    padding: 14px 16px;
+    background: var(--activity-ui-green);
+    color: #fff;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 800;
+}
+.admin-page #view-activity-participants .participants-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #edf0eb;
+    color: var(--activity-ui-text);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+.admin-page #view-activity-participants .participants-table tbody tr:nth-child(even) { background: #fafbf9; }
+.admin-page #view-activity-participants .participants-table tbody tr:hover { background: #f1f5ef; }
+.admin-page .submission-review-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px 17px;
+    border: 1px solid var(--activity-ui-border);
+    border-radius: 12px;
+    background: #fff;
+}
+.admin-page .submission-review-card > span { color: var(--activity-ui-muted); font-size: 12px; overflow-wrap: anywhere; }
+.admin-page .submission-review-card button {
+    min-height: 38px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--activity-ui-green);
+    color: #fff;
+    font-weight: 800;
+    cursor: pointer;
+}
+@media (max-width: 950px) {
+    .admin-page #view-activity-details .activity-detail-layout,
+    .admin-page #view-activity-scan .scan-layout { grid-template-columns: minmax(0, 1fr); }
+    .admin-page #view-activity-details .activity-detail-image-side { order: 2; }
+    .admin-page #view-activity-details .activity-detail-image-box { height: clamp(240px, 55vw, 400px); }
+}
+@media (max-width: 650px) {
+    .admin-page .view-body.bordered-frame { padding: 15px; margin-bottom: 20px; border-radius: 14px; }
+    .admin-page #view-activity-details .activity-detail-info,
+    .admin-page #view-activity-details .activity-detail-image-side,
+    .admin-page #view-activity-scan .scan-box,
+    .admin-page #view-activity-scan .scan-info-side { padding: 14px; }
+    .admin-page #view-activity-details .activity-meta-grid { grid-template-columns: minmax(0, 1fr); }
+    .admin-page #view-activity-details .activity-detail-image-box { min-height: 220px; height: 280px; }
+    .admin-page #view-activity-scan .scan-preview { height: 300px; min-height: 260px; }
+    .admin-page #view-activity-verified .search-filter-controls,
+    .admin-page #view-activity-participants .search-filter-controls { justify-content: stretch; }
+    .admin-page #view-activity-verified .search-input-wrapper,
+    .admin-page #view-activity-participants .search-input-wrapper { flex: 1 1 100%; width: 100%; }
+    .admin-page #view-activity-verified .filter-btn,
+    .admin-page #view-activity-participants .filter-btn,
+    .admin-page #view-activity-participants .export-btn { flex: 1 1 auto; }
+}
+
+
+/* FINAL PATCH — keep the picture placeholder from sharing the image row */
+.admin-page #view-activity-details .activity-detail-image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+.admin-page #view-activity-details #detailDescriptionImage {
+    flex: 0 1 100%;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.admin-page #view-activity-details #activityDetailImageEmpty[hidden] { display: none !important; }
+.admin-page #view-activity-details #detailDescriptionImage[hidden] { display: none !important; }
+.admin-page .dash-main { padding-bottom: 32px !important; }
+.admin-page .dash-main > .page-view { padding-bottom: 18px; }
+.admin-page .view-body.bordered-frame { margin-bottom: 26px !important; }
+
+/* Html5Qrcode needs to manage its own nested scan-region layout. */
+.admin-page #view-activity-scan .scan-preview {
+    position: relative !important;
+    display: block !important;
+    width: 100%;
+    height: 360px !important;
+    min-height: 300px !important;
+    padding: 10px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+.admin-page #view-activity-scan #qrScannerMount:not([hidden]) {
+    display: block !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 280px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+.admin-page #view-activity-scan #qrScannerMount > div {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 280px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+.admin-page #view-activity-scan #qrScannerMount #qrScannerMount__scan_region {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 280px !important;
+    overflow: hidden !important;
+}
+.admin-page #view-activity-scan #qrScannerMount video {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+}
+.admin-page #view-activity-scan #qrScanVideo[hidden],
+.admin-page #view-activity-scan #qrScannerMount[hidden] { display: none !important; }
+
+@media (max-width: 950px) {
+    .admin-page #view-activity-details .activity-detail-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .admin-page #view-activity-details .activity-detail-image-side { order: 2; }
+}
+@media (max-width: 650px) {
+    .admin-page #view-activity-details .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .admin-page #view-activity-scan .scan-preview {
+        height: 300px !important;
+        min-height: 260px !important;
+    }
+}
+
+
+/* FINAL VISUAL FIXES — activity details bottom spacing, image state, scanner buttons */
+.admin-page #activityDetailImageEmpty[hidden],
+.admin-page .activity-detail-image-empty[hidden],
+.admin-page #detailDescriptionImage[hidden],
+.admin-page .activity-detail-image[hidden] {
+    display: none !important;
+}
+.admin-page .activity-detail-image-box {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.admin-page .activity-detail-image-box > img:not([hidden]) {
+    display: block !important;
+    flex: 0 1 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+}
+.admin-page .activity-detail-image-box > .activity-detail-image-empty:not([hidden]) {
+    display: flex !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+.admin-page .activity-detail-layout {
+    align-items: start !important;
+}
+.admin-page #view-activity-details,
+.admin-page #view-activity-details .view-body,
+.admin-page #view-activity-details .activity-detail-layout,
+.admin-page #view-activity-details .activity-detail-info {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+.admin-page #view-activity-details .activity-detail-info {
+    padding-bottom: 28px !important;
+}
+.admin-page #view-activity-details .action-buttons-row {
+    margin-bottom: 12px !important;
+    padding-bottom: 4px !important;
+}
+.admin-page .dash-main,
+.admin-page main,
+.admin-page .content,
+.admin-page .main-content {
+    padding-bottom: 36px !important;
+}
+.admin-page .page-view {
+    height: auto;
+    min-height: 0;
+}
+.admin-page #view-activity-scan .scan-box {
+    gap: 10px !important;
+}
+.admin-page #view-activity-scan .scan-preview {
+    margin-bottom: 2px !important;
+}
+.admin-page #view-activity-scan .scan-btn,
+.admin-page #view-activity-scan .scan-import-btn {
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    min-height: 44px !important;
+}
+.admin-page #view-activity-scan .scan-btn + .scan-import-btn {
+    margin-top: 0 !important;
+}
+@media (max-width: 650px) {
+    .admin-page #view-activity-details .activity-detail-info {
+        padding-bottom: 22px !important;
+    }
+}
+
+/* =========================================================
+   VIEWPORT FIX — ACTIVITY DETAILS
+   Keeps content inside the visible admin workspace.
+   Existing JS, IDs, API, and page behavior are unchanged.
+========================================================= */
+.admin-page {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.admin-page .admin-shell {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.admin-page .dash-main {
+    height: calc(100vh - 88px) !important;
+    max-height: calc(100vh - 88px) !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    box-sizing: border-box !important;
+    padding: 16px 20px 18px !important;
+    scrollbar-gutter: stable;
+}
+
+.admin-page #view-activity-details {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+}
+
+.admin-page #view-activity-details .view-body.bordered-frame {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 !important;
+    padding: clamp(14px, 1.4vw, 22px) !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+.admin-page #view-activity-details .view-body > .close-view-btn {
+    width: 36px;
+    height: 36px;
+    margin: 0 0 12px !important;
+}
+
+.admin-page #view-activity-details .activity-detail-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(250px, .85fr) !important;
+    align-items: stretch !important;
+    gap: clamp(12px, 1.5vw, 20px) !important;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.admin-page #view-activity-details .activity-detail-info,
+.admin-page #view-activity-details .activity-detail-image-side {
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+    padding: clamp(14px, 1.4vw, 22px) !important;
+    box-sizing: border-box !important;
+}
+
+.admin-page #view-activity-details .activity-main-title {
+    font-size: clamp(22px, 1.8vw, 30px) !important;
+    line-height: 1.18 !important;
+}
+
+.admin-page #view-activity-details .activity-type-text {
+    margin-top: 7px !important;
+    line-height: 1.45 !important;
+}
+
+.admin-page #view-activity-details .activity-detail-sem {
+    margin: 10px 0 12px !important;
+    padding: 9px 13px !important;
+}
+
+.admin-page #view-activity-details .activity-meta-grid {
+    gap: 9px !important;
+}
+
+.admin-page #view-activity-details .activity-meta-grid p {
+    padding: 10px 12px !important;
+    line-height: 1.45 !important;
+}
+
+.admin-page #view-activity-details .activity-meta-grid p strong {
+    margin-bottom: 4px !important;
+}
+
+.admin-page #view-activity-details .divider {
+    margin: 13px 0 !important;
+}
+
+.admin-page #view-activity-details .activity-description {
+    padding: 12px 14px !important;
+}
+
+.admin-page #view-activity-details .activity-description .desc-text,
+.admin-page #view-activity-details #detailDescription {
+    line-height: 1.55 !important;
+    overflow-wrap: anywhere;
+}
+
+.admin-page #view-activity-details .deadline-text {
+    margin-top: 9px !important;
+    line-height: 1.45 !important;
+}
+
+.admin-page #view-activity-details .action-buttons-row {
+    gap: 8px !important;
+    margin-top: 13px !important;
+    padding-bottom: 0 !important;
+}
+
+.admin-page #view-activity-details .activity-detail-image-box {
+    height: clamp(220px, 40vh, 360px) !important;
+    min-height: 0 !important;
+    max-height: 360px !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+}
+
+.admin-page #view-activity-details .activity-detail-image-box > img:not([hidden]) {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+}
+
+/* Short laptop screens: tighten vertical spacing further. */
+@media (max-height: 800px) and (min-width: 951px) {
+    .admin-page .dash-main {
+        height: calc(100vh - 82px) !important;
+        max-height: calc(100vh - 82px) !important;
+        padding-top: 10px !important;
+        padding-bottom: 12px !important;
+    }
+    .admin-page #view-activity-details .view-body.bordered-frame {
+        padding: 12px !important;
+    }
+    .admin-page #view-activity-details .activity-detail-info,
+    .admin-page #view-activity-details .activity-detail-image-side {
+        padding: 13px !important;
+    }
+    .admin-page #view-activity-details .activity-detail-image-box {
+        height: clamp(190px, 34vh, 280px) !important;
+        max-height: 280px !important;
+    }
+    .admin-page #view-activity-details .activity-detail-sem {
+        margin: 8px 0 10px !important;
+    }
+    .admin-page #view-activity-details .divider {
+        margin: 10px 0 !important;
+    }
+}
+
+@media (max-width: 950px) {
+    .admin-page .dash-main {
+        height: calc(100vh - 82px) !important;
+        max-height: calc(100vh - 82px) !important;
+        padding: 12px !important;
+    }
+    .admin-page #view-activity-details .activity-detail-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .admin-page #view-activity-details .activity-detail-image-side {
+        order: 2;
+    }
+    .admin-page #view-activity-details .activity-detail-image-box {
+        height: clamp(200px, 38vh, 320px) !important;
+        max-height: 320px !important;
+    }
+}
+
+@media (max-width: 650px) {
+    .admin-page .dash-main {
+        height: calc(100vh - 72px) !important;
+        max-height: calc(100vh - 72px) !important;
+        padding: 9px !important;
+    }
+    .admin-page #view-activity-details .view-body.bordered-frame {
+        padding: 10px !important;
+    }
+    .admin-page #view-activity-details .activity-detail-info,
+    .admin-page #view-activity-details .activity-detail-image-side {
+        padding: 12px !important;
+    }
+    .admin-page #view-activity-details .activity-meta-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .admin-page #view-activity-details .activity-detail-image-box {
+        height: 230px !important;
+        max-height: 230px !important;
+    }
+}
+
+
+
+/* =========================================================
+   FIX: SHOW ONLY THE SELECTED ACTIVITY SUBVIEW
+   Prevent Details, QR and Submission sections from stacking.
+   Keep existing showSubView() JavaScript and .active class.
+========================================================= */
+.admin-page main.dash-main > section.page-view {
+    display: none !important;
+}
+
+.admin-page main.dash-main > section.page-view.active {
+    display: block !important;
+}
+
+/* Make sure hidden subviews cannot leave blank space or overlap. */
+.admin-page main.dash-main > section.page-view:not(.active) {
+    position: absolute !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* The active page should size naturally below the fixed topbar. */
+.admin-page main.dash-main > section.page-view.active {
+    position: relative !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+}

@@ -1,640 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASIS - Admin Scorecard</title>
 
-
-    <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- FONT AWESOME -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-
-    <!-- MAIN CSS -->
-    <link
-        rel="stylesheet"
-        href="../style.css"
-    >
-
-
-    <!-- ADMIN HOME CSS -->
-    <link
-        rel="stylesheet"
-        href="home-admin.css"
-    >
-
-
-    <!-- ADMIN SCORECARD CSS -->
-    <link
-        rel="stylesheet"
-        href="scorecard-admin.css?v=20261005-scorecard-layout2"
-    >
-
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="home-admin.css?v=7">
+    <link rel="stylesheet" href="scorecard-admin.css?v=11">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
+<body class="dashboard-page admin-page">
 
-<body class="dashboard-page admin-scorecard-page">
-
-
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
-
-    <header class="dash-header">
-
-
-        <!-- BASIS LOGO -->
-        <div class="dash-logo">
-
-            <img
-                src="../images/LOGO.png"
-                alt="BASIS Logo"
-            >
-
-        </div>
-
-
-
-        <!-- HEADER RIGHT -->
-        <div class="header-right">
-
-
-            <!-- WELCOME -->
-            <div class="welcome-text">
-
-                <h1>
-                    MABUHAY, ADMIN!
-                </h1>
-
-                <span>
-                    WELCOME TO BASIS
-                </span>
-
-            </div>
-
-
-
-            <!-- PROFILE AVATAR -->
-            <div
-                class="profile-avatar-wrapper"
-                onclick="window.location.href='profile-admin.html'"
-            >
-
-                <img
-                    src="../images/profile_default.jpg"
-                    alt="Admin Profile"
-                    class="header-avatar"
-                >
-
-            </div>
-
-
-        </div>
-
-    </header>
-
-
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- =====================================================
-         MAIN
-         ===================================================== -->
+         SIDEBAR
+    ====================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
 
-    <main class="dash-main">
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
 
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Admin Profile">
+            <div>
+                <strong>ADMIN</strong>
+                <span>System Administrator</span>
+            </div>
+        </div>
 
-        <!-- =================================================
-             SCORECARD LIST
-             ================================================= -->
+        <nav class="sidebar-nav" aria-label="Admin navigation">
 
-        <section
-            id="view-scorecard"
-            class="page-view active"
-        >
+            <div class="sidebar-section-label">MAIN MENU</div>
 
+            <a class="sidebar-link " href="home-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
 
-            <!-- SCORECARD BANNER -->
-            <div class="view-banner">
+            <a class="sidebar-link" href="user-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="sidebar-text">User Management</span>
+            </a>
 
-                <h2>
-                    SCORECARD
-                </h2>
+            <a class="sidebar-link active" href="scorecard-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
 
+            <a class="sidebar-link" href="activity-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link" href="history-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="profile-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • ADMIN</span>
+                    <h1>Scorecard</h1>
+                </div>
             </div>
 
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, ADMIN!</strong>
+                </div>
+
+                <a class="topbar-avatar" href="profile-admin.html" aria-label="Open admin profile">
+                    <img src="../images/profile_default.jpg" alt="Admin Profile">
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="dash-main">
+
+            <!-- =================================================
+                 SCORECARD LIST
+            ================================================== -->
+            <section id="view-scorecard" class="page-view active">
+
+                <div class="scorecard-page-intro">
+                    <div>
+                        <span class="scorecard-eyebrow">ADMIN MODULE</span>
+                        <h2>Scorecard</h2>
+                        <p>Academic year and semester attendance records.</p>
+                    </div>
+
+                    <div class="scorecard-page-icon">
+                        <i class="fa-solid fa-address-card"></i>
+                    </div>
+                </div>
+
+                <div class="scorecard-list-shell">
+                    <div id="scorecardYears"></div>
+                </div>
+
+            </section>
 
 
-            <!-- SCORECARD LIST CONTAINER -->
-            <div class="view-body bordered-frame">
+            <!-- =================================================
+                 SCORECARD DETAIL
+            ================================================== -->
+            <section id="view-scorecard-detail" class="page-view">
 
+                <div class="scorecard-detail-topbar">
 
-                <div class="scorecard-list">
+                    <button
+                        type="button"
+                        class="scorecard-back-btn"
+                        onclick="showSubView('view-scorecard')"
+                        aria-label="Back to scorecards"
+                    >
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
 
-                    <!--
-                        ADMIN'S OWN SCORECARD
-                        JavaScript always places one scorecard here.
-                    -->
+                    <div>
+                        <span class="scorecard-eyebrow">ADMIN MODULE</span>
+                        <h2>Scorecard</h2>
+                    </div>
 
                 </div>
 
 
-            </div>
+                <div class="scorecard-detail-frame">
 
+                    <div class="scorecard-detail-card">
 
-        </section>
-
-
-
-        <!-- =================================================
-             SCORECARD DETAIL
-             ================================================= -->
-
-        <section
-            id="view-scorecard-detail"
-            class="page-view"
-        >
-
-
-            <!-- SCORECARD DETAIL HEADER -->
-            <div class="scorecard-header-banner">
-
-                <h2>
-                    SCORECARD
-                </h2>
-
-            </div>
-
-
-
-            <!-- SCORECARD OUTER FRAME -->
-            <div class="scorecard-outer-frame">
-
-
-                <!-- BACK BUTTON -->
-                <button
-                    type="button"
-                    class="scorecard-close-btn"
-                    onclick="showSubView('view-scorecard')"
-                    title="Back to Scorecards"
-                >
-
-                    <i class="fa-solid fa-circle-xmark"></i>
-
-                </button>
-
-
-
-                <!-- INNER SCORECARD -->
-                <div class="scorecard-inner-card">
-
-
-                    <!-- =====================================
-                         LEFT SCORECARD BAR
-                         ===================================== -->
-
-                    <div
-                        class="scorecard-vertical-bar left-bar"
-                    >
-
-                        <div class="stacked-text">
-
-                            <span>S</span>
-
-                            <span>C</span>
-
-                            <span>O</span>
-
-                            <span>R</span>
-
-                            <span>E</span>
-
-                            <span>C</span>
-
-                            <span>A</span>
-
-                            <span>R</span>
-
-                            <span>D</span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =====================================
-                         SCORECARD CONTENT
-                         ===================================== -->
-
-                    <div class="scorecard-content-area">
-
-
-                        <!-- =================================
-                             ADMIN INFORMATION
-                             ================================= -->
-
-                        <div class="scholar-info-column">
-
-
-                            <!-- ADMIN HEADER -->
-                            <div class="scholar-header">
-
-                                <h3>
-                                    BASIS ADMIN
-                                </h3>
-
-                                <span class="scholar-subtitle">
-                                    ADMIN'S INFORMATION
-                                </span>
-
+                        <div class="scorecard-side-label">
+                            <div class="stacked-text">
+                                <span>S</span>
+                                <span>C</span>
+                                <span>O</span>
+                                <span>R</span>
+                                <span>E</span>
+                                <span>C</span>
+                                <span>A</span>
+                                <span>R</span>
+                                <span>D</span>
                             </div>
-
-
-
-                            <!-- =================================
-                                 PERSONAL INFORMATION
-                                 ================================= -->
-
-                            <div class="info-grid-2col">
-
-
-                                <!-- NAME -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Name:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-name"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- SEX -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Sex:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-sex"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- BIRTHDAY -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Birthday:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-birthday"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- RELIGION -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Religion:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-religion"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- EMAIL -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Email Address:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-email"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- CONTACT -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Contact No.:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-contact"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- MUNICIPALITY -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Municipality:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-municipality"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- BARANGAY -->
-                                <div class="info-item">
-
-                                    <span class="info-label">
-                                        Barangay:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-barangay"
-                                    ></span>
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <!-- DIVIDER -->
-                            <hr class="scorecard-hr">
-
-
-
-                            <!-- =================================
-                                 FAMILY INFORMATION
-                                 ================================= -->
-
-                            <div class="family-info-block">
-
-
-                                <!-- FATHER NAME -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Father's Name:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-father"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- FATHER CONTACT -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Contact No.:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-father-contact"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- MOTHER NAME -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Mother's Name:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-mother"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- MOTHER CONTACT -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Contact No.:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-mother-contact"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- SIBLINGS -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Name of Siblings:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-siblings"
-                                    ></span>
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <!-- DIVIDER -->
-                            <hr class="scorecard-hr">
-
-
-
-                            <!-- =================================
-                                 ACADEMIC INFORMATION
-                                 ================================= -->
-
-                            <div class="academic-info-block">
-
-
-                                <!-- SCHOOL -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        School:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-school"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- PROGRAM -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Program:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-program"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- YEAR LEVEL -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Year Level:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-year"
-                                    ></span>
-
-                                </div>
-
-
-
-                                <!-- CONTROL NUMBER -->
-                                <div class="info-item-single">
-
-                                    <span class="info-label">
-                                        Control No.:
-                                    </span>
-
-                                    <span
-                                        class="info-val"
-                                        id="info-control"
-                                    ></span>
-
-                                </div>
-
-
-                            </div>
-
-
                         </div>
 
 
+                        <div class="scorecard-detail-content">
 
-                        <!-- =====================================
-                             DOTTED DIVIDER
-                             ===================================== -->
+                            <!-- ADMIN INFORMATION -->
+                            <div class="scholar-info-column">
 
-                        <div class="scorecard-dotted-divider"></div>
+                                <div class="scholar-header">
+                                    <div class="admin-avatar-small">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
 
-
-
-                        <!-- =====================================
-                             ACTIVITY / ATTENDANCE
-                             ===================================== -->
-
-                        <div class="activity-log-column">
-
-
-                            <!-- AY + SEMESTER -->
-                            <div class="activity-log-header">
-
-
-                                <span
-                                    class="ay-title"
-                                    id="scorecardAYTitle"
-                                >
-                                    AY: 2026–2027
-                                </span>
+                                    <div>
+                                        <h3>BASIS ADMIN</h3>
+                                        <span class="scholar-subtitle">
+                                            ADMIN'S INFORMATION
+                                        </span>
+                                    </div>
+                                </div>
 
 
+                                <div class="info-section">
 
-                                <span
-                                    class="sem-title"
-                                    id="scorecardSemTitle"
-                                >
-                                    FIRST SEMESTER
-                                </span>
+                                    <div class="info-section-title">
+                                        <i class="fa-solid fa-user"></i>
+                                        Personal Information
+                                    </div>
 
+                                    <div class="info-grid-2col">
+
+                                        <div class="info-item">
+                                            <span class="info-label">Name</span>
+                                            <span class="info-val" id="info-name"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Sex</span>
+                                            <span class="info-val" id="info-sex"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Birthday</span>
+                                            <span class="info-val" id="info-birthday"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Religion</span>
+                                            <span class="info-val" id="info-religion"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Email Address</span>
+                                            <span class="info-val" id="info-email"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Contact No.</span>
+                                            <span class="info-val" id="info-contact"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Municipality</span>
+                                            <span class="info-val" id="info-municipality"></span>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span class="info-label">Barangay</span>
+                                            <span class="info-val" id="info-barangay"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="info-section">
+
+                                    <div class="info-section-title">
+                                        <i class="fa-solid fa-people-roof"></i>
+                                        Family Information
+                                    </div>
+
+                                    <div class="info-list">
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Father's Name</span>
+                                            <span class="info-val" id="info-father"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Father Contact</span>
+                                            <span class="info-val" id="info-father-contact"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Mother's Name</span>
+                                            <span class="info-val" id="info-mother"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Mother Contact</span>
+                                            <span class="info-val" id="info-mother-contact"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Siblings</span>
+                                            <span class="info-val" id="info-siblings"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="info-section">
+
+                                    <div class="info-section-title">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                        Academic Information
+                                    </div>
+
+                                    <div class="info-list">
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">School</span>
+                                            <span class="info-val" id="info-school"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Program</span>
+                                            <span class="info-val" id="info-program"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Year Level</span>
+                                            <span class="info-val" id="info-year"></span>
+                                        </div>
+
+                                        <div class="info-item-single">
+                                            <span class="info-label">Control No.</span>
+                                            <span class="info-val" id="info-control"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
 
                             </div>
 
 
+                            <div class="scorecard-dotted-divider"></div>
 
-                            <!-- ACTIVITY ROWS -->
-                            <div
-                                class="activity-rows-container"
-                                id="activityRows">
+
+                            <!-- ACTIVITY / ATTENDANCE -->
+                            <div class="activity-log-column">
+
+                                <div class="activity-log-header">
+
+                                    <div>
+                                        <span class="activity-label">ACADEMIC YEAR</span>
+                                        <strong class="ay-title" id="scorecardAYTitle">
+                                            AY: 2026–2027
+                                        </strong>
+                                    </div>
+
+                                    <span class="sem-title" id="scorecardSemTitle">
+                                        FIRST SEMESTER
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    class="activity-rows-container"
+                                    id="activityRows"
+                                >
                         <div class="activity-form-row">
                             
                             <div class="field-group title-field">
@@ -772,151 +509,29 @@
                             </div>
 
 
-                        </div>
+                        </div>                            
+                            
+                            </div>
 
+                            </div>
+
+                        </div>
 
                     </div>
 
-
-
-                    <!-- =====================================
-                         RIGHT SCORECARD BAR
-                         ===================================== -->
-
-                    <div
-                        class="scorecard-vertical-bar right-bar"
-                    ></div>
-
-
                 </div>
 
+            </section>
 
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- =====================================================
-         BOTTOM NAVIGATION
-         ===================================================== -->
-
-    <nav class="bottom-nav">
-
-
-        <div class="bottom-nav-inner">
-
-
-            <!-- HOME -->
-            <a
-                class="nav-item"
-                href="home-admin.html"
-            >
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>
-                    Home
-                </span>
-
-            </a>
-
-
-
-            <!-- USER -->
-            <a
-                class="nav-item"
-                href="user-admin.html"
-            >
-
-                <i class="fa-solid fa-user"></i>
-
-                <span>
-                    User
-                </span>
-
-            </a>
-
-
-            <!-- SCORECARD -->
-            <a
-                class="nav-item active"
-                href="scorecard-admin.html"
-            >
-
-                <i class="fa-solid fa-address-card"></i>
-
-                <span>
-                    Scorecard
-                </span>
-
-            </a>
-
-
-
-            <!-- ACTIVITY -->
-            <a
-                class="nav-item"
-                href="activity-admin.html"
-            >
-
-                <i class="fa-solid fa-book-open"></i>
-
-                <span>
-                    Activity
-                </span>
-
-            </a>
-
-
-
-            <!-- HISTORY -->
-            <a
-                class="nav-item"
-                href="history-admin.html"
-            >
-
-                <i class="fa-solid fa-book-bookmark"></i>
-
-                <span>
-                    History
-                </span>
-
-            </a>
-
-
-
-            <!-- MORE -->
-            <a
-                class="nav-item"
-                href="more-admin.html"
-            >
-
-                <i class="fa-solid fa-ellipsis"></i>
-
-                <span>
-                    More
-                </span>
-
-            </a>
-
-
-        </div>
-
-    </nav>
-
-
+        </main>
 
     <!-- =====================================================
          JAVASCRIPT
          ===================================================== -->
 
-    <script src="../script.js?v=20261005-user-name-header"></script>
-    <script src="../scorecard/scorecard.js?v=20261005-scorecard-layout2"></script>
+<script src="../script.js?v=20261005-user-name-header"></script>
+<script src="scorecard-admin.js"></script>
+<script src="../auth.js?v=3"></script>
 
 
 </body>

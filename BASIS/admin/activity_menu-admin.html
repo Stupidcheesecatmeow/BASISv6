@@ -8,32 +8,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-admin.css?v=9">
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="activity-admin.css">
+    <link rel="stylesheet" href="home-admin.css?v=7">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
+
 <body class="dashboard-page admin-page">
 
-<header class="dash-header">
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
-    <div class="header-right">
-        <div class="welcome-text">
-            <h1>MABUHAY, ADMIN!</h1>
-            <span>WELCOME TO BASIS</span>
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-admin.html'">
-            <img src="../images/profile_default.jpg" alt="Admin Profile" class="header-avatar">
+
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Admin Profile">
+            <div>
+                <strong>ADMIN</strong>
+                <span>System Administrator</span>
+            </div>
         </div>
-    </div>
-</header>
+
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+
+            <div class="sidebar-section-label">MAIN MENU</div>
+
+            <a class="sidebar-link" href="home-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <a class="sidebar-link" href="user-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="sidebar-text">User Management</span>
+            </a>
+
+            <a class="sidebar-link" href="scorecard-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
+
+            <a class="sidebar-link active" href="activity-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link" href="history-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="profile-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • ADMIN</span>
+                    <h1>Activities</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, ADMIN!</strong>
+                </div>
+
+                <a class="topbar-avatar" href="profile-admin.html" aria-label="Open admin profile">
+                    <img src="../images/profile_default.jpg" alt="Admin Profile">
+                </a>
+            </div>
+        </header>
 
 <main class="dash-main">
 <section id="view-activity-menu" class="page-view active">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="window.location.href='activity-admin.html'"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -55,9 +156,9 @@
 </section>
 
 <section id="view-activity-scan" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -100,9 +201,9 @@
 </section>
 
 <section id="view-activity-verify" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -123,9 +224,9 @@
 </section>
 
 <section id="view-activity-verify-attendance" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -167,9 +268,9 @@
 </section>
 
 <section id="view-activity-verify-absence" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -211,9 +312,9 @@
 </section>
 
 <section id="view-activity-verified" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-verify')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -222,10 +323,9 @@
                 <div class="search-filter-controls">
                     <div class="search-input-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search...">
+                        <input id="verifiedSearchInput" type="search" placeholder="Search verified submissions..." autocomplete="off">
                     </div>
-                    <button class="filter-btn">FILTER</button>
-                    <button class="filter-btn" type="button" onclick="exportActivityParticipants()">EXPORT TO EXCEL</button>
+                    <button class="filter-btn" id="verifiedFilterBtn" type="button">FILTER: ALL</button>
                 </div>
             </div>
 
@@ -241,9 +341,9 @@
 </section>
 
 <section id="view-activity-participants" class="page-view">
-        <div class="view-banner">
+        <!-- <div class="view-banner">
             <h2>ACTIVITY</h2>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame relative-frame">
             <button class="close-view-btn" onclick="showSubView('view-activity-menu')"><i class="fa-solid fa-circle-xmark"></i></button>
 
@@ -252,9 +352,10 @@
                 <div class="search-filter-controls">
                     <div class="search-input-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search...">
+                        <input id="participantsSearchInput" type="search" placeholder="Search participants..." autocomplete="off">
                     </div>
-                    <button class="filter-btn">FILTER</button>
+                    <button class="filter-btn" id="participantsFilterBtn" type="button">FILTER: ALL</button>
+                    <button class="export-btn" type="button" onclick="exportActivityParticipants()"><i class="fa-solid fa-file-excel"></i> EXPORT TO EXCEL</button>
                 </div>
             </div>
 
@@ -279,39 +380,12 @@
 </section>
 </main>
 
-<nav class="bottom-nav">
-    <div class="bottom-nav-inner">
-        <a class="nav-item" href="home-admin.html">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-        <a class="nav-item" href="users-admin.html">
-            <i class="fa-solid fa-user"></i>
-            <span>User</span>
-        </a>
-        <a class="nav-item" href="scorecard-admin.html">
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
-        <a class="nav-item active" href="activity-admin.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
-        <a class="nav-item" href="history-admin.html">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
-        <a class="nav-item" href="more-admin.html">
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
-    </div>
-</nav>
-
 <script src="../script.js?v=20261005-user-name-header"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="activity-admin.js?v=20261005-deadline-history"></script>
+<script src="activity-admin.js?v=20261011-activity-fixes"></script>
+<script src="../auth.js?v=3"></script>
+
 
 </body>
 </html>

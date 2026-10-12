@@ -6,6 +6,10 @@ const ACTIVITY_STORAGE_KEY = 'basisAdminActivities';
 const SELECTED_ACTIVITY_KEY = 'basisAdminSelectedActivityId';
 let pendingSubmissions = [];
 let currentSubmission = null;
+let activityVerifiedRows = [];
+let activityParticipantRows = [];
+let verifiedFilterMode = 'all';
+let participantFilterMode = 'all';
 
 async function activityRequest(action, body){ const r=await fetch(`api/activity_api.php?action=${action}`,{method:body?'POST':'GET',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined}); const d=await r.json(); if(!r.ok||!d.success)throw new Error(d.message||'Activity request failed.'); return d; }
 async function getActivities(){ return (await activityRequest('list')).activities||[]; }
@@ -27,7 +31,20 @@ function fillActivityDetails(a){
  if(!a)return;
  const sem=semesterLabel(a), date=formatDate(a.date), time=[a.startTime,a.endTime].filter(Boolean).join(' - '), deadline=[formatDate(a.deadlineDate),a.deadlineTime].filter(Boolean).join(' ');
  setText('detailActivityTitle',a.name); setText('detailActivityType',a.type); setText('detailSemester',sem); setText('detailDate',date); setText('detailTime',time); setText('detailVenue',a.venue); setText('detailVenueAddress',a.venueAddress); setText('detailDescription',a.description); setText('detailDeadline',deadline);
- const descriptionImage=document.getElementById('detailDescriptionImage'); const imageSource=a.description_image||a.descriptionImage||''; if(descriptionImage){descriptionImage.hidden=!imageSource;if(imageSource)descriptionImage.src=imageSource;else descriptionImage.removeAttribute('src');}
+ const descriptionImage=document.getElementById('detailDescriptionImage');
+ const imageEmpty=document.getElementById('activityDetailImageEmpty');
+ const imageSource=a.description_image||a.descriptionImage||'';
+ if(descriptionImage){
+   descriptionImage.hidden=!imageSource;
+   if(imageSource){
+     descriptionImage.src=imageSource;
+     descriptionImage.onload=()=>{descriptionImage.hidden=false;if(imageEmpty)imageEmpty.hidden=true;};
+     descriptionImage.onerror=()=>{descriptionImage.hidden=true;if(imageEmpty)imageEmpty.hidden=false;};
+   }else{
+     descriptionImage.removeAttribute('src');
+   }
+ }
+ if(imageEmpty)imageEmpty.hidden=!!imageSource;
  setText('qrSemester',sem); setText('qrTitle',a.name); setText('qrType',a.type); setText('qrDate',date); setText('qrTime',time); setText('qrVenue',a.venue); setText('qrVenueAddress',a.venueAddress); setText('qrName',a.name); setText('qrMunicipality',a.municipality); setText('qrBarangay',a.barangay); setText('qrDeadline',deadline);
  const qrImage=document.getElementById('activityQrImage'); if(qrImage){const enabled=['qr','both'].includes(String(a.generateQr||a.generate_qr||'').toLowerCase());qrImage.hidden=!enabled;if(enabled)loadPersonalActivityQr(qrImage,a.id);}
  fillPersonalActivityQrDetails(a,date,time,deadline,sem);
@@ -59,17 +76,384 @@ let activeScannerStream=null; let activeHtml5Scanner=null;
 async function submitScannedActivityQr(value, activity){let payload;let qrPayload=value;try{payload=JSON.parse(value);}catch{payload=null;}if(!payload){const parts=String(value).split(/\r?\n/).map(part=>part.trim()).filter(Boolean);if(parts.length===3){payload={activity_name:parts[0],name:parts[1],barangay:parts[2]};qrPayload=JSON.stringify(payload);}}const newFormat=payload&&payload.activity_name&&payload.name&&Object.prototype.hasOwnProperty.call(payload,'barangay');const oldFormat=payload?.kind==='BASIS_ACTIVITY_ATTENDANCE';const tokenFormat=/^BASIS1:[a-f0-9]{48}$/.test(value);if(!newFormat&&!oldFormat&&!tokenFormat)throw new Error('This is not a valid BASIS activity QR.');if(oldFormat&&Number(payload.activity_id)!==Number(activity.id))throw new Error('This QR belongs to a different activity.');if(newFormat&&String(payload.activity_name)!==String(activity.name))throw new Error('This QR belongs to a different activity.');return activityRequest('check-in',{activity_id:Number(activity.id),qr_payload:qrPayload});}
 async function prepareQrImageVariants(file){const variants=[file];if(!('createImageBitmap'in window))return variants;let bitmap;try{bitmap=await createImageBitmap(file);for(const scale of [2,3]){const canvas=document.createElement('canvas');const maxSide=1800;const factor=Math.min(scale,maxSide/Math.max(bitmap.width,bitmap.height));canvas.width=Math.max(1,Math.round(bitmap.width*factor));canvas.height=Math.max(1,Math.round(bitmap.height*factor));const context=canvas.getContext('2d');context.filter='grayscale(1) contrast(1.35)';context.drawImage(bitmap,0,0,canvas.width,canvas.height);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(blob)variants.push(blob);}}catch{}finally{bitmap?.close();}return variants;}
 window.importActivityQr=async function(){const input=document.getElementById('qrImportFile'),mount=document.getElementById('qrScannerMount'),status=document.getElementById('scanStatus'),file=input?.files?.[0];if(!file)return;try{const activity=await getSelectedActivity();if(!activity)throw new Error('Open an activity first.');if(status)status.textContent='Reading QR image…';const variants=await prepareQrImageVariants(file);let decoded='';for(const image of variants){if(window.Html5Qrcode){let decoder;try{mount.hidden=false;decoder=new Html5Qrcode('qrScannerMount',{formatsToSupport:[Html5QrcodeSupportedFormats.QR_CODE]});decoded=await decoder.scanFile(image,false);if(decoded)break;}catch{}finally{if(decoder){try{await decoder.clear();}catch{}}mount.hidden=true;}}if(!decoded&&'BarcodeDetector'in window){let bitmap;try{bitmap=await createImageBitmap(image);const codes=await new BarcodeDetector({formats:['qr_code']}).detect(bitmap);if(codes.length){decoded=codes[0].rawValue||'';if(decoded)break;}}catch{}finally{bitmap?.close();}}}if(!decoded)throw new Error('Could not read a QR code from this image. Try a sharper, uncropped QR image with the whole code visible.');const result=await submitScannedActivityQr(decoded,activity);if(status)status.textContent=result.message;}catch(error){if(status)status.textContent=error.message||'Could not read that QR image.';}finally{if(mount)mount.hidden=true;if(input)input.value='';}};
-window.runScan=async function(){const button=document.getElementById('scanActionBtn'),mount=document.getElementById('qrScannerMount'),video=document.getElementById('qrScanVideo'),status=document.getElementById('scanStatus');if(!button)return;const activity=await getSelectedActivity();if(!activity){if(status)status.textContent='Open an activity first.';return;}const setStatus=(message)=>{if(status)status.textContent=message;};const stop=async()=>{if(activeHtml5Scanner){try{await activeHtml5Scanner.stop();await activeHtml5Scanner.clear();}catch{}activeHtml5Scanner=null;}if(activeScannerStream){activeScannerStream.getTracks().forEach(track=>track.stop());activeScannerStream=null;}if(mount)mount.hidden=true;if(video)video.hidden=true;button.disabled=false;button.textContent='SCAN WITH CAMERA';};window.stopActivityScanner=stop;const record=async(value)=>{const result=await submitScannedActivityQr(value,activity);setStatus(result.message);await stop();};
- if(window.Html5Qrcode){if(!navigator.mediaDevices?.getUserMedia){setStatus('Camera is unavailable. Use Import QR Image or open the app on localhost and allow camera access.');return;}try{button.disabled=true;button.textContent='SCANNING…';mount.hidden=false;setStatus('');activeHtml5Scanner=new Html5Qrcode('qrScannerMount',{formatsToSupport:[Html5QrcodeSupportedFormats.QR_CODE]});await activeHtml5Scanner.start({facingMode:'environment'},{fps:10,qrbox:(width,height)=>{const size=Math.floor(Math.min(width,height)*.94);return {width:size,height:size};}},async(decoded)=>{if(activeHtml5Scanner){try{await record(decoded);}catch(error){setStatus(error.message);await stop();}}},()=>{});const fitCamera=()=>mount.querySelectorAll('video').forEach(camera=>{camera.style.setProperty('width','100%','important');camera.style.setProperty('height','100%','important');camera.style.setProperty('max-width','none','important');camera.style.setProperty('object-fit','cover','important');});fitCamera();const layoutObserver=new MutationObserver(fitCamera);layoutObserver.observe(mount,{childList:true,subtree:true,attributes:true,attributeFilter:['style']});window.stopActivityScanner=async()=>{layoutObserver.disconnect();await stop();};return;}catch(error){await stop();setStatus('Could not start camera: '+error.message+' Check camera permission.');return;}}
- if(!('BarcodeDetector'in window)||!navigator.mediaDevices?.getUserMedia){setStatus('Camera scanner is unavailable. Use Import QR Image or check your internet connection.');return;}try{activeScannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});video.srcObject=activeScannerStream;video.hidden=false;mount.hidden=true;await video.play();button.disabled=true;button.textContent='SCANNING…';setStatus('');const detector=new BarcodeDetector({formats:['qr_code']});const scan=async()=>{if(!activeScannerStream)return;try{const codes=await detector.detect(video);if(codes.length){try{await record(codes[0].rawValue||'');}catch(error){setStatus(error.message);await stop();}}else requestAnimationFrame(scan);}catch(error){setStatus(error.message);await stop();}};requestAnimationFrame(scan);}catch(error){setStatus('Camera unavailable: '+error.message);await stop();}};
-async function loadSubmissionData(){const a=await getSelectedActivity();if(!a)return;const [pending,done,people]=await Promise.all([activityRequest(`submissions&activity_id=${a.id}&status=pending`),activityRequest(`submissions&activity_id=${a.id}&status=verified`),activityRequest(`participants&activity_id=${a.id}`)]);pendingSubmissions=pending.submissions||[];renderSubmissionList('verifyListContainer',pendingSubmissions,true);renderSubmissionList('verifiedSubmissionList',done.submissions||[],false);renderParticipants(people.participants||[]);}
-function renderSubmissionList(id,rows,actionable){const list=document.getElementById(id);if(!list)return;list.innerHTML='';if(!rows.length){list.innerHTML='<div class="admin-empty-subview"><h4>No submissions yet.</h4></div>';return;}rows.forEach(row=>{const card=document.createElement('div');card.className='submission-review-card';card.innerHTML=`<strong>${escapeHtml(row.name)}</strong><span>${escapeHtml(row.submission_type)} · ${escapeHtml(row.file_name)} · ${escapeHtml(row.status)}</span>${actionable?'<button type="button">REVIEW</button>':''}`;if(actionable)card.querySelector('button').onclick=()=>openSubmission(row);list.appendChild(card);});}
-let activityParticipantRows=[];
-function renderParticipants(rows){activityParticipantRows=rows;const body=document.getElementById('participantsTableBody');if(!body)return;body.innerHTML=rows.length?'': '<tr><td colspan="5" class="empty-table-cell">No participants yet.</td></tr>';rows.forEach(row=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.barangay||'—')}</td><td>${escapeHtml(row.time_in||'—')}</td><td>${escapeHtml(row.time_out||'—')}</td><td>${escapeHtml(row.submission||'—')}</td>`;body.appendChild(tr);});}
-window.exportActivityParticipants=function(){if(!activityParticipantRows.length){alert('There are no attendance records to export yet.');return;}if(!window.XLSX){alert('Excel export could not load. Refresh the page and try again.');return;}const rows=activityParticipantRows.map(row=>({'NAME':row.name||'','BARANGAY':row.barangay||'','TIME IN':row.time_in||'','TIME OUT':row.time_out||'','SUBMISSION':row.submission||'—'}));const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Participants');const title=(document.getElementById('participantsActivityTitle')?.textContent||'activity').replace(/[^a-z0-9-_]+/gi,'_');XLSX.writeFile(wb,`BASIS_${title}_participants.xlsx`);};
+window.runScan=async function(){
+ const button=document.getElementById('scanActionBtn');
+ const mount=document.getElementById('qrScannerMount');
+ const fallbackVideo=document.getElementById('qrScanVideo');
+ const status=document.getElementById('scanStatus');
+ if(!button||!mount)return;
+ const setStatus=message=>{if(status)status.textContent=message||'';};
+ const activity=await getSelectedActivity();
+ if(!activity){setStatus('Open an activity first.');return;}
+ const stop=async()=>{
+   if(activeHtml5Scanner){
+     try{if(activeHtml5Scanner.isScanning)await activeHtml5Scanner.stop();}catch(error){console.warn('Could not stop QR scanner:',error);}
+     try{await activeHtml5Scanner.clear();}catch(error){console.warn('Could not clear QR scanner:',error);}
+     activeHtml5Scanner=null;
+   }
+   if(activeScannerStream){activeScannerStream.getTracks().forEach(track=>track.stop());activeScannerStream=null;}
+   mount.hidden=true;
+   mount.replaceChildren();
+   if(fallbackVideo){fallbackVideo.pause?.();fallbackVideo.srcObject=null;fallbackVideo.hidden=true;}
+   const preview=mount.closest('.scan-preview');preview?.classList.remove('is-scanning');
+   button.disabled=false;button.textContent='SCAN WITH CAMERA';
+ };
+ window.stopActivityScanner=stop;
+ if(!navigator.mediaDevices?.getUserMedia){
+   setStatus('Camera access is unavailable. Open BASIS on localhost and allow camera permission, or use Import QR Image.');
+   return;
+ }
+ if(!window.Html5Qrcode||!window.Html5QrcodeSupportedFormats){
+   setStatus('The QR scanner library did not load. Refresh the page or use Import QR Image.');
+   return;
+ }
+ try{
+   button.disabled=true;
+   button.textContent='SCANNING…';
+   setStatus('Starting camera…');
+   if(fallbackVideo)fallbackVideo.hidden=true;
+   mount.hidden=false;
+   mount.replaceChildren();
+   mount.style.display='block';
+   mount.style.position='relative';
+   mount.style.inset='auto';
+   mount.style.width='100%';
+   mount.style.height='100%';
+   mount.style.minHeight='280px';
+   mount.style.maxWidth='100%';
+   mount.style.overflow='hidden';
+   mount.style.boxSizing='border-box';
+   mount.closest('.scan-preview')?.classList.add('is-scanning');
+   activeHtml5Scanner=new Html5Qrcode('qrScannerMount',{
+     verbose:false,
+     formatsToSupport:[Html5QrcodeSupportedFormats.QR_CODE]
+   });
+   const availableCameras=await Html5Qrcode.getCameras();
+   if(!availableCameras||!availableCameras.length)throw new Error('No camera was found. Check that the camera is connected and allowed in Chrome.');
+   const preferredCamera=availableCameras.find(camera=>/back|rear|environment/i.test(camera.label||''))||availableCameras[0];
+   await activeHtml5Scanner.start(
+     preferredCamera.id,
+     {
+       fps:10,
+       qrbox:(width,height)=>{
+         const size=Math.floor(Math.min(width,height)*0.72);
+         return {width:size,height:size};
+       },
+       aspectRatio:1.0
+     },
+     async decodedText=>{
+       if(!activeHtml5Scanner)return;
+       try{
+         const result=await submitScannedActivityQr(decodedText,activity);
+         setStatus(result.message||'Attendance recorded.');
+       }catch(error){setStatus(error.message||'Unable to record this QR code.');}
+       await stop();
+     },
+     ()=>{}
+   );
+   setStatus('Camera is on. Point the QR code inside the preview.');
+ }catch(error){
+   await stop();
+   setStatus('Could not start camera: '+(error?.message||'Check camera permission and close other apps using the camera.'));
+ }
+};
+async function loadSubmissionData(){
+ const activity=await getSelectedActivity();
+ if(!activity)return;
+ const listResults=await Promise.allSettled([
+   activityRequest(`submissions&activity_id=${encodeURIComponent(activity.id)}&status=pending`),
+   activityRequest(`submissions&activity_id=${encodeURIComponent(activity.id)}&status=verified`),
+   activityRequest(`participants&activity_id=${encodeURIComponent(activity.id)}`)
+ ]);
+ const pendingResult=listResults[0],verifiedResult=listResults[1],participantsResult=listResults[2];
+
+ if(pendingResult.status==='fulfilled'){
+   pendingSubmissions=Array.isArray(pendingResult.value.submissions)?pendingResult.value.submissions:[];
+   renderSubmissionList('verifyListContainer',pendingSubmissions,true);
+ }else{
+   const list=document.getElementById('verifyListContainer');
+   if(list)list.innerHTML=`<div class="admin-empty-subview"><h4>Unable to load submissions.</h4><p>${escapeHtml(pendingResult.reason?.message||'Please check the activity API.')}</p></div>`;
+ }
+
+ if(verifiedResult.status==='fulfilled'){
+   activityVerifiedRows=Array.isArray(verifiedResult.value.submissions)?verifiedResult.value.submissions:[];
+   renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false);
+ }else{
+   const list=document.getElementById('verifiedSubmissionList');
+   if(list)list.innerHTML=`<div class="admin-empty-subview"><h4>Unable to load verified activities.</h4><p>${escapeHtml(verifiedResult.reason?.message||'Please check the activity API.')}</p></div>`;
+ }
+
+ if(participantsResult.status==='fulfilled'){
+   const people=participantsResult.value;
+   activityParticipantRows=Array.isArray(people.participants)?people.participants:[];
+   renderParticipants(activityParticipantRows);
+ }else{
+   const body=document.getElementById('participantsTableBody');
+   if(body)body.innerHTML=`<tr><td colspan="5" class="empty-table-cell">Unable to load participants: ${escapeHtml(participantsResult.reason?.message||'Please check the activity API.')}</td></tr>`;
+ }
+}
+
+function renderSubmissionList(id,rows,actionable){
+ const list=document.getElementById(id);if(!list)return;
+ const query=actionable?'':(document.getElementById('verifiedSearchInput')?.value||'').trim().toLowerCase();
+ const filtered=(Array.isArray(rows)?rows:[]).filter(row=>{
+   const haystack=[row.name,row.full_name,row.submission_type,row.file_name,row.status].map(v=>String(v||'')).join(' ').toLowerCase();
+   if(query&&!haystack.includes(query))return false;
+   if(!actionable){
+     const type=String(row.submission_type||row.type||'').toLowerCase();
+     if(verifiedFilterMode==='attendance'&&type!=='attendance')return false;
+     if(verifiedFilterMode==='absence'&&type!=='absence')return false;
+   }
+   return true;
+ });
+ list.innerHTML='';
+ if(!filtered.length){
+   const title=actionable?'No submissions yet.':'No verified activities found.';
+   list.innerHTML=`<div class="admin-empty-subview"><h4>${title}</h4><p>${query?'Try another search term or filter.':'Submitted records will appear here when available.'}</p></div>`;
+   return;
+ }
+ filtered.forEach(row=>{
+   const name=row.name||row.full_name||row.fullName||'Unknown participant';
+   const type=row.submission_type||row.type||'Submission';
+   const fileName=row.file_name||row.fileName||'No filename';
+   const status=row.status||'';
+   const card=document.createElement('div');card.className='submission-review-card';
+   const nameEl=document.createElement('strong');nameEl.textContent=name;
+   const detailEl=document.createElement('span');detailEl.textContent=[type,fileName,status].filter(Boolean).join(' · ');
+   card.append(nameEl,detailEl);
+   if(actionable){
+     const button=document.createElement('button');button.type='button';button.textContent='REVIEW';
+     button.addEventListener('click',()=>openSubmission(row));card.appendChild(button);
+   }
+   list.appendChild(card);
+ });
+}
+
+function renderParticipants(rows){
+ activityParticipantRows=Array.isArray(rows)?rows:[];
+ applyParticipantFilters();
+}
+function participantValue(row,...keys){
+ for(const key of keys){const value=row?.[key];if(value!==undefined&&value!==null&&String(value).trim()!=='')return value;}
+ return '';
+}
+function applyParticipantFilters(){
+ const body=document.getElementById('participantsTableBody');if(!body)return;
+ const query=(document.getElementById('participantsSearchInput')?.value||'').trim().toLowerCase();
+ const rows=activityParticipantRows.filter(row=>{
+   const name=participantValue(row,'name','full_name','fullName');
+   const barangay=participantValue(row,'barangay','barangay_name','barangayName');
+   const timeIn=participantValue(row,'time_in','timeIn');
+   const timeOut=participantValue(row,'time_out','timeOut');
+   const submission=participantValue(row,'submission','submission_status','submissionStatus','status');
+   const haystack=[name,barangay,timeIn,timeOut,submission].join(' ').toLowerCase();
+   if(query&&!haystack.includes(query))return false;
+   const submitted=String(submission||'').trim().toLowerCase();
+   if(participantFilterMode==='submitted'&&(!submitted||['—','none','no submission','missing'].includes(submitted)))return false;
+   if(participantFilterMode==='missing'&&(submitted&&!['—','none','no submission','missing'].includes(submitted)))return false;
+   return true;
+ });
+ body.innerHTML='';
+ if(!rows.length){
+   body.innerHTML=`<tr><td colspan="5" class="empty-table-cell">${query||participantFilterMode!=='all'?'No matching participants found.':'No participants yet.'}</td></tr>`;
+   return;
+ }
+ rows.forEach(row=>{
+   const tr=document.createElement('tr');
+   const values=[
+     participantValue(row,'name','full_name','fullName')||'—',
+     participantValue(row,'barangay','barangay_name','barangayName')||'—',
+     participantValue(row,'time_in','timeIn')||'—',
+     participantValue(row,'time_out','timeOut')||'—',
+     participantValue(row,'submission','submission_status','submissionStatus','status')||'—'
+   ];
+   values.forEach(value=>{const td=document.createElement('td');td.textContent=String(value);tr.appendChild(td);});
+   body.appendChild(tr);
+ });
+}
+function cycleVerifiedFilter(){
+ const modes=['all','attendance','absence'];
+ const labels={all:'FILTER: ALL',attendance:'FILTER: ATTENDANCE',absence:'FILTER: ABSENCE'};
+ verifiedFilterMode=modes[(modes.indexOf(verifiedFilterMode)+1)%modes.length];
+ const button=document.getElementById('verifiedFilterBtn');if(button)button.textContent=labels[verifiedFilterMode];
+ renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false);
+}
+function cycleParticipantFilter(){
+ const modes=['all','submitted','missing'];
+ const labels={all:'FILTER: ALL',submitted:'FILTER: WITH SUBMISSION',missing:'FILTER: NO SUBMISSION'};
+ participantFilterMode=modes[(modes.indexOf(participantFilterMode)+1)%modes.length];
+ const button=document.getElementById('participantsFilterBtn');if(button)button.textContent=labels[participantFilterMode];
+ applyParticipantFilters();
+}
+window.exportActivityParticipants=function(){
+ if(!activityParticipantRows.length){alert('There are no participant records to export yet.');return;}
+ if(!window.XLSX){alert('Excel export could not load. Refresh the page and try again.');return;}
+ const rows=activityParticipantRows.map(row=>({
+   'NAME':participantValue(row,'name','full_name','fullName'),
+   'BARANGAY':participantValue(row,'barangay','barangay_name','barangayName'),
+   'TIME IN':participantValue(row,'time_in','timeIn'),
+   'TIME OUT':participantValue(row,'time_out','timeOut'),
+   'SUBMISSION':participantValue(row,'submission','submission_status','submissionStatus','status')||'—'
+ }));
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Participants');
+ const title=(document.getElementById('participantsActivityTitle')?.textContent||'activity').replace(/[^a-z0-9-_]+/gi,'_');
+ XLSX.writeFile(wb,`BASIS_${title}_participants.xlsx`);
+};
 function openSubmission(row){currentSubmission=row;const view=row.submission_type==='absence'?'view-activity-verify-absence':'view-activity-verify-attendance';showSubView(view);setAll('.verify-name',row.name);const preview=document.querySelector(`#${view} .submitted-file-preview`);if(!preview)return;preview.replaceChildren();if(row.submission_type==='attendance'){const image=document.createElement('img');image.src=row.file_data;image.alt=`Attendance proof submitted by ${row.name||'user'}`;image.className='proof-image-preview';preview.appendChild(image);}else{const pdf=document.createElement('iframe');pdf.src=row.file_data;pdf.title=`Absence excuse letter submitted by ${row.name||'user'}`;pdf.className='proof-pdf-preview';preview.appendChild(pdf);}}
 window.openVerifyDetail=function(t){const row=pendingSubmissions.find(s=>s.submission_type===t);if(row)openSubmission(row);else alert('No pending '+t+' submissions.');};
 window.resolveVerification=async function(status){if(!currentSubmission)return;try{await activityRequest('verify',{id:currentSubmission.id,status});currentSubmission=null;await loadSubmissionData();showSubView('view-activity-verify');}catch(e){alert(e.message);}};
 window.submitNewActivity=function(){document.querySelector('.create-btn')?.click();};
 
+document.addEventListener('DOMContentLoaded',()=>{
+ const verifiedSearch=document.getElementById('verifiedSearchInput');
+ const participantsSearch=document.getElementById('participantsSearchInput');
+ verifiedSearch?.addEventListener('input',()=>renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false));
+ participantsSearch?.addEventListener('input',applyParticipantFilters);
+ document.getElementById('verifiedFilterBtn')?.addEventListener('click',cycleVerifiedFilter);
+ document.getElementById('participantsFilterBtn')?.addEventListener('click',cycleParticipantFilter);
+});
 document.addEventListener('DOMContentLoaded',async()=>{ if(document.getElementById('adminActivityList'))renderActivityList(); if(document.getElementById('activityName'))setupCreateActivity(); if(document.getElementById('scanActionBtn'))document.getElementById('qrImportFile')?.addEventListener('change',window.importActivityQr); if(document.getElementById('scanActionBtn'))document.addEventListener('visibilitychange',()=>{if(document.hidden)window.stopActivityScanner?.();}); try{const a=await getSelectedActivity();if(a)fillActivityDetails(a);if(document.getElementById('verifyListContainer')||document.getElementById('participantsTableBody'))await loadSubmissionData();}catch(e){console.warn(e.message);} });
+
+// =====================================================
+// BASIS ADMIN — ACTIVITY SUBVIEW NAVIGATION FIX
+// Fix overlapping pages and broken close/back buttons
+// =====================================================
+
+window.showSubView = async function (viewId) {
+    const target = document.getElementById(viewId);
+
+    if (!target || !target.classList.contains("page-view")) {
+        console.error("Activity view not found:", viewId);
+        alert("Hindi makita ang page na ito: " + viewId);
+        return;
+    }
+
+    // Stop the camera when leaving the scan page.
+    if (
+        viewId !== "view-activity-scan" &&
+        typeof window.stopActivityScanner === "function"
+    ) {
+        try {
+            await window.stopActivityScanner();
+        } catch (error) {
+            console.warn("Could not stop scanner:", error);
+        }
+    }
+
+    // Hide ALL previous pages, including Details, QR and Submission.
+    const allViews = Array.from(
+        document.querySelectorAll(".page-view")
+    );
+
+    allViews.forEach(view => {
+        const isTarget = view === target;
+
+        view.hidden = !isTarget;
+        view.classList.toggle("active", isTarget);
+        view.setAttribute(
+            "aria-hidden",
+            isTarget ? "false" : "true"
+        );
+    });
+
+    // Remove stale inline display styles.
+    allViews.forEach(view => {
+        view.style.removeProperty("display");
+    });
+
+    // Reset the scroll position when opening another page.
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto"
+    });
+
+    // Refresh the selected activity without changing the page.
+    try {
+        const activity = await getSelectedActivity();
+
+        if (!activity) {
+            console.warn("No selected activity ID was found.");
+
+            const status = document.getElementById("scanStatus");
+
+            if (
+                viewId === "view-activity-scan" &&
+                status
+            ) {
+                status.textContent =
+                    "Walang napiling activity. Bumalik sa Activities at buksan ulit ang activity.";
+            }
+
+            return;
+        }
+
+        fillActivityDetails(activity);
+
+        // Refresh records only for the relevant pages.
+        if (
+            viewId === "view-activity-verify" ||
+            viewId === "view-activity-verified" ||
+            viewId === "view-activity-participants"
+        ) {
+            await loadSubmissionData();
+        }
+
+    } catch (error) {
+        console.error(
+            "Unable to load activity view:",
+            error
+        );
+
+        const status = document.getElementById("scanStatus");
+
+        if (
+            viewId === "view-activity-scan" &&
+            status
+        ) {
+            status.textContent =
+                "Hindi ma-load ang activity. Pakisuri ang connection sa API.";
+        }
+    }
+};
+
+
+// =====================================================
+// INITIAL PAGE VISIBILITY
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+    const allViews = Array.from(
+        document.querySelectorAll(".page-view")
+    );
+
+    if (!allViews.length) return;
+
+    // Preserve the HTML's initially active page if available.
+    let initialView = allViews.find(view =>
+        view.classList.contains("active") &&
+        !view.hidden
+    );
+
+    // Otherwise, open the Activity Menu by default.
+    if (!initialView) {
+        initialView =
+            document.getElementById("view-activity-menu") ||
+            allViews[0];
+    }
+
+    allViews.forEach(view => {
+        const isInitial = view === initialView;
+
+        view.hidden = !isInitial;
+        view.classList.toggle("active", isInitial);
+
+        view.setAttribute(
+            "aria-hidden",
+            isInitial ? "false" : "true"
+        );
+
+        view.style.removeProperty("display");
+    });
+});

@@ -35,9 +35,112 @@ try {
  if($action==='participants') { requireUser($pdo,['ADMIN','REPRESENTATIVE']);$activityId=(int)($_GET['activity_id']??0);$scannerId=(int)$user['id'];$s=$pdo->prepare("SELECT u.name,u.control_number,u.barangay,COALESCE(scan.attendance_date,'') AS attendance_date,COALESCE(scan.time_in,'') AS time_in,COALESCE(scan.time_out,'') AS time_out,CASE WHEN scan.user_id IS NOT NULL THEN 'Attended' WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.submission_type='attendance' AND s.status='VERIFIED') THEN 'Attended' WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND (s.status='REJECTED' OR (s.status='VERIFIED' AND s.submission_type='absence'))) THEN 'Absent' WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.status='PENDING') THEN 'Submitted' ELSE '—' END AS submission FROM users u LEFT JOIN activity_attendance_scans scan ON scan.activity_id=? AND scan.user_id=u.id AND scan.scanner_id=? WHERE UPPER(u.status)='ACTIVE' AND (scan.user_id IS NOT NULL OR EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.file_data<>'')) ORDER BY COALESCE(scan.time_in,''),u.name");$s->execute([$activityId,$activityId,$activityId,$activityId,$scannerId,$activityId]);$rows=$s->fetchAll();if(($user['role']??'')==='REPRESENTATIVE'){$assigned=normalizeBarangay(representativeAssignedBarangay($pdo,$scannerId));$rows=array_values(array_filter($rows,static fn($row)=>$assigned!==''&&normalizeBarangay((string)$row['barangay'])===$assigned));}jsonResponse(true,'',200,['participants'=>$rows]); }
  if($action==='submissions') { requireUser($pdo,['ADMIN','REPRESENTATIVE']);$activityId=(int)($_GET['activity_id']??0);$type=$_GET['type']??'';$sql='SELECT s.id,s.activity_id,s.user_id,u.name,u.email,u.barangay,s.submission_type,s.file_name,s.file_data,s.status,s.submitted_at FROM submissions s JOIN users u ON u.id=s.user_id WHERE s.activity_id=?';$values=[$activityId];if(in_array($type,['attendance','absence'],true)){$sql.=' AND s.submission_type=?';$values[]=$type;}if(($_GET['status']??'')==='pending')$sql.=" AND s.status='PENDING'";if(($_GET['status']??'')==='verified')$sql.=" AND s.status IN ('VERIFIED','REJECTED')";$sql.=' ORDER BY s.submitted_at DESC';$s=$pdo->prepare($sql);$s->execute($values);$rows=$s->fetchAll();if(($user['role']??'')==='REPRESENTATIVE'){$assigned=representativeAssignedBarangay($pdo,(int)$user['id']);$key=normalizeBarangay($assigned);$rows=array_values(array_filter($rows,static fn($row)=>$key!==''&&normalizeBarangay((string)$row['barangay'])===$key));}jsonResponse(true,'',200,['submissions'=>$rows]); }
  if($action==='verify') { requireUser($pdo,['ADMIN','REPRESENTATIVE']);$id=(int)($in['id']??0);$status=($in['status']??'')==='VERIFIED'?'VERIFIED':'REJECTED';$s=$pdo->prepare('SELECT activity_id,user_id,submission_type FROM submissions WHERE id=?');$s->execute([$id]);$submission=$s->fetch();if(!$submission)jsonResponse(false,'Submission not found.',404);assertRepresentativeBarangay($pdo,$user,(int)$submission['user_id']);$pdo->beginTransaction();try{$u=$pdo->prepare('UPDATE submissions SET status=? WHERE id=?');$u->execute([$status,$id]);$attendanceStatus=($status==='VERIFIED'&&$submission['submission_type']==='attendance')?'ATTENDED':'ABSENT';$att=$pdo->prepare("INSERT INTO activity_attendance(activity_id,user_id,attendance_date,time_in,time_out,status) VALUES(?,?,date('now','localtime'),'','',?) ON CONFLICT(activity_id,user_id) DO UPDATE SET status=excluded.status");$att->execute([(int)$submission['activity_id'],(int)$submission['user_id'],$attendanceStatus]);$pdo->commit();}catch(Throwable $e){$pdo->rollBack();throw $e;}jsonResponse(true,'Submission '.$status.'.'); }
+ 
+ /* =========================================================
+   SCORECARD: ACTIVITIES ATTENDED BY CURRENT USER
+   ========================================================= */
+
+if ($action === 'my-attended-activities') {
+
+    $userId = (int) $user['id'];
+
+    $stmt = $pdo->prepare("
+        SELECT
+            a.*,
+            a.activity_date AS date,
+            a.start_time AS startTime,
+            a.end_time AS endTime,
+            a.venue_address AS venueAddress,
+            a.generate_qr AS generateQr,
+            a.deadline_date AS deadlineDate,
+            a.deadline_time AS deadlineTime,
+            a.academic_year AS academicYear,
+            aa.attendance_date AS attendedDate,
+            aa.time_in AS timeIn,
+            aa.time_out AS timeOut,
+            aa.status AS attendanceStatus
+
+        FROM activity_attendance aa
+
+        INNER JOIN activities a
+            ON a.id = aa.activity_id
+
+        WHERE aa.user_id = ?
+          AND UPPER(TRIM(aa.status)) IN ('PRESENT', 'ATTENDED')
+
+        ORDER BY
+            a.activity_date DESC,
+            a.id DESC
+    ");
+
+    $stmt->execute([$userId]);
+
+    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    jsonResponse(
+        true,
+        '',
+        200,
+        ['activities' => $activities]
+    );
+}
+ 
  jsonResponse(false,'Unknown action.',400);
 } catch(Throwable $e) { error_log($e->getMessage()); jsonResponse(false,'Server error.',500); }
 
 function normalizeBarangay(string $value): string { return preg_replace('/[^a-z0-9]/i','',strtolower(trim($value))) ?? ''; }
 function representativeAssignedBarangay(PDO $pdo,int $representativeId): string { $s=$pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id=?');$s->execute([$representativeId]);$extra=json_decode((string)($s->fetchColumn()?:'{}'),true);return is_array($extra)?trim((string)($extra['assignedBarangay']??'')):''; }
 function assertRepresentativeBarangay(PDO $pdo,array $actor,int $userId): void { if(($actor['role']??'')!=='REPRESENTATIVE')return;$assigned=normalizeBarangay(representativeAssignedBarangay($pdo,(int)$actor['id']));$s=$pdo->prepare('SELECT barangay FROM users WHERE id=?');$s->execute([$userId]);$participant=normalizeBarangay((string)($s->fetchColumn()?:''));if($assigned===''||$participant===''||$assigned!==$participant)jsonResponse(false,'This user is outside your assigned barangay.',403); }
+
+/* =========================================================
+   GET NOTIFICATION HISTORY
+   ========================================================= */
+
+if ($action === 'notifications') {
+
+    requireUser(
+        $pdo,
+        ['ADMIN', 'REPRESENTATIVE']
+    );
+
+    $stmt = $pdo->prepare("
+        SELECT
+            n.id,
+            n.type,
+            n.title,
+            n.message,
+            n.activity_id,
+            n.created_at,
+            a.name AS activity_name
+
+        FROM notifications n
+
+        LEFT JOIN activities a
+            ON a.id = n.activity_id
+
+        WHERE n.user_id = ?
+
+        ORDER BY
+            n.created_at DESC,
+            n.id DESC
+    ");
+
+    $stmt->execute([
+        (int) $user['id']
+    ]);
+
+    $notifications =
+        $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    jsonResponse(
+        true,
+        '',
+        200,
+        [
+            'notifications' =>
+                $notifications
+        ]
+    );
+
+    exit;
+}
