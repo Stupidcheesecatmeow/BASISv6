@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Representative Activity Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="activity-rep.css?v=9">
+    <link rel="stylesheet" href="../responsive.css?v=1">
+</head>
+<body class="dashboard-page representative-page">
+
+<header class="dash-header">
+    <div class="dash-logo">
+        <img src="../images/LOGO.png" alt="BASIS Logo">
+    </div>
+    <div class="header-right">
+        <div class="welcome-text">
+            <h1>MABUHAY, REPRESENTATIVE!</h1>
+            <span>WELCOME TO BASIS</span>
+        </div>
+        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-rep.html'">
+            <img src="../images/profile_default.jpg" alt="Representative Profile" class="header-avatar">
+        </div>
+    </div>
+</header>
+
+<main class="dash-main">
+<section id="view-activity-details" class="page-view active">
+        <div class="view-banner">
+            <h2>ACTIVITY</h2>
+        </div>
+        <div class="view-body bordered-frame relative-frame">
+            <button class="close-view-btn" onclick="window.location.href='activity_menu-rep.html'"><i class="fa-solid fa-circle-xmark"></i></button>
+
+            <div class="activity-detail-header">
+                <div>
+                    <h2 class="activity-main-title" id="detailActivityTitle"></h2>
+                    <div class="activity-type-text"><strong>TYPE OF ACTIVITY:</strong> <span id="detailActivityType"></span></div>
+                </div>
+                <div class="sem-tag" id="detailSemester"></div>
+            </div>
+
+            <div class="activity-meta-grid">
+                <p><strong>DATE:</strong> <span id="detailDate"></span></p>
+                <p><strong>TIME:</strong> <span id="detailTime"></span></p>
+                <p><strong>VENUE:</strong> <span id="detailVenue"></span></p>
+                <p><strong>VENUE ADDRESS:</strong> <span id="detailVenueAddress"></span></p>
+            </div>
+
+            <hr class="divider">
+
+            <div class="activity-description">
+                <strong>DESCRIPTION</strong>
+                <p class="desc-text" id="detailDescription"></p>
+                <img id="detailDescriptionImage" class="activity-description-image" alt="Activity attachment" hidden>
+                <p class="deadline-text"><em><strong>Deadline:</strong> <span id="detailDeadline"></span></em></p>
+            </div>
+
+            <div class="action-buttons-row">
+                <button class="act-btn solid-btn" data-requires-qr onclick="showSubView('view-activity-qr')">MY QR CODE</button>
+                <button class="act-btn outline-btn" data-requires-proof onclick="showSubView('view-activity-submission')">SUBMISSION</button>
+            </div>
+        </div>
+    
+</section>
+
+<section id="view-activity-qr" class="page-view">
+    <div class="view-banner"><h2>ACTIVITY QR</h2></div>
+    <div class="view-body bordered-frame relative-frame">
+        <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
+        <div class="qr-view-layout">
+            <div class="qr-code-box">
+                <h3>ATTENDANCE QR CODE</h3>
+                <div class="qr-img-wrapper"><img id="activityQrImage" alt="Your activity attendance QR code"></div>
+                <p class="qr-placeholder-note">This unique QR code is assigned to you for this activity. Show it to the activity scanner to record your attendance.</p>
+            </div>
+            <div class="qr-info-side">
+                <div class="note-box"><p><strong>Note:</strong> This QR code can only be used twice (time in and time out). Failure to have it scanned within the validity period will result in an Absent or Missing Activity status. Once the activity ended, the QR code will be deactivated and can no longer be used. Please ensure that your QR code has been successfully scanned within the activity period.</p></div>
+                <div class="sem-tag text-right" id="activityQrSemester"></div>
+                <div class="qr-details-grid">
+                    <p><strong>PARTICIPANT:</strong> <span id="activityQrParticipant">—</span></p>
+                    <p><strong>PARTICIPANT BARANGAY:</strong> <span id="activityQrParticipantBarangay">—</span></p>
+                    <h2 id="activityQrTitle"></h2>
+                    <p><strong>TYPE OF ACTIVITY:</strong> <span id="activityQrType"></span></p>
+                    <p><strong>DATE:</strong> <span id="activityQrDate"></span></p>
+                    <p><strong>TIME:</strong> <span id="activityQrTime"></span></p>
+                    <p><strong>VENUE:</strong> <span id="activityQrVenue"></span></p>
+                    <p><strong>VENUE ADDRESS:</strong> <span id="activityQrVenueAddress"></span></p>
+                    <!-- <p><strong>MUNICIPALITY:</strong> <span id="activityQrMunicipality"></span></p>
+                    <p><strong>BARANGAY:</strong> <span id="activityQrBarangay"></span></p> -->
+                    <p><strong>DEADLINE:</strong> <span id="activityQrDeadline"></span></p>
+                </div>
+                <div class="btn-right-container"><button type="button" class="act-btn outline-btn download-btn" onclick="downloadPersonalActivityQr()">DOWNLOAD</button></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="view-activity-submission" class="page-view">
+    <div class="view-banner"><h2>ACTIVITY</h2></div>
+    <div class="view-body bordered-frame relative-frame submission-page-frame">
+        <button class="close-view-btn" onclick="showSubView('view-activity-details')"><i class="fa-solid fa-circle-xmark"></i></button>
+        <div class="submission-top-info"><div class="submission-sem-info"><h3 id="submissionSemester"></h3><p><strong>SUBMISSION DUE DATE:</strong> <span id="submissionDeadline"></span> &nbsp;&nbsp; <strong>TIME:</strong> <span id="submissionTime"></span></p></div><div class="note-box submission-note"><p><strong>Note:</strong> Attendance requires a JPG photo showing your attendance at the activity. Absence requires a PDF excuse letter explaining your absence.</p></div></div>
+        <div class="submission-main-layout">
+            <div class="submission-bin-box"><h3>SUBMISSION BIN</h3><label class="upload-drop-area" id="uploadDropArea" for="fileUploadInput"><i class="fa-solid fa-cloud-arrow-up"></i><p>UPLOAD FILE HERE</p><span id="proofFileTypeHint">JPG only</span></label><input id="fileUploadInput" type="file" accept=".jpg,.jpeg,image/jpeg" hidden><div class="selected-file" id="selectedFile"><i class="fa-solid fa-file"></i><span>No file selected</span></div><button type="button" class="submit-file-btn" id="submitFileBtn">SUBMIT FILE</button><p class="upload-status" id="uploadStatus" aria-live="polite"></p></div>
+            <div class="submission-details-side"><div class="attendance-toggle-bar"><button type="button" class="toggle-tab active" id="tabAttendance" onclick="setOwnSubmissionTab('attendance')">ATTENDANCE</button><button type="button" class="toggle-tab" id="tabAbsence" onclick="setOwnSubmissionTab('absence')">ABSENCE</button></div><div class="sub-activity-info"><h2 id="submissionTitle"></h2><p><strong>TYPE OF ACTIVITY:</strong> <span id="submissionType"></span></p><p><strong>DATE:</strong> <span id="submissionDate"></span></p><p><strong>TIME:</strong> <span id="submissionActivityTime"></span></p><p><strong>VENUE:</strong> <span id="submissionVenue"></span></p><p><strong>VENUE ADDRESS:</strong> <span id="submissionVenueAddress"></span></p></div><div class="btn-right-container"><button type="button" class="act-btn outline-btn" onclick="showSubView('view-activity-details')">DONE</button></div></div>
+        </div>
+    </div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a class="nav-item" href="home-rep.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+<a class="nav-item" href="scorecard-rep.html">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Scorecard</span>
+        </a>
+        <a class="nav-item active" href="activity-rep.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Activity</span>
+        </a>
+        <a class="nav-item" href="history-rep.html">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>History</span>
+        </a>
+        <a class="nav-item" href="more-rep.html">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+    </div>
+</nav>
+
+<script src="../script.js?v=20261005-user-name-header"></script>
+<script src="activity-rep.js?v=20261005-deadline-history"></script>
+<script src="../activity/activity-own-proof.js?v=20261005-inline-proof"></script>
+
+</body>
+</html>

@@ -1,61 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASIS - Representative Home</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="home-rep.css?v=20261005-live-announcements">
-    <link rel="stylesheet" href="../responsive.css?v=1">
-</head>
-<body class="dashboard-page representative-page">
-
-<header class="dash-header">
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
-
-    <div class="header-right">
-        <div class="welcome-text">
-            <h1>MABUHAY, REPRESENTATIVE!</h1>
-            <span>WELCOME TO BASIS</span>
-        </div>
-
-        <div class="profile-avatar-wrapper" onclick="window.location.href='../representative/profile-rep.html'">
-            <img src="../images/profile_default.jpg" alt="User Profile" class="header-avatar">
-        </div>
-    </div>
-</header>
-
-<main class="dash-main">
-    <section id="view-home" class="page-view active representative-home">
-
-        <!-- REPRESENTATIVE SUMMARY -->
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BASIS - Representative Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="home-rep.css?v=20261013-admin-ui"><link rel="stylesheet" href="../responsive.css?v=2"></head>
+<body class="dashboard-page rep-page representative-page"><div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="admin-sidebar" id="adminSidebar"><div class="sidebar-brand"><div class="brand-mark"><img src="../images/LOGO.png" alt="BASIS Logo"></div><div class="brand-copy"><strong>BASIS</strong><span>REPRESENTATIVE PANEL</span></div><button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="sidebar-profile"><img src="../images/profile_default.jpg" alt="Representative Profile"><div><strong id="sidebarRepName">REPRESENTATIVE</strong><span>Barangay Representative</span></div></div>
+<nav class="sidebar-nav" aria-label="Representative navigation"><div class="sidebar-section-label">MAIN MENU</div>
+<a class="sidebar-link active" href="home-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-house"></i></span><span class="sidebar-text">Dashboard</span></a>
+<a class="sidebar-link" href="scorecard-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span><span class="sidebar-text">Scorecard</span></a>
+<a class="sidebar-link" href="activity-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span><span class="sidebar-text">Activities</span></a>
+<a class="sidebar-link history-nav-link" href="history-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><span class="sidebar-text">History</span></a>
+<div class="sidebar-section-label">ACCOUNT</div><a class="sidebar-link" href="more-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span><span class="sidebar-text">More</span></a></nav>
+<div class="sidebar-footer"><a class="sidebar-link sidebar-profile-link" href="profile-rep.html"><span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span><span class="sidebar-text">My Profile</span></a><button class="sidebar-logout" type="button" data-logout><span class="sidebar-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span class="sidebar-text">Logout</span></button></div></aside>
+<div class="admin-shell"><header class="admin-topbar"><div class="topbar-left"><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button><div class="page-heading"><span class="page-eyebrow">BASIS • REPRESENTATIVE</span><h1>Dashboard</h1></div></div><div class="topbar-right"><div class="welcome-copy"><span>WELCOME BACK</span><strong>MABUHAY, REPRESENTATIVE!</strong></div><a class="topbar-avatar" href="profile-rep.html" aria-label="Open representative profile"><img src="../images/profile_default.jpg" alt="Representative Profile"></a></div></header>
+<main class="dash-main"><section id="view-home" class="page-view active representative-home">        <!-- REPRESENTATIVE SUMMARY -->
         <div class="representative-summary">
-            <div class="barangay-card">
+            <div class="rep-barangay-card">
                 <div class="barangay-title" id="representativeBarangay">BARANGAY</div>
             </div>
 
             <div class="scholar-counts">
-                <div class="count-card total-card">
+                <div class="rep-count-card total-card">
                     <span class="count-label">TOTAL</span>
                     <strong id="totalScholars">0</strong>
                     <small>ISKOLAR</small>
                 </div>
 
-                <div class="count-card">
+                <div class="rep-count-card">
                     <span class="count-label">MALE</span>
                     <strong id="maleScholars">0</strong>
                     <small>ISKOLAR</small>
                 </div>
 
-                <div class="count-card">
+                <div class="rep-count-card">
                     <span class="count-label">FEMALE</span>
                     <strong id="femaleScholars">0</strong>
                     <small>ISKOLAR</small>
@@ -110,79 +85,22 @@
         </div>
 
         <!-- ANNOUNCEMENTS / ONGOING ACTIVITY -->
-        <div class="dash-grid representative-grid">
-            <div class="grid-item flex-announcements">
-                <div class="rep-announcement-heading"><h2>ANNOUNCEMENTS!</h2><button id="openAnnouncementModal" type="button" aria-label="Create announcement">+</button></div>
-                <div class="bordered-box" id="announcementsBox">
-                    <div class="placeholder-text">No announcements yet.</div>
+        <div class="rep-home-grid">
+            <section class="rep-panel announcement-panel">
+                <div class="rep-panel-header">
+                    <div class="rep-panel-title"><span class="panel-title-icon"><i class="fa-solid fa-bullhorn"></i></span><div><h2>Announcements</h2><span>Latest updates for BASIS users</span></div></div>
+                    <button type="button" class="create-announcement-btn" id="openAnnouncementModal" title="Create Announcement" aria-label="Create Announcement"><i class="fa-solid fa-plus"></i></button>
                 </div>
-            </div>
-
-            <div class="grid-item flex-activity">
-                <h2>ONGOING ACTIVITY</h2>
-                <div class="bordered-box" id="activityBox">
-                    <div class="placeholder-text">No ongoing activity.</div>
-                </div>
-            </div>
+                <div class="rep-panel-body" id="announcementsBox"><div class="announcement-empty"><i class="fa-regular fa-bell"></i><span>No announcements yet.</span></div></div>
+            </section>
+            <section class="rep-panel">
+                <div class="rep-panel-header"><div class="rep-panel-title"><span class="panel-title-icon"><i class="fa-solid fa-calendar-check"></i></span><div><h2>Ongoing Activity</h2><span>Activities currently in progress</span></div></div></div>
+                <div class="rep-panel-body" id="activityBox"><div class="rep-empty"><i class="fa-regular fa-calendar"></i><span>No ongoing activity.</span></div></div>
+            </section>
         </div>
-
-    </section>
-</main>
-
-<nav class="bottom-nav">
-
-    <div class="bottom-nav-inner">
-
-        <!-- HOME -->
-        <a class="nav-item active " href="../representative/home-rep.html">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-
-        <!-- SCORECARD -->
-        <a class="nav-item" href="../representative/scorecard-rep.html">
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
-
-        <!-- ACTIVITY -->
-        <a class="nav-item" href="../representative/activity-rep.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
-
-        <!-- HISTORY -->
-        <a class="nav-item" href="../representative/history-rep.html">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
-
-        <!-- MORE -->
-        <a class="nav-item" href="../representative/more-rep.html">
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
-
-    </div>
-
-</nav>
-
-<div class="rep-announcement-modal" id="announcementModal" aria-hidden="true">
-    <div class="rep-announcement-card">
-        <button type="button" id="closeAnnouncementModal" aria-label="Close">×</button>
-        <h2>Create Announcement</h2>
-        <p>This announcement will appear on every user's dashboard.</p>
-        <form id="announcementForm">
-            <label>Title<input id="announcementTitle" required maxlength="160"></label>
-            <label>Date<input id="announcementDate" type="date" required></label>
-            <label>Message<textarea id="announcementMessage" required maxlength="5000"></textarea></label>
-            <label>Attachment (optional)<input id="announcementFile" type="file"><small id="announcementFileName"></small></label>
-            <div><button id="cancelAnnouncement" type="button">Cancel</button><button type="submit">Publish</button></div>
-        </form>
-    </div>
-</div>
-
-<script src="../script.js?v=20261005-user-name-header"></script>
-<script src="home-rep.js?v=5"></script>
-</body>
-</html>
+</section></main></div>
+<div class="announcement-modal" id="announcementModal" aria-hidden="true">
+<div class="announcement-modal-overlay"></div><div class="announcement-modal-card" role="dialog" aria-modal="true" aria-labelledby="announcementModalTitle">
+<div class="announcement-modal-header"><div><span class="modal-eyebrow">BASIS • REPRESENTATIVE</span><h2 id="announcementModalTitle">Create Announcement</h2><p class="rep-modal-note">This announcement will appear on every user's dashboard.</p></div><button type="button" class="announcement-modal-close" id="closeAnnouncementModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+<form class="announcement-form" id="announcementForm"><div class="announcement-field"><label for="announcementTitle">TITLE</label><input id="announcementTitle" type="text" required maxlength="160"></div><div class="announcement-field"><label for="announcementDate">DATE</label><input id="announcementDate" type="date" required></div><div class="announcement-field"><label for="announcementMessage">MESSAGE</label><textarea id="announcementMessage" required maxlength="5000"></textarea></div><div class="announcement-field"><label>ATTACHMENT <span>(optional)</span></label><label class="announcement-upload" for="announcementFile"><i class="fa-solid fa-paperclip"></i><div><strong>Choose a file</strong><small id="announcementFileName">PNG, JPG, PDF, DOCX and other files (up to 5 MB)</small></div></label><input id="announcementFile" type="file" hidden></div><div class="announcement-form-actions"><button class="announcement-cancel-btn" id="cancelAnnouncement" type="button">CANCEL</button><button class="announcement-publish-btn" type="submit"><i class="fa-solid fa-paper-plane"></i> PUBLISH</button></div></form></div></div>
+<script src="../script.js?v=20261013-admin-ui"></script><script src="../auth.js?v=3"></script><script src="home-rep.js?v=20261013-admin-ui"></script><script src="history-status.js?v=2"></script></body></html>

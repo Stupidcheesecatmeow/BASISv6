@@ -1,117 +1,150 @@
 /* =========================================================
-   REPRESENTATIVE SCORECARD
-   SAME LOGIC AS ISKOLAR SCORECARD
+   BASIS - ADMIN SCORECARD
+   COMPLETE WORKING VERSION
    ========================================================= */
 
 
 /* =========================================================
-   GET REGISTERED REPRESENTATIVE
+   GET REGISTERED ADMIN
    ========================================================= */
 
 function getRegisteredRepresentative() {
 
-    /*
-        Representative profile/registration
-        should be saved in localStorage.
+    const currentUserId =
+        sessionStorage.getItem("basisCurrentUserId");
 
-        Supported keys:
+    /* -----------------------------------------
+       1. CURRENT USER PROFILE
+       ----------------------------------------- */
 
-        basisRepresentativeProfile
-        representativeProfile
-        basisRepresentative
-    */
+    if (currentUserId) {
+
+        const profileKey =
+            `basisProfile_${currentUserId}`;
+
+        const savedProfile =
+            localStorage.getItem(profileKey);
+
+        if (savedProfile) {
+
+            try {
+
+                const admin =
+                    JSON.parse(savedProfile);
+
+                if (
+                    admin &&
+                    typeof admin === "object"
+                ) {
+                    return admin;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to parse current representative profile:",
+                    error
+                );
+
+            }
+        }
+    }
 
 
-    const currentId = sessionStorage.getItem("basisCurrentUserId");
-    const keys = currentId ? [`basisProfile_${currentId}`] : [];
+    /* -----------------------------------------
+       2. FALLBACK PROFILE STORAGE
+       ----------------------------------------- */
 
+    const fallbackKeys = [
+        "basisRepresentativeProfile",
+        "representativeProfile",
+        "basisRepresentative"
+    ];
 
-    for (const key of keys) {
+    for (const key of fallbackKeys) {
 
         const saved =
             localStorage.getItem(key);
 
-
         if (!saved) {
-
             continue;
-
         }
-
 
         try {
 
-            const representative =
+            const admin =
                 JSON.parse(saved);
 
-
             if (
-                representative &&
-                typeof representative === "object"
+                admin &&
+                typeof admin === "object"
             ) {
-
-                return representative;
-
+                return admin;
             }
-
 
         } catch (error) {
 
             console.error(
-                "Unable to read representative profile:",
+                `Unable to read representative profile from ${key}:`,
                 error
             );
 
         }
+    }
 
+
+    /* -----------------------------------------
+       3. SEARCH ALL BASIS PROFILE RECORDS
+       ----------------------------------------- */
+
+    for (
+        let index = 0;
+        index < localStorage.length;
+        index++
+    ) {
+
+        const key =
+            localStorage.key(index);
+
+        if (
+            !key ||
+            !key.startsWith("basisProfile_")
+        ) {
+            continue;
+        }
+
+        const saved =
+            localStorage.getItem(key);
+
+        if (!saved) {
+            continue;
+        }
+
+        try {
+
+            const admin =
+                JSON.parse(saved);
+
+            if (
+                admin &&
+                typeof admin === "object"
+            ) {
+                return admin;
+            }
+
+        } catch (error) {
+
+            console.error(
+                `Unable to parse ${key}:`,
+                error
+            );
+
+        }
     }
 
 
     return null;
-
 }
-
-
-/* =========================================================
-   SAMPLE ACTIVITY DATA
-   =========================================================
-
-   These are temporary.
-
-   If the Representative profile already contains:
-
-   activities
-   attendance
-   userActivities
-   activityRecords
-
-   those records will be used instead.
-   ========================================================= */
-
-const representativeActivities = [
-
-    {
-        ay: "2026–2027",
-        semester: "First Semester",
-        title: "General Assembly & Orientation",
-        date: "2026-08-15"
-    },
-
-    {
-        ay: "2026–2027",
-        semester: "First Semester",
-        title: "Tree Planting Activity",
-        date: "2026-09-10"
-    },
-
-    {
-        ay: "2026–2027",
-        semester: "First Semester",
-        title: "Community Leadership Workshop",
-        date: "2026-10-05"
-    }
-
-];
 
 
 /* =========================================================
@@ -119,557 +152,1024 @@ const representativeActivities = [
    ========================================================= */
 
 document.addEventListener(
-
     "DOMContentLoaded",
-
     function () {
 
         renderScorecardButtons();
 
     }
-
 );
 
 
 /* =========================================================
    RENDER SCORECARD LIST
-   SAME LOGIC AS ISKOLAR
    ========================================================= */
 
-function renderScorecardButtons() {
-
+async function renderScorecardButtons() {
 
     const listContainer =
-        document.querySelector(
-            ".scorecard-list"
+        document.getElementById("scorecardYears");
+
+    if (!listContainer) return;
+
+    listContainer.innerHTML =
+        '<div class="scorecard-empty">Loading scorecards…</div>';
+
+    let activities;
+
+    try {
+
+        const response = await fetch(
+            "../admin/api/activity_api.php?action=list",
+            {
+                credentials: "same-origin",
+                cache: "no-store"
+            }
         );
 
+        const data = await response.json();
 
-    if (!listContainer) {
-
-        return;
-
-    }
-
-
-    /* CLEAR */
-
-    listContainer.innerHTML = "";
-
-
-
-    /* =====================================================
-       CHECK REPRESENTATIVE REGISTRATION
-       ===================================================== */
-
-    const currentRepresentative =
-        getRegisteredRepresentative();
-
-
-
-    /* =====================================================
-       NOT REGISTERED
-       ===================================================== */
-
-    if (!currentRepresentative) {
-
-        showNoScorecardMessage();
-
-        return;
-
-    }
-
-
-
-    /* =====================================================
-       GET AY + SEMESTER
-       ===================================================== */
-
-    const academicYear =
-
-        currentRepresentative.academicYear ||
-
-        currentRepresentative.ay ||
-
-        currentRepresentative.schoolYear;
-
-
-
-    const semester =
-
-        currentRepresentative.semester;
-
-
-
-    /* =====================================================
-       INCOMPLETE REGISTRATION
-       ===================================================== */
-
-    if (
-        !academicYear ||
-        !semester
-    ) {
-
-        showNoScorecardMessage();
-
-        return;
-
-    }
-
-
-
-    /* =====================================================
-       CREATE SCORECARD BUTTON
-       ===================================================== */
-
-    const button =
-        document.createElement("button");
-
-
-    button.type = "button";
-
-
-    button.className =
-        "scorecard-btn";
-
-
-    button.textContent =
-        `${academicYear} ${String(
-            semester
-        ).toUpperCase()} SCORECARD`;
-
-
-    button.addEventListener(
-
-        "click",
-
-        function () {
-
-            openScorecardDetail(
-                academicYear,
-                semester
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Unable to load activities."
             );
+        }
+
+        activities = Array.isArray(data.activities)
+            ? data.activities
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load scorecard activities:",
+            error
+        );
+
+        listContainer.innerHTML =
+            '<div class="scorecard-empty">Unable to load activities. Please refresh the page.</div>';
+
+        return;
+    }
+
+    const groups = new Map();
+
+    activities.forEach(activity => {
+
+        const academicYear = String(
+            activity.academicYear ||
+            activity.academic_year ||
+            activity.schoolYear ||
+            activity.school_year ||
+            ""
+        ).trim();
+
+        const semesterRaw = String(
+            activity.semester ||
+            activity.sem ||
+            activity.term ||
+            ""
+        ).trim();
+
+        // Require an academic year and semester from a real activity.
+        if (!academicYear || !semesterRaw) return;
+
+        const semester =
+            normalizeSemester(semesterRaw);
+
+        if (
+            ![
+                "first semester",
+                "second semester"
+            ].includes(semester)
+        ) {
+            return;
+        }
+
+        const yearKey =
+            normalizeAcademicYear(academicYear);
+
+        const key =
+            `${yearKey}::${semester}`;
+
+        if (!groups.has(key)) {
+
+            groups.set(key, {
+                academicYear: academicYear.replace(/-/g, "–"),
+                semester,
+                activities: []
+            });
 
         }
 
-    );
+        groups.get(key).activities.push(activity);
 
+    });
 
-    listContainer.appendChild(
-        button
-    );
+    listContainer.innerHTML = "";
 
+    if (groups.size === 0) {
+
+        listContainer.innerHTML = `
+            <div class="scorecard-empty">
+                <i class="fa-solid fa-address-card"></i>
+                <h3>No scorecards yet.</h3>
+                <p>Create an activity and assign its academic year and semester. The matching scorecard will appear here automatically.</p>
+            </div>`;
+
+        updateScorecardScroll();
+        return;
+    }
+
+    const orderedGroups =
+        [...groups.values()].sort((a, b) => {
+
+            const yearCompare =
+                b.academicYear.localeCompare(a.academicYear);
+
+            if (yearCompare) return yearCompare;
+
+            return a.semester === b.semester
+                ? 0
+                : a.semester === "first semester"
+                    ? -1
+                    : 1;
+
+        });
+
+    const years = new Map();
+
+    orderedGroups.forEach(group => {
+
+        if (!years.has(group.academicYear)) {
+            years.set(group.academicYear, []);
+        }
+
+        years.get(group.academicYear).push(group);
+
+    });
+
+    years.forEach((semesterGroups, academicYear) => {
+
+        const yearContainer =
+            document.createElement("div");
+
+        yearContainer.className =
+            "scorecard-year-container";
+
+        yearContainer.innerHTML = `
+            <div class="scorecard-year-header">
+                <div>
+                    <span class="scorecard-year-label">Academic Year</span>
+                    <div class="scorecard-year-value">${escapeHtml(academicYear)}</div>
+                </div>
+                <span class="scorecard-year-count">${semesterGroups.length} Semester${semesterGroups.length === 1 ? "" : "s"}</span>
+            </div>
+            <div class="scorecard-semester-list"></div>`;
+
+        const semesterList =
+            yearContainer.querySelector(".scorecard-semester-list");
+
+        semesterGroups.forEach(group => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.className = "scorecard-semester-item";
+
+            const label =
+                group.semester.toUpperCase();
+
+            button.innerHTML = `
+                <span class="scorecard-semester-name">${escapeHtml(label)} SCORECARD</span>
+                <span class="scorecard-semester-meta">${escapeHtml(academicYear)} • ${group.activities.length} activit${group.activities.length === 1 ? "y" : "ies"}</span>
+                <span class="scorecard-arrow"><i class="fa-solid fa-chevron-right"></i></span>`;
+
+            button.addEventListener("click", () => {
+                openScorecardDetail(
+                    academicYear,
+                    group.semester
+                );
+            });
+
+            semesterList.appendChild(button);
+
+        });
+
+        listContainer.appendChild(yearContainer);
+
+    });
 
     updateScorecardScroll();
 
 }
 
 
+function getCurrentAcademicYear() {
+
+    const now =
+        new Date();
+
+    const year =
+        now.getFullYear();
+
+    return `${year}–${year + 1}`;
+
+}
+
+
 /* =========================================================
-   NO SCORECARD MESSAGE
+   GET ADMIN COR HISTORY
    ========================================================= */
 
-function showNoScorecardMessage() {
+function getAdminCorHistory() {
 
+    const saved =
+        localStorage.getItem("basisAdminCOR");
 
-    const listContainer =
-        document.querySelector(
-            ".scorecard-list"
-        );
-
-
-    if (!listContainer) {
-
-        return;
-
+    if (!saved) {
+        return [];
     }
 
+    try {
 
-    listContainer.innerHTML = `
+        const history =
+            JSON.parse(saved);
 
-        <div class="no-scorecard-message">
+        return Array.isArray(history)
+            ? history
+            : [];
 
-            <i class="fa-solid fa-file-circle-xmark"></i>
+    } catch (error) {
 
-            <h3>
-                No available scorecards yet.
-            </h3>
+        console.error(
+            "Unable to read admin COR history:",
+            error
+        );
 
-            <p>
-                Please complete your Profile first.
-            </p>
-
-        </div>
-
-    `;
-
-
-    updateScorecardScroll();
+        return [];
+    }
 
 }
 
 
 /* =========================================================
    OPEN SCORECARD DETAIL
-   SAME LOGIC AS ISKOLAR
    ========================================================= */
 
-function openScorecardDetail(
+async function getScorecardProfile() {
+
+    // Prefer the latest server profile so nested family details are not stale.
+    try {
+
+        const response = await fetch(
+            "../admin/api/account_api.php?action=profile",
+            {
+                credentials: "same-origin",
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (
+            response.ok &&
+            data.success &&
+            data.profile
+        ) {
+
+            const profile = data.profile;
+
+            if (profile.id) {
+
+                sessionStorage.setItem(
+                    "basisCurrentUserId",
+                    String(profile.id)
+                );
+
+                localStorage.setItem(
+                    `basisProfile_${profile.id}`,
+                    JSON.stringify(profile)
+                );
+
+            }
+
+            return profile;
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Could not refresh profile from server; using saved profile.",
+            error
+        );
+
+    }
+
+    return getRegisteredRepresentative();
+}
+
+
+async function openScorecardDetail(
     academicYear,
     semester
 ) {
 
-
-    /* =====================================================
-       CHECK REPRESENTATIVE AGAIN
-       ===================================================== */
-
     const currentRepresentative =
-        getRegisteredRepresentative();
+        await getScorecardProfile();
+
+    if (currentRepresentative) {
+        loadRepresentativeInfo(currentRepresentative);
+    } else {
+        loadDefaultRepresentativeInfo();
+    }
+
+    const ayTitle =
+        document.getElementById("scorecardAYTitle");
+
+    if (ayTitle) {
+        ayTitle.textContent = `AY: ${academicYear}`;
+    }
+
+    const semTitle =
+        document.getElementById("scorecardSemTitle");
+
+    if (semTitle) {
+        semTitle.textContent =
+            String(semester).toUpperCase();
+    }
+
+    const container =
+        document.getElementById("activityRows");
+
+    if (container) {
+        container.innerHTML =
+            '<div class="representative-empty-activity">Loading activities…</div>';
+    }
+
+    try {
+
+        const response = await fetch(
+        "../admin/api/activity_api.php?action=my-attended-activities",
+            {
+                credentials: "same-origin",
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Unable to load activities."
+            );
+        }
+
+        const activities =
+            (
+                Array.isArray(data.activities)
+                    ? data.activities
+                    : []
+            ).filter(activity => {
+
+                const activityAY =
+                    activity.academicYear ||
+                    activity.academic_year ||
+                    activity.schoolYear ||
+                    activity.school_year ||
+                    "";
+
+                const activitySemester =
+                    activity.semester ||
+                    activity.sem ||
+                    activity.term ||
+                    "";
+
+                return (
+                    normalizeAcademicYear(activityAY) ===
+                    normalizeAcademicYear(academicYear)
+                ) && (
+                    normalizeSemester(activitySemester) ===
+                    normalizeSemester(semester)
+                );
+
+            });
+
+        populateActivityRows(activities);
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load selected scorecard activities:",
+            error
+        );
+
+        if (container) {
+
+            container.innerHTML =
+                '<div class="representative-empty-activity">Could not load activity records. Please go back and try again.</div>';
+
+        }
+
+    }
+
+    showSubView("view-scorecard-detail");
+
+}
 
 
-    if (!currentRepresentative) {
+function getStoredActivities() {
 
+    const possibleKeys = [
+        "basisActivities",
+        "activities",
+        "activityRecords",
+        "basisActivityRecords",
+        "adminActivities"
+    ];
+
+    for (const key of possibleKeys) {
+
+        const saved =
+            localStorage.getItem(key);
+
+        if (!saved) {
+            continue;
+        }
+
+        try {
+
+            const parsed =
+                JSON.parse(saved);
+
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
+
+        } catch (error) {
+
+            console.warn(
+                `Unable to read ${key}:`,
+                error
+            );
+
+        }
+
+    }
+
+    return [];
+
+}
+
+
+/* =========================================================
+   DEFAULT ACTIVITIES
+   ========================================================= */
+
+function getDefaultActivities() {
+
+    // No sample activities. Show only activities saved in the database.
+    return [];
+
+}
+
+
+/* =========================================================
+   LOAD ADMIN INFO
+   ========================================================= */
+
+function loadDefaultRepresentativeInfo() {
+    const ids = [
+        "info-name", "info-sex", "info-birthday", "info-religion",
+        "info-email", "info-contact", "info-municipality", "info-barangay",
+        "info-father", "info-father-contact", "info-mother",
+        "info-mother-contact", "info-siblings", "info-school",
+        "info-program", "info-year", "info-control"
+    ];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "—";
+    });
+}
+
+function loadRepresentativeInfo(user) {
+
+    if (
+        !user ||
+        typeof user !== "object"
+    ) {
+
+        loadDefaultRepresentativeInfo();
         return;
 
     }
 
 
+    /* =====================================================
+       PERSONAL INFORMATION
+    ===================================================== */
+
+    const fullName =
+        user.name ||
+        user.fullName ||
+        user.full_name ||
+        buildRepresentativeName(user) ||
+        "—";
+
 
     /* =====================================================
-       LOAD REPRESENTATIVE PROFILE
-       ===================================================== */
+       FAMILY INFORMATION
+    ===================================================== */
 
-    loadRepresentativeInfo(
-        currentRepresentative
-    );
+    const family =
+        user.familyInformation ||
+        user.family_information ||
+        user.family ||
+        user;
 
+    const father =
+        family.father && typeof family.father === "object"
+            ? family.father
+            : (
+                user.father && typeof user.father === "object"
+                    ? user.father
+                    : {}
+            );
 
+    const mother =
+        family.mother && typeof family.mother === "object"
+            ? family.mother
+            : (
+                user.mother && typeof user.mother === "object"
+                    ? user.mother
+                    : {}
+            );
 
-    /* =====================================================
-       UPDATE AY
-       ===================================================== */
+    const buildFamilyMemberName = member => {
 
-    const ayTitle =
-        document.getElementById(
-            "scorecardAYTitle"
+        if (!member || typeof member !== "object") {
+            return "";
+        }
+
+        return getFirstValue(
+            member.fullName,
+            member.full_name,
+            member.name,
+            [
+                member.given,
+                member.givenName,
+                member.firstName,
+                member.first_name,
+                member.middle,
+                member.middleName,
+                member.middle_name,
+                member.surname,
+                member.lastName,
+                member.last_name,
+                member.suffix
+            ]
+                .filter(value =>
+                    value != null &&
+                    String(value).trim() !== ""
+                )
+                .join(" ")
         );
 
+    };
 
-    if (ayTitle) {
-
-        ayTitle.textContent =
-            `AY: ${academicYear}`;
-
-    }
-
-
-
-    /* =====================================================
-       UPDATE SEMESTER
-       ===================================================== */
-
-    const semTitle =
-        document.getElementById(
-            "scorecardSemTitle"
+    const fatherName =
+        getFirstValue(
+            user.fatherName,
+            user.father_name,
+            user.fathersName,
+            user.fatherFullName,
+            user.parentFather,
+            buildFamilyMemberName(father)
         );
 
-
-    if (semTitle) {
-
-        semTitle.textContent =
-            String(
-                semester
-            ).toUpperCase();
-
-    }
-
-
-
-    /* =====================================================
-       GET REPRESENTATIVE ACTIVITIES
-       ===================================================== */
-
-    let activities = [];
-
-
-    if (
-        Array.isArray(
-            currentRepresentative.activities
-        )
-    ) {
-
-        activities =
-            currentRepresentative.activities;
-
-    }
-
-    else if (
-        Array.isArray(
-            currentRepresentative.attendance
-        )
-    ) {
-
-        activities =
-            currentRepresentative.attendance;
-
-    }
-
-    else if (
-        Array.isArray(
-            currentRepresentative.userActivities
-        )
-    ) {
-
-        activities =
-            currentRepresentative.userActivities;
-
-    }
-
-    else if (
-        Array.isArray(
-            currentRepresentative.activityRecords
-        )
-    ) {
-
-        activities =
-            currentRepresentative.activityRecords;
-
-    }
-
-    else {
-
-        activities =
-            representativeActivities;
-
-    }
-
-
-
-    /* =====================================================
-       FILTER BY AY + SEMESTER
-       ===================================================== */
-
-    const attendedActivities =
-        activities.filter(
-
-            function (activity) {
-
-                const activityAY =
-                    activity.ay ||
-                    activity.academicYear;
-
-
-                const activitySemester =
-                    activity.semester;
-
-
-                return (
-
-                    activityAY ===
-                        academicYear &&
-
-                    activitySemester ===
-                        semester
-
-                );
-
-            }
-
+    const fatherContact =
+        getFirstValue(
+            user.fatherContact,
+            user.father_contact,
+            user.fatherContactNo,
+            user.father_contact_no,
+            user.fatherPhone,
+            user.fatherPhoneNumber,
+            father.contact,
+            father.contactNo,
+            father.contactNumber,
+            father.phone
         );
 
+    const motherName =
+        getFirstValue(
+            user.motherName,
+            user.mother_name,
+            user.mothersName,
+            user.motherFullName,
+            user.parentMother,
+            buildFamilyMemberName(mother)
+        );
 
+    const motherContact =
+        getFirstValue(
+            user.motherContact,
+            user.mother_contact,
+            user.motherContactNo,
+            user.mother_contact_no,
+            user.motherPhone,
+            user.motherPhoneNumber,
+            mother.contact,
+            mother.contactNo,
+            mother.contactNumber,
+            mother.phone
+        );
+
+const siblings = formatSiblings(
+    family.siblings || family.siblingsList || family.siblingList ||
+    user.siblings || user.sibling || user.siblingsList || user.siblingList
+);
 
     /* =====================================================
-       POPULATE ACTIVITY ROWS
-       ===================================================== */
-
-    populateActivityRows(
-        attendedActivities
-    );
-
-
-
-    /* =====================================================
-       SHOW DETAIL VIEW
-       ===================================================== */
-
-    showSubView(
-        "view-scorecard-detail"
-    );
-
-}
-
-
-/* =========================================================
-   LOAD REPRESENTATIVE INFORMATION
-   ========================================================= */
-
-function loadRepresentativeInfo(
-    user
-) {
-
+       ALL SCORECARD INFORMATION
+    ===================================================== */
 
     const fields = {
 
+        /* PERSONAL */
 
         "info-name":
-
-            user.name ||
-
-            user.fullName ||
-
-            buildRepresentativeName(user),
-
+            fullName,
 
         "info-sex":
-
-            user.sex,
-
+            getFirstValue(
+                user.sex,
+                user.gender
+            ),
 
         "info-birthday":
-
-            user.birthday,
-
+            getFirstValue(
+                user.birthday,
+                user.birthdate,
+                user.dateOfBirth,
+                user.date_of_birth
+            ),
 
         "info-religion":
-
             user.religion,
 
-
         "info-email":
-
-            user.email,
-
+            getFirstValue(
+                user.email,
+                user.emailAddress,
+                user.email_address
+            ),
 
         "info-contact":
-
-            user.contact ||
-
-            user.contactNo ||
-
-            user.contactNumber,
-
+            getFirstValue(
+                user.contact,
+                user.contactNo,
+                user.contactNumber,
+                user.phone,
+                user.phoneNumber
+            ),
 
         "info-municipality":
-
             user.municipality,
 
-
         "info-barangay":
+            getFirstValue(
+                user.barangay,
+                user.assignedBarangay,
+                user.assigned_barangay
+            ),
 
-            user.barangay ||
 
-            user.assignedBarangay,
-
+        /* FAMILY */
 
         "info-father":
-
-            user.fatherName,
-
+            fatherName,
 
         "info-father-contact":
-
-            user.fatherContact,
-
+            fatherContact,
 
         "info-mother":
-
-            user.motherName,
-
+            motherName,
 
         "info-mother-contact":
-
-            user.motherContact,
-
+            motherContact,
 
         "info-siblings":
+            siblings,
 
-            user.siblings,
 
+        /* ACADEMIC */
 
         "info-school":
-
-            user.school,
-
+            getFirstValue(
+                user.school,
+                user.schoolName,
+                user.school_name
+            ),
 
         "info-program":
-
-            user.program,
-
+            getFirstValue(
+                user.program,
+                user.course,
+                user.courseName,
+                user.course_name
+            ),
 
         "info-year":
-
-            user.yearLevel ||
-
-            user.year,
-
+            getFirstValue(
+                user.yearLevel,
+                user.year,
+                user.year_level,
+                user.yearLevelName
+            ),
 
         "info-control":
-
-            user.controlNo ||
-
-            user.controlNumber ||
-
-            user.control_number ||
-
-            "CONTROL NO. PENDING"
+            getFirstValue(
+                user.controlNo,
+                user.controlNumber,
+                user.control_number
+            ) || "CONTROL NO. PENDING"
 
     };
 
 
+    /* =====================================================
+       DISPLAY DATA
+    ===================================================== */
 
     Object.entries(fields).forEach(
-
         function ([id, value]) {
-
 
             const element =
                 document.getElementById(id);
 
-
             if (!element) {
-
                 return;
-
             }
 
-
             element.textContent =
-                value || "";
+                formatDisplayValue(value);
 
         }
-
     );
 
 }
 
 
 /* =========================================================
-   BUILD REPRESENTATIVE NAME
+   GET FIRST AVAILABLE VALUE
    ========================================================= */
 
-function buildRepresentativeName(
-    user
-) {
+function getFirstValue(...values) {
 
-    return [
+    for (const value of values) {
 
-        user.givenName,
+        if (
+            value !== undefined &&
+            value !== null &&
+            String(value).trim() !== ""
+        ) {
 
-        user.firstName,
+            return value;
 
-        user.middleName,
+        }
+
+    }
+
+    return "—";
+
+}
+
+
+/* =========================================================
+   FORMAT DISPLAY VALUE
+   Prevents [object Object]
+   ========================================================= */
+
+function formatDisplayValue(value) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+
+        return "—";
+
+    }
+
+
+    /* ARRAY */
+
+    if (Array.isArray(value)) {
+
+        return formatSiblings(value);
+
+    }
+
+
+    /* OBJECT */
+
+    if (typeof value === "object") {
+
+        const objectName =
+            value.name ||
+            value.fullName ||
+            value.full_name ||
+            value.surname ||
+            value.givenName ||
+            value.firstName;
+
+        if (objectName) {
+
+            return String(objectName);
+
+        }
+
+        const values =
+            Object.values(value).filter(
+                item =>
+                    item !== undefined &&
+                    item !== null &&
+                    String(item).trim() !== ""
+            );
+
+        if (values.length > 0) {
+
+            return values
+                .map(item =>
+                    typeof item === "object"
+                        ? JSON.stringify(item)
+                        : String(item)
+                )
+                .join(", ");
+
+        }
+
+        return "—";
+
+    }
+
+
+    return String(value);
+
+}
+
+
+/* =========================================================
+   FORMAT SIBLINGS
+   ========================================================= */
+
+function formatSiblings(siblings) {
+
+    if (
+        siblings === undefined ||
+        siblings === null ||
+        siblings === ""
+    ) {
+
+        return "—";
+
+    }
+
+
+    /* STRING */
+
+    if (typeof siblings === "string") {
+
+        return siblings.trim() || "—";
+
+    }
+
+
+    /* ARRAY */
+
+    if (Array.isArray(siblings)) {
+
+        if (siblings.length === 0) {
+
+            return "—";
+
+        }
+
+        return siblings
+            .map(function (sibling) {
+
+                if (
+                    sibling &&
+                    typeof sibling === "object"
+                ) {
+
+                    return (
+                        sibling.name ||
+                        sibling.fullName ||
+                        sibling.full_name ||
+                        [
+                            sibling.given,
+                            sibling.givenName,
+                            sibling.firstName,
+                            sibling.first_name,
+                            sibling.middle,
+                            sibling.middleName,
+                            sibling.middle_name,
+                            sibling.surname,
+                            sibling.lastName,
+                            sibling.last_name,
+                            sibling.suffix
+                        ]
+                            .filter(Boolean)
+                            .join(" ") ||
+                        sibling.relationship ||
+                        JSON.stringify(sibling)
+                    );
+
+                }
+
+                return String(sibling);
+
+            })
+            .filter(
+                value =>
+                    value &&
+                    String(value).trim() !== ""
+            )
+            .join(", ");
+
+    }
+
+
+    /* SINGLE OBJECT */
+
+    if (typeof siblings === "object") {
+
+        return (
+            siblings.name ||
+            siblings.fullName ||
+            siblings.full_name ||
+            [
+                siblings.given,
+                siblings.givenName,
+                siblings.firstName,
+                siblings.middle,
+                siblings.middleName,
+                siblings.surname,
+                siblings.lastName
+            ]
+                .filter(Boolean)
+                .join(" ") ||
+            (
+                siblings.count
+                    ? String(siblings.count)
+                    : JSON.stringify(siblings)
+            )
+        );
+
+    }
+
+
+    return String(siblings);
+
+}
+
+
+/* =========================================================
+   BUILD ADMIN NAME
+   ========================================================= */
+
+function buildRepresentativeName(user) {
+
+    const parts = [
 
         user.surname,
+        user.lastName,
+        user.last_name,
+        user.givenName,
+        user.firstName,
+        user.first_name,
+        user.middleName,
+        user.middle_name,
+        user.suffix
 
-        user.lastName
+    ];
 
-    ]
 
-    .filter(Boolean)
+    return parts
+        .filter(function (value) {
 
-    .join(" ");
+            return (
+                value !== undefined &&
+                value !== null &&
+                String(value).trim() !== ""
+            );
+
+        })
+        .join(" ");
 
 }
 
@@ -678,174 +1178,187 @@ function buildRepresentativeName(
    POPULATE ACTIVITY ROWS
    ========================================================= */
 
-function populateActivityRows(
-    activities
-) {
-
+function populateActivityRows(activities) {
 
     const container =
-        document.getElementById(
-            "activityRows"
-        );
+        document.getElementById("activityRows");
 
 
     if (!container) {
 
-        return;
+        console.error(
+            "Activity container #activityRows was not found."
+        );
 
+        return;
     }
 
+
+    /* CLEAR EXISTING HTML */
 
     container.innerHTML = "";
 
 
-
-    /* =====================================================
-       NO ACTIVITY
-       ===================================================== */
+    /* SAFETY FALLBACK */
 
     if (
-        !activities ||
+        !Array.isArray(activities) ||
         activities.length === 0
     ) {
 
         container.innerHTML = `
-
-            <div
-                class="representative-empty-activity"
-            >
-
+            <div class="representative-empty-activity">
                 No attendance/activity records yet.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /* CREATE ROWS */
+
+    activities.forEach(function (activity) {
+
+        if (
+            !activity ||
+            typeof activity !== "object"
+        ) {
+            return;
+        }
+
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "activity-form-row";
+
+
+        /* TITLE */
+
+        const title =
+            activity.title ||
+            activity.name ||
+            activity.activityName ||
+            activity.activity_name ||
+            "Untitled Activity";
+
+
+        /* CATEGORY */
+
+        const category =
+            activity.category ||
+            activity.type ||
+            activity.activityCategory ||
+            "General";
+
+
+        /* DATE */
+
+        const date =
+            activity.date ||
+            activity.activityDate ||
+            activity.attendanceDate ||
+            activity.attendance_date ||
+            "—";
+
+
+        /* CREATE HTML */
+
+        row.innerHTML = `
+
+            <div class="field-group title-field">
+
+                <label>
+                    Activity Title:
+                </label>
+
+                <input
+                    type="text"
+                    readonly
+                    value="${escapeAttribute(title)}"
+                >
+
+            </div>
+
+
+            <div class="field-group category-field">
+
+                <label>
+                    Category:
+                </label>
+
+                <input
+                    type="text"
+                    readonly
+                    value="${escapeAttribute(category)}"
+                >
+
+            </div>
+
+
+            <div class="field-group date-field">
+
+                <label>
+                    Date:
+                </label>
+
+                <input
+                    type="text"
+                    readonly
+                    value="${escapeAttribute(date)}"
+                >
 
             </div>
 
         `;
 
-        return;
 
-    }
+        container.appendChild(row);
 
-
-
-    /* =====================================================
-       CREATE ROWS
-       ===================================================== */
-
-    activities.forEach(
-
-        function (activity) {
-
-
-            const row =
-                document.createElement("div");
-
-
-            row.className =
-                "activity-form-row";
-
-
-            row.innerHTML = `
-
-                <div class="field-group title-field">
-
-                    <label>
-                        Activity Title:
-                    </label>
-
-                    <input
-                        type="text"
-                        readonly
-                        value="${escapeAttribute(
-                            activity.title ||
-                            activity.name ||
-                            ""
-                        )}"
-                    >
-
-                </div>
-
-
-                <div class="field-group date-field">
-
-                    <label>
-                        Date:
-                    </label>
-
-                    <input
-                        type="text"
-                        readonly
-                        value="${escapeAttribute(
-                            activity.date ||
-                            activity.attendanceDate ||
-                            ""
-                        )}"
-                    >
-
-                </div>
-
-            `;
-
-
-            container.appendChild(row);
-
-        }
-
-    );
+    });
 
 }
 
 
 /* =========================================================
    SHOW SUB VIEW
-   SAME LOGIC AS ISKOLAR
    ========================================================= */
 
-function showSubView(
-    viewId
-) {
-
+function showSubView(viewId) {
 
     const views =
-        document.querySelectorAll(
-            ".page-view"
-        );
+        document.querySelectorAll(".page-view");
 
 
-    views.forEach(
+    views.forEach(function (view) {
 
-        function (view) {
+        view.classList.remove("active");
 
-            view.classList.remove(
-                "active"
-            );
-
-        }
-
-    );
+    });
 
 
     const target =
-        document.getElementById(
-            viewId
-        );
+        document.getElementById(viewId);
 
 
     if (!target) {
 
-        return;
+        console.error(
+            `Scorecard view "${viewId}" was not found.`
+        );
 
+        return;
     }
 
 
-    target.classList.add(
-        "active"
-    );
+    target.classList.add("active");
 
 
     window.scrollTo({
 
         top: 0,
-
         behavior: "smooth"
 
     });
@@ -859,39 +1372,28 @@ function showSubView(
 
 function updateScorecardScroll() {
 
-
     const scorecardList =
-        document.querySelector(
-            ".scorecard-list"
-        );
+        document.getElementById("scorecardYears");
 
 
     if (!scorecardList) {
-
         return;
-
     }
 
 
     const scorecards =
         scorecardList.querySelectorAll(
-            ".scorecard-btn"
+            ".scorecard-semester-item"
         );
 
 
     if (scorecards.length > 0) {
 
-        scorecardList.classList.add(
-            "has-scroll"
-        );
+        scorecardList.classList.add("has-scroll");
 
-    }
+    } else {
 
-    else {
-
-        scorecardList.classList.remove(
-            "has-scroll"
-        );
+        scorecardList.classList.remove("has-scroll");
 
     }
 
@@ -899,37 +1401,145 @@ function updateScorecardScroll() {
 
 
 /* =========================================================
+   NORMALIZE ACADEMIC YEAR
+   ========================================================= */
+
+function normalizeAcademicYear(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .trim()
+        .replace(/-/g, "–")
+        .replace(/\s+/g, "")
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   NORMALIZE SEMESTER
+   ========================================================= */
+
+function normalizeSemester(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return "";
+
+    }
+
+
+    const semester =
+        String(value)
+            .trim()
+            .toLowerCase();
+
+
+    /* FIRST SEMESTER */
+
+    if (
+        semester === "1st semester" ||
+        semester === "first semester" ||
+        semester === "1st sem" ||
+        semester === "first sem" ||
+        semester === "semester 1" ||
+        semester === "sem 1" ||
+        semester === "1"
+    ) {
+
+        return "first semester";
+
+    }
+
+
+    /* SECOND SEMESTER */
+
+    if (
+        semester === "2nd semester" ||
+        semester === "second semester" ||
+        semester === "2nd sem" ||
+        semester === "second sem" ||
+        semester === "semester 2" ||
+        semester === "sem 2" ||
+        semester === "2"
+    ) {
+
+        return "second semester";
+
+    }
+
+
+    return semester;
+
+}
+
+/* =========================================================
    REFRESH WHEN PAGE SHOWS
    ========================================================= */
 
 window.addEventListener(
-
     "pageshow",
-
     function () {
 
         renderScorecardButtons();
 
     }
-
 );
 
 
 /* =========================================================
-   REFRESH WHEN REPRESENTATIVE PROFILE CHANGES
+   REFRESH WHEN STORAGE CHANGES
    ========================================================= */
 
 window.addEventListener(
-
     "storage",
-
     function (event) {
+
+        const refreshKeys = [
+
+            "basisRepresentativeProfile",
+            "representativeProfile",
+            "basisRepresentative",
+            "basisRepresentativeCOR",
+            "basisActivities",
+            "activities",
+            "activityRecords",
+            "basisActivityRecords",
+            "adminActivities"
+
+        ];
 
 
         if (
+            refreshKeys.includes(event.key)
+        ) {
 
-            event.key === `basisProfile_${sessionStorage.getItem("basisCurrentUserId")}`
+            renderScorecardButtons();
 
+        }
+
+
+        const currentId =
+            sessionStorage.getItem(
+                "basisCurrentUserId"
+            );
+
+
+        if (
+            currentId &&
+            event.key === `basisProfile_${currentId}`
         ) {
 
             renderScorecardButtons();
@@ -937,7 +1547,6 @@ window.addEventListener(
         }
 
     }
-
 );
 
 
@@ -945,38 +1554,14 @@ window.addEventListener(
    ESCAPE HTML
    ========================================================= */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -985,10 +1570,73 @@ function escapeHtml(
    ESCAPE ATTRIBUTE
    ========================================================= */
 
-function escapeAttribute(
-    value
-) {
+function escapeAttribute(value) {
 
     return escapeHtml(value);
 
 }
+
+
+/* =========================================================
+   DEBUG
+   ========================================================= */
+
+function debugScorecard() {
+
+    const currentUserId =
+        sessionStorage.getItem(
+            "basisCurrentUserId"
+        );
+
+
+    const currentRepresentative =
+        getRegisteredRepresentative();
+
+
+    console.log(
+        "======================================"
+    );
+
+    console.log(
+        "BASIS REPRESENTATIVE SCORECARD DEBUG"
+    );
+
+    console.log(
+        "======================================"
+    );
+
+
+    console.log(
+        "Current User ID:",
+        currentUserId
+    );
+
+
+    console.log(
+        "Registered Representative:",
+        currentAdmin
+    );
+
+
+    console.log(
+        "Stored Activities:",
+        getStoredActivities()
+    );
+
+
+    console.log(
+        "COR History:",
+        getAdminCorHistory()
+    );
+
+
+    console.log(
+        "======================================"
+    );
+
+}
+
+
+/* =========================================================
+   END
+   ========================================================= */

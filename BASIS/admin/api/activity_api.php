@@ -85,62 +85,17 @@ if ($action === 'my-attended-activities') {
     );
 }
  
+ if ($action === 'notifications') {
+  requireUser($pdo, ['ADMIN', 'REPRESENTATIVE']);
+  $stmt = $pdo->prepare("SELECT n.id, n.type, n.title, n.message, n.activity_id, n.created_at, a.name AS activity_name FROM notifications n LEFT JOIN activities a ON a.id = n.activity_id WHERE n.user_id = ? ORDER BY n.created_at DESC, n.id DESC");
+  $stmt->execute([(int) $user['id']]);
+  jsonResponse(true, '', 200, ['notifications' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+  exit;
+ }
+
  jsonResponse(false,'Unknown action.',400);
 } catch(Throwable $e) { error_log($e->getMessage()); jsonResponse(false,'Server error.',500); }
 
 function normalizeBarangay(string $value): string { return preg_replace('/[^a-z0-9]/i','',strtolower(trim($value))) ?? ''; }
 function representativeAssignedBarangay(PDO $pdo,int $representativeId): string { $s=$pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id=?');$s->execute([$representativeId]);$extra=json_decode((string)($s->fetchColumn()?:'{}'),true);return is_array($extra)?trim((string)($extra['assignedBarangay']??'')):''; }
 function assertRepresentativeBarangay(PDO $pdo,array $actor,int $userId): void { if(($actor['role']??'')!=='REPRESENTATIVE')return;$assigned=normalizeBarangay(representativeAssignedBarangay($pdo,(int)$actor['id']));$s=$pdo->prepare('SELECT barangay FROM users WHERE id=?');$s->execute([$userId]);$participant=normalizeBarangay((string)($s->fetchColumn()?:''));if($assigned===''||$participant===''||$assigned!==$participant)jsonResponse(false,'This user is outside your assigned barangay.',403); }
-
-/* =========================================================
-   GET NOTIFICATION HISTORY
-   ========================================================= */
-
-if ($action === 'notifications') {
-
-    requireUser(
-        $pdo,
-        ['ADMIN', 'REPRESENTATIVE']
-    );
-
-    $stmt = $pdo->prepare("
-        SELECT
-            n.id,
-            n.type,
-            n.title,
-            n.message,
-            n.activity_id,
-            n.created_at,
-            a.name AS activity_name
-
-        FROM notifications n
-
-        LEFT JOIN activities a
-            ON a.id = n.activity_id
-
-        WHERE n.user_id = ?
-
-        ORDER BY
-            n.created_at DESC,
-            n.id DESC
-    ");
-
-    $stmt->execute([
-        (int) $user['id']
-    ]);
-
-    $notifications =
-        $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    jsonResponse(
-        true,
-        '',
-        200,
-        [
-            'notifications' =>
-                $notifications
-        ]
-    );
-
-    exit;
-}

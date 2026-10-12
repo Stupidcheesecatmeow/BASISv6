@@ -1,179 +1,21 @@
-/* =========================================================
-   BASIS REPRESENTATIVE HOME
-   User No. 2
-
-   Data source:
-   - Active users from the representative's assigned barangay via account API
-
-   Expected admin scholar object example:
-   {
-       fullName: "Juan Dela Cruz",
-       barangay: "Banawang",
-       sex: "Male",
-       registrationStatus: "approved",
-       studentStatus: "ACTIVE"
-   }
-========================================================= */
-
-(function () {
-    'use strict';
-
-    const PROFILE_KEY = `basisProfile_${sessionStorage.getItem('basisCurrentUserId') || 'guest'}`;
-
-    const barangayEl = document.getElementById('representativeBarangay');
-    const totalEl = document.getElementById('totalScholars');
-    const maleEl = document.getElementById('maleScholars');
-    const femaleEl = document.getElementById('femaleScholars');
-
-    const announcementModal=document.getElementById('announcementModal');
-    const announcementForm=document.getElementById('announcementForm');
-    const announcementFile=document.getElementById('announcementFile');
-    const announcementFileName=document.getElementById('announcementFileName');
-    const closeAnnouncement=()=>{announcementModal?.classList.remove('show');announcementModal?.setAttribute('aria-hidden','true');document.body.style.overflow='';};
-    document.getElementById('openAnnouncementModal')?.addEventListener('click',()=>{const date=document.getElementById('announcementDate');if(date&&!date.value)date.value=new Date().toISOString().slice(0,10);announcementModal?.classList.add('show');announcementModal?.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';});
-    document.getElementById('closeAnnouncementModal')?.addEventListener('click',closeAnnouncement);
-    document.getElementById('cancelAnnouncement')?.addEventListener('click',closeAnnouncement);
-    announcementFile?.addEventListener('change',()=>{if(announcementFileName)announcementFileName.textContent=announcementFile.files?.[0]?.name||'';});
-    announcementForm?.addEventListener('submit',async event=>{event.preventDefault();const submit=announcementForm.querySelector('[type=submit]');submit.disabled=true;try{let attachmentData='';const file=announcementFile?.files?.[0];if(file){if(file.size>5*1024*1024)throw new Error('Attachment must be 5 MB or smaller.');attachmentData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Unable to read attachment.'));reader.readAsDataURL(file);});}const response=await fetch('../admin/api/account_api.php?action=announcements',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:document.getElementById('announcementTitle').value.trim(),date:document.getElementById('announcementDate').value,message:document.getElementById('announcementMessage').value.trim(),attachment_name:file?.name||'',attachment_data:attachmentData})});const data=await response.json();if(!response.ok||!data.success)throw new Error(data.message||'Announcement could not be published.');announcementForm.reset();closeAnnouncement();localStorage.setItem('basisAnnouncementPublished',String(Date.now()));window.location.reload();}catch(error){alert(error.message);}finally{submit.disabled=false;}});
-
-    const BARANGAYS = [
-        'Bagumbayan',
-        'Banawang',
-        'Binuangan',
-        'Binukawan',
-        'Ibaba',
-        'Ibis',
-        'Pagasa',
-        'Parang',
-        'Paysawan',
-        'Quinawan',
-        'San Antonio',
-        'Saysain',
-        'Tabing-ilog',
-        'Atilano Ricardo'
-    ];
-
-    function normalize(value) {
-        return String(value || '')
-            .trim()
-            .toLowerCase()
-            .replace(/[‐‑‒–—−]/g, '-')
-            .replace(/\s+/g, ' ');
-    }
-
-    function getSex(scholar) {
-        return normalize(scholar.sex || scholar.gender);
-    }
-
-    async function updateRepresentativeDashboard() {
-        barangayEl.textContent = 'LOADING…';
-        try {
-            const response = await fetch('../admin/api/account_api.php?action=representative-dashboard', {
-                credentials: 'same-origin',
-                cache: 'no-store'
-            });
-            const data = await response.json();
-            if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load barangay totals.');
-
-            const assignedBarangay = String(data.assignedBarangay || '').trim();
-            if (!assignedBarangay) {
-                barangayEl.textContent = 'BARANGAY PENDING';
-                totalEl.textContent = '0';
-                maleEl.textContent = '0';
-                femaleEl.textContent = '0';
-                return;
-            }
-
-            barangayEl.textContent = assignedBarangay.toUpperCase();
-            const members = Array.isArray(data.users) ? data.users : [];
-            let male = 0;
-            let female = 0;
-
-            members.forEach(function (member) {
-                const sex = getSex(member);
-
-                if (sex === 'male' || sex === 'm') {
-                    male++;
-                } else if (sex === 'female' || sex === 'f') {
-                    female++;
-                }
-            });
-
-            totalEl.textContent = members.length;
-            maleEl.textContent = male;
-            femaleEl.textContent = female;
-        } catch (error) {
-            barangayEl.textContent = 'UNAVAILABLE';
-            totalEl.textContent = '—';
-            maleEl.textContent = '—';
-            femaleEl.textContent = '—';
-            console.error(error);
-        }
-    }
-
-    /* =====================================================
-       CAROUSEL
-    ===================================================== */
-
-    function initCarousel() {
-        const track = document.getElementById('carouselTrack');
-        const dots = Array.from(document.querySelectorAll('#carouselDots .dot'));
-        const prev = document.getElementById('carouselPrev');
-        const next = document.getElementById('carouselNext');
-
-        if (!track || !dots.length) return;
-
-        let currentIndex = 0;
-        const totalSlides = track.children.length;
-
-        function showSlide(index) {
-            if (index < 0) index = totalSlides - 1;
-            if (index >= totalSlides) index = 0;
-
-            currentIndex = index;
-            track.style.transform = 'translateX(-' + (index * 100) + '%)';
-
-            dots.forEach(function (dot, i) {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-
-        prev?.addEventListener('click', function () {
-            showSlide(currentIndex - 1);
-        });
-
-        next?.addEventListener('click', function () {
-            showSlide(currentIndex + 1);
-        });
-
-        dots.forEach(function (dot) {
-            dot.addEventListener('click', function () {
-                showSlide(Number(dot.dataset.index));
-            });
-        });
-
-        showSlide(0);
-    }
-
-    /* =====================================================
-       LIVE UPDATE
-       Useful while testing with the admin page in another tab.
-    ===================================================== */
-
-    window.addEventListener('storage', function (event) {
-        if (event.key === PROFILE_KEY) {
-            updateRepresentativeDashboard();
-        }
-    });
-
-    document.addEventListener('visibilitychange', function () {
-        if (!document.hidden) {
-            updateRepresentativeDashboard();
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        updateRepresentativeDashboard();
-        initCarousel();
-    });
+/* BASIS REPRESENTATIVE HOME — admin-style shell + representative-specific data */
+(function(){'use strict';
+const $=id=>document.getElementById(id);
+const profileKey=`basisProfile_${sessionStorage.getItem('basisCurrentUserId')||'guest'}`;
+function openSidebar(){ $('adminSidebar')?.classList.add('open'); $('sidebarOverlay')?.classList.add('show'); document.body.classList.add('sidebar-open'); }
+function closeSidebar(){ $('adminSidebar')?.classList.remove('open'); $('sidebarOverlay')?.classList.remove('show'); document.body.classList.remove('sidebar-open'); }
+$('menuToggle')?.addEventListener('click',openSidebar); $('sidebarClose')?.addEventListener('click',closeSidebar); $('sidebarOverlay')?.addEventListener('click',closeSidebar);
+document.querySelectorAll('.sidebar-nav .sidebar-link').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=900)closeSidebar()})); window.addEventListener('resize',()=>{if(innerWidth>900)closeSidebar()});
+const modal=$('announcementModal'), form=$('announcementForm'), fileInput=$('announcementFile');
+function openModal(){if(!modal)return;modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';if($('announcementDate')&&!$('announcementDate').value)$('announcementDate').value=new Date().toISOString().slice(0,10)}
+function closeModal(){modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+$('openAnnouncementModal')?.addEventListener('click',openModal);$('closeAnnouncementModal')?.addEventListener('click',closeModal);$('cancelAnnouncement')?.addEventListener('click',closeModal);document.querySelector('.announcement-modal-overlay')?.addEventListener('click',closeModal);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+fileInput?.addEventListener('change',()=>{if($('announcementFileName'))$('announcementFileName').textContent=fileInput.files?.[0]?.name||'PNG, JPG, PDF, DOCX and other files (up to 5 MB)'});
+const escapeHTML=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+async function updateSummary(){try{const r=await fetch('../admin/api/account_api.php?action=representative-dashboard',{credentials:'same-origin',cache:'no-store'});const d=await r.json();if(!r.ok||!d.success)throw Error(d.message||'Unable to load barangay totals');const b=String(d.assignedBarangay||'').trim();$('representativeBarangay').textContent=b?b.toUpperCase():'BARANGAY PENDING';const users=Array.isArray(d.users)?d.users:[];let male=0,female=0;users.forEach(u=>{const s=String(u.sex||u.gender||'').trim().toLowerCase();if(['male','m'].includes(s))male++;if(['female','f'].includes(s))female++});$('totalScholars').textContent=users.length;$('maleScholars').textContent=male;$('femaleScholars').textContent=female;}catch(e){$('representativeBarangay').textContent='UNAVAILABLE';$('totalScholars').textContent='—';$('maleScholars').textContent='—';$('femaleScholars').textContent='—';console.error(e)}}
+function initCarousel(){const track=$('carouselTrack'),dots=[...document.querySelectorAll('#carouselDots .dot')];if(!track||!dots.length)return;let index=0;function show(i){index=(i+track.children.length)%track.children.length;track.style.transform=`translateX(-${index*100}%)`;dots.forEach((d,n)=>d.classList.toggle('active',n===index))}$('carouselPrev')?.addEventListener('click',()=>show(index-1));$('carouselNext')?.addEventListener('click',()=>show(index+1));dots.forEach((d,i)=>d.addEventListener('click',()=>show(i)));show(0)}
+async function loadAnnouncements(){const box=$('announcementsBox');if(!box)return;try{const r=await fetch('../admin/api/account_api.php?action=announcements',{credentials:'same-origin',cache:'no-store'});const d=await r.json();if(!r.ok||!d.success)throw Error(d.message||'Unable to load announcements');const items=Array.isArray(d.announcements)?d.announcements:[];box.replaceChildren();if(!items.length){box.innerHTML='<div class="announcement-empty"><i class="fa-regular fa-bell"></i><span>No announcements yet.</span></div>';return}items.forEach(a=>{const card=document.createElement('div');card.className='dashboard-info-card clickable-announcement';card.tabIndex=0;card.setAttribute('role','button');const title=a.title||'ANNOUNCEMENT',message=a.message||a.description||a.body||a.content||'',date=a.date||a.createdAt||a.created_at||'',name=a.attachment_name||'',data=a.attachment_data||'',isImage=data&&/\.(jpg|jpeg|png|gif|webp)$/i.test(name);card.innerHTML=`<div class="announcement-content-container"><div><h3 class="announcement-content-title">${escapeHTML(title)}</h3><span class="announcement-content-date">${escapeHTML(date)}</span><p class="announcement-content-message">${escapeHTML(message)}</p></div><div class="announcement-content-image ${isImage?'':'no-image'}">${isImage?`<img src="${data}" alt="${escapeHTML(title)}">`:'<i class="fa-regular fa-image"></i>'}</div></div>`;const go=()=>{if(a.id){sessionStorage.setItem('basisSelectedAnnouncementId',String(a.id));location.href='history-rep.html'}};card.addEventListener('click',go);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});box.appendChild(card)})}catch(e){console.error(e);box.innerHTML=`<div class="announcement-empty"><i class="fa-solid fa-triangle-exclamation"></i><span>${escapeHTML(e.message||'Unable to load announcements.')}</span></div>`}}
+function loadActivities(){const box=$('activityBox');if(!box)return;let items=[];for(const key of ['basisActivities','adminActivities','activities','basisAdminActivities']){try{const x=JSON.parse(localStorage.getItem(key)||'null');if(Array.isArray(x)){items=x;break}if(Array.isArray(x?.activities)){items=x.activities;break}}catch{}}items=items.filter(a=>['ongoing','active'].includes(String(a.status||'').toLowerCase())||a.ongoing===true);box.replaceChildren();if(!items.length){box.innerHTML='<div class="rep-empty"><i class="fa-regular fa-calendar"></i><span>No ongoing activity.</span></div>';return}items.forEach(a=>{const el=document.createElement('div');el.className='dashboard-info-card';el.innerHTML=`<div class="announcement-content-container" style="grid-template-columns:1fr"><div><h3 class="announcement-content-title">${escapeHTML(a.title||a.name||'ACTIVITY')}</h3><p class="announcement-content-message">${escapeHTML(a.description||a.venue||'Activity is currently ongoing.')}</p><span class="announcement-content-date">${escapeHTML(a.date||a.activityDate||'')}</span></div></div>`;box.appendChild(el)})}
+form?.addEventListener('submit',async e=>{e.preventDefault();const btn=form.querySelector('[type=submit]');btn.disabled=true;try{const file=fileInput?.files?.[0];if(file&&file.size>5*1024*1024)throw Error('Attachment must be 5 MB or smaller.');let attachmentData='';if(file)attachmentData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(Error('Unable to read attachment.'));reader.readAsDataURL(file)});const response=await fetch('../admin/api/account_api.php?action=announcements',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:$('announcementTitle').value.trim(),date:$('announcementDate').value,message:$('announcementMessage').value.trim(),attachment_name:file?.name||'',attachment_data:attachmentData})});const result=await response.json();if(!response.ok||!result.success)throw Error(result.message||'Announcement could not be published');form.reset();closeModal();await loadAnnouncements();localStorage.setItem('basisAnnouncementPublished',String(Date.now()));}catch(err){alert(err.message)}finally{btn.disabled=false}});
+window.addEventListener('storage',e=>{if([profileKey,'basisActivities','adminActivities','activities','basisAdminActivities','basisAnnouncementPublished'].includes(e.key)){updateSummary();loadActivities();loadAnnouncements()}});document.addEventListener('visibilitychange',()=>{if(!document.hidden){updateSummary();loadAnnouncements();loadActivities()}});document.addEventListener('DOMContentLoaded',()=>{initCarousel();updateSummary();loadAnnouncements();loadActivities();});
 })();

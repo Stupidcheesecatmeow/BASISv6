@@ -8,39 +8,139 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-rep.css?v=8">
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="activity-rep.css">
+    <link rel="stylesheet" href="activity-shell-rep.css?v=20261013-fix">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
+
 <body class="dashboard-page representative-page">
 
-<header class="dash-header">
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
-    <div class="header-right">
-        <div class="welcome-text">
-            <h1>MABUHAY, REPRESENTATIVE!</h1>
-            <span>WELCOME TO BASIS</span>
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>REPRESENTATIVE PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-        <div class="profile-avatar-wrapper" onclick="window.location.href='profile-rep.html'">
-            <img src="../images/profile_default.jpg" alt="Representative Profile" class="header-avatar">
+
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Representative Profile">
+            <div>
+                <strong>REPRESENTATIVE</strong>
+                <span>Barangay Representative</span>
+            </div>
         </div>
-    </div>
-</header>
+
+        <nav class="sidebar-nav" aria-label="Representative navigation">
+
+            <div class="sidebar-section-label">MAIN MENU</div>
+
+            <a class="sidebar-link" href="home-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <a class="sidebar-link" href="scorecard-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
+
+            <a class="sidebar-link active" href="activity-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link" href="history-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="profile-rep.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • REPRESENTATIVE</span>
+                    <h1>Activities</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, REPRESENTATIVE!</strong>
+                </div>
+
+                <a class="topbar-avatar" href="profile-rep.html" aria-label="Open representative profile">
+                    <img src="../images/profile_default.jpg" alt="Representative Profile">
+                </a>
+            </div>
+        </header>
+
 
 <main class="dash-main">
 <section class="page-view active">
-        <div class="view-banner search-banner">
+        <!-- <div class="view-banner search-banner">
             <h2>ACTIVITY</h2>
             <div class="search-filter-controls">
                 <div class="search-input-wrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search activities...">
+                    <input type="text"
+        id="activitySearchInput"
+        placeholder="Search activities..."
+        autocomplete="off">
                 </div>
                 <button class="filter-btn">FILTER</button>
             </div>
-        </div>
+        </div> -->
         <div class="view-body bordered-frame">
             <div class="admin-activity-list" id="adminActivityList">
                 <div class="admin-no-activity">
@@ -57,33 +157,10 @@
 </section>
 </main>
 
-<nav class="bottom-nav">
-    <div class="bottom-nav-inner">
-        <a class="nav-item" href="home-rep.html">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-<a class="nav-item" href="scorecard-rep.html">
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
-        <a class="nav-item active" href="activity-rep.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
-        <a class="nav-item" href="history-rep.html">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
-        <a class="nav-item" href="more-rep.html">
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
-    </div>
-</nav>
-
 <script src="../script.js?v=20261005-user-name-header"></script>
 <script src="activity-rep.js?v=20261005-deadline-history"></script>
+<script src="../auth.js?v=3"></script>
+
 
 </body>
 </html>

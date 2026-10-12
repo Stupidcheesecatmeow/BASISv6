@@ -1,877 +1,843 @@
 /* =========================================================
-   REPRESENTATIVE SCORECARD
-   SAME DESIGN + SAME LOGIC AS ISKOLAR SCORECARD
-   ========================================================= */
+   BASIS ADMIN SCORECARD
+   COMPACT HOME-ADMIN STYLE
+   NAVBAR / HEADER ARE NOT MODIFIED
+========================================================= */
+
+:root {
+    --score-green: #405840;
+    --score-green-dark: #2f4431;
+    --score-green-soft: #edf2ec;
+    --score-cream: #f7f8f4;
+    --score-white: #ffffff;
+    --score-border: #dfe5dc;
+    --score-border-dark: #cbd5c8;
+    --score-text: #273327;
+    --score-muted: #7b8579;
+    --score-orange: #dda12d;
+}
 
 
 /* =========================================================
-   SCORECARD LIST
-   ========================================================= */
+   PAGE / VIEW
+========================================================= */
 
-.scorecard-list {
+#view-scorecard,
+#view-scorecard-detail {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-view {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-view:not(.active) {
+    display: none !important;
+}
+
+
+/* =========================================================
+   LIST INTRO
+========================================================= */
+
+.scorecard-page-intro {
+    width: 100%;
+    min-height: 66px;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+
+    border: 1px solid var(--score-border);
+    border-radius: 12px;
+
+    background: var(--score-white);
 
     display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
-
-    width: 100%;
-
-    padding: 2px 8px 8px 2px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 
     box-sizing: border-box;
 
+    box-shadow: 0 4px 15px rgba(48,66,49,.035);
 }
 
-
-/* =========================================================
-   SCROLL ONLY WHEN SCORECARDS EXIST
-   ========================================================= */
-
-.scorecard-list.has-scroll {
-
-    max-height: 390px;
-
-    overflow-y: auto;
-
-    overflow-x: hidden;
-
-    scrollbar-width: thin;
-
-    scrollbar-color:
-        #768a75
-        transparent;
-
+.scorecard-eyebrow {
+    display: block;
+    color: var(--score-green);
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: 1px;
 }
 
-
-.scorecard-list.has-scroll::-webkit-scrollbar {
-
-    width: 7px;
-
+.scorecard-page-intro h2,
+.scorecard-detail-topbar h2 {
+    margin: 2px 0 1px;
+    color: var(--score-text);
+    font-size: 17px;
+    line-height: 1.1;
+    font-weight: 900;
 }
 
-
-.scorecard-list.has-scroll::-webkit-scrollbar-track {
-
-    background: transparent;
-
+.scorecard-page-intro p {
+    margin: 0;
+    color: var(--score-muted);
+    font-size: 7px;
+    font-weight: 500;
 }
 
+.scorecard-page-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
 
-.scorecard-list.has-scroll::-webkit-scrollbar-thumb {
-
-    background: #768a75;
-
-    border-radius: 10px;
-
-}
-
-
-.scorecard-list.has-scroll::-webkit-scrollbar-thumb:hover {
-
-    background: #42523f;
-
-}
-
-
-/* =========================================================
-   SCORECARD BUTTON
-   ========================================================= */
-
-.scorecard-btn {
-
-    width: 100%;
-
-    height: 64px;
-
-    min-height: 64px;
-
-    max-height: 64px;
-
-    flex-shrink: 0;
-
-    background-color: #768a75;
-
-    color: #ffffff;
-
-    border: none;
-
-    border-radius: 8px;
-
-    padding: 0 25px;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    text-align: left;
-
-    cursor: pointer;
-
-    box-sizing: border-box;
+    border-radius: 9px;
+    background: var(--score-green-soft);
+    color: var(--score-green);
 
     display: flex;
-
     align-items: center;
-
-    transition:
-        background-color .25s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
-
-}
-
-
-.scorecard-btn:hover {
-
-    background-color: #42523f;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 5px 12px
-        rgba(66,82,63,.15);
-
-}
-
-
-.scorecard-btn:active {
-
-    transform: translateY(0);
-
-}
-
-
-/* =========================================================
-   NO SCORECARD MESSAGE
-   ========================================================= */
-
-.no-scorecard-message {
-
-    width: 100%;
-
-    height: 390px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
     justify-content: center;
 
-    text-align: center;
-
-    padding: 30px 20px;
-
-    box-sizing: border-box;
-
-    color: #42523f;
-
-}
-
-
-.no-scorecard-message i {
-
-    font-size: 55px;
-
-    margin-bottom: 18px;
-
-    color: #768a75;
-
-}
-
-
-.no-scorecard-message h3 {
-
-    margin: 0;
-
-    font-size: 22px;
-
-    font-weight: 800;
-
-}
-
-
-.no-scorecard-message p {
-
-    margin: 8px 0 0;
-
-    font-size: 14px;
-
-    font-weight: 500;
-
-    color: #768a75;
-
+    font-size: 13px;
 }
 
 
 /* =========================================================
-   SCORECARD HEADER
-   ========================================================= */
+   YEAR CONTAINERS
+   Each academic year gets its own small container.
+========================================================= */
 
-.scorecard-header-banner {
+.scorecard-list-shell {
+    width: 100%;
+    box-sizing: border-box;
+}
 
-    background-color: #42523f;
+.scorecard-years {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
 
-    color: #ffffff;
+.scorecard-year-container {
+    width: 100%;
+    padding: 10px;
 
-    padding: 16px 30px;
+    border: 1px solid var(--score-border);
+    border-radius: 11px;
 
-    border-top-left-radius: 12px;
-
-    border-top-right-radius: 12px;
+    background: var(--score-white);
 
     box-sizing: border-box;
 
+    box-shadow: 0 4px 15px rgba(48,66,49,.03);
 }
 
+.scorecard-year-header {
+    min-height: 31px;
+    margin-bottom: 7px;
+    padding: 5px 7px;
 
-.scorecard-header-banner h2 {
+    border-radius: 7px;
+    background: var(--score-green-soft);
 
-    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 
+    box-sizing: border-box;
+}
+
+.scorecard-year-label {
+    color: var(--score-muted);
+    font-size: 5px;
     font-weight: 900;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
 
-    margin: 0;
+.scorecard-year-value {
+    color: var(--score-green);
+    font-size: 8px;
+    font-weight: 900;
+}
 
-    letter-spacing: .5px;
-
+.scorecard-year-count {
+    padding: 3px 5px;
+    border-radius: 5px;
+    background: #fff;
+    color: var(--score-muted);
+    font-size: 5px;
+    font-weight: 800;
 }
 
 
 /* =========================================================
-   SCORECARD OUTER FRAME
-   ========================================================= */
+   SEMESTER LIST
+========================================================= */
 
-.scorecard-outer-frame {
+.scorecard-semester-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-    background-color: #ffffff;
-
-    border: 2px solid #42523f;
-
-    border-top: none;
-
-    border-bottom-left-radius: 12px;
-
-    border-bottom-right-radius: 12px;
-
-    padding: 18px;
-
+.scorecard-semester-item {
     position: relative;
 
     width: 100%;
+    min-height: 48px;
+
+    padding: 7px 30px 7px 43px;
+
+    border: 1px solid #e4e9e2;
+    border-radius: 8px;
+
+    background: #fbfcfa;
+
+    color: var(--score-text);
+    font-family: "Poppins", sans-serif;
+
+    text-align: left;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     box-sizing: border-box;
 
-    margin-bottom: 20px;
+    transition:
+        border-color .16s ease,
+        background .16s ease,
+        transform .16s ease,
+        box-shadow .16s ease;
+}
 
+.scorecard-semester-item::before {
+    content: "\f2bb";
+
+    position: absolute;
+    left: 10px;
+    top: 50%;
+
+    width: 25px;
+    height: 25px;
+
+    transform: translateY(-50%);
+
+    border-radius: 7px;
+
+    background: var(--score-green-soft);
+    color: var(--score-green);
+
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scorecard-semester-item::after {
+    content: "\f054";
+
+    position: absolute;
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #a3ada1;
+
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 7px;
+}
+
+.scorecard-semester-item:hover {
+    border-color: #b9c7b6;
+    background: #f7faf6;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(48,66,49,.055);
+}
+
+.scorecard-semester-item:hover::before {
+    background: var(--score-green);
+    color: #fff;
+}
+
+.scorecard-semester-name {
+    color: var(--score-text);
+    font-size: 8px;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.scorecard-semester-meta {
+    margin-top: 2px;
+    color: var(--score-muted);
+    font-size: 5px;
+    font-weight: 600;
 }
 
 
 /* =========================================================
-   CLOSE BUTTON
-   ========================================================= */
+   EMPTY STATE
+========================================================= */
 
-.scorecard-close-btn {
+.no-scorecard-message {
+    min-height: 135px;
+    padding: 18px;
 
-    position: absolute;
+    border: 1px dashed var(--score-border-dark);
+    border-radius: 9px;
 
-    top: 14px;
+    background: #fafbf9;
 
-    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    background: transparent;
+    text-align: center;
+    box-sizing: border-box;
+}
 
-    border: none;
+.no-scorecard-message i {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 7px;
 
-    font-size: 24px;
+    border-radius: 9px;
+    background: var(--score-green-soft);
+    color: var(--score-green);
 
-    color: #42523f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+}
+
+.no-scorecard-message h3 {
+    margin: 0;
+    color: var(--score-text);
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.no-scorecard-message p {
+    max-width: 300px;
+    margin: 3px 0 0;
+
+    color: var(--score-muted);
+    font-size: 6px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   DETAIL TOPBAR
+========================================================= */
+
+.scorecard-detail-topbar {
+    width: 100%;
+    min-height: 49px;
+    margin-bottom: 8px;
+    padding: 7px 10px;
+
+    border: 1px solid var(--score-border);
+    border-radius: 10px;
+
+    background: var(--score-white);
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    box-sizing: border-box;
+}
+
+.scorecard-back-btn {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+
+    border: 1px solid var(--score-border);
+    border-radius: 7px;
+
+    background: var(--score-green-soft);
+    color: var(--score-green);
 
     cursor: pointer;
 
-    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    padding: 0;
-
-    transition:
-        transform .2s ease,
-        color .2s ease;
-
+    font-size: 9px;
 }
 
-
-.scorecard-close-btn:hover {
-
-    color: #768a75;
-
-    transform: scale(1.08);
-
+.scorecard-back-btn:hover {
+    background: var(--score-green);
+    color: #fff;
 }
 
 
 /* =========================================================
-   INNER SCORECARD
-   ========================================================= */
+   DETAIL FRAME
+========================================================= */
 
-.scorecard-inner-card {
-
-    display: flex;
-
-    background-color: #768a75;
-
-    border-radius: 6px;
+.scorecard-detail-frame {
+    width: 100%;
+    max-height: calc(100vh - 175px);
 
     padding: 8px;
 
-    margin-top: 38px;
+    border: 1px solid var(--score-border);
+    border-radius: 11px;
 
-    width: 100%;
+    background: #fff;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
     box-sizing: border-box;
 
+    scrollbar-width: thin;
+    scrollbar-color: #b9c7b6 transparent;
 }
 
+.scorecard-detail-frame::-webkit-scrollbar {
+    width: 5px;
+}
 
-/* =========================================================
-   VERTICAL BARS
-   ========================================================= */
+.scorecard-detail-frame::-webkit-scrollbar-thumb {
+    background: #b9c7b6;
+    border-radius: 10px;
+}
 
-.scorecard-vertical-bar {
-
-    background-color: #768a75;
+.scorecard-detail-card {
+    width: 100%;
 
     display: flex;
 
-    align-items: center;
+    border: 1px solid var(--score-border);
+    border-radius: 9px;
 
-    justify-content: center;
+    background: #fff;
+    overflow: hidden;
 
-    flex-shrink: 0;
-
+    box-sizing: border-box;
 }
 
-
-.scorecard-vertical-bar.left-bar {
-
-    width: 55px;
+.scorecard-side-label {
+    width: 25px;
+    flex: 0 0 25px;
 
     padding: 10px 0;
 
+    background: var(--score-green);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-
-.scorecard-vertical-bar.right-bar {
-
-    width: 25px;
-
-}
-
-
-/* =========================================================
-   STACKED SCORECARD TEXT
-   ========================================================= */
 
 .stacked-text {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: space-between;
-
     height: 100%;
 
-    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
-    font-weight: 900;
-
-    font-size: 28px;
-
+    color: #fff;
+    font-size: 8px;
     line-height: 1;
-
+    font-weight: 900;
 }
 
-
-/* =========================================================
-   SCORECARD CONTENT
-   ========================================================= */
-
-.scorecard-content-area {
-
+.scorecard-detail-content {
     flex: 1;
-
     min-width: 0;
 
-    background-color: #ffffff;
+    padding: 12px;
 
-    display: flex;
-
-    padding: 22px 25px;
-
-    gap: 20px;
-
-    border-radius: 2px;
+    display: grid;
+    grid-template-columns: minmax(260px, .9fr) 1px minmax(280px, 1.1fr);
+    gap: 12px;
 
     box-sizing: border-box;
-
-}
-
-
-/* =========================================================
-   INFORMATION COLUMN
-   ========================================================= */
-
-.scholar-info-column {
-
-    flex: 1.1;
-
-    min-width: 0;
-
-}
-
-
-.scholar-header {
-
-    text-align: center;
-
-    margin-bottom: 15px;
-
-}
-
-
-.scholar-header h3 {
-
-    color: #768a75;
-
-    font-size: 20px;
-
-    font-weight: 900;
-
-    line-height: 1.1;
-
-    margin: 0;
-
-}
-
-
-.scholar-subtitle {
-
-    display: block;
-
-    color: #768a75;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    font-style: italic;
-
 }
 
 
 /* =========================================================
    INFORMATION
-   ========================================================= */
+========================================================= */
 
-.info-grid-2col {
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 5px 15px;
-
-    font-size: 12px;
-
+.scholar-info-column,
+.activity-log-column {
+    min-width: 0;
 }
 
+.scholar-header {
+    margin-bottom: 9px;
+    padding-bottom: 7px;
+
+    border-bottom: 1px solid #e7ece5;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.admin-avatar-small {
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+
+    border-radius: 7px;
+    background: var(--score-green-soft);
+    color: var(--score-green);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+.scholar-header h3 {
+    margin: 0;
+    color: var(--score-text);
+    font-size: 11px;
+    line-height: 1.1;
+    font-weight: 900;
+}
+
+.scholar-subtitle {
+    display: block;
+    margin-top: 2px;
+    color: var(--score-green);
+    font-size: 5px;
+    font-weight: 800;
+    letter-spacing: .6px;
+}
+
+.info-section {
+    margin-bottom: 9px;
+}
+
+.info-section-title {
+    margin-bottom: 5px;
+
+    color: var(--score-green);
+
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.info-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+}
 
 .info-item,
 .info-item-single {
+    min-width: 0;
+    padding: 5px 6px;
 
-    display: flex;
+    border: 1px solid #e7ece5;
+    border-radius: 5px;
 
-    gap: 4px;
+    background: #fafbf9;
 
-    min-height: 20px;
-
-    line-height: 1.35;
-
+    box-sizing: border-box;
 }
 
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.info-item-single {
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
 .info-label {
-
+    color: var(--score-muted);
+    font-size: 5px;
+    line-height: 1.2;
     font-weight: 800;
-
-    color: #768a75;
-
-    white-space: nowrap;
-
 }
-
 
 .info-val {
-
-    font-weight: 700;
-
-    color: #222222;
-
+    min-width: 0;
+    color: var(--score-text);
+    font-size: 6px;
+    line-height: 1.25;
+    font-weight: 800;
     overflow-wrap: anywhere;
-
 }
-
-
-.scorecard-hr {
-
-    border: 0;
-
-    border-top: 1px solid #d0d8ce;
-
-    margin: 10px 0;
-
-}
-
-
-.family-info-block,
-.academic-info-block {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 4px;
-
-    font-size: 12px;
-
-}
-
-
-/* =========================================================
-   DOTTED DIVIDER
-   ========================================================= */
 
 .scorecard-dotted-divider {
-
-    border-left: 2.5px dotted #768a75;
-
-    margin: 0 5px;
-
-    flex-shrink: 0;
-
+    width: 1px;
+    border-left: 1px dashed #cbd5c8;
 }
 
 
 /* =========================================================
-   ACTIVITY LOG
-   ========================================================= */
-
-.activity-log-column {
-
-    flex: 1.3;
-
-    min-width: 0;
-
-}
-
+   ACTIVITY
+========================================================= */
 
 .activity-log-header {
+    width: 100%;
+    min-height: 38px;
+    margin-bottom: 7px;
+    padding: 7px 8px;
+
+    border: 1px solid var(--score-border);
+    border-radius: 7px;
+
+    background: var(--score-green-soft);
 
     display: flex;
-
-    justify-content: space-between;
-
     align-items: center;
+    justify-content: space-between;
+    gap: 7px;
 
-    gap: 10px;
-
-    margin-bottom: 14px;
-
-    font-weight: 900;
-
-    font-size: 20px;
-
-    color: #768a75;
-
-    flex-wrap: wrap;
-
+    box-sizing: border-box;
 }
 
+.activity-label {
+    display: block;
+    color: var(--score-muted);
+    font-size: 4px;
+    font-weight: 900;
+    letter-spacing: .6px;
+}
 
-.ay-title,
+.ay-title {
+    display: block;
+    color: var(--score-green);
+    font-size: 8px;
+    font-weight: 900;
+}
+
 .sem-title {
+    padding: 4px 6px;
 
+    border-radius: 5px;
+    background: #fff;
+
+    color: var(--score-green);
+
+    font-size: 5px;
     font-weight: 900;
-
 }
-
 
 .activity-rows-container {
-
+    width: 100%;
     display: flex;
-
     flex-direction: column;
-
-    gap: 10px;
-
+    gap: 5px;
 }
-
-
-/* =========================================================
-   ACTIVITY ROW
-   ========================================================= */
 
 .activity-form-row {
-
-    display: flex;
-
-    gap: 12px;
-
     width: 100%;
+    padding: 7px;
+
+    border: 1px solid #e2e8e0;
+    border-radius: 7px;
+
+    background: #fbfcfa;
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(80px, .7fr)
+        minmax(85px, .65fr);
+
+    gap: 5px;
 
     box-sizing: border-box;
-
 }
 
+.activity-form-row:hover {
+    border-color: #c2d0bf;
+    background: #fff;
+}
 
 .field-group {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 2px;
-
-}
-
-
-.field-group.title-field {
-
-    flex: 1;
-
     min-width: 0;
-
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
-
-
-.field-group.date-field {
-
-    width: 130px;
-
-    flex-shrink: 0;
-
-}
-
 
 .field-group label {
-
-    font-size: 11px;
-
+    color: var(--score-muted);
+    font-size: 4px;
     font-weight: 800;
-
-    color: #768a75;
-
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: .4px;
 }
-
 
 .field-group input {
-
-    border: 1.5px solid #a3b2a0;
-
-    border-radius: 4px;
-
-    padding: 3px 8px;
-
-    height: 28px;
-
     width: 100%;
+    height: 24px;
+    padding: 3px 6px;
 
-    box-sizing: border-box;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    color: #222222;
-
-    background-color: #ffffff;
+    border: 1px solid #d6ded3;
+    border-radius: 5px;
 
     outline: none;
+    background: #f7f9f6;
+    color: var(--score-text);
 
-}
-
-
-.field-group input:read-only {
-
-    cursor: default;
-
-}
-
-
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-.dash-main {
-
-    padding-bottom: 95px;
+    font-family: "Poppins", sans-serif;
+    font-size: 6px;
+    font-weight: 700;
 
     box-sizing: border-box;
-
 }
 
+.field-group.category-field input {
+    color: var(--score-green);
+    background: var(--score-green-soft);
+}
 
-.page-view {
-
+.representative-empty-activity {
     width: 100%;
+    min-height: 100px;
+    padding: 15px;
+
+    border: 1px dashed var(--score-border-dark);
+    border-radius: 7px;
+
+    background: #fafbf9;
+    color: var(--score-muted);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 6px;
+    font-weight: 700;
 
     box-sizing: border-box;
-
-}
-
-
-#view-scorecard-detail {
-
-    padding-bottom: 20px;
-
 }
 
 
 /* =========================================================
-   SCORECARD LIST FRAME
-   ========================================================= */
+   RESPONSIVE
+========================================================= */
 
-#view-scorecard .view-body {
+@media (max-width: 1050px) {
+    .scorecard-detail-content {
+        grid-template-columns:
+            minmax(230px, .9fr)
+            1px
+            minmax(250px, 1.1fr);
 
-    height: auto !important;
+        gap: 9px;
+        padding: 10px;
+    }
 
-    max-height: none !important;
-
-    overflow: visible !important;
-
+    .info-grid-2col {
+        grid-template-columns: 1fr;
+    }
 }
 
+@media (max-width: 850px) {
+    .scorecard-detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 
-#view-scorecard .scorecard-list {
+    .scorecard-dotted-divider {
+        width: 100%;
+        height: 1px;
+        border-left: 0;
+        border-top: 1px dashed #cbd5c8;
+    }
 
-    height: auto;
-
-    max-height: none;
-
-    overflow: visible;
-
+    .activity-form-row {
+        grid-template-columns:
+            minmax(0, 1.5fr)
+            minmax(90px, .7fr)
+            minmax(90px, .7fr);
+    }
 }
 
+@media (max-width: 600px) {
+    .scorecard-page-intro {
+        min-height: 59px;
+        padding: 10px 12px;
+    }
 
-/* =========================================================
-   SCROLL ONLY WHEN BUTTON EXISTS
-   ========================================================= */
+    .scorecard-page-intro h2,
+    .scorecard-detail-topbar h2 {
+        font-size: 15px;
+    }
 
-#view-scorecard
-.scorecard-list:has(.scorecard-btn) {
+    .scorecard-page-icon {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+        font-size: 11px;
+    }
 
-    max-height: 390px;
+    .scorecard-year-container {
+        padding: 8px;
+    }
 
-    overflow-y: auto;
+    .scorecard-semester-item {
+        min-height: 45px;
+        padding-left: 40px;
+    }
 
-    overflow-x: hidden;
+    .scorecard-detail-frame {
+        max-height: calc(100vh - 160px);
+        padding: 6px;
+    }
 
-    scrollbar-width: thin;
+    .scorecard-side-label {
+        width: 21px;
+        flex-basis: 21px;
+    }
 
-    scrollbar-color:
-        #768a75
-        transparent;
+    .stacked-text {
+        font-size: 7px;
+    }
 
-}
+    .scorecard-detail-content {
+        padding: 9px;
+    }
 
-
-#view-scorecard
-.scorecard-list:has(.scorecard-btn)
-::-webkit-scrollbar {
-
-    width: 7px;
-
-}
-
-
-#view-scorecard
-.scorecard-list:has(.scorecard-btn)
-::-webkit-scrollbar-track {
-
-    background: transparent;
-
-}
-
-
-#view-scorecard
-.scorecard-list:has(.scorecard-btn)
-::-webkit-scrollbar-thumb {
-
-    background: #768a75;
-
-    border-radius: 10px;
-
-}
-
-
-#view-scorecard
-.scorecard-list:has(.scorecard-btn)
-::-webkit-scrollbar-thumb:hover {
-
-    background: #42523f;
-
-}
-
-
-/* =========================================================
-   BOTTOM NAVIGATION
-   ========================================================= */
-
-.bottom-nav {
-
-    position: fixed;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    z-index: 9999;
-
-}
-
-#view-scorecard-detail .scorecard-outer-frame { max-height:calc(100vh - 245px); overflow-y:auto; overflow-x:hidden; scrollbar-width:thin; scrollbar-color:#768a75 transparent; }
-#view-scorecard-detail .scorecard-inner-card, #view-scorecard-detail .scorecard-content-area { min-width:0; }
-#view-scorecard-detail .scholar-info-column, #view-scorecard-detail .activity-log-column { min-width:0; overflow-wrap:anywhere; }
-#view-scorecard-detail .activity-log-column { flex:1; }
-#view-scorecard-detail .activity-form-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(120px, .34fr) minmax(100px, .24fr); gap:10px; }
-#view-scorecard-detail .field-group.category-field { min-width:0; }
-#view-scorecard-detail .field-group.date-field { width:auto; min-width:0; }
-@media (max-width:900px) {
-    #view-scorecard-detail .scorecard-inner-card { align-items:stretch; }
-    #view-scorecard-detail .scorecard-vertical-bar.left-bar { width:34px; }
-    #view-scorecard-detail .scorecard-vertical-bar.right-bar { display:none; }
-    #view-scorecard-detail .scorecard-content-area { flex-direction:column; padding:16px; }
-    #view-scorecard-detail .scorecard-dotted-divider { border-left:0; border-top:2px dotted #768a75; width:100%; margin:0; }
-    #view-scorecard-detail .activity-log-header { font-size:16px; }
-}
-@media (max-width:560px) {
-    #view-scorecard-detail .scorecard-outer-frame { max-height:calc(100vh - 210px); padding:10px; }
-    #view-scorecard-detail .scorecard-inner-card { padding:5px; margin-top:35px; }
-    #view-scorecard-detail .scorecard-content-area { padding:12px; }
-    #view-scorecard-detail .scorecard-vertical-bar.left-bar { width:25px; }
-    #view-scorecard-detail .stacked-text { font-size:20px; }
-    #view-scorecard-detail .info-grid-2col { grid-template-columns:1fr; }
-    #view-scorecard-detail .activity-form-row { grid-template-columns:1fr; }
+    .activity-form-row {
+        grid-template-columns: 1fr;
+    }
 }

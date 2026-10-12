@@ -1,1113 +1,2570 @@
 /* =========================================================
-   BASIS REPRESENTATIVE HISTORY
-   SAME LOGIC AS SCHOLAR HISTORY
-
-   Representative History is NOT filtered by barangay.
-
-   Data sources:
-   - basisRepresentativeHistory
-   - representativeHistory
-   - basisAdminHistory
+   BASIS REPRESENTATIVE — HISTORY
    ========================================================= */
 
+(() => {
 
-/* =========================================================
-   GET HISTORY DATA
-   ========================================================= */
-
-function getRepHistoryData() {
-
-    const keys = [
-
-        "basisRepresentativeHistory",
-
-        "representativeHistory",
-
-        "basisAdminHistory"
-
-    ];
+    "use strict";
 
 
-    for (const key of keys) {
+    /* =====================================================
+       API
+    ===================================================== */
 
-        const saved =
-            localStorage.getItem(key);
+    const ACCOUNT_API =
+        "../admin/api/account_api.php";
 
-
-        if (!saved) {
-
-            continue;
-
-        }
+    const ACTIVITY_API =
+        "../admin/api/activity_api.php";
 
 
-        try {
+    /* =====================================================
+       DATA
+    ===================================================== */
 
-            const data =
-                JSON.parse(saved);
+    let historyData = {
 
+        announcements: [],
 
-            if (Array.isArray(data)) {
+        activities: [],
 
-                return data;
-
-            }
-
-
-            if (
-                data &&
-                typeof data === "object"
-            ) {
-
-                return data;
-
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Unable to read history:",
-                error
-            );
-
-        }
-
-    }
-
-
-    return [];
-
-}
-
-
-/* =========================================================
-   NORMALIZE HISTORY DATA
-   ========================================================= */
-
-function normalizeHistoryData() {
-
-    const raw =
-        getRepHistoryData();
-
-
-    /* -----------------------------------------
-       IF DATA IS AN ARRAY
-       ----------------------------------------- */
-
-    if (Array.isArray(raw)) {
-
-        return {
-
-            announcements:
-                raw.filter(
-                    item =>
-                        item.type === "announcement"
-                ),
-
-            activities:
-                raw.filter(
-                    item =>
-                        item.type === "activity"
-                ),
-
-            notifications:
-                raw.filter(
-                    item =>
-                        item.type === "notification"
-                )
-
-        };
-
-    }
-
-
-    /* -----------------------------------------
-       IF DATA IS AN OBJECT
-       ----------------------------------------- */
-
-    return {
-
-        announcements:
-
-            Array.isArray(
-                raw.announcements
-            )
-
-                ? raw.announcements
-
-                : [],
-
-
-        activities:
-
-            Array.isArray(
-                raw.activities
-            )
-
-                ? raw.activities
-
-                : [],
-
-
-        notifications:
-
-            Array.isArray(
-                raw.notifications
-            )
-
-                ? raw.notifications
-
-                : []
+        notifications: []
 
     };
 
-}
+
+    let loading = false;
+
+    let lastSnapshot = "";
 
 
-/* =========================================================
-   DATE FORMAT
-   ========================================================= */
+    /* =====================================================
+       BASIC HELPERS
+    ===================================================== */
 
-function formatDate(value) {
+    function $(id) {
 
-    if (!value) {
-
-        return "xx/xx/xxxx";
-
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return String(value);
+        return document.getElementById(id);
 
     }
 
 
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric"
-        }
-    );
+    function escapeHtml(value) {
 
-}
+        return String(value ?? "")
 
+            .replace(/&/g, "&amp;")
 
-/* =========================================================
-   SHOW HISTORY VIEW
-   ========================================================= */
+            .replace(/</g, "&lt;")
 
-function showRepHistoryView(viewId) {
+            .replace(/>/g, "&gt;")
 
-    document
-        .querySelectorAll(".page-view")
-        .forEach(
-            function (view) {
+            .replace(/"/g, "&quot;")
 
-                view.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-
-    const target =
-        document.getElementById(
-            viewId
-        );
-
-
-    if (!target) {
-
-        return;
+            .replace(/'/g, "&#039;");
 
     }
 
 
-    target.classList.add(
-        "active"
-    );
+    function firstValue(...values) {
 
+        return values.find(value =>
 
-    window.scrollTo({
+            value !== undefined &&
 
-        top: 0,
+            value !== null &&
 
-        behavior: "smooth"
+            String(value).trim() !== ""
 
-    });
-
-}
-
-
-/* =========================================================
-   EMPTY HISTORY
-   ========================================================= */
-
-function renderEmptyHistory(
-    container,
-    title,
-    description
-) {
-
-    container.innerHTML = `
-
-        <div class="representative-history-empty">
-
-            <i class="fa-solid fa-clock-rotate-left"></i>
-
-            <h3>
-                ${escapeHtml(title)}
-            </h3>
-
-            <p>
-                ${escapeHtml(description)}
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   ANNOUNCEMENT HISTORY
-   ========================================================= */
-
-function renderAnnouncementHistory(
-    items
-) {
-
-    const container =
-        document.getElementById(
-            "repAnnouncementHistoryList"
-        );
-
-
-    if (!container) {
-
-        return;
+        ) ?? "";
 
     }
 
 
-    container.innerHTML = "";
+    function setText(id, value) {
 
+        const element = $(id);
 
-    if (!items.length) {
-
-        renderEmptyHistory(
-
-            container,
-
-            "No announcement history yet.",
-
-            "History will appear here when there is data."
-
-        );
-
-        return;
-
-    }
-
-
-    items.forEach(
-
-        function (item) {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "history-item-row";
-
-
-            row.innerHTML = `
-
-                <h4>
-                    ${escapeHtml(
-                        item.title ||
-                        "ANNOUNCEMENT"
-                    )}
-                </h4>
-
-
-                <div class="history-item-meta">
-
-                    <span>
-                        ${escapeHtml(
-                            formatDate(
-                                item.date ||
-                                item.createdAt
-                            )
-                        )}
-                    </span>
-
-                </div>
-
-            `;
-
-
-            row.addEventListener(
-                "click",
-                function () {
-
-                    openAnnouncementDetail(
-                        item
-                    );
-
-                }
-            );
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ACTIVITY HISTORY
-   ========================================================= */
-
-function renderActivityHistory(
-    items
-) {
-
-    const container =
-        document.getElementById(
-            "repActivityHistoryList"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    if (!items.length) {
-
-        renderEmptyHistory(
-
-            container,
-
-            "No activity history yet.",
-
-            "History will appear here when there is data."
-
-        );
-
-        return;
-
-    }
-
-
-    items.forEach(
-
-        function (item) {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "history-item-row";
-
-
-            row.innerHTML = `
-
-                <h4>
-                    ${escapeHtml(
-                        item.title ||
-                        item.name ||
-                        "ACTIVITY"
-                    )}
-                </h4>
-
-
-                <div class="history-item-meta">
-
-                    <span>
-                        ${escapeHtml(
-                            formatDate(
-                                item.date ||
-                                item.activityDate
-                            )
-                        )}
-                    </span>
-
-
-                    <span>
-                        ${escapeHtml(
-                            item.type ||
-                            "ACTIVITY"
-                        )}
-                    </span>
-
-                </div>
-
-            `;
-
-
-            row.addEventListener(
-                "click",
-                function () {
-
-                    openActivityDetail(
-                        item
-                    );
-
-                }
-            );
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   NOTIFICATION HISTORY
-   ========================================================= */
-
-function renderNotificationHistory(
-    items
-) {
-
-    const container =
-        document.getElementById(
-            "repNotificationHistoryList"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    if (!items.length) {
-
-        renderEmptyHistory(
-
-            container,
-
-            "No notification history yet.",
-
-            "History will appear here when there is data."
-
-        );
-
-        return;
-
-    }
-
-
-    items.forEach(
-
-        function (item) {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "history-item-row";
-
-
-            row.innerHTML = `
-
-                <h4>
-                    ${escapeHtml(
-                        item.title ||
-                        "NOTIFICATION"
-                    )}
-                </h4>
-
-
-                <div class="history-item-meta">
-
-                    <span>
-                        ${escapeHtml(
-                            formatDate(
-                                item.date ||
-                                item.createdAt
-                            )
-                        )}
-                    </span>
-
-                </div>
-
-            `;
-
-
-            row.addEventListener(
-                "click",
-                function () {
-
-                    openNotificationDetail(
-                        item
-                    );
-
-                }
-            );
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ANNOUNCEMENT DETAIL
-   ========================================================= */
-
-function openAnnouncementDetail(
-    item
-) {
-
-    setText(
-
-        "repAnnouncementDetailTitle",
-
-        item.title ||
-        "ANNOUNCEMENT TITLE"
-
-    );
-
-
-    setText(
-
-        "repAnnouncementDetailDate",
-
-        formatDate(
-            item.date ||
-            item.createdAt
-        )
-
-    );
-
-
-    setText(
-
-        "repAnnouncementDetailDescription",
-
-        item.description ||
-
-        item.body ||
-
-        item.content ||
-
-        "No announcement description available."
-
-    );
-
-
-    const image =
-        document.getElementById(
-            "repAnnouncementDetailImage"
-        );
-
-
-    if (image) {
-
-        image.src =
-
-            item.image ||
-
-            item.imageUrl ||
-
-            "../images/image-icon.png";
-
-    }
-
-
-    showRepHistoryView(
-        "view-history-rep-announcement-detail"
-    );
-
-}
-
-
-/* =========================================================
-   ACTIVITY DETAIL
-   ========================================================= */
-
-function openActivityDetail(
-    item
-) {
-
-    setText(
-
-        "repActivityDetailTitle",
-
-        item.title ||
-
-        item.name ||
-
-        "ACTIVITY TITLE"
-
-    );
-
-
-    setText(
-
-        "repActivityDetailDate",
-
-        formatDate(
-            item.date ||
-            item.activityDate
-        )
-
-    );
-
-
-    setText(
-
-        "repActivityDetailDescription",
-
-        item.description ||
-
-        item.body ||
-
-        item.content ||
-
-        "No activity description available."
-
-    );
-
-
-    setText(
-
-        "repActivityDetailSemester",
-
-        `${
-
-            item.academicYear ||
-
-            "2026 – 2027"
-
-        } ${
-
-            (
-
-                item.semester ||
-
-                "FIRST SEMESTER"
-
-            ).toUpperCase()
-
-        }`
-
-    );
-
-
-    setText(
-
-        "repActivityName",
-
-        item.title ||
-
-        item.name ||
-
-        "ACTIVITY TITLE"
-
-    );
-
-
-    setText(
-
-        "repActivityType",
-
-        item.type ||
-
-        "—"
-
-    );
-
-
-    setText(
-
-        "repActivityDate",
-
-        formatDate(
-            item.date ||
-            item.activityDate
-        )
-
-    );
-
-
-    setText(
-
-        "repActivityTime",
-
-        item.time ||
-
-        "—"
-
-    );
-
-
-    setText(
-
-        "repActivityVenue",
-
-        item.venue ||
-
-        "—"
-
-    );
-
-
-    setText(
-
-        "repActivityAddress",
-
-        item.venueAddress ||
-
-        item.address ||
-
-        "—"
-
-    );
-
-
-    setText(
-
-        "repActivityNamePerson",
-
-        item.name ||
-
-        item.participant ||
-
-        "—"
-
-    );
-
-
-    setText(
-
-        "repActivityMunicipality",
-
-        item.municipality ||
-
-        "BAGAC"
-
-    );
-
-
-    setText(
-
-        "repActivityBarangay",
-
-        item.barangay ||
-
-        "—"
-
-    );
-
-
-    showRepHistoryView(
-        "view-history-rep-activity-detail"
-    );
-
-}
-
-
-/* =========================================================
-   NOTIFICATION DETAIL
-   ========================================================= */
-
-function openNotificationDetail(
-    item
-) {
-
-    setText(
-
-        "repNotificationDetailTitle",
-
-        item.title ||
-
-        "NOTIFICATION TITLE"
-
-    );
-
-
-    setText(
-
-        "repNotificationDetailDate",
-
-        formatDate(
-            item.date ||
-            item.createdAt
-        )
-
-    );
-
-
-    setText(
-
-        "repNotificationDetailBody",
-
-        item.body ||
-
-        item.description ||
-
-        item.content ||
-
-        "No notification details available."
-
-    );
-
-
-    showRepHistoryView(
-        "view-history-rep-notification-detail"
-    );
-
-}
-
-
-/* =========================================================
-   SET TEXT
-   ========================================================= */
-
-function setText(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    if (element) {
+        if (!element) return;
 
         element.textContent =
             value || "—";
 
     }
 
-}
 
+    /* =====================================================
+       DATE
+    ===================================================== */
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
+    function recordDate(item) {
 
-function setupSearch(
-    inputId,
-    containerId
-) {
+        return firstValue(
 
-    const input =
-        document.getElementById(
-            inputId
+            item?.created_at,
+
+            item?.createdAt,
+
+            item?.published_at,
+
+            item?.publishedAt,
+
+            item?.date,
+
+            item?.activity_date,
+
+            item?.activityDate,
+
+            item?.timestamp
+
         );
-
-
-    const container =
-        document.getElementById(
-            containerId
-        );
-
-
-    if (
-        !input ||
-        !container
-    ) {
-
-        return;
 
     }
 
 
-    input.addEventListener(
-        "input",
-        function () {
+    function dateValue(item) {
 
-            const query =
-                input.value
-                    .toLowerCase()
-                    .trim();
+        const raw =
+            recordDate(item);
+
+        if (!raw) return 0;
 
 
-            container
-                .querySelectorAll(
-                    ".history-item-row"
+        let date =
+            new Date(raw);
+
+
+        if (!Number.isNaN(date.getTime())) {
+
+            return date.getTime();
+
+        }
+
+
+        date =
+            new Date(
+                String(raw).slice(0, 10)
+                + "T00:00:00"
+            );
+
+
+        return Number.isNaN(
+            date.getTime()
+        )
+            ? 0
+            : date.getTime();
+
+    }
+
+
+    function formatDate(value) {
+
+        if (!value) return "—";
+
+
+        const raw =
+            String(value);
+
+
+        const date =
+            /^\d{4}-\d{2}-\d{2}$/.test(raw)
+
+                ? new Date(
+                    raw + "T00:00:00"
                 )
-                .forEach(
 
-                    function (row) {
+                : new Date(raw);
 
-                        row.style.display =
 
-                            row.textContent
-                                .toLowerCase()
-                                .includes(query)
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
 
-                                ? ""
+            return raw;
 
-                                : "none";
+        }
+
+
+        return date.toLocaleDateString(
+            "en-US",
+            {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function formatDateTime(value) {
+
+        if (!value) return "—";
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return formatDate(value);
+
+        }
+
+
+        return date.toLocaleString(
+            "en-US",
+            {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+
+    function sortNewest(items) {
+
+        return [...items].sort(
+
+            (a, b) =>
+                dateValue(b) -
+                dateValue(a)
+
+        );
+
+    }
+
+
+    function uniqueById(
+        items,
+        prefix
+    ) {
+
+        const seen =
+            new Set();
+
+
+        return items.filter(
+            (item, index) => {
+
+                const key =
+                    firstValue(
+
+                        item?.id,
+
+                        item?.activity_id,
+
+                        item?.announcement_id,
+
+                        `${prefix}-${index}-${recordDate(item)}`
+
+                    );
+
+
+                if (
+                    seen.has(
+                        String(key)
+                    )
+                ) {
+
+                    return false;
+
+                }
+
+
+                seen.add(
+                    String(key)
+                );
+
+
+                return true;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       API REQUEST
+    ===================================================== */
+
+    async function getJson(url) {
+
+        const response =
+            await fetch(
+                url,
+                {
+                    credentials:
+                        "same-origin",
+
+                    cache:
+                        "no-store",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json()
+                .catch(() => ({
+                    success: false,
+                    message:
+                        "Invalid server response."
+                }));
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load history."
+            );
+
+        }
+
+
+        return data;
+
+    }
+
+
+    /* =====================================================
+       ANNOUNCEMENTS
+    ===================================================== */
+
+    async function fetchAnnouncements() {
+
+        const data =
+            await getJson(
+                `${ACCOUNT_API}?action=announcements`
+            );
+
+
+        return Array.isArray(
+            data.announcements
+        )
+            ? data.announcements
+            : [];
+
+    }
+
+
+    /* =====================================================
+       ACTIVITIES
+    ===================================================== */
+
+    async function fetchActivities() {
+
+        const data =
+            await getJson(
+                `${ACTIVITY_API}?action=list`
+            );
+
+
+        return Array.isArray(
+            data.activities
+        )
+            ? data.activities
+            : [];
+
+    }
+
+
+    /* =====================================================
+       NOTIFICATIONS
+    ===================================================== */
+
+    async function fetchNotifications() {
+
+        const data =
+            await getJson(
+                `${ACTIVITY_API}?action=notifications`
+            );
+
+
+        return Array.isArray(
+            data.notifications
+        )
+            ? data.notifications
+            : [];
+
+    }
+
+
+    /* =====================================================
+       HISTORY RULES
+    ===================================================== */
+
+    function activityPastDueDate(item) {
+        return firstValue(
+            item?.due_date,
+            item?.dueDate,
+            item?.deadline,
+            item?.end_date,
+            item?.endDate,
+            item?.activity_date,
+            item?.activityDate,
+            item?.date
+        );
+    }
+
+    function isPastDueActivity(item) {
+        const raw = activityPastDueDate(item);
+        if (!raw) return false;
+
+        const parsed = new Date(
+            /^\\d{4}-\\d{2}-\\d{2}$/.test(String(raw).trim())
+                ? `${String(raw).trim()}T00:00:00`
+                : raw
+        );
+
+        if (Number.isNaN(parsed.getTime())) return false;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        parsed.setHours(0, 0, 0, 0);
+
+        return parsed < today;
+    }
+
+    function buildRelevantNotifications(announcements, rawNotifications) {
+        const announcementItems = (announcements || []).map(item => ({
+            ...item,
+            id: `announcement-${item.id ?? item.announcement_id ?? recordDate(item)}`,
+            source_id: item.id ?? item.announcement_id ?? null,
+            type: "new_announcement",
+            title: firstValue(item.title, item.announcement_title, "New announcement"),
+            message: firstValue(item.message, item.content, item.description, "A new announcement has been published."),
+            created_at: firstValue(item.created_at, item.published_at, item.date)
+        }));
+
+        const feedbackItems = (rawNotifications || []).filter(item => {
+            const text = [
+                item?.type, item?.title, item?.message,
+                item?.body, item?.description, item?.content,
+                item?.category, item?.subject
+            ].join(" ").toLowerCase();
+
+            return text.includes("feedback") || text.includes("concern");
+        });
+
+        return uniqueById(
+            sortNewest([...announcementItems, ...feedbackItems]),
+            "relevant-notification"
+        );
+    }
+
+
+    /* =====================================================
+       LOAD DATA
+    ===================================================== */
+
+    async function loadHistoryData() {
+
+        if (loading) return;
+
+
+        loading = true;
+
+
+        try {
+
+            const [
+                announcementsResult,
+                activitiesResult,
+                notificationsResult
+
+            ] = await Promise.allSettled([
+
+                fetchAnnouncements(),
+
+                fetchActivities(),
+
+                fetchNotifications()
+
+            ]);
+
+
+            const announcements =
+
+                announcementsResult.status ===
+                "fulfilled"
+
+                    ? announcementsResult.value
+
+                    : [];
+
+
+            const activities =
+
+                activitiesResult.status ===
+                "fulfilled"
+
+                    ? activitiesResult.value
+
+                    : [];
+
+
+            const notifications =
+
+                notificationsResult.status ===
+                "fulfilled"
+
+                    ? notificationsResult.value
+
+                    : [];
+
+
+            historyData = {
+
+                announcements:
+                    uniqueById(
+                        sortNewest(
+                            announcements
+                        ),
+                        "announcement"
+                    ),
+
+
+                // Activity History only contains activities whose date/deadline has passed.
+                activities:
+                    uniqueById(
+                        sortNewest(
+                            activities.filter(isPastDueActivity)
+                        ),
+                        "activity"
+                    ),
+
+                // Notifications include new announcements and feedback/concern records.
+                notifications:
+                    buildRelevantNotifications(
+                        announcements,
+                        notifications
+                    )
+
+            };
+
+
+            renderRepHistory();
+
+
+            lastSnapshot =
+                createSnapshot();
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "History error:",
+                error
+            );
+
+            showLoadError(
+                error.message
+            );
+
+        }
+
+        finally {
+
+            loading = false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SNAPSHOT
+    ===================================================== */
+
+    function createSnapshot() {
+
+        return JSON.stringify({
+
+            announcements:
+                historyData.announcements
+                    .map(item => [
+
+                        item.id,
+
+                        recordDate(item),
+
+                        item.title,
+
+                        item.attachment_data
+
+                    ]),
+
+
+            activities:
+                historyData.activities
+                    .map(item => [
+
+                        item.id,
+
+                        recordDate(item),
+
+                        item.name,
+
+                        item.description_image
+
+                    ]),
+
+
+            notifications:
+                historyData.notifications
+                    .map(item => [
+
+                        item.id,
+
+                        recordDate(item),
+
+                        item.title,
+
+                        item.message
+
+                    ])
+
+        });
+
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    function showLoadError(message) {
+
+        const ids = [
+
+            "repAnnouncementHistoryList",
+
+            "repActivityHistoryList",
+
+            "repNotificationHistoryList"
+
+        ];
+
+
+        ids.forEach(id => {
+
+            const container =
+                $(id);
+
+            if (!container) return;
+
+
+            container.innerHTML = `
+
+                <div class="history-empty">
+
+                    <div class="history-empty-icon">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    </div>
+
+                    <h3>
+                        Unable to load records
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            message ||
+                            "Please refresh the page."
+                        )}
+                    </p>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    function hideAllViews() {
+
+        document
+            .querySelectorAll(
+                ".page-view"
+            )
+            .forEach(view => {
+
+                view.classList.remove(
+                    "active"
+                );
+
+            });
+
+    }
+
+
+    function showRepHistoryView(
+        viewId
+    ) {
+
+        hideAllViews();
+
+
+        const target =
+            $(viewId);
+
+
+        if (!target) {
+
+            console.warn(
+                "History view not found:",
+                viewId
+            );
+
+            return;
+
+        }
+
+
+        target.classList.add(
+            "active"
+        );
+
+
+        if (
+            viewId ===
+            "view-history-rep"
+        ) {
+
+            renderRepHistory();
+
+        }
+
+
+        if (
+            viewId ===
+            "view-history-rep-announcements"
+        ) {
+
+            renderAnnouncementHistory();
+
+        }
+
+
+        if (
+            viewId ===
+            "view-history-rep-activities"
+        ) {
+
+            renderActivityHistory();
+
+        }
+
+
+        if (
+            viewId ===
+            "view-history-rep-notifications"
+        ) {
+
+            renderNotificationHistory();
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    window.showRepHistoryView =
+        showRepHistoryView;
+
+
+    window.showHistoryView =
+        showRepHistoryView;
+
+
+    window.backToRepHistory =
+        () =>
+            showRepHistoryView(
+                "view-history-rep"
+            );
+
+
+    /* =====================================================
+       COUNTERS
+    ===================================================== */
+
+    function updateCounters() {
+
+        const values = [
+
+            [
+                "historyAnnouncementCount",
+                historyData.announcements.length
+            ],
+
+            [
+                "historyActivityCount",
+                historyData.activities.length
+            ],
+
+            [
+                "historyNotificationCount",
+                historyData.notifications.length
+            ]
+
+        ];
+
+
+        values.forEach(
+            ([id, value]) => {
+
+                const element =
+                    $(id);
+
+                if (!element) return;
+
+                element.textContent =
+                    value;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    function renderEmpty(
+        container,
+        title,
+        message
+    ) {
+
+        container.innerHTML = `
+
+            <div class="history-empty">
+
+                <div class="history-empty-icon">
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                </div>
+
+                <h3>
+                    ${escapeHtml(title)}
+                </h3>
+
+                <p>
+                    ${escapeHtml(message)}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       ANNOUNCEMENT HELPERS
+    ===================================================== */
+
+    function announcementTitle(item) {
+
+        return firstValue(
+
+            item?.title,
+
+            item?.name,
+
+            "Untitled Announcement"
+
+        );
+
+    }
+
+
+    function announcementBody(item) {
+
+        return firstValue(
+
+            item?.message,
+
+            item?.description,
+
+            item?.body,
+
+            item?.content,
+
+            "No announcement message available."
+
+        );
+
+    }
+
+
+    function announcementImage(item) {
+
+        return firstValue(
+
+            item?.attachment_data,
+
+            item?.attachmentData,
+
+            item?.image,
+
+            item?.imageUrl,
+
+            item?.photo,
+
+            item?.photoUrl
+
+        );
+
+    }
+
+
+    function isImageSource(
+        source,
+        item
+    ) {
+
+        if (!source) return false;
+
+
+        const attachmentName =
+            firstValue(
+                item?.attachment_name,
+                item?.attachmentName
+            );
+
+
+        if (
+            attachmentName &&
+            /\.(jpg|jpeg|png|gif|webp)$/i
+                .test(attachmentName)
+        ) {
+
+            return true;
+
+        }
+
+
+        return /^data:image\//i
+            .test(String(source));
+
+    }
+
+
+    /* =====================================================
+       ANNOUNCEMENT LIST
+    ===================================================== */
+
+    function renderAnnouncementHistory() {
+
+        const container =
+            $(
+                "repAnnouncementHistoryList"
+            );
+
+
+        if (!container) return;
+
+
+        const items =
+            sortNewest(
+                historyData.announcements
+            );
+
+
+        if (!items.length) {
+
+            renderEmpty(
+
+                container,
+
+                "No announcement history yet.",
+
+                "Published announcements will appear here."
+
+            );
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            items.map(
+                (item, index) => {
+
+                    return `
+
+                        <button
+                            class="history-record-row"
+                            type="button"
+                            data-index="${index}"
+                        >
+
+                            <div class="history-record-icon">
+
+                                <i class="fa-solid fa-bullhorn"></i>
+
+                            </div>
+
+
+                            <div class="history-record-main">
+
+                                <strong>
+                                    ${escapeHtml(
+                                        announcementTitle(item)
+                                    )}
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(
+                                        announcementBody(item)
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-record-date">
+
+                                ${escapeHtml(
+                                    formatDate(
+                                        recordDate(item)
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <div class="history-record-arrow">
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </div>
+
+                        </button>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        container
+            .querySelectorAll(
+                ".history-record-row"
+            )
+            .forEach(row => {
+
+                row.addEventListener(
+                    "click",
+                    () => {
+
+                        openAnnouncementDetail(
+                            Number(
+                                row.dataset.index
+                            )
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* =====================================================
+       ANNOUNCEMENT DETAIL
+    ===================================================== */
+
+    function openAnnouncementDetail(
+        index
+    ) {
+
+        const item =
+            sortNewest(
+                historyData.announcements
+            )[index];
+
+
+        if (!item) return;
+
+
+        setText(
+
+            "repAnnouncementDetailDate",
+
+            formatDateTime(
+                recordDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repAnnouncementDetailTitle",
+
+            announcementTitle(item)
+
+        );
+
+
+        setText(
+
+            "repAnnouncementDetailDescription",
+
+            announcementBody(item)
+
+        );
+
+
+        const image =
+            $(
+                "repAnnouncementDetailImage"
+            );
+
+
+        const placeholder =
+            $(
+                "repAnnouncementDetailImagePlaceholder"
+            );
+
+
+        const source =
+            announcementImage(item);
+
+
+        if (
+            image &&
+            source &&
+            isImageSource(
+                source,
+                item
+            )
+        ) {
+
+            image.src =
+                source;
+
+            image.style.display =
+                "block";
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "none";
+
+            }
+
+        }
+
+        else {
+
+            if (image) {
+
+                image.removeAttribute(
+                    "src"
+                );
+
+                image.style.display =
+                    "none";
+
+            }
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "flex";
+
+            }
+
+        }
+
+
+        showRepHistoryView(
+            "view-history-rep-announcement-detail"
+        );
+
+    }
+
+
+    window.openAnnouncementDetail =
+        openAnnouncementDetail;
+
+
+    /* =====================================================
+       ACTIVITY HELPERS
+    ===================================================== */
+
+    function activityDate(item) {
+
+        return firstValue(
+            item?.due_date,
+            item?.dueDate,
+            item?.deadline,
+            item?.end_date,
+            item?.endDate,
+            item?.activity_date,
+            item?.activityDate,
+            item?.date
+        );
+
+    }
+
+
+    function activityTime(item) {
+
+        const start =
+            firstValue(
+
+                item?.startTime,
+
+                item?.start_time
+
+            );
+
+
+        const end =
+            firstValue(
+
+                item?.endTime,
+
+                item?.end_time
+
+            );
+
+
+        if (
+            start &&
+            end
+        ) {
+
+            return `${start} - ${end}`;
+
+        }
+
+
+        return start ||
+            end ||
+            "—";
+
+    }
+
+
+    function activityImage(item) {
+
+        return firstValue(
+
+            item?.description_image,
+
+            item?.descriptionImage,
+
+            item?.image,
+
+            item?.imageUrl,
+
+            item?.photo,
+
+            item?.photoUrl
+
+        );
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY LIST
+    ===================================================== */
+
+    function renderActivityHistory() {
+
+        const container =
+            $(
+                "repActivityHistoryList"
+            );
+
+
+        if (!container) return;
+
+
+        const items =
+            sortNewest(
+                historyData.activities
+            );
+
+
+        if (!items.length) {
+
+            renderEmpty(
+
+                container,
+
+                "No activity history yet.",
+
+                "Created activities will appear here."
+
+            );
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            items.map(
+                (item, index) => {
+
+                    const name =
+                        firstValue(
+
+                            item?.name,
+
+                            "Untitled Activity"
+
+                        );
+
+
+                    const type =
+                        firstValue(
+
+                            item?.type,
+
+                            "Activity"
+
+                        );
+
+
+                    return `
+
+                        <button
+                            class="history-record-row"
+                            type="button"
+                            data-index="${index}"
+                        >
+
+                            <div class="history-record-icon">
+
+                                <i class="fa-solid fa-calendar-check"></i>
+
+                            </div>
+
+
+                            <div class="history-record-main">
+
+                                <strong>
+                                    ${escapeHtml(name)}
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(type)}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-record-date">
+
+                                ${escapeHtml(
+                                    formatDate(
+                                        activityDate(item)
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <div class="history-record-arrow">
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </div>
+
+                        </button>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        container
+            .querySelectorAll(
+                ".history-record-row"
+            )
+            .forEach(row => {
+
+                row.addEventListener(
+                    "click",
+                    () => {
+
+                        openActivityDetail(
+                            Number(
+                                row.dataset.index
+                            )
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY DETAIL
+    ===================================================== */
+
+    function fillActivityDetail(
+        item
+    ) {
+
+        setText(
+
+            "repActivityDetailDate",
+
+            formatDate(
+                activityDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityDetailTitle",
+
+            firstValue(
+                item?.name,
+                "Untitled Activity"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityDetailDescription",
+
+            firstValue(
+                item?.description,
+                "No activity description available."
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityName",
+
+            firstValue(
+                item?.name,
+                "—"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityType",
+
+            firstValue(
+                item?.type,
+                "—"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityDate",
+
+            formatDate(
+                activityDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityTime",
+
+            activityTime(item)
+
+        );
+
+
+        setText(
+
+            "repActivityVenue",
+
+            firstValue(
+                item?.venue,
+                "—"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityAddress",
+
+            firstValue(
+                item?.venueAddress,
+
+                item?.venue_address,
+
+                "—"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityNamePerson",
+
+            firstValue(
+
+                item?.namePerson,
+
+                item?.contactPerson,
+
+                item?.facilitator,
+
+                item?.organizer,
+
+                "—"
+
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityMunicipality",
+
+            firstValue(
+                item?.municipality,
+                "—"
+            )
+
+        );
+
+
+        setText(
+
+            "repActivityBarangay",
+
+            firstValue(
+                item?.barangay,
+                "—"
+            )
+
+        );
+
+
+        /* IMAGE */
+
+        const image =
+            $(
+                "repActivityDetailImage"
+            );
+
+
+        const placeholder =
+            $(
+                "repActivityDetailImagePlaceholder"
+            );
+
+
+        const source =
+            activityImage(item);
+
+
+        if (
+            image &&
+            source
+        ) {
+
+            image.src =
+                source;
+
+            image.style.display =
+                "block";
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "none";
+
+            }
+
+        }
+
+        else {
+
+            if (image) {
+
+                image.removeAttribute(
+                    "src"
+                );
+
+                image.style.display =
+                    "none";
+
+            }
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "flex";
+
+            }
+
+        }
+
+    }
+
+
+    function openActivityDetail(
+        index
+    ) {
+
+        const item =
+            sortNewest(
+                historyData.activities
+            )[index];
+
+
+        if (!item) return;
+
+
+        fillActivityDetail(
+            item
+        );
+
+
+        showRepHistoryView(
+            "view-history-rep-activity-detail"
+        );
+
+    }
+
+
+    window.openActivityDetail =
+        openActivityDetail;
+
+
+    /* =====================================================
+       NOTIFICATION HELPERS
+    ===================================================== */
+
+    function notificationTitle(item) {
+
+        return firstValue(
+
+            item?.title,
+
+            "Activity Notification"
+
+        );
+
+    }
+
+
+    function notificationBody(item) {
+
+        return firstValue(
+
+            item?.message,
+
+            item?.body,
+
+            item?.description,
+
+            item?.content,
+
+            "No notification message available."
+
+        );
+
+    }
+
+
+    function notificationType(item) {
+
+        const type =
+            String(
+                item?.type || ""
+            ).toLowerCase();
+
+
+        if (
+            type.includes("reject")
+        ) {
+
+            return "REJECTED";
+
+        }
+
+
+        if (
+            type.includes("verif") ||
+            type.includes("approved")
+        ) {
+
+            return "VERIFIED";
+
+        }
+
+
+        if (
+            type.includes("new_activity")
+        ) {
+
+            return "NEW ACTIVITY";
+
+        }
+
+
+        return "ACTIVITY";
+
+    }
+
+
+    /* =====================================================
+       NOTIFICATION LIST
+    ===================================================== */
+
+    function renderNotificationHistory() {
+
+        const container =
+            $(
+                "repNotificationHistoryList"
+            );
+
+
+        if (!container) return;
+
+
+        const items =
+            sortNewest(
+                historyData.notifications
+            );
+
+
+        if (!items.length) {
+
+            renderEmpty(
+
+                container,
+
+                "No notification history yet.",
+
+                "New announcements and feedback or concern updates will appear here."
+
+            );
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            items.map(
+                (item, index) => {
+
+                    return `
+
+                        <button
+                            class="history-record-row"
+                            type="button"
+                            data-index="${index}"
+                        >
+
+                            <div class="history-record-icon">
+
+                                <i class="fa-regular fa-bell"></i>
+
+                            </div>
+
+
+                            <div class="history-record-main">
+
+                                <strong>
+                                    ${escapeHtml(
+                                        notificationTitle(item)
+                                    )}
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(
+                                        notificationBody(item)
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-record-date">
+
+                                ${escapeHtml(
+                                    formatDate(
+                                        recordDate(item)
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <div class="history-record-arrow">
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </div>
+
+                        </button>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        container
+            .querySelectorAll(
+                ".history-record-row"
+            )
+            .forEach(row => {
+
+                row.addEventListener(
+                    "click",
+                    () => {
+
+                        openNotificationDetail(
+                            Number(
+                                row.dataset.index
+                            )
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* =====================================================
+       NOTIFICATION DETAIL
+    ===================================================== */
+
+    function openNotificationDetail(
+        index
+    ) {
+
+        const item =
+            sortNewest(
+                historyData.notifications
+            )[index];
+
+
+        if (!item) return;
+
+
+        setText(
+
+            "repNotificationDetailDate",
+
+            formatDateTime(
+                recordDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailTitle",
+
+            notificationTitle(item)
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailBody",
+
+            notificationBody(item)
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailType",
+
+            notificationType(item)
+
+        );
+
+
+        showRepHistoryView(
+            "view-history-rep-notification-detail"
+        );
+
+    }
+
+
+    window.openNotificationDetail =
+        openNotificationDetail;
+
+
+    /* =====================================================
+       RENDER MAIN
+    ===================================================== */
+
+    function renderRepHistory() {
+
+        updateCounters();
+
+        renderAnnouncementHistory();
+
+        renderActivityHistory();
+
+        renderNotificationHistory();
+
+    }
+
+
+    window.renderRepHistory =
+        renderRepHistory;
+
+
+    window.renderAnnouncementHistory =
+        renderAnnouncementHistory;
+
+
+    window.renderActivityHistory =
+        renderActivityHistory;
+
+
+    window.renderNotificationHistory =
+        renderNotificationHistory;
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    function setupSearch(
+        inputId,
+        listId,
+        getItems,
+        type
+    ) {
+
+        const input =
+            $(inputId);
+
+
+        if (!input) return;
+
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                const query =
+                    input.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const items =
+                    sortNewest(
+                        getItems()
+                    );
+
+
+                if (!query) {
+
+                    if (
+                        type ===
+                        "announcement"
+                    ) {
+
+                        renderAnnouncementHistory();
 
                     }
 
+                    else if (
+                        type ===
+                        "activity"
+                    ) {
+
+                        renderActivityHistory();
+
+                    }
+
+                    else {
+
+                        renderNotificationHistory();
+
+                    }
+
+                    return;
+
+                }
+
+
+                const filtered =
+                    items.filter(
+                        item =>
+                            JSON.stringify(
+                                item
+                            )
+                                .toLowerCase()
+                                .includes(
+                                    query
+                                )
+                    );
+
+
+                const container =
+                    $(listId);
+
+
+                if (!container) return;
+
+
+                if (!filtered.length) {
+
+                    renderEmpty(
+
+                        container,
+
+                        "No matching records.",
+
+                        "Try a different search term."
+
+                    );
+
+                    return;
+
+                }
+
+
+                renderSearchResults(
+                    container,
+                    filtered,
+                    type
                 );
 
+            }
+        );
+
+    }
+
+
+    function renderSearchResults(
+        container,
+        items,
+        type
+    ) {
+
+        container.innerHTML =
+            "";
+
+
+        items.forEach(item => {
+
+            let title = "";
+
+            let subtitle = "";
+
+            let date = "";
+
+            let icon = "";
+
+            let openFunction;
+
+
+            if (
+                type ===
+                "announcement"
+            ) {
+
+                title =
+                    announcementTitle(
+                        item
+                    );
+
+                subtitle =
+                    announcementBody(
+                        item
+                    );
+
+                date =
+                    formatDate(
+                        recordDate(item)
+                    );
+
+                icon =
+                    "fa-bullhorn";
+
+
+                openFunction =
+                    () => {
+
+                        openAnnouncementFromItem(
+                            item
+                        );
+
+                    };
+
+            }
+
+
+            else if (
+                type ===
+                "activity"
+            ) {
+
+                title =
+                    firstValue(
+                        item?.name,
+                        "Untitled Activity"
+                    );
+
+                subtitle =
+                    firstValue(
+                        item?.type,
+                        "Activity"
+                    );
+
+                date =
+                    formatDate(
+                        activityDate(item)
+                    );
+
+                icon =
+                    "fa-calendar-check";
+
+
+                openFunction =
+                    () => {
+
+                        openActivityFromItem(
+                            item
+                        );
+
+                    };
+
+            }
+
+
+            else {
+
+                title =
+                    notificationTitle(
+                        item
+                    );
+
+                subtitle =
+                    notificationBody(
+                        item
+                    );
+
+                date =
+                    formatDate(
+                        recordDate(item)
+                    );
+
+                icon =
+                    "fa-bell";
+
+
+                openFunction =
+                    () => {
+
+                        openNotificationFromItem(
+                            item
+                        );
+
+                    };
+
+            }
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "history-record-row";
+
+
+            button.innerHTML = `
+
+                <div class="history-record-icon">
+
+                    <i class="fa-solid ${icon}"></i>
+
+                </div>
+
+
+                <div class="history-record-main">
+
+                    <strong>
+                        ${escapeHtml(title)}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(subtitle)}
+                    </span>
+
+                </div>
+
+
+                <div class="history-record-date">
+
+                    ${escapeHtml(date)}
+
+                </div>
+
+
+                <div class="history-record-arrow">
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </div>
+
+            `;
+
+
+            button.addEventListener(
+                "click",
+                openFunction
+            );
+
+
+            container.appendChild(
+                button
+            );
+
+        });
+
+    }
+
+
+    /* =====================================================
+       OPEN FROM SEARCH
+    ===================================================== */
+
+    function openAnnouncementFromItem(
+        item
+    ) {
+
+        setText(
+
+            "repAnnouncementDetailDate",
+
+            formatDateTime(
+                recordDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repAnnouncementDetailTitle",
+
+            announcementTitle(item)
+
+        );
+
+
+        setText(
+
+            "repAnnouncementDetailDescription",
+
+            announcementBody(item)
+
+        );
+
+
+        const image =
+            $(
+                "repAnnouncementDetailImage"
+            );
+
+
+        const placeholder =
+            $(
+                "repAnnouncementDetailImagePlaceholder"
+            );
+
+
+        const source =
+            announcementImage(item);
+
+
+        if (
+            image &&
+            source &&
+            isImageSource(
+                source,
+                item
+            )
+        ) {
+
+            image.src =
+                source;
+
+            image.style.display =
+                "block";
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "none";
+
+            }
+
         }
-    );
 
-}
+        else {
+
+            if (image) {
+
+                image.removeAttribute(
+                    "src"
+                );
+
+                image.style.display =
+                    "none";
+
+            }
 
 
-/* =========================================================
-   RENDER REPRESENTATIVE HISTORY
-   SAME LOGIC AS SCHOLAR
-   ========================================================= */
+            if (placeholder) {
 
-function renderRepresentativeHistory() {
+                placeholder.style.display =
+                    "flex";
 
-    const data =
-        normalizeHistoryData();
+            }
 
+        }
+
+
+        showRepHistoryView(
+            "view-history-rep-announcement-detail"
+        );
+
+    }
+
+
+    function openActivityFromItem(
+        item
+    ) {
+
+        fillActivityDetail(
+            item
+        );
+
+
+        showRepHistoryView(
+            "view-history-rep-activity-detail"
+        );
+
+    }
+
+
+    function openNotificationFromItem(
+        item
+    ) {
+
+        setText(
+
+            "repNotificationDetailDate",
+
+            formatDateTime(
+                recordDate(item)
+            )
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailTitle",
+
+            notificationTitle(item)
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailBody",
+
+            notificationBody(item)
+
+        );
+
+
+        setText(
+
+            "repNotificationDetailType",
+
+            notificationType(item)
+
+        );
+
+
+        showRepHistoryView(
+            "view-history-rep-notification-detail"
+        );
+
+    }
+
+    /* =====================================================
+   OPEN ANNOUNCEMENT SELECTED FROM ADMIN HOME
+===================================================== */
+
+function openSelectedAnnouncementFromHome() {
+
+    const selectedId =
+        sessionStorage.getItem(
+            "basisRepresentativeSelectedAnnouncementId"
+        );
 
     /*
-       IMPORTANT:
+     * Walang selected announcement.
+     * Normal History page lang ang ipakita.
+     */
+    if (!selectedId) {
+        return;
+    }
 
-       NO BARANGAY FILTER HERE.
+    /*
+     * Hanapin ang announcement na pinindot
+     * sa Admin Home.
+     */
+    const selectedAnnouncement =
+        historyData.announcements.find(
+            item =>
+                String(item.id) ===
+                String(selectedId)
+        );
 
-       Representative sees the same history
-       logic as the Scholar side.
-    */
-
-
-    renderAnnouncementHistory(
-
-        data.announcements
-
+    /*
+     * Burahin agad ang temporary selection
+     * para hindi paulit-ulit mag-open
+     * kapag ni-refresh ang page.
+     */
+    sessionStorage.removeItem(
+        "basisRepresentativeSelectedAnnouncementId"
     );
 
+    /*
+     * Kapag wala na ang announcement,
+     * huwag mag-open ng detail.
+     */
+    if (!selectedAnnouncement) {
+        return;
+    }
 
-    renderActivityHistory(
-
-        data.activities
-
-    );
-
-
-    renderNotificationHistory(
-
-        data.notifications
-
-    );
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-   ========================================================= */
-
-function escapeHtml(
-    value
-) {
-
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
+    /*
+     * Gamitin ang existing detail function.
+     * Ito ang maglalagay ng:
+     * - title
+     * - message
+     * - date
+     * - image
+     */
+    openAnnouncementFromItem(
+        selectedAnnouncement
     );
 
 }
 
+    /* =====================================================
+       SEARCH INIT
+    ===================================================== */
 
-/* =========================================================
-   PAGE LOAD
-   ========================================================= */
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    function () {
-
-        renderRepresentativeHistory();
-
+    function setupSearches() {
 
         setupSearch(
 
             "repAnnouncementSearch",
 
-            "repAnnouncementHistoryList"
+            "repAnnouncementHistoryList",
+
+            () =>
+                historyData.announcements,
+
+            "announcement"
 
         );
 
@@ -1116,7 +2573,12 @@ document.addEventListener(
 
             "repActivitySearch",
 
-            "repActivityHistoryList"
+            "repActivityHistoryList",
+
+            () =>
+                historyData.activities,
+
+            "activity"
 
         );
 
@@ -1125,59 +2587,195 @@ document.addEventListener(
 
             "repNotificationSearch",
 
-            "repNotificationHistoryList"
+            "repNotificationHistoryList",
+
+            () =>
+                historyData.notifications,
+
+            "notification"
 
         );
 
     }
 
-);
+
+    /* =====================================================
+       AUTO REFRESH
+    ===================================================== */
+
+    async function refreshIfChanged() {
+
+        try {
+
+            const [
+                announcements,
+                activities,
+                notifications
+
+            ] = await Promise.all([
+
+                fetchAnnouncements(),
+
+                fetchActivities(),
+
+                fetchNotifications()
+
+            ]);
 
 
-/* =========================================================
-   PAGE SHOW
-   ========================================================= */
+            const nextData = {
 
-window.addEventListener(
-
-    "pageshow",
-
-    function () {
-
-        renderRepresentativeHistory();
-
-    }
-
-);
+                announcements:
+                    uniqueById(
+                        sortNewest(
+                            announcements
+                        ),
+                        "announcement"
+                    ),
 
 
-/* =========================================================
-   STORAGE UPDATE
-   ========================================================= */
+                activities:
+                    uniqueById(
+                        sortNewest(
+                            activities.filter(isPastDueActivity)
+                        ),
+                        "activity"
+                    ),
 
-window.addEventListener(
+                notifications:
+                    buildRelevantNotifications(
+                        announcements,
+                        notifications
+                    )
 
-    "storage",
+            };
 
-    function (event) {
 
-        if (
+            const nextSnapshot =
+                JSON.stringify({
 
-            event.key ===
-                "basisRepresentativeHistory" ||
+                    announcements:
+                        nextData.announcements
+                            .map(item => [
 
-            event.key ===
-                "representativeHistory" ||
+                                item.id,
 
-            event.key ===
-                "basisAdminHistory"
+                                recordDate(item),
 
-        ) {
+                                item.title,
 
-            renderRepresentativeHistory();
+                                item.attachment_data
+
+                            ]),
+
+
+                    activities:
+                        nextData.activities
+                            .map(item => [
+
+                                item.id,
+
+                                recordDate(item),
+
+                                item.name,
+
+                                item.description_image
+
+                            ]),
+
+
+                    notifications:
+                        nextData.notifications
+                            .map(item => [
+
+                                item.id,
+
+                                recordDate(item),
+
+                                item.title,
+
+                                item.message
+
+                            ])
+
+                });
+
+
+            if (
+                nextSnapshot !==
+                lastSnapshot
+            ) {
+
+                historyData =
+                    nextData;
+
+
+                lastSnapshot =
+                    nextSnapshot;
+
+
+                renderRepHistory();
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                "History refresh failed:",
+                error.message
+            );
 
         }
 
     }
 
-);
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async () => {
+
+            setupSearches();
+
+
+            hideAllViews();
+
+
+            const main =
+                $(
+                    "view-history-rep"
+                );
+
+
+            if (main) {
+
+                main.classList.add(
+                    "active"
+                );
+
+            }
+
+            await loadHistoryData();
+
+            /*
+            * If this page was opened by clicking
+            * an announcement from Admin Home,
+            * automatically show that announcement's
+            * detail page.
+            */
+            openSelectedAnnouncementFromHome();
+
+            setInterval(
+                refreshIfChanged,
+                5000
+            );
+
+        }
+    );
+
+})();
