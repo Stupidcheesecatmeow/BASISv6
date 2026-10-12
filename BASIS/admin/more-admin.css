@@ -1,100 +1,101 @@
 /* =========================================================
-   BASIS MORE PAGE
-   FIXED CONTAINER + INTERNAL SCROLL
+   BASIS ADMIN — MORE
+   HISTORY-STYLE CONTENT UI
+   FUNCTIONALITY / JS SELECTORS PRESERVED
 ========================================================= */
+
+:root {
+    --more-green: #405c43;
+    --more-green-dark: #304933;
+    --more-green-soft: #edf3ed;
+
+    --more-bg: #ffffff;
+    --more-page: #f7f8f5;
+
+    --more-text: #263329;
+    --more-muted: #7b857d;
+
+    --more-border: #dfe5dd;
+
+    --more-shadow:
+        0 10px 30px rgba(48, 73, 51, .07);
+}
 
 
 /* =========================================================
-   OUTER MORE CONTAINER
-   SAME POSITION / SIZE BEHAVIOR AS HISTORY
+   MORE PAGE
+   SIDEBAR / TOPBAR ARE NOT TOUCHED
 ========================================================= */
 
 .more-page {
-
     width: 100%;
-
     margin: 0;
 
     height: calc(100vh - 225px);
-
     min-height: 500px;
-
     max-height: 580px;
 
-    border: 2px solid #42523f;
+    background: var(--more-bg);
 
-    border-radius: 14px;
+    border: 1px solid var(--more-border);
+    border-radius: 17px;
 
-    background: #ffffff;
+    box-shadow: var(--more-shadow);
 
     box-sizing: border-box;
-
     overflow: hidden;
-
 }
 
 
 /* =========================================================
-   MORE HEADER
+   MORE PAGE HEADER
 ========================================================= */
 
 .more-page-header {
-
     width: 100%;
+    height: 64px;
+    min-height: 64px;
 
-    height: 70px;
-
-    min-height: 70px;
-
-    padding: 0 26px;
+    padding: 0 24px;
 
     display: flex;
-
     align-items: center;
 
-    background: #42523f;
+    background: var(--more-green);
 
     box-sizing: border-box;
-
 }
 
-
 .more-page-header h1 {
-
     margin: 0;
 
     color: #ffffff;
 
     font-family: "Poppins", sans-serif;
-
-    font-size: 28px;
-
+    font-size: 21px;
     font-weight: 900;
 
+    letter-spacing: .4px;
 }
 
 
 /* =========================================================
-   MORE CONTENT AREA
+   CONTENT AREA
 ========================================================= */
 
 .more-page-content {
-
     width: 100%;
 
-    /*
-       Remaining height after the MORE header.
-    */
-    height: calc(100% - 80px);
-
+    height: calc(100% - 64px);
     min-height: 0;
 
-    padding: 18px 38px;
+    padding: 20px 22px;
 
     box-sizing: border-box;
 
     overflow: hidden;
 
+    background: var(--more-page);
 }
 
 
@@ -103,17 +104,32 @@
 ========================================================= */
 
 #moreMenuView {
-
     width: 100%;
-
     height: 100%;
 
     min-height: 0;
 
     box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-    overflow: hidden;
+    scrollbar-width: thin;
+    scrollbar-color:
+        #cdd6cc
+        transparent;
+}
 
+#moreMenuView::-webkit-scrollbar {
+    width: 5px;
+}
+
+#moreMenuView::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#moreMenuView::-webkit-scrollbar-thumb {
+    background: #cdd6cc;
+    border-radius: 20px;
 }
 
 
@@ -122,60 +138,49 @@
 ========================================================= */
 
 .more-menu-list {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
-
     width: 100%;
 
-    height: auto;
+    display: grid;
 
-    min-height: 0;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    max-height: 100%;
+    gap: 18px;
 
-    padding: 18px 0;
+    padding: 2px;
 
     box-sizing: border-box;
-
-    overflow: hidden;
-
 }
 
 
 /* =========================================================
    MORE MENU CARD
-   SAME SIZE AS HISTORY
+   HISTORY SUMMARY CARD STYLE
 ========================================================= */
 
 .more-menu-card {
+    position: relative;
 
     width: 100%;
+    min-height: 170px;
 
-    height: 80px;
+    padding: 22px;
 
-    min-height: 80px;
+    border:
+        1px solid var(--more-border);
 
-    max-height: 80px;
+    border-radius: 17px;
 
-    flex-shrink: 0;
+    background: #ffffff;
 
-    padding: 0 28px;
+    color: var(--more-text);
 
-    border: none;
-
-    border-radius: 8px;
-
-    background: #768a75;
-
-    color: #ffffff;
+    box-shadow: var(--more-shadow);
 
     display: flex;
-
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
 
     text-align: left;
 
@@ -186,29 +191,120 @@
     cursor: pointer;
 
     transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
 }
-
 
 .more-menu-card:hover {
+    transform: translateY(-3px);
 
-    background: #6d806c;
+    box-shadow:
+        0 15px 35px rgba(48, 73, 51, .11);
 
-    transform: translateY(-1px);
+    border-color: #cfd9cd;
 
+    background: #ffffff;
 }
 
 
+/* =========================================================
+   CARD ICON
+   Supports icon inside button if present
+========================================================= */
+
+.more-menu-card i {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 16px;
+
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
 .more-menu-card span {
+    display: block;
 
-    font-size: 22px;
+    color: var(--more-text);
 
-    font-weight: 800;
+    font-size: 17px;
+    font-weight: 900;
 
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
 
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   OPTIONAL CARD DESCRIPTION
+========================================================= */
+
+.more-menu-card small,
+.more-menu-card p {
+    margin: 7px 0 0;
+
+    color: var(--more-muted);
+
+    font-size: 8px;
+    font-weight: 600;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CARD ARROW
+========================================================= */
+
+.more-menu-card::after {
+    content: "\f061";
+
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+
+    font-size: 10px;
+
+    transition: .18s ease;
+}
+
+.more-menu-card:hover::after {
+    background: var(--more-green);
+    color: #ffffff;
+    transform: translateX(2px);
 }
 
 
@@ -217,11 +313,9 @@
 ========================================================= */
 
 .more-detail-view {
-
     position: relative;
 
     width: 100%;
-
     height: 100%;
 
     min-height: 0;
@@ -231,50 +325,45 @@
     box-sizing: border-box;
 
     overflow: hidden;
-
 }
 
 
 /* =========================================================
-   CLOSE BUTTON
-   FIXED INSIDE MORE CONTENT
+   CLOSE / BACK BUTTON
 ========================================================= */
 
 .more-close-btn {
-
     position: absolute;
 
     top: 0;
-
     left: 0;
 
-    width: 32px;
-
-    height: 32px;
+    width: 38px;
+    height: 38px;
 
     margin: 0;
+    margin-top: 9px;
+    margin-left: 9px;
 
     padding: 0;
 
-    border: none;
+    border:
+        1px solid var(--more-border);
 
-    border-radius: 50%;
+    border-radius: 11px;
 
-    background: #42523f;
+    background: #ffffff;
 
-    color: #ffffff;
+    color: var(--more-green);
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    font-family: Arial, sans-serif;
+    font-family: inherit;
 
-    font-size: 21px;
-
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 900;
 
     line-height: 1;
 
@@ -282,133 +371,132 @@
 
     z-index: 50;
 
+    box-shadow:
+        0 4px 14px rgba(48, 73, 51, .05);
+
+    transition: .18s ease;
 }
 
-
 .more-close-btn:hover {
+    background: var(--more-green-soft);
 
-    background: #344331;
-
+    transform: translateX(-2px);
 }
 
 
 /* =========================================================
    INNER HEADER
-   SPACED BELOW CLOSE BUTTON
+   HISTORY SUB HEADER STYLE
 ========================================================= */
 
 .more-inner-header {
-
     width: 100%;
 
-    height: 58px;
+    height: 64px;
+    min-height: 64px;
 
-    min-height: 58px;
+    margin-top: 0;
 
-    margin-top: 42px;
-
-    padding: 0 22px;
+    padding: 0 17px 0 55px;
 
     display: flex;
-
     align-items: center;
+    justify-content: space-between;
 
-    background: #768a75;
+    gap: 15px;
 
-    border-radius: 8px 8px 0 0;
+    background: #ffffff;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 16px 16px 0 0;
 
     box-sizing: border-box;
 
+    box-shadow: var(--more-shadow);
 }
 
-
 .more-inner-header h2 {
-
     margin: 0;
 
-    color: #ffffff;
+    color: var(--more-text);
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 21px;
-
+    font-size: 19px;
     font-weight: 900;
-
 }
 
 
 /* =========================================================
-   INNER SCROLL AREA
+   INNER HEADER ICON
+========================================================= */
+
+.more-inner-header i {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   INNER SCROLL
 ========================================================= */
 
 .more-inner-scroll {
-
     width: 100%;
 
-    /*
-       Detail view height
-       minus:
-       42px top spacing
-       58px header
-    */
-    height: calc(100% - 100px);
+    height: calc(100% - 64px);
 
     min-height: 0;
 
-    max-height: none;
-
     overflow-y: auto;
-
     overflow-x: hidden;
 
-    border: 1px solid #a3b2a0;
+    border:
+        1px solid var(--more-border);
 
-    border-top: none;
+    border-top: 0;
+
+    border-radius: 0 0 16px 16px;
 
     background: #ffffff;
 
     box-sizing: border-box;
 
     scrollbar-width: thin;
-
     scrollbar-color:
-        #768a75
+        #cdd6cc
         transparent;
-
 }
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
 
 .more-inner-scroll::-webkit-scrollbar {
-
-    width: 7px;
-
+    width: 5px;
 }
-
 
 .more-inner-scroll::-webkit-scrollbar-track {
-
     background: transparent;
-
 }
-
 
 .more-inner-scroll::-webkit-scrollbar-thumb {
-
-    background: #768a75;
-
-    border-radius: 10px;
-
+    background: #cdd6cc;
+    border-radius: 20px;
 }
 
-
 .more-inner-scroll::-webkit-scrollbar-thumb:hover {
-
-    background: #42523f;
-
+    background: #aeb9ae;
 }
 
 
@@ -417,100 +505,92 @@
 ========================================================= */
 
 .faq-list {
-
     width: 100%;
 
-    padding: 28px 36px;
+    padding: 22px;
 
     box-sizing: border-box;
-
 }
-
 
 .faq-item {
+    margin: 0 0 15px;
 
-    margin: 0 0 28px;
+    padding: 17px;
 
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 14px;
+
+    background: #fafbf9;
+
+    transition: .18s ease;
 }
 
+.faq-item:hover {
+    border-color: #cfd9cd;
+
+    background: #f7f9f6;
+}
 
 .faq-item:last-child {
-
     margin-bottom: 0;
-
 }
-
 
 .faq-item h3 {
+    margin: 0 0 7px;
 
-    margin: 0 0 8px;
+    color: var(--more-text);
 
-    color: #768a75;
-
-    font-size: 19px;
-
-    font-weight: 800;
-
+    font-size: 13px;
+    font-weight: 900;
 }
 
-
 .faq-item p {
-
     margin: 0;
 
-    color: #42523f;
+    color: var(--more-muted);
 
-    font-size: 14px;
-
-    line-height: 1.6;
-
+    font-size: 9px;
     font-weight: 600;
 
+    line-height: 1.7;
 }
 
 
 /* =========================================================
-   TERMS AND CONDITIONS
+   TERMS
 ========================================================= */
 
 .terms-content {
-
     width: 100%;
 
-    padding: 28px 36px;
+    padding: 22px;
 
     box-sizing: border-box;
 
-    color: #42523f;
-
+    color: var(--more-text);
 }
-
 
 .terms-content h3 {
+    margin: 0 0 7px;
 
-    margin: 0 0 8px;
+    color: var(--more-text);
 
-    color: #768a75;
-
-    font-size: 18px;
-
-    font-weight: 800;
-
+    font-size: 13px;
+    font-weight: 900;
 }
 
-
 .terms-content p {
+    margin: 0 0 18px;
 
-    margin: 0 0 24px;
+    color: var(--more-muted);
 
-    color: #42523f;
+    font-size: 9px;
 
-    font-size: 14px;
-
-    line-height: 1.7;
+    line-height: 1.75;
 
     font-weight: 600;
-
 }
 
 
@@ -519,28 +599,21 @@
 ========================================================= */
 
 .feedback-form {
-
     width: 100%;
 
-    padding: 28px 36px 35px;
+    padding: 22px;
 
     box-sizing: border-box;
-
 }
 
-
 .feedback-form-title {
+    margin: 0 0 20px;
 
-    margin: 0 0 28px;
+    color: var(--more-text);
 
-    text-align: center;
-
-    color: #42523f;
-
-    font-size: 21px;
+    font-size: 17px;
 
     font-weight: 900;
-
 }
 
 
@@ -549,58 +622,54 @@
 ========================================================= */
 
 .account-information-grid {
-
     width: 100%;
 
     display: grid;
 
     grid-template-columns:
-        1fr
-        1fr
-        1fr;
-
-    gap: 18px 45px;
-
-    margin-bottom: 22px;
-
-}
-
-
-.account-column {
-
-    display: flex;
-
-    flex-direction: column;
+        repeat(3, minmax(0, 1fr));
 
     gap: 12px;
 
+    margin-bottom: 18px;
 }
 
+.account-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    padding: 14px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 12px;
+
+    background: #fafbf9;
+
+    box-sizing: border-box;
+}
 
 .account-column p {
-
     margin: 0;
 
-    color: #42523f;
+    color: var(--more-muted);
 
-    font-size: 14px;
+    font-size: 8px;
 
     font-weight: 600;
-
 }
-
 
 .account-column strong {
+    color: var(--more-text);
 
     font-weight: 900;
-
 }
 
-
 .account-column span {
-
-    margin-left: 4px;
-
+    margin-left: 3px;
 }
 
 
@@ -609,51 +678,46 @@
 ========================================================= */
 
 .message-type-row {
-
     display: flex;
 
     align-items: center;
 
     gap: 10px;
 
+    margin-bottom: 14px;
 }
 
-
 .message-type-row label {
+    color: var(--more-text);
 
-    color: #42523f;
-
-    font-size: 14px;
+    font-size: 9px;
 
     font-weight: 900;
 
     white-space: nowrap;
-
 }
 
-
 .message-type-row select {
-
     width: 170px;
 
-    height: 38px;
+    height: 34px;
 
     padding: 0 10px;
 
-    border: 1px solid #a3b2a0;
+    border:
+        1px solid var(--more-border);
 
-    border-radius: 6px;
+    border-radius: 9px;
 
-    background: #ffffff;
+    background: #fafbf9;
 
-    color: #42523f;
+    color: var(--more-text);
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 13px;
+    font-size: 9px;
 
     outline: none;
-
 }
 
 
@@ -662,71 +726,70 @@
 ========================================================= */
 
 .feedback-message-box {
-
     width: 100%;
-
-    border: 1px solid #a3b2a0;
-
-    border-radius: 7px;
 
     padding: 16px;
 
-    box-sizing: border-box;
+    border:
+        1px solid var(--more-border);
 
+    border-radius: 14px;
+
+    background: #fafbf9;
+
+    box-sizing: border-box;
 }
 
-
 .feedback-message-box label {
-
     display: block;
 
     margin-bottom: 7px;
 
-    color: #42523f;
+    color: var(--more-text);
 
-    font-size: 15px;
+    font-size: 9px;
 
     font-weight: 900;
-
 }
 
-
 .feedback-message-box input {
-
     width: 100%;
 
-    height: 40px;
+    height: 36px;
 
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 
     padding: 0 10px;
 
-    border: none;
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 8px;
 
     outline: none;
 
     background: #ffffff;
 
-    color: #42523f;
+    color: var(--more-text);
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 14px;
+    font-size: 9px;
 
     box-sizing: border-box;
-
 }
 
-
 .feedback-message-box textarea {
-
     width: 100%;
 
-    height: 130px;
+    min-height: 110px;
 
     padding: 10px;
 
-    border: none;
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 8px;
 
     outline: none;
 
@@ -734,14 +797,22 @@
 
     background: #ffffff;
 
-    color: #42523f;
+    color: var(--more-text);
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 14px;
+    font-size: 9px;
 
     box-sizing: border-box;
+}
 
+.feedback-message-box input:focus,
+.feedback-message-box textarea:focus,
+.message-type-row select:focus {
+    border-color: #aebdad;
+
+    box-shadow:
+        0 0 0 3px rgba(64, 92, 67, .07);
 }
 
 
@@ -750,45 +821,41 @@
 ========================================================= */
 
 .feedback-submit-row {
-
     display: flex;
 
     justify-content: flex-end;
 
-    margin-top: 18px;
-
+    margin-top: 15px;
 }
 
-
 .feedback-submit-btn {
+    min-height: 34px;
 
-    width: 150px;
+    padding: 0 14px;
 
-    height: 44px;
+    border: 0;
 
-    border: none;
+    border-radius: 9px;
 
-    border-radius: 8px;
-
-    background: #42523f;
+    background: var(--more-green);
 
     color: #ffffff;
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 13px;
+    font-size: 8px;
 
     font-weight: 900;
 
     cursor: pointer;
 
+    transition: .18s ease;
 }
 
-
 .feedback-submit-btn:hover {
+    background: var(--more-green-dark);
 
-    background: #344331;
-
+    transform: translateY(-1px);
 }
 
 
@@ -797,35 +864,25 @@
 ========================================================= */
 
 #feedbackHistoryView {
-
     position: relative;
 
     width: 100%;
-
     height: 100%;
 
     min-height: 0;
 
     overflow: hidden;
-
 }
 
-
-/* =========================================================
-   FEEDBACK HISTORY HEADER
-========================================================= */
-
 #feedbackHistoryView .history-inner-header {
-
     width: 100%;
 
-    height: 62px;
+    height: 64px;
+    min-height: 64px;
 
-    min-height: 62px;
+    margin-top: 0;
 
-    margin-top: 42px;
-
-    padding: 0 18px;
+    padding: 0 17px 0 55px;
 
     display: flex;
 
@@ -835,134 +892,149 @@
 
     gap: 15px;
 
-    background: #768a75;
+    background: #ffffff;
 
-    border-radius: 8px 8px 0 0;
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 16px 16px 0 0;
 
     box-sizing: border-box;
 
+    box-shadow: var(--more-shadow);
 }
 
-
 #feedbackHistoryView .history-inner-header h2 {
-
     margin: 0;
 
-    color: #ffffff;
+    color: var(--more-text);
 
-    font-size: 21px;
+    font-size: 19px;
 
     font-weight: 900;
-
 }
 
 
 /* =========================================================
-   HISTORY SEARCH
+   SEARCH CONTROLS
 ========================================================= */
 
 .history-search-controls {
-
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
-
+    gap: 8px;
 }
-
 
 .history-search-wrapper {
-
     position: relative;
 
-    width: 280px;
-
+    width: 230px;
 }
 
-
 .history-search-wrapper i {
-
     position: absolute;
 
-    left: 14px;
-
+    left: 11px;
     top: 50%;
 
     transform: translateY(-50%);
 
-    color: #42523f;
+    color: var(--more-muted);
 
+    font-size: 10px;
 }
 
-
 .history-search-wrapper input {
-
     width: 100%;
 
-    height: 30px;
+    height: 34px;
 
-    padding: 0 16px 0 38px;
+    padding: 0 10px 0 31px;
 
-    border: none;
+    border:
+        1px solid var(--more-border);
 
-    border-radius: 21px;
+    border-radius: 9px;
 
     outline: none;
 
+    background: #fafbf9;
+
+    color: var(--more-text);
+
     font-family: "Poppins", sans-serif;
 
-    font-size: 13px;
+    font-size: 8px;
 
     box-sizing: border-box;
+}
 
+.history-search-wrapper input::placeholder {
+    color: #a1aaa3;
+}
+
+.history-search-wrapper input:focus {
+    border-color: #aebdad;
+
+    background: #ffffff;
 }
 
 
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
 .history-filter-btn {
+    min-width: 76px;
 
-    width: 88px;
+    height: 34px;
 
-    height: 30px;
+    padding: 0 10px;
 
-    border: none;
+    border:
+        1px solid var(--more-border);
 
-    border-radius: 8px;
+    border-radius: 9px;
 
     background: #ffffff;
 
-    color: #42523f;
+    color: var(--more-green);
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 15px;
+    font-size: 8px;
 
     font-weight: 900;
 
     cursor: pointer;
 
+    transition: .18s ease;
+}
+
+.history-filter-btn:hover {
+    background: var(--more-green-soft);
 }
 
 
 /* =========================================================
-   FEEDBACK HISTORY SCROLL
+   FEEDBACK LIST
 ========================================================= */
 
 #feedbackHistoryView .history-items-container {
-
     width: 100%;
 
-    height: calc(100% - 104px);
+    height: calc(100% - 64px);
 
     min-height: 0;
 
     max-height: none;
 
     overflow-y: auto;
-
     overflow-x: hidden;
 
-    padding: 10px 8px 8px 2px;
+    padding: 8px;
 
     box-sizing: border-box;
 
@@ -970,300 +1042,94 @@
 
     flex-direction: column;
 
-    gap: 10px;
-
-    scrollbar-width: thin;
-
-    scrollbar-color:
-        #768a75
-        transparent;
-
-}
-
-
-#feedbackHistoryView
-.history-items-container::-webkit-scrollbar {
-
-    width: 7px;
-
-}
-
-
-#feedbackHistoryView
-.history-items-container::-webkit-scrollbar-track {
-
-    background: transparent;
-
-}
-
-
-#feedbackHistoryView
-.history-items-container::-webkit-scrollbar-thumb {
-
-    background: #768a75;
-
-    border-radius: 10px;
-
-}
-
-
-#feedbackHistoryView
-.history-items-container::-webkit-scrollbar-thumb:hover {
-
-    background: #42523f;
-
-}
-
-
-/* =========================================================
-   FEEDBACK HISTORY ITEM
-========================================================= */
-
-.feedback-history-item {
-
-    width: 100%;
-
-    min-height: 76px;
-
-    flex-shrink: 0;
-
-    padding: 13px 20px;
-
-    border: 1px solid #a3b2a0;
-
-    border-radius: 7px;
+    gap: 0;
 
     background: #ffffff;
 
-    display: flex;
+    border:
+        1px solid var(--more-border);
 
-    align-items: center;
+    border-top: 0;
 
-    justify-content: space-between;
+    border-radius: 0 0 16px 16px;
 
-    gap: 20px;
-
-    box-sizing: border-box;
-
-}
-
-
-.feedback-history-info {
-
-    min-width: 0;
-
-}
-
-
-.feedback-history-info h4 {
-
-    margin: 0 0 4px;
-
-    color: #768a75;
-
-    font-size: 17px;
-
-    font-weight: 800;
-
-}
-
-
-.feedback-history-info span {
-
-    color: #42523f;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-}
-
-
-.feedback-history-type {
-
-    flex-shrink: 0;
-
-    min-width: 105px;
-
-    padding: 8px 12px;
-
-    border-radius: 6px;
-
-    background: #768a75;
-
-    color: #ffffff;
-
-    text-align: center;
-
-    font-size: 11px;
-
-    font-weight: 900;
-
-}
-
-
-/* =========================================================
-   EMPTY HISTORY
-========================================================= */
-
-.feedback-history-empty {
-
-    width: 100%;
-
-    min-height: 390px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color: #42523f;
-
-}
-
-
-.feedback-history-empty i {
-
-    font-size: 55px;
-
-    margin-bottom: 16px;
-
-    color: #768a75;
-
-}
-
-
-.feedback-history-empty h3 {
-
-    margin: 0;
-
-    font-size: 22px;
-
-    font-weight: 800;
-
-}
-
-
-.feedback-history-empty p {
-
-    margin: 7px 0 0;
-
-    color: #768a75;
-
-    font-size: 14px;
-
-    font-weight: 500;
-
-}
-
-
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-.bottom-nav {
-
-    position: fixed;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    z-index: 9999;
-
-}
-
-/* Keep the admin More options compact like the Isko menu. */
-.admin-more-page .more-page-content {
-    padding: 14px 30px;
-}
-
-.admin-more-page .more-menu-list {
-    gap: 10px;
-    padding: 12px 0;
-}
-
-.admin-more-page .more-menu-card {
-    height: 62px;
-    min-height: 62px;
-    max-height: 62px;
-    padding: 0 22px;
-}
-
-.admin-more-page .more-menu-card span {
-    font-size: 18px;
-    line-height: 1.25;
-}
-
-@media (max-width: 600px) {
-    .admin-more-page .more-page-content {
-        padding: 12px 14px;
-    }
-
-    .admin-more-page .more-menu-card {
-        min-height: 56px;
-        height: auto;
-        max-height: none;
-        padding: 12px 16px;
-    }
-
-    .admin-more-page .more-menu-card span {
-        font-size: 15px;
-    }
-}
-
-/* Size the admin More panel like the visible History panel. */
-.admin-more-page .more-page {
-    height: min(490px, calc(100dvh - 230px));
-    min-height: 0;
-    max-height: min(490px, calc(100dvh - 230px));
-}
-
-.admin-more-page .more-page-content {
-    height: calc(100% - 70px);
-    overflow-x: hidden;
-    overflow-y: auto;
     scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
+    scrollbar-color:
+        #cdd6cc
+        transparent;
 }
 
-.admin-more-page #moreMenuView,
-.admin-more-page .more-menu-list {
-    height: auto;
-    max-height: none;
-    overflow: visible;
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar {
+    width: 5px;
 }
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#feedbackHistoryView
+.history-items-container::-webkit-scrollbar-thumb {
+    background: #cdd6cc;
+
+    border-radius: 20px;
+}
+
 
 /* =========================================================
-   ADMIN MORE
-   REPORT + FEEDBACK INBOX
+   GENERIC FEEDBACK ITEM
 ========================================================= */
 
-.admin-more-page {
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   ADMIN BOTTOM NAV
-========================================================= */
-
-.admin-more-page .bottom-nav-inner {
-    display: flex;
+.feedback-history-item,
+.feedback-item,
+.history-item {
     width: 100%;
+
+    min-height: 68px;
+
+    padding: 10px 12px;
+
+    border: 0;
+
+    border-bottom:
+        1px solid #edf0ec;
+
+    background: transparent;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    transition: background .15s ease;
 }
 
-.admin-more-page .bottom-nav .nav-item {
-    flex: 1 1 0;
-    min-width: 0;
-    box-sizing: border-box;
+.feedback-history-item:last-child,
+.feedback-item:last-child,
+.history-item:last-child {
+    border-bottom: 0;
+}
+
+.feedback-history-item:hover,
+.feedback-item:hover,
+.history-item:hover {
+    background: #f6f8f5;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   REPORT VIEW
+========================================================= */
+
+#reportView {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    overflow: hidden;
 }
 
 
@@ -1272,45 +1138,1301 @@
 ========================================================= */
 
 .report-header {
+    display: flex;
+
+    align-items: center;
+
     justify-content: space-between;
-    gap: 15px;
+
+    gap: 12px;
 }
+
+.report-header h2 {
+    margin: 0;
+
+    color: var(--more-text);
+
+    font-size: 19px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   REPORT HEADER BUTTONS
+========================================================= */
+
+.report-header button,
+#generateReportBtn,
+#exportExcelBtn,
+#exportPdfBtn,
+#clearReportBtn {
+    min-height: 34px;
+
+    padding: 0 12px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: var(--more-green);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+}
+
+.report-header button:hover,
+#generateReportBtn:hover,
+#exportExcelBtn:hover,
+#exportPdfBtn:hover,
+#clearReportBtn:hover {
+    background: var(--more-green-soft);
+
+    border-color: #cfd9cd;
+}
+
+
+/* =========================================================
+   REPORT CONTENT
+========================================================= */
+
+.report-content,
+.report-body,
+.report-container {
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   REPORT FILTER CARDS
+========================================================= */
+
+.report-filter-card,
+.report-filter-section,
+.filter-card {
+    padding: 15px;
+
+    margin-bottom: 12px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 18px rgba(48, 73, 51, .04);
+
+    box-sizing: border-box;
+}
+
+.report-filter-card h3,
+.report-filter-section h3,
+.filter-card h3 {
+    margin: 0 0 10px;
+
+    color: var(--more-text);
+
+    font-size: 10px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   REPORT CHECKBOX LIST
+========================================================= */
+
+#activityCheckboxList,
+#semesterCheckboxList,
+#academicYearCheckboxList {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+#activityCheckboxList label,
+#semesterCheckboxList label,
+#academicYearCheckboxList label {
+    min-height: 30px;
+
+    padding: 0 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 8px;
+
+    background: #fafbf9;
+
+    color: var(--more-muted);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+#activityCheckboxList label:hover,
+#semesterCheckboxList label:hover,
+#academicYearCheckboxList label:hover {
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+}
+
+.activity-check,
+.semester-check,
+.academic-year-check,
+#selectAllActivities,
+#selectAllSemesters,
+#selectAllAcademicYears {
+    accent-color: var(--more-green);
+}
+
+
+/* =========================================================
+   REPORT RESULT AREA
+========================================================= */
+
+#reportResults {
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.report-result-toolbar {
+    min-height: 54px;
+
+    padding: 10px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    margin-bottom: 10px;
+}
+
+#reportResultCount {
+    color: var(--more-text);
+
+    font-size: 10px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   REPORT TABLE
+========================================================= */
+
+.report-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 14px;
+
+    background: #ffffff;
+}
+
+.report-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-family: "Poppins", sans-serif;
+}
+
+.report-table th {
+    padding: 10px;
+
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+
+    font-size: 7px;
+
+    font-weight: 900;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.report-table td {
+    padding: 10px;
+
+    border-top:
+        1px solid #edf0ec;
+
+    color: var(--more-text);
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.more-empty-state,
+.report-empty,
+.feedback-empty {
+    min-height: 190px;
+
+    padding: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+.more-empty-state i,
+.report-empty i,
+.feedback-empty i {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 10px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--more-green-soft);
+
+    color: var(--more-green);
+
+    font-size: 18px;
+}
+
+.more-empty-state h3,
+.report-empty h3,
+.feedback-empty h3 {
+    margin: 0;
+
+    color: var(--more-text);
+
+    font-size: 13px;
+
+    font-weight: 900;
+}
+
+.more-empty-state p,
+.report-empty p,
+.feedback-empty p {
+    max-width: 350px;
+
+    margin: 5px 0 0;
+
+    color: var(--more-muted);
+
+    font-size: 8px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.more-modal,
+.feedback-modal,
+#feedbackModal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(38, 51, 41, .28);
+
+    backdrop-filter: blur(4px);
+
+    box-sizing: border-box;
+}
+
+.more-modal-content,
+.feedback-modal-content,
+#feedbackModal .modal-content {
+    width: min(620px, 100%);
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 17px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 20px 50px rgba(48, 73, 51, .15);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   GENERAL DETAIL CARDS
+========================================================= */
+
+.more-detail-card,
+.detail-card {
+    width: 100%;
+
+    padding: 18px;
+
+    border:
+        1px solid var(--more-border);
+
+    border-radius: 14px;
+
+    background: #fafbf9;
+
+    box-sizing: border-box;
+}
+
+.more-detail-card h3,
+.detail-card h3 {
+    margin: 0 0 8px;
+
+    color: var(--more-text);
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+.more-detail-card p,
+.detail-card p {
+    margin: 0;
+
+    color: var(--more-muted);
+
+    font-size: 9px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .more-menu-list {
+        grid-template-columns: 1fr;
+    }
+
+    .account-information-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .history-search-wrapper {
+        width: 190px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .more-page {
+        height: calc(100vh - 190px);
+
+        min-height: 450px;
+    }
+
+    .more-page-content {
+        padding: 16px;
+    }
+
+    .more-menu-card {
+        min-height: 145px;
+
+        padding: 18px;
+    }
+
+    .more-inner-header,
+    #feedbackHistoryView .history-inner-header {
+        padding-left: 52px;
+    }
+
+    .history-search-controls {
+        gap: 6px;
+    }
+
+    .history-search-wrapper {
+        width: 170px;
+    }
+
+    .announcement-detail-layout,
+    .activity-detail-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .more-page {
+        min-height: 400px;
+    }
+
+    .more-page-content {
+        padding: 12px;
+    }
+
+    .more-page-header {
+        height: 58px;
+        min-height: 58px;
+
+        padding: 0 17px;
+    }
+
+    .more-page-header h1 {
+        font-size: 18px;
+    }
+
+    .more-menu-list {
+        gap: 12px;
+    }
+
+    .more-menu-card {
+        min-height: 125px;
+
+        padding: 16px;
+
+        border-radius: 14px;
+    }
+
+    .more-menu-card span {
+        font-size: 15px;
+    }
+
+    .more-menu-card::after {
+        right: 15px;
+        bottom: 15px;
+    }
+
+    .more-inner-header,
+    #feedbackHistoryView .history-inner-header {
+        height: 58px;
+        min-height: 58px;
+
+        padding-left: 49px;
+    }
+
+    .more-inner-header h2,
+    #feedbackHistoryView .history-inner-header h2 {
+        font-size: 15px;
+    }
+
+    .more-inner-scroll {
+        height: calc(100% - 58px);
+    }
+
+    .faq-list,
+    .terms-content,
+    .feedback-form {
+        padding: 15px;
+    }
+
+    .account-information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-search-controls {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        width: 100%;
+    }
+
+    .history-search-wrapper {
+        width: 100%;
+    }
+
+    .history-filter-btn {
+        width: 100%;
+    }
+
+    #feedbackHistoryView .history-inner-header {
+        height: auto;
+        min-height: 105px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: center;
+    }
+
+    #feedbackHistoryView .history-items-container {
+        height: calc(100% - 105px);
+    }
+
+    .report-header {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .report-header button,
+    #generateReportBtn,
+    #exportExcelBtn,
+    #exportPdfBtn {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .more-page-content {
+        padding: 9px;
+    }
+
+    .more-menu-card {
+        min-height: 112px;
+
+        padding: 14px;
+    }
+
+    .more-menu-card i {
+        width: 42px;
+        height: 42px;
+
+        margin-bottom: 10px;
+    }
+
+    .more-menu-card span {
+        font-size: 13px;
+    }
+
+    .more-close-btn {
+    width: 38px;
+    height: 38px;
+
+    margin: 0;
+    margin-top: 9px;
+    margin-left: 9px;
+    }
+
+    .more-inner-header,
+    #feedbackHistoryView .history-inner-header {
+        padding-left: 45px;
+    }
+
+    .faq-item {
+        padding: 13px;
+    }
+
+    .faq-item h3 {
+        font-size: 11px;
+    }
+
+    .faq-item p {
+        font-size: 8px;
+    }
+
+}
+
+/* =========================================================
+   MORE — FINAL UI OVERRIDES
+   HISTORY-STYLE FINAL PASS
+   DO NOT MODIFY JS / FUNCTIONALITY
+========================================================= */
+
+
+/* =========================================================
+   1. REMOVE THE LARGE OUTER MORE CONTAINER
+========================================================= */
+
+.more-page {
+    width: 100%;
+    height: calc(100vh - 150px);
+    min-height: 0;
+    max-height: none;
+
+    margin: 0;
+    padding: 0;
+
+    border: none !important;
+    border-radius: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   2. HIDE THE OLD INTERNAL MORE HEADER
+   TOPBAR ALREADY HAS "More"
+========================================================= */
+
+.more-page-header {
+    display: none !important;
+}
+
+
+/* =========================================================
+   3. CONTENT AREA
+========================================================= */
+
+.more-page-content {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    padding: 28px 0 0;
+
+    background: transparent;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   4. MAIN MORE MENU
+========================================================= */
+
+#moreMenuView {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+    padding: 0 2px 5px;
+}
+
+
+/* =========================================================
+   5. FOUR MAIN CARDS
+========================================================= */
+
+.more-menu-list {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MORE CARD
+========================================================= */
+
+.more-menu-card {
+    position: relative;
+
+    width: 100%;
+    height: 205px;
+    min-height: 205px;
+
+    padding: 27px;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 17px !important;
+
+    background: #ffffff !important;
+
+    color: #263329 !important;
+
+    box-shadow:
+        0 10px 30px rgba(48, 73, 51, .07) !important;
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    text-align: left;
+
+    box-sizing: border-box;
+
+    font-family: "Poppins", sans-serif;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+}
+
+.more-menu-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #cfd9cd !important;
+
+    box-shadow:
+        0 15px 35px rgba(48, 73, 51, .11) !important;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.more-menu-card span {
+    display: block;
+
+    margin: 0;
+
+    color: #263329 !important;
+
+    font-size: 17px !important;
+
+    font-weight: 900 !important;
+
+    line-height: 1.35;
+
+    letter-spacing: 0;
+}
+
+
+/* =========================================================
+   CARD ARROW
+========================================================= */
+
+.more-menu-card::after {
+    content: "\f061";
+
+    position: absolute;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf3ed;
+
+    color: #405c43;
+
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+
+    font-size: 11px;
+
+    transition: .18s ease;
+}
+
+.more-menu-card:hover::after {
+    background: #405c43;
+
+    color: #ffffff;
+
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   6. DETAIL VIEW
+========================================================= */
+
+.more-detail-view {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    display: none;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   7. FIX CLOSE BUTTON
+   LIKE HISTORY BACK BUTTON
+========================================================= */
+
+.more-close-btn {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 38px;
+    height: 38px;
+
+    margin: 0;
+    margin-top: 9px;
+    margin-left: 9px;
+    
+    padding: 0;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 12px !important;
+
+    background: #ffffff !important;
+
+    color: #405c43 !important;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px !important;
+    font-weight: 900;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 100;
+
+    box-shadow:
+        0 6px 18px rgba(48, 73, 51, .06);
+
+    transition:
+        background .18s ease,
+        transform .18s ease,
+        color .18s ease;
+}
+
+.more-close-btn:hover {
+    background: #edf3ed !important;
+
+    color: #304933 !important;
+
+    transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   8. DETAIL HEADER
+========================================================= */
+
+.more-inner-header,
+#feedbackInboxView .history-inner-header {
+    position: relative;
+
+    width: 100%;
+
+    height: 64px;
+    min-height: 64px;
+
+    margin: 0;
+
+    padding: 0 18px 0 70px !important;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    background: #ffffff !important;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 17px 17px 0 0 !important;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 10px 30px rgba(48, 73, 51, .07);
+}
+
+.more-inner-header h2,
+#feedbackInboxView .history-inner-header h2 {
+    margin: 0 !important;
+
+    color: #263329 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px !important;
+
+    font-weight: 900 !important;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   9. DETAIL SCROLL
+   FILL ALL THE WAY TO THE BOTTOM
+========================================================= */
+
+.more-inner-scroll {
+    width: 100%;
+
+    height: calc(100% - 64px) !important;
+
+    min-height: 0;
+
+    max-height: none;
+
+    margin: 0;
+
+    padding: 0;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-top: 0 !important;
+
+    border-radius: 0 0 17px 17px !important;
+
+    background: #ffffff !important;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cdd6cc
+        transparent;
+}
+
+.more-inner-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.more-inner-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.more-inner-scroll::-webkit-scrollbar-thumb {
+    background: #cdd6cc;
+
+    border-radius: 20px;
+}
+
+.more-inner-scroll::-webkit-scrollbar-thumb:hover {
+    background: #aeb9ae;
+}
+
+
+/* =========================================================
+   10. FAQ
+========================================================= */
+
+.faq-list {
+    width: 100%;
+
+    padding: 18px 20px 20px;
+
+    box-sizing: border-box;
+}
+
+.faq-item {
+    width: 100%;
+
+    margin: 0 0 14px;
+
+    padding: 17px 20px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 14px;
+
+    background: #fafbf9;
+
+    box-sizing: border-box;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.faq-item:last-child {
+    margin-bottom: 0;
+}
+
+.faq-item:hover {
+    background: #f6f8f5;
+
+    border-color: #cfd9cd;
+}
+
+.faq-item h3 {
+    margin: 0 0 7px;
+
+    color: #263329;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+.faq-item p {
+    margin: 0;
+
+    color: #7b857d;
+
+    font-size: 9px;
+
+    line-height: 1.65;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   11. TERMS
+========================================================= */
+
+.terms-content {
+    width: 100%;
+
+    padding: 22px 25px 25px;
+
+    box-sizing: border-box;
+
+    color: #263329;
+}
+
+.terms-content h3 {
+    margin: 0 0 6px;
+
+    color: #263329;
+
+    font-size: 13px;
+
+    font-weight: 900;
+}
+
+.terms-content p {
+    margin: 0 0 17px;
+
+    color: #7b857d;
+
+    font-size: 9px;
+
+    line-height: 1.7;
+
+    font-weight: 600;
+}
+
+.terms-content h3:first-child {
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   12. REPORT HEADER
+========================================================= */
+
+#reportView .more-inner-header.report-header {
+    height: 72px;
+    min-height: 72px;
+
+    padding:
+        0 16px
+        0 70px !important;
+}
+
+#reportView .report-header h2 {
+    margin: 0;
+
+    color: #263329;
+
+    font-size: 18px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   REPORT HEADER ACTIONS
+========================================================= */
 
 .report-header-actions {
     display: flex;
+
     align-items: center;
-    justify-content: flex-end;
+
     gap: 7px;
 }
 
 .report-action-btn {
-    min-width: 88px;
-    height: 34px;
-    padding: 0 12px;
-    border: none;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #42523f;
-    font-family: "Poppins", sans-serif;
-    font-size: 11px;
-    font-weight: 900;
-    cursor: pointer;
-    display: inline-flex;
+    width: 74px;
+    height: 52px;
+
+    padding: 5px;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 11px !important;
+
+    background: #ffffff !important;
+
+    color: #405c43 !important;
+
+    display: flex;
+
+    flex-direction: column;
+
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    transition: .2s ease;
+
+    gap: 3px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 6px !important;
+
+    font-weight: 900 !important;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+}
+
+.report-action-btn i {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #edf3ed;
+
+    color: #405c43;
+
+    font-size: 13px;
 }
 
 .report-action-btn:hover {
-    background: #f2f4f1;
+    background: #f6f8f5 !important;
+
+    border-color: #cfd9cd !important;
+
     transform: translateY(-1px);
 }
 
-.report-action-btn:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-    transform: none;
+
+/* =========================================================
+   13. REPORT SCROLL
+========================================================= */
+
+#reportView .report-scroll {
+    height: calc(100% - 72px) !important;
+
+    padding: 0 !important;
 }
 
 
@@ -1320,193 +2442,300 @@
 
 .report-builder {
     width: 100%;
-    padding: 24px 28px 35px;
+
+    padding: 18px 20px 24px;
+
     box-sizing: border-box;
 }
 
+
+/* =========================================================
+   REPORT INTRO
+========================================================= */
+
 .report-intro {
-    margin-bottom: 18px;
+    width: 100%;
+
+    margin-bottom: 15px;
+
+    padding: 0;
 }
 
 .report-intro h3 {
     margin: 0 0 5px;
-    color: #42523f;
-    font-size: 19px;
+
+    color: #263329;
+
+    font-size: 14px;
+
     font-weight: 900;
 }
 
 .report-intro p {
     margin: 0;
-    color: #768a75;
-    font-size: 12px;
-    line-height: 1.55;
+
+    color: #7b857d;
+
+    font-size: 8px;
+
+    line-height: 1.6;
+
     font-weight: 600;
-    max-width: 950px;
 }
 
 
 /* =========================================================
-   FILTER CARDS
+   REPORT FILTER GRID
 ========================================================= */
 
 .report-filter-grid {
     width: 100%;
+
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 18px;
-}
 
-.report-filter-card {
-    min-width: 0;
-    border: 1px solid #a3b2a0;
-    border-radius: 8px;
-    background: #ffffff;
-    overflow: hidden;
-}
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
 
-.report-filter-card-header {
-    min-height: 47px;
-    padding: 0 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    background: #768a75;
-    color: #ffffff;
-    box-sizing: border-box;
-}
+    gap: 12px;
 
-.report-filter-card-header h4 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 900;
-}
-
-.select-all-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.select-all-label input,
-.report-checkbox input {
-    accent-color: #42523f;
-    cursor: pointer;
-}
-
-.checkbox-list {
-    min-height: 130px;
-    max-height: 180px;
-    padding: 10px 12px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    scrollbar-width: thin;
-    scrollbar-color: #768a75 transparent;
-}
-
-.checkbox-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.checkbox-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.checkbox-list::-webkit-scrollbar-thumb {
-    background: #768a75;
-    border-radius: 10px;
-}
-
-.report-checkbox {
-    width: 100%;
-    min-height: 32px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 3px;
-    color: #42523f;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-
-.report-checkbox:hover {
-    background: #f5f7f4;
-}
-
-.report-checkbox span {
-    overflow-wrap: anywhere;
-}
-
-.checkbox-empty {
-    min-height: 110px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #768a75;
-    font-size: 11px;
-    font-style: italic;
+    margin-bottom: 14px;
 }
 
 
 /* =========================================================
-   REPORT RESULT TOOLBAR
+   REPORT FILTER CARD
+========================================================= */
+
+.report-filter-card {
+    width: 100%;
+
+    min-height: 130px;
+
+    padding: 15px;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 14px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 6px 20px rgba(48, 73, 51, .05);
+
+    box-sizing: border-box;
+}
+
+.report-filter-card-header {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+.report-filter-card-header h4 {
+    margin: 0;
+
+    color: #263329;
+
+    font-size: 10px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   SELECT ALL
+========================================================= */
+
+.select-all-label {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #7b857d;
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.select-all-label input {
+    width: 13px;
+    height: 13px;
+
+    accent-color: #405c43;
+}
+
+
+/* =========================================================
+   CHECKBOX LIST
+========================================================= */
+
+.checkbox-list {
+    width: 100%;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+.report-checkbox {
+    min-height: 28px;
+
+    padding: 0 8px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 8px;
+
+    background: #fafbf9;
+
+    color: #7b857d;
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition: .15s ease;
+}
+
+.report-checkbox:hover {
+    background: #edf3ed;
+
+    color: #405c43;
+
+    border-color: #cfd9cd;
+}
+
+.report-checkbox input {
+    width: 12px;
+    height: 12px;
+
+    accent-color: #405c43;
+}
+
+.checkbox-empty {
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background: #fafbf9;
+
+    color: #a1aaa3;
+
+    font-size: 8px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   14. REPORT RESULT TOOLBAR
 ========================================================= */
 
 .report-result-toolbar {
-    min-height: 48px;
-    padding: 0 14px;
-    margin-bottom: 10px;
-    border-radius: 7px;
-    background: #42523f;
-    color: #ffffff;
+    width: 100%;
+
+    min-height: 58px;
+
+    padding: 10px 14px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     gap: 12px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
     box-sizing: border-box;
+
+    margin-bottom: 10px;
 }
 
 .report-result-toolbar > div {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 }
 
 .report-result-toolbar strong {
-    font-size: 13px;
+    color: #263329;
+
+    font-size: 9px;
+
     font-weight: 900;
 }
 
-.report-result-toolbar span {
-    font-size: 11px;
-    font-weight: 600;
-    opacity: .9;
+#reportResultCount {
+    color: #7b857d;
+
+    font-size: 8px;
+
+    font-weight: 700;
 }
 
 .clear-report-btn {
-    width: 75px;
-    height: 28px;
-    border: 1px solid #ffffff;
-    border-radius: 6px;
-    background: transparent;
-    color: #ffffff;
+    min-height: 30px;
+
+    padding: 0 11px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #405c43;
+
     font-family: "Poppins", sans-serif;
-    font-size: 10px;
+
+    font-size: 7px;
+
     font-weight: 900;
+
     cursor: pointer;
 }
 
 .clear-report-btn:hover {
-    background: #ffffff;
-    color: #42523f;
+    background: #edf3ed;
 }
 
 
@@ -1516,1310 +2745,1070 @@
 
 .report-results {
     width: 100%;
-    border: 1px solid #a3b2a0;
-    border-radius: 8px;
-    background: #ffffff;
-    overflow: hidden;
-}
 
-.report-group {
-    width: 100%;
-    border-bottom: 1px solid #a3b2a0;
-}
-
-.report-group:last-child {
-    border-bottom: none;
-}
-
-.report-group-title {
-    min-height: 48px;
-    padding: 8px 14px;
-    background: #768a75;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
     box-sizing: border-box;
 }
 
-.report-group-title h4 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 900;
-    text-transform: uppercase;
-    overflow-wrap: anywhere;
-}
 
-.report-group-title span {
-    flex-shrink: 0;
-    font-size: 10px;
-    font-weight: 800;
-}
-
-.report-table-wrap {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.report-table {
-    width: 100%;
-    min-width: 700px;
-    border-collapse: collapse;
-    font-family: "Poppins", sans-serif;
-}
-
-.report-table th {
-    padding: 9px 10px;
-    background: #eef2ec;
-    color: #42523f;
-    border-bottom: 1px solid #a3b2a0;
-    text-align: left;
-    font-size: 10px;
-    font-weight: 900;
-    white-space: nowrap;
-}
-
-.report-table td {
-    padding: 9px 10px;
-    color: #42523f;
-    border-bottom: 1px solid #e1e6df;
-    text-align: left;
-    font-size: 10px;
-    font-weight: 600;
-    vertical-align: top;
-}
-
-.report-table tr:last-child td {
-    border-bottom: none;
-}
-
-.report-table .control-cell {
-    font-weight: 900;
-    white-space: nowrap;
-}
+/* =========================================================
+   REPORT EMPTY STATE
+========================================================= */
 
 .report-empty-state {
-    min-height: 300px;
+    width: 100%;
+
+    min-height: 160px;
+
+    padding: 25px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 14px;
+
+    background: #fafbf9;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
+
     text-align: center;
-    color: #42523f;
-    padding: 30px;
+
     box-sizing: border-box;
 }
 
 .report-empty-state i {
-    color: #768a75;
-    font-size: 50px;
-    margin-bottom: 15px;
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 9px;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #edf3ed;
+
+    color: #405c43;
+
+    font-size: 17px;
 }
 
 .report-empty-state h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 800;
+
+    color: #263329;
+
+    font-size: 12px;
+
+    font-weight: 900;
 }
 
 .report-empty-state p {
-    margin: 6px 0 0;
-    color: #768a75;
-    font-size: 12px;
-    font-weight: 600;
+    margin: 5px 0 0;
+
+    color: #7b857d;
+
+    font-size: 8px;
 }
 
 
 /* =========================================================
-   FEEDBACK INBOX
+   15. FEEDBACK HEADER
 ========================================================= */
 
-.feedback-inbox-header {
-    min-height: 62px;
+#feedbackInboxView .feedback-inbox-header {
+    height: 72px;
+    min-height: 72px;
+
+    padding:
+        0 18px
+        0 70px !important;
 }
 
-.feedback-inbox-header > div:first-child {
+#feedbackInboxView .feedback-inbox-header > div:first-child {
+    flex: 1;
+
     min-width: 0;
 }
 
-.inbox-subtitle {
-    display: block;
-    margin-top: 2px;
-    color: rgba(255,255,255,.88);
-    font-size: 9px;
-    font-weight: 700;
+#feedbackInboxView .feedback-inbox-header h2 {
+    margin: 0;
+
+    color: #263329;
+
+    font-size: 18px !important;
+
+    font-weight: 900;
+
+    white-space: nowrap;
 }
 
-.feedback-inbox-list {
-    padding: 10px 8px 8px 2px;
+
+/* =========================================================
+   FEEDBACK SEARCH CONTROLS
+========================================================= */
+
+#feedbackInboxView .history-search-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
 }
+
+#feedbackInboxView .history-search-wrapper {
+    position: relative;
+
+    width: 220px;
+}
+
+#feedbackInboxView .history-search-wrapper i {
+    position: absolute;
+
+    left: 11px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #7b857d;
+
+    font-size: 9px;
+}
+
+#feedbackInboxView .history-search-wrapper input {
+    width: 100%;
+
+    height: 34px;
+
+    padding:
+        0 10px
+        0 30px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #fafbf9;
+
+    color: #263329;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 8px;
+
+    box-sizing: border-box;
+}
+
+#feedbackInboxView .history-search-wrapper input:focus {
+    border-color: #aeb9ae;
+
+    background: #ffffff;
+}
+
+#feedbackInboxView .history-filter-btn {
+    width: 70px;
+
+    height: 34px;
+
+    padding: 0;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #405c43;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 7px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+#feedbackInboxView .history-filter-btn:hover {
+    background: #edf3ed;
+}
+
+
+/* =========================================================
+   FEEDBACK LIST
+========================================================= */
+
+#feedbackInboxView .feedback-inbox-list {
+    width: 100%;
+
+    height: calc(100% - 72px) !important;
+
+    min-height: 0;
+
+    max-height: none;
+
+    padding: 8px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #ffffff;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-top: 0;
+
+    border-radius: 0 0 17px 17px;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cdd6cc
+        transparent;
+}
+
+#feedbackInboxView .feedback-inbox-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb {
+    background: #cdd6cc;
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   FEEDBACK ITEM
+========================================================= */
 
 .feedback-inbox-item {
     width: 100%;
-    min-height: 82px;
-    flex-shrink: 0;
-    padding: 13px 18px;
-    border: 1px solid #a3b2a0;
-    border-radius: 7px;
-    background: #ffffff;
-    display: flex;
+
+    min-height: 68px;
+
+    padding: 11px 13px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+
+    gap: 15px;
+
+    border: 0;
+
+    border-bottom:
+        1px solid #edf0ec;
+
+    background: transparent;
+
     box-sizing: border-box;
+
     cursor: pointer;
-    transition: .2s ease;
+
+    transition:
+        background .15s ease,
+        border-radius .15s ease;
+}
+
+.feedback-inbox-item:last-child {
+    border-bottom: 0;
 }
 
 .feedback-inbox-item:hover {
     background: #f6f8f5;
-    border-color: #768a75;
-    transform: translateY(-1px);
+
+    border-radius: 10px;
 }
+
+
+/* =========================================================
+   FEEDBACK INFO
+========================================================= */
 
 .feedback-inbox-info {
     min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(120px, 190px)
+        minmax(150px, 1fr)
+        150px;
+
+    align-items: center;
+
+    gap: 12px;
 }
 
 .feedback-inbox-info h4 {
-    margin: 0 0 3px;
-    color: #768a75;
-    font-size: 16px;
+    margin: 0;
+
+    color: #263329;
+
+    font-size: 9px;
+
     font-weight: 900;
-    overflow-wrap: anywhere;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 .feedback-inbox-info p {
-    margin: 0 0 4px;
-    color: #42523f;
-    font-size: 11px;
-    font-weight: 600;
+    margin: 0;
+
+    color: #59645b;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 .feedback-inbox-info span {
-    color: #768a75;
-    font-size: 10px;
+    margin: 0;
+
+    color: #7b857d;
+
+    font-size: 7px;
+
     font-weight: 600;
+
+    white-space: nowrap;
 }
 
+
+/* =========================================================
+   FEEDBACK BADGES
+========================================================= */
+
 .feedback-inbox-badges {
-    flex-shrink: 0;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 6px;
 }
 
 .feedback-inbox-type,
 .feedback-inbox-source {
-    min-width: 90px;
-    padding: 6px 9px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 9px;
-    font-weight: 900;
-}
+    min-height: 23px;
 
-.feedback-inbox-type {
-    background: #42523f;
-    color: #ffffff;
+    padding: 0 8px;
+
+    border-radius: 7px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #edf3ed;
+
+    color: #405c43;
+
+    font-size: 6px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
 }
 
 .feedback-inbox-source {
-    background: #eef2ec;
-    color: #42523f;
-}
+    background: #fafbf9;
 
-.feedback-inbox-empty {
-    min-height: 390px;
+    border:
+        1px solid #dfe5dd;
+
+    color: #7b857d;
 }
 
 
 /* =========================================================
-   FEEDBACK MODAL
+   FEEDBACK EMPTY
 ========================================================= */
 
-.feedback-inbox-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
+.feedback-history-empty {
+    min-height: 220px;
+
     padding: 25px;
-    background: rgba(38, 48, 36, .45);
+
     display: flex;
+
+    flex-direction: column;
+
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+
+    text-align: center;
 }
 
-.feedback-inbox-modal-card {
-    width: min(720px, 100%);
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 28px;
-    border-radius: 12px;
-    background: #ffffff;
-    border: 2px solid #768a75;
-    box-sizing: border-box;
-    position: relative;
+.feedback-history-empty i {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 10px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #edf3ed;
+
+    color: #405c43;
+
+    font-size: 18px;
 }
 
-.feedback-inbox-modal-close {
-    position: absolute;
-    top: 10px;
-    right: 13px;
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
-    background: #42523f;
-    color: #ffffff;
-    font-size: 19px;
-    cursor: pointer;
-}
+.feedback-history-empty h3 {
+    margin: 0;
 
-.feedback-inbox-modal-card h2 {
-    margin: 0 35px 10px 0;
-    color: #42523f;
-    font-size: 22px;
+    color: #263329;
+
+    font-size: 12px;
+
     font-weight: 900;
 }
 
-.feedback-modal-meta {
-    padding: 10px 12px;
-    margin-bottom: 15px;
-    border-radius: 7px;
-    background: #eef2ec;
-    color: #42523f;
-    font-size: 11px;
-    line-height: 1.7;
-    font-weight: 600;
-}
+.feedback-history-empty p {
+    max-width: 350px;
 
-.feedback-modal-account {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px 20px;
-    margin-bottom: 16px;
-}
+    margin: 5px 0 0;
 
-.feedback-modal-account p {
-    margin: 0;
-    color: #42523f;
-    font-size: 11px;
-    font-weight: 600;
-}
+    color: #7b857d;
 
-.feedback-modal-message {
-    border: 1px solid #a3b2a0;
-    border-radius: 8px;
-    padding: 15px;
-}
+    font-size: 8px;
 
-.feedback-modal-message strong {
-    display: block;
-    margin-bottom: 8px;
-    color: #768a75;
-    font-size: 12px;
-    font-weight: 900;
-}
-
-.feedback-modal-message p {
-    margin: 0;
-    color: #42523f;
-    font-size: 12px;
-    line-height: 1.65;
-    white-space: pre-line;
+    line-height: 1.6;
 }
 
 
 /* =========================================================
-   MOBILE
+   16. MOBILE
 ========================================================= */
 
 @media (max-width: 900px) {
+
+    .more-menu-list {
+        grid-template-columns: 1fr;
+    }
 
     .report-filter-grid {
         grid-template-columns: 1fr;
     }
 
-    .report-header {
-        align-items: flex-start;
-        height: auto;
-        min-height: 58px;
-        padding: 10px 16px;
+    .feedback-inbox-info {
+        grid-template-columns:
+            minmax(120px, 1fr)
+            minmax(120px, 1fr);
     }
 
-    .report-header-actions {
-        flex-wrap: wrap;
-    }
-
-    .report-action-btn {
-        min-width: 70px;
-        font-size: 9px;
-    }
-
-    .feedback-inbox-header {
-        height: auto !important;
-        min-height: 80px !important;
-        padding: 10px 14px !important;
-        align-items: flex-start !important;
-        flex-direction: column;
-    }
-
-    .history-search-controls {
-        width: 100%;
-    }
-
-    .history-search-wrapper {
-        width: 100%;
-    }
-
-    .feedback-modal-account {
-        grid-template-columns: 1fr;
+    .feedback-inbox-info span {
+        grid-column: 1 / -1;
     }
 
 }
 
-@media (max-width: 600px) {
+
+@media (max-width: 700px) {
+
+    .more-page {
+        height: calc(100vh - 125px);
+    }
 
     .more-page-content {
-        padding: 12px 14px;
+        padding-top: 18px;
+    }
+
+    .more-menu-card {
+        height: 145px;
+        min-height: 145px;
+
+        padding: 20px;
+    }
+
+    .more-menu-card span {
+        font-size: 15px !important;
+    }
+
+    .more-inner-header,
+    #feedbackInboxView .history-inner-header {
+        height: auto;
+        min-height: 65px;
+
+        padding:
+            12px
+            12px
+            12px
+            62px !important;
+
+        flex-wrap: wrap;
+    }
+
+    .more-inner-header h2,
+    #feedbackInboxView .feedback-inbox-header h2 {
+        font-size: 15px !important;
+    }
+
+    #feedbackInboxView .history-search-controls {
+        width: 100%;
+    }
+
+    #feedbackInboxView .history-search-wrapper {
+        flex: 1;
+
+        width: auto;
+    }
+
+    #feedbackInboxView .history-filter-btn {
+        width: 70px;
+    }
+
+    #feedbackInboxView .feedback-inbox-list {
+        height: calc(100% - 106px) !important;
+    }
+
+    .feedback-inbox-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .feedback-inbox-badges {
+        justify-content: flex-start;
+    }
+
+    .feedback-inbox-info {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 4px;
+    }
+
+    .report-header-actions {
+        gap: 5px;
+    }
+
+    .report-action-btn {
+        width: 65px;
+        height: 48px;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .more-page-content {
+        padding-top: 12px;
+    }
+
+    .more-menu-card {
+        height: 120px;
+        min-height: 120px;
+
+        padding: 17px;
+    }
+
+    .more-menu-card span {
+        font-size: 13px !important;
+    }
+
+    .more-close-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .more-inner-header,
+    #feedbackInboxView .history-inner-header {
+        padding-left: 55px !important;
+    }
+
+    .faq-list {
+        padding: 12px;
+    }
+
+    .faq-item {
+        padding: 14px;
+    }
+
+    .terms-content {
+        padding: 16px;
     }
 
     .report-builder {
-        padding: 18px 14px 28px;
+        padding: 13px;
     }
 
     .report-result-toolbar > div {
         flex-direction: column;
+
         align-items: flex-start;
-        gap: 1px;
-    }
 
-    .feedback-inbox-item {
-        align-items: flex-start;
-    }
-
-    .feedback-inbox-badges {
-        align-items: flex-end;
-    }
-
-    .report-header-actions {
-        gap: 4px;
-    }
-
-    .report-action-btn {
-        min-width: 62px;
-        height: 30px;
-        padding: 0 7px;
+        gap: 2px;
     }
 
 }
 
-
 /* =========================================================
-   PRINT / PDF
+   FAQ + TERMS
+   SAME CONTENT UI
 ========================================================= */
 
-@media print {
-
-    body * {
-        visibility: hidden !important;
-    }
-
-    #reportResults,
-    #reportResults * {
-        visibility: visible !important;
-    }
-
-    #reportResults {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        border: none;
-    }
-
-    .report-group-title {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-
-    .report-table th {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-
-}
-
-
-
-
-/* =========================================================
-   ADMIN FEEDBACK & CONCERNS
-   MATCH REPRESENTATIVE INNER CONTAINER SIZE
-========================================================= */
-
-.admin-more-page #feedbackInboxView {
-    position: relative;
-
+/* SAME DETAIL CONTAINER */
+#faqView,
+#termsView {
     width: 100%;
     height: 100%;
     min-height: 0;
 
-    /* IMPORTANT:
-       Do NOT add horizontal padding here.
-       .more-page-content already provides the same
-       left/right spacing used by the Representative side.
-    */
-    padding: 0;
+    position: relative;
 
-    margin: 0;
-
-    box-sizing: border-box;
     overflow: hidden;
-}
-
-/* Close button sits above the green feedback header */
-.admin-more-page #feedbackInboxView .more-close-btn {
-    position: absolute;
-
-    top: 4px;
-    left: 0;
-
-    width: 34px;
-    height: 34px;
-
-    margin: 0;
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-    border-radius: 50%;
-
-    background: #42523f;
-    color: #ffffff;
-
-    font-family: Arial, sans-serif;
-    font-size: 21px;
-    font-weight: 900;
-    line-height: 1;
-
-    z-index: 100;
-    cursor: pointer;
-}
-
-.admin-more-page #feedbackInboxView .more-close-btn:hover {
-    background: #344331;
-}
-
-/* Green header:
-   SAME horizontal size as Representative detail header */
-.admin-more-page #feedbackInboxView .feedback-inbox-header {
-    width: 100%;
-
-    height: 62px;
-    min-height: 62px;
-
-    margin-top: 42px;
-    padding: 0 18px 0 82px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    background: #768a75;
-    border-radius: 8px 8px 0 0;
-
-    box-sizing: border-box;
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-header h2 {
-    margin: 0;
-
-    color: #ffffff;
-
-    font-family: "Poppins", sans-serif;
-    font-size: 21px;
-    font-weight: 900;
-    line-height: 1;
-}
-
-/* Search + Filter */
-.admin-more-page #feedbackInboxView .history-search-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    gap: 10px;
-    margin: 0;
-
-    flex-shrink: 0;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper {
-    position: relative;
-
-    width: 280px;
-    height: 30px;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0;
-
-    background: transparent;
-    border-radius: 0;
-
-    box-sizing: border-box;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper i {
-    position: absolute;
-
-    left: 14px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    margin: 0;
-
-    color: #42523f;
-    font-size: 15px;
-
-    z-index: 2;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper input {
-    width: 100%;
-    height: 30px;
-
-    padding: 0 16px 0 38px;
-
-    border: none;
-    border-radius: 21px;
-    outline: none;
-
-    background: #ffffff;
-    color: #42523f;
-
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
-
-    box-sizing: border-box;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper input::placeholder {
-    color: #8a9487;
-}
-
-.admin-more-page #feedbackInboxView .history-filter-btn {
-    width: 88px;
-    height: 30px;
-
-    border: none;
-    border-radius: 8px;
-
-    background: #ffffff;
-    color: #42523f;
-
-    font-family: "Poppins", sans-serif;
-    font-size: 12px;
-    font-weight: 900;
-
-    cursor: pointer;
-}
-
-/* White area:
-   SAME width as green header and same internal scroll behavior */
-.admin-more-page #feedbackInboxView .feedback-inbox-list {
-    width: 100%;
-
-    height: calc(100% - 104px);
-
-    min-height: 0;
-
-    margin: 0;
-    padding: 10px 8px 8px 2px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    background: #ffffff;
-
-    border: 1px solid #a3b2a0;
-    border-top: none;
-
-    box-sizing: border-box;
-
-    scrollbar-width: thin;
-    scrollbar-color: #768a75 transparent;
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar {
-    width: 7px;
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Final compact sizing for the admin More menu. */
-.admin-more-page .more-page-content {
-    padding: 14px 30px;
-}
-
-.admin-more-page .more-menu-list {
-    gap: 10px;
-    padding: 12px 0;
-}
-
-.admin-more-page .more-menu-card {
-    height: 62px;
-    min-height: 62px;
-    max-height: 62px;
-    padding: 0 22px;
-}
-
-.admin-more-page .more-menu-card span {
-    font-size: 18px;
-    line-height: 1.25;
-}
-
-@media (max-width: 600px) {
-    .admin-more-page .more-page-content {
-        padding: 12px 14px;
-    }
-
-    .admin-more-page .more-menu-card {
-        height: auto;
-        min-height: 56px;
-        max-height: none;
-        padding: 12px 16px;
-    }
-
-    .admin-more-page .more-menu-card span {
-        font-size: 15px;
-    }
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb {
-    background: #768a75;
-    border-radius: 10px;
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-list::-webkit-scrollbar-thumb:hover {
-    background: #42523f;
-}
-
-/* Empty state */
-.admin-more-page #feedbackInboxView .feedback-history-empty {
-    width: 100%;
-    min-height: 300px;
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-.admin-more-page #feedbackInboxView .feedback-history-empty i {
-    margin-bottom: 14px;
-
-    color: #768a75;
-    font-size: 55px;
-}
-
-.admin-more-page #feedbackInboxView .feedback-history-empty h3 {
-    margin: 0;
-
-    color: #42523f;
-    font-family: "Poppins", sans-serif;
-    font-size: 22px;
-    font-weight: 900;
-}
-
-.admin-more-page #feedbackInboxView .feedback-history-empty p {
-    margin: 7px 0 0;
-
-    color: #768a75;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Feedback rows */
-.admin-more-page #feedbackInboxView .feedback-inbox-item {
-    width: 100%;
-    min-height: 76px;
-    flex-shrink: 0;
-
-    padding: 13px 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    border: 1px solid #a3b2a0;
-    border-radius: 7px;
-
-    background: #ffffff;
-
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: .2s ease;
-}
-
-.admin-more-page #feedbackInboxView .feedback-inbox-item:hover {
-    background: #f5f7f4;
-    border-color: #768a75;
-    transform: translateY(-1px);
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 900px) {
-
-    .admin-more-page #feedbackInboxView {
-        padding: 0;
-    }
-
-    .admin-more-page #feedbackInboxView .more-close-btn {
-        top: 4px;
-        left: 0;
-    }
-
-    .admin-more-page #feedbackInboxView .feedback-inbox-header {
-        height: auto;
-        min-height: 105px;
-
-        margin-top: 42px;
-
-        padding: 14px 16px 14px 60px;
-
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: center;
-
-        gap: 10px;
-    }
-
-    .admin-more-page #feedbackInboxView .history-search-controls {
-        width: 100%;
-    }
-
-    .admin-more-page #feedbackInboxView .history-search-wrapper {
-        flex: 1;
-        width: auto;
-    }
-
-    .admin-more-page #feedbackInboxView .feedback-inbox-list {
-        height: calc(100% - 147px);
-    }
-}
-
-@media (max-width: 600px) {
-
-    .admin-more-page #feedbackInboxView .more-close-btn {
-        top: 4px;
-        left: 0;
-    }
-
-    .admin-more-page #feedbackInboxView .feedback-inbox-header {
-        padding-left: 58px;
-    }
-
-    .admin-more-page #feedbackInboxView .feedback-inbox-item {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
-/* =========================================================
-   FEEDBACK CARD - MATCH GENERATE REPORT CARD
-========================================================= */
-
-/* Main Feedback View */
-.admin-more-page #feedbackInboxView {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    margin: 0;
-    padding: 0;
 
     box-sizing: border-box;
 }
 
 
 /* =========================================================
-   CLOSE BUTTON
-   KEEP SAME POSITION AS REPORT
+   SAME HEADER
 ========================================================= */
 
-.admin-more-page #feedbackInboxView .more-close-btn {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 32px;
-    height: 32px;
-
-    margin: 0;
-    padding: 0;
-
-    z-index: 100;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-    border-radius: 50%;
-
-    background: #42523f;
-    color: #ffffff;
-
-    font-size: 20px;
-    font-weight: 900;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   FEEDBACK CARD
-   SAME SIZE / POSITION AS REPORT CARD
-========================================================= */
-
-.admin-more-page #feedbackInboxView .feedback-inbox-header {
-
+#faqView .more-inner-header,
+#termsView .more-inner-header {
     width: 100%;
 
     height: 64px;
     min-height: 64px;
 
-    margin: 42px 0 0 0;
+    margin: 0;
 
-    padding: 0 20px 0 82px;
+    padding: 0 20px 0 70px !important;
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    background: #ffffff !important;
+
+    border: 1px solid #dfe5dd !important;
+    border-radius: 17px 17px 0 0 !important;
 
     box-sizing: border-box;
 
-    background: #768a75;
+    box-shadow:
+        0 8px 25px rgba(48, 73, 51, .05);
+}
 
-    border-radius: 8px 8px 0 0;
+#faqView .more-inner-header h2,
+#termsView .more-inner-header h2 {
+    margin: 0;
+
+    color: #263329 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px !important;
+
+    font-weight: 900 !important;
+
+    line-height: 1.2;
 }
 
 
 /* =========================================================
-   FEEDBACK TITLE
+   SAME CLOSE BUTTON
 ========================================================= */
 
-.admin-more-page #feedbackInboxView
-.feedback-inbox-header h2 {
+#faqView .more-close-btn,
+#termsView .more-close-btn {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 38px;
+    height: 38px;
 
     margin: 0;
+    margin-top: 9px;
+    margin-left: 9px;
+    border: 1px solid #dfe5dd !important;
 
-    color: #ffffff;
+    border-radius: 12px !important;
 
-    font-family: "Poppins", sans-serif;
+    background: #ffffff !important;
 
-    font-size: 21px;
-    font-weight: 900;
-
-    line-height: 1;
-}
-
-
-/* Subtitle */
-.admin-more-page #feedbackInboxView
-.feedback-inbox-header .inbox-subtitle {
-
-    margin: 5px 0 0;
-
-    color: #ffffff;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    line-height: 1;
-}
-
-
-/* =========================================================
-   SEARCH + FILTER
-   SAME POSITION STYLE AS REPORT BUTTONS
-========================================================= */
-
-.admin-more-page #feedbackInboxView
-.history-search-controls {
-
-    display: flex;
-
-    align-items: center;
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin: 0;
-}
-
-
-/* Search */
-.admin-more-page #feedbackInboxView
-.history-search-wrapper {
-
-    width: 350px;
-    height: 30px;
+    color: #405c43 !important;
 
     display: flex;
     align-items: center;
-
-    padding: 0 16px;
-
-    background: #ffffff;
-
-    border-radius: 22px;
-
-    box-sizing: border-box;
-}
-
-
-.admin-more-page #feedbackInboxView
-.history-search-wrapper i {
-
-    margin-right: 9px;
-
-    color: #42523f;
-
-    font-size: 16px;
-}
-
-
-.admin-more-page #feedbackInboxView
-.history-search-wrapper input {
-
-    width: 100%;
-    height: 100%;
-
-    padding: 0;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    color: #42523f;
+    justify-content: center;
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 12px;
-}
-
-
-.admin-more-page #feedbackInboxView
-.history-search-wrapper input::placeholder {
-
-    color: #8a9487;
-}
-
-
-/* Filter */
-.admin-more-page #feedbackInboxView
-.history-filter-btn {
-
-    width: 80px;
-    height: 30px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    color: #42523f;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 12px;
-
+    font-size: 17px !important;
     font-weight: 900;
+
+    line-height: 1;
 
     cursor: pointer;
+
+    z-index: 20;
+
+    box-shadow:
+        0 5px 15px rgba(48, 73, 51, .05);
+
+    transition:
+        background .18s ease,
+        transform .18s ease;
+}
+
+#faqView .more-close-btn:hover,
+#termsView .more-close-btn:hover {
+    background: #edf3ed !important;
+
+    color: #304933 !important;
+
+    transform: translateX(-2px);
 }
 
 
 /* =========================================================
-   WHITE FEEDBACK CONTENT
-   SAME HEIGHT BEHAVIOR AS REPORT
+   SAME SCROLL CONTAINER
 ========================================================= */
 
-.admin-more-page #feedbackInboxView
-.feedback-inbox-list {
-
+#faqView .more-inner-scroll,
+#termsView .more-inner-scroll {
     width: 100%;
 
-    height: calc(100% - 106px);
+    height: calc(100% - 64px) !important;
 
     min-height: 0;
 
     margin: 0;
 
-    padding: 14px 8px 8px 2px;
-
-    box-sizing: border-box;
+    padding: 0;
 
     overflow-y: auto;
     overflow-x: hidden;
 
-    background: #ffffff;
+    background: #ffffff !important;
 
-    border: 1px solid #a3b2a0;
+    border:
+        1px solid #dfe5dd !important;
 
-    border-top: none;
+    border-top: 0 !important;
 
-    border-radius: 0 0 8px 8px;
-
-}
-
-
-/* =========================================================
-   EMPTY FEEDBACK STATE
-========================================================= */
-
-.admin-more-page #feedbackInboxView
-.feedback-history-empty {
-
-    width: 100%;
-
-    min-height: 300px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-}
-
-
-.admin-more-page #feedbackInboxView
-.feedback-history-empty i {
-
-    margin-bottom: 14px;
-
-    color: #768a75;
-
-    font-size: 55px;
-}
-
-
-.admin-more-page #feedbackInboxView
-.feedback-history-empty h3 {
-
-    margin: 0;
-
-    color: #42523f;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 22px;
-
-    font-weight: 900;
-}
-
-
-.admin-more-page #feedbackInboxView
-.feedback-history-empty p {
-
-    margin: 7px 0 0;
-
-    color: #768a75;
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 14px;
-
-    font-weight: 500;
-}
-
-
-/* =========================================================
-   FEEDBACK MESSAGE CARD
-========================================================= */
-
-.admin-more-page #feedbackInboxView
-.feedback-inbox-item {
-
-    width: 100%;
-
-    min-height: 76px;
-
-    flex-shrink: 0;
-
-    padding: 13px 18px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    background: #ffffff;
-
-    border: 1px solid #a3b2a0;
-
-    border-radius: 7px;
+    border-radius: 0 0 17px 17px !important;
 
     box-sizing: border-box;
 
-    cursor: pointer;
+    scrollbar-width: thin;
 
-    transition: .2s ease;
+    scrollbar-color:
+        #cdd6cc
+        transparent;
 }
 
-
-.admin-more-page #feedbackInboxView
-.feedback-inbox-item:hover {
-
-    background: #f5f7f4;
-
-    border-color: #768a75;
-
-    transform: translateY(-1px);
+#faqView .more-inner-scroll::-webkit-scrollbar,
+#termsView .more-inner-scroll::-webkit-scrollbar {
+    width: 5px;
 }
 
-
-/* =========================================================
-   FINAL SAFE FIX - FEEDBACK HEADER ONLY
-   DO NOT CHANGE THE OUTER CONTAINER
-========================================================= */
-
-/* Keep the Feedback card aligned with the existing More layout */
-.admin-more-page #feedbackInboxView {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Keep close button inside the More content area */
-.admin-more-page #feedbackInboxView .more-close-btn {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-    z-index: 100;
-}
-
-/* Only adjust the green header's internal spacing */
-.admin-more-page #feedbackInboxView .feedback-inbox-header {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 52px;
-    box-sizing: border-box;
-}
-
-/* Keep title from being pushed too far right */
-.admin-more-page #feedbackInboxView .feedback-inbox-header h2 {
-    margin-left: 0;
-    white-space: nowrap;
-}
-
-/* Fix search icon/text overlap without changing search position */
-.admin-more-page #feedbackInboxView .history-search-wrapper {
-    position: relative;
-    padding: 0 !important;
-    box-sizing: border-box;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper i {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.admin-more-page #feedbackInboxView .history-search-wrapper input {
-    width: 100%;
-    height: 100%;
-    padding: 0 14px 0 40px !important;
-    margin: 0;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
+#faqView .more-inner-scroll::-webkit-scrollbar-track,
+#termsView .more-inner-scroll::-webkit-scrollbar-track {
     background: transparent;
 }
 
-/* Final compact sizing for the admin More menu. */
-.admin-more-page .more-page-content {
-    padding: 14px 30px;
+#faqView .more-inner-scroll::-webkit-scrollbar-thumb,
+#termsView .more-inner-scroll::-webkit-scrollbar-thumb {
+    background: #cdd6cc;
+
+    border-radius: 20px;
 }
 
-.admin-more-page .more-menu-list {
-    gap: 10px;
-    padding: 12px 0;
+
+/* =========================================================
+   FAQ CONTENT
+========================================================= */
+
+#faqView .faq-list {
+    width: 100%;
+
+    padding: 18px 20px 20px;
+
+    box-sizing: border-box;
 }
 
-.admin-more-page .more-menu-card {
-    height: 62px;
-    min-height: 62px;
-    max-height: 62px;
-    padding: 0 22px;
+
+/* FAQ CARD */
+#faqView .faq-item {
+    width: 100%;
+
+    margin: 0 0 14px;
+
+    padding: 17px 20px;
+
+    border:
+        1px solid #dfe5dd !important;
+
+    border-radius: 14px !important;
+
+    background: #fafbf9 !important;
+
+    box-sizing: border-box;
 }
 
-.admin-more-page .more-menu-card span {
-    font-size: 18px;
-    line-height: 1.25;
+#faqView .faq-item:last-child {
+    margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
-    .admin-more-page .more-page-content {
-        padding: 12px 14px;
+
+/* FAQ TITLE */
+#faqView .faq-item h3 {
+    margin: 0 0 7px;
+
+    color: #263329 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px !important;
+
+    font-weight: 900 !important;
+
+    line-height: 1.3;
+}
+
+
+/* FAQ TEXT */
+#faqView .faq-item p {
+    margin: 0;
+
+    color: #667168 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 9px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TERMS CONTENT
+   SAME CARD STYLE AS FAQ
+========================================================= */
+
+#termsView .terms-content {
+    width: 100%;
+
+    padding: 18px 20px 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* TURN EACH TERMS SECTION INTO SAME STYLE */
+#termsView .terms-content h3,
+#termsView .terms-content p {
+    box-sizing: border-box;
+}
+
+
+/* FIRST TITLE + DESCRIPTION */
+#termsView .terms-content h3:first-child {
+    margin: 0;
+
+    padding: 17px 20px 7px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-bottom: 0;
+
+    border-radius: 14px 14px 0 0;
+
+    background: #fafbf9;
+
+    color: #263329;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    line-height: 1.3;
+}
+
+#termsView .terms-content h3:first-child + p {
+    margin: 0 0 14px;
+
+    padding: 0 20px 17px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-top: 0;
+
+    border-radius: 0 0 14px 14px;
+
+    background: #fafbf9;
+
+    color: #667168;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TERMS SECTION CARDS
+========================================================= */
+
+#termsView .terms-content h3:not(:first-child) {
+    margin: 0;
+
+    padding: 17px 20px 7px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-bottom: 0;
+
+    border-radius: 14px 14px 0 0;
+
+    background: #fafbf9;
+
+    color: #263329;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    line-height: 1.3;
+}
+
+#termsView .terms-content h3:not(:first-child) + p {
+    margin: 0 0 14px;
+
+    padding: 0 20px 17px;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-top: 0;
+
+    border-radius: 0 0 14px 14px;
+
+    background: #fafbf9;
+
+    color: #667168;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #faqView .more-inner-header,
+    #termsView .more-inner-header {
+        height: 60px;
+        min-height: 60px;
+
+        padding-left: 60px !important;
     }
 
-    .admin-more-page .more-menu-card {
-        height: auto;
-        min-height: 56px;
-        max-height: none;
-        padding: 12px 16px;
+    #faqView .more-inner-scroll,
+    #termsView .more-inner-scroll {
+        height: calc(100% - 60px) !important;
     }
 
-    .admin-more-page .more-menu-card span {
-        font-size: 15px;
+    #faqView .faq-list,
+    #termsView .terms-content {
+        padding: 13px;
     }
+
+    #faqView .faq-item,
+    #termsView .terms-content h3:first-child,
+    #termsView .terms-content h3:not(:first-child) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #faqView .faq-item p,
+    #termsView .terms-content h3:first-child + p,
+    #termsView .terms-content h3:not(:first-child) + p {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    #faqView .more-inner-header,
+    #termsView .more-inner-header {
+        padding-left: 55px !important;
+    }
+
+    #faqView .more-inner-header h2,
+    #termsView .more-inner-header h2 {
+        font-size: 15px !important;
+    }
+
 }
