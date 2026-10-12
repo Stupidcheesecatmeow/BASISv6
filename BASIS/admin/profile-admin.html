@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASIS - Admin Profile</title>
+    <title>BASIS - Profile</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,169 +11,366 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="home-admin.css?v=8">
     <link rel="stylesheet" href="profile-admin.css">
-    <link rel="stylesheet" href="../responsive.css?v=3">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
-<body class="dashboard-page admin-profile-page">
+<body class="dashboard-page admin-page">
 
-<header class="dash-header">
-    <div class="dash-logo">
-        <img src="../images/LOGO.png" alt="BASIS Logo">
-    </div>
-
-    <div class="header-right">
-        <div class="welcome-text">
-            <h1>MABUHAY, ADMIN!</h1>
-            <span>WELCOME TO BASIS</span>
-        </div>
-
-        <div class="profile-avatar-wrapper">
-            <img src="../images/profile_default.jpg" alt="User Profile" class="header-avatar">
-        </div>
-    </div>
-</header>
-
-
-<main class="dash-main profile-page-main">
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- =====================================================
-         PERSONAL DETAILS
+         SIDEBAR
     ====================================================== -->
-    <section id="view-profile" class="page-view active profile-view">
+    <aside class="admin-sidebar" id="adminSidebar">
 
-        <div class="view-banner">
-            <h2>PROFILE</h2>
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
-        <div class="view-body bordered-frame relative-frame profile-personal-frame">
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Admin Profile">
+            <div>
+                <strong>ADMIN</strong>
+                <span>System Administrator</span>
+            </div>
+        </div>
 
-            <button class="close-view-btn" type="button" onclick="window.location.href='../admin/home-admin.html'">
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+
+            <div class="sidebar-section-label">MAIN MENU</div>
+
+            <a class="sidebar-link " href="home-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <a class="sidebar-link" href="user-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="sidebar-text">User Management</span>
+            </a>
+
+            <a class="sidebar-link" href="scorecard-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
+
+            <a class="sidebar-link" href="activity-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link history-nav-link" href="history-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+                <span class="history-nav-badge" data-history-notification-badge hidden>0</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link active" href="profile-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • ADMIN</span>
+                    <h1>Profile</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, ADMIN!</strong>
+                </div>
+
+                <a class="topbar-avatar" href="profile-admin.html" aria-label="Open admin profile">
+                    <img src="../images/profile_default.jpg" alt="Admin Profile">
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+<main class="dash-main profile-page-main">
+
+    <section id="view-profile" class="page-view active profile-view">
+
+        <div class="view-body bordered-frame relative-frame profile-main-frame">
+
+            <!-- <button class="close-view-btn" type="button"
+                    onclick="window.location.href='../admin/home-admin.html'">
                 <i class="fa-solid fa-circle-xmark"></i>
-            </button>
+            </button> -->
 
-            <div class="profile-card personal-card">
+            <div class="profile-scroll-area">
 
-                <div class="profile-header-layout">
-
-                    <!-- AVATAR -->
-                    <div class="profile-avatar-col">
-
-                        <div class="profile-avatar-circle">
-                            <img id="profilePhoto"
-                                 src="../images/profile_default.jpg"
-                                 alt="Profile Picture">
-                        </div>
-
-                        <label class="photo-upload-label edit-only">
-                            CHANGE PHOTO
-                            <input type="file"
-                                   id="profilePhotoInput"
-                                   accept="image/*"
-                                   hidden>
-                        </label>
-
-                        <button class="edit-profile-btn"
-                                id="editProfileBtn"
-                                type="button">
-                            EDIT PROFILE
-                        </button>
-
+                <!-- ACADEMIC PERIOD -->
+                <!-- <div class="academic-period-card">
+                    <div class="academic-period-title">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>ACADEMIC PERIOD</span>
                     </div>
 
+                    <div class="academic-period-grid">
+                        <div class="academic-period-item">
+                            <span>ACADEMIC YEAR</span>
+                            <strong id="academicYearDisplay">2026 - 2027</strong>
+                        </div>
 
-                    <!-- PERSONAL INFORMATION -->
-                    <div class="profile-info-col">
+                        <div class="academic-period-item">
+                            <span>SEMESTER</span>
+                            <strong id="semesterDisplay">1ST SEMESTER</strong>
+                        </div>
+                    </div>
+                </div> -->
 
-                        <div class="profile-top-bar">
+                <!-- PROFILE HEADER -->
+                <div class="profile-card profile-summary-header">
+                    <div class="profile-header-layout">
 
-                            <div class="user-title-block">
-                                <div class="name-control-row">
-                                    <h2 id="displayFullName">JUAN DELA CRUZ</h2>
-                                    <span id="displayControlNumber"
-                                          class="control-number"
-                                          style="display:none;"></span>
-                                </div>
-                                <span id="displayLocation">
-                                    BAGAC
-                                </span>
+                        <div class="profile-avatar-col">
+                            <div class="profile-avatar-circle">
+                                <img id="profilePhoto"
+                                     src="../images/profile_default.jpg"
+                                     alt="Profile Picture">
                             </div>
 
-                            <div class="status-badge-block">
+                            <label class="photo-upload-label edit-only">
+                                <i class="fa-solid fa-camera"></i> CHANGE PHOTO
+                                <input type="file"
+                                       id="profilePhotoInput"
+                                       accept="image/*"
+                                       hidden>
+                            </label>
 
-                                <span id="statusTitle"
-                                      class="status-title">
-                                    ACTIVE
-                                </span>
+                            <button class="edit-profile-btn"
+                                    id="editProfileBtn"
+                                    type="button">
+                                EDIT PROFILE
+                            </button>
+                        </div>
 
-                                <span id="displayRole" class="status-sub">
-                                    ADMIN
-                                </span>
+                        <div class="profile-info-col">
 
+                            <div class="profile-top-bar">
+                                <div class="user-title-block">
+                                    <div class="name-control-row">
+                                        <h2 id="displayFullName">JUAN DELA CRUZ</h2>
+                                        <span id="displayControlNumber"
+                                              class="control-number"></span>
+                                    </div>
+
+                                    <span id="displayLocation">BAGAC</span>
+                                </div>
+
+                                <div class="status-badge-block">
+                                    <span id="statusTitle" class="status-title">ACTIVE</span>
+                                    <span id="displayRole" class="status-sub">ADMIN</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-mode-note" id="summaryModeNote">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Your profile information is currently read-only.</span>
                             </div>
 
                         </div>
+                    </div>
+                </div>
 
+                <!-- ================= SUMMARY ================= -->
+                <div id="profileSummaryView" class="profile-summary-view">
+
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">PERSONAL</span>
+                                <h3>Personal Information</h3>
+                            </div>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div class="summary-grid">
+                            <div class="summary-item"><span>SURNAME</span><strong id="summarySurname">—</strong></div>
+                            <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryGivenName">—</strong></div>
+                            <div class="summary-item"><span>MIDDLE NAME</span><strong id="summaryMiddleName">—</strong></div>
+                            <div class="summary-item"><span>SUFFIX</span><strong id="summarySuffix">—</strong></div>
+                            <div class="summary-item"><span>SEX</span><strong id="summarySex">—</strong></div>
+                            <div class="summary-item"><span>BIRTHDAY</span><strong id="summaryBirthday">—</strong></div>
+                            <div class="summary-item"><span>CONTACT NO.</span><strong id="summaryContact">—</strong></div>
+                            <div class="summary-item"><span>EMAIL ADDRESS</span><strong id="summaryEmail">—</strong></div>
+                            <div class="summary-item"><span>CONTROL NUMBER</span><strong id="summaryControlNumber">—</strong></div>
+                            <div class="summary-item"><span>RELIGION</span><strong id="summaryReligion">—</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">ADDRESS</span>
+                                <h3>Location Information</h3>
+                            </div>
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+
+                        <div class="summary-grid summary-grid-three">
+                            <div class="summary-item"><span>MUNICIPALITY</span><strong id="summaryMunicipality">BAGAC</strong></div>
+                            <div class="summary-item"><span>BARANGAY</span><strong id="summaryBarangay">—</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">ACADEMIC</span>
+                                <h3>Academic Information</h3>
+                            </div>
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+
+                        <div class="summary-grid">
+                            <div class="summary-item"><span>SCHOOL</span><strong id="summarySchool">—</strong></div>
+                            <div class="summary-item"><span>PROGRAM</span><strong id="summaryProgram">—</strong></div>
+                            <div class="summary-item"><span>YEAR LEVEL</span><strong id="summaryYearLevel">—</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">FAMILY</span>
+                                <h3>Family Information</h3>
+                            </div>
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+
+                        <div class="family-summary-block">
+                            <h4>FATHER'S INFORMATION</h4>
+                            <div class="summary-grid summary-grid-five">
+                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryFatherGiven">—</strong></div>
+                                <div class="summary-item"><span>SURNAME</span><strong id="summaryFatherSurname">—</strong></div>
+                                <div class="summary-item"><span>MIDDLE NAME</span><strong id="summaryFatherMiddle">—</strong></div>
+                                <div class="summary-item"><span>SUFFIX</span><strong id="summaryFatherSuffix">—</strong></div>
+                                <div class="summary-item"><span>CONTACT NO.</span><strong id="summaryFatherContact">—</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="family-summary-block">
+                            <h4>MOTHER'S INFORMATION</h4>
+                            <div class="summary-grid summary-grid-five">
+                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryMotherGiven">—</strong></div>
+                                <div class="summary-item"><span>SURNAME</span><strong id="summaryMotherSurname">—</strong></div>
+                                <div class="summary-item"><span>MIDDLE NAME</span><strong id="summaryMotherMiddle">—</strong></div>
+                                <div class="summary-item"><span>SUFFIX</span><strong id="summaryMotherSuffix">—</strong></div>
+                                <div class="summary-item"><span>CONTACT NO.</span><strong id="summaryMotherContact">—</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="family-summary-block">
+                            <h4>SIBLING'S INFORMATION</h4>
+                            <div id="summarySiblings" class="siblings-summary-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= EDIT FORM ================= -->
+                <div id="profileEditView" class="profile-edit-view">
+
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">PERSONAL</span>
+                                <h3>Edit Personal Information</h3>
+                            </div>
+                            <i class="fa-solid fa-pen"></i>
+                        </div>
 
                         <div class="profile-form-grid">
 
-                            <div class="form-group span-given">
-                                <label>GIVEN NAME:</label>
-                                <input id="givenName"
-                                       type="text"
-                                       readonly>
-                            </div>
-
                             <div class="form-group span-surname">
                                 <label>SURNAME:</label>
-                                <input id="surname"
-                                       type="text"
-                                       readonly>
+                                <input id="surname" type="text">
+                            </div>
+
+                            <div class="form-group span-given">
+                                <label>GIVEN NAME:</label>
+                                <input id="givenName" type="text">
                             </div>
 
                             <div class="form-group span-middle">
                                 <label>MIDDLE NAME:</label>
-                                <input id="middleName"
-                                       type="text"
-                                       readonly>
+                                <input id="middleName" type="text">
                             </div>
 
                             <div class="form-group span-suffix">
                                 <label>SUFFIX:</label>
-                                <input id="suffix"
-                                       type="text"
-                                       readonly>
+                                <input id="suffix" type="text">
                             </div>
 
                             <div class="form-group span-sex">
                                 <label>SEX:</label>
-                                <select id="sex" disabled>
+                                <select id="sex">
                                     <option value="">SELECT</option>
                                     <option>MALE</option>
                                     <option>FEMALE</option>
                                 </select>
                             </div>
 
-
                             <div class="form-group span-bday">
                                 <label>BIRTHDAY:</label>
-                                <input id="birthday"
-                                       type="date"
-                                       readonly>
+                                <input id="birthday" type="date">
                             </div>
 
                             <div class="form-group span-contact">
                                 <label>CONTACT NO.:</label>
-                                <input id="contact"
-                                       type="text"
-                                       readonly>
+                                <input id="contact" type="text">
                             </div>
 
                             <div class="form-group span-email">
                                 <label>EMAIL ADDRESS:</label>
-                                <input id="email"
-                                       type="email"
-                                       readonly>
+                                <input id="email" type="email">
                             </div>
 
                             <div class="form-group span-control">
@@ -182,44 +379,45 @@
                             </div>
 
                             <div class="form-group span-religion">
-                                <label>RELIGION:</label>
-                                <input id="religion"
-                                       type="text"
-                                       readonly>
+                                <label for="religion">RELIGION:</label>
+                                <select id="religion">
+                                    <option value="">SELECT RELIGION</option>
+                                </select>
+                                <input id="religionOther" class="other-option-input" type="text"
+                                       placeholder="Enter religion" hidden>
                             </div>
 
-
-                            <div class="form-group span-muni select-field">
+                            <div class="form-group span-muni">
                                 <label>MUNICIPALITY:</label>
-                                <select id="municipality" disabled>
-                                    <option value="BAGAC">BAGAC</option>
-                                </select>
+                                <input id="municipality" type="text" value="BAGAC" readonly>
                             </div>
 
-                            <div class="form-group span-brgy select-field">
+                            <div class="form-group span-brgy">
                                 <label>BARANGAY:</label>
-                                <select id="barangay" disabled>
-                                    <option value="">SELECT BARANGAY</option>
-                                </select>
+                                <select id="barangay"></select>
                             </div>
 
                             <div class="form-group span-school">
-                                <label>SCHOOL:</label>
-                                <input id="school"
-                                       type="text"
-                                       readonly>
+                                <label for="school">SCHOOL / CAMPUS:</label>
+                                <select id="school">
+                                    <option value="">SELECT SCHOOL / CAMPUS</option>
+                                </select>
+                                <input id="schoolOther" class="other-option-input" type="text"
+                                       placeholder="Enter school / campus" hidden>
                             </div>
 
                             <div class="form-group span-program">
-                                <label>PROGRAM:</label>
-                                <input id="program"
-                                       type="text"
-                                       readonly>
+                                <label for="program">PROGRAM:</label>
+                                <select id="program">
+                                    <option value="">SELECT PROGRAM</option>
+                                </select>
+                                <input id="programOther" class="other-option-input" type="text"
+                                       placeholder="Enter program" hidden>
                             </div>
 
-                            <div class="form-group span-year select-field">
+                            <div class="form-group span-year">
                                 <label>YEAR LEVEL:</label>
-                                <select id="yearLevel" disabled>
+                                <select id="yearLevel">
                                     <option value="">SELECT YEAR</option>
                                     <option>1ST YEAR</option>
                                     <option>2ND YEAR</option>
@@ -230,261 +428,64 @@
                             </div>
 
                         </div>
-
-
-                        <div class="profile-card-footer">
-
-                            <button class="act-btn solid-btn btn-sm"
-                                    type="button"
-                                    onclick="showSubView('view-profile-family')">
-                                NEXT
-                            </button>
-                            <button type="button" class="act-btn outline-btn btn-sm" data-logout>LOG OUT</button>
-
-                        </div>
-
                     </div>
 
+                    <div class="profile-section-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">FAMILY</span>
+                                <h3>Edit Family Information</h3>
+                            </div>
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+
+                        <div class="family-edit-block">
+                            <h4>FATHER'S INFORMATION</h4>
+                            <div class="family-form-grid">
+                                <div class="form-group"><label>GIVEN NAME:</label><input id="fatherGiven" type="text"></div>
+                                <div class="form-group"><label>SURNAME:</label><input id="fatherSurname" type="text"></div>
+                                <div class="form-group"><label>MIDDLE NAME:</label><input id="fatherMiddle" type="text"></div>
+                                <div class="form-group col-suffix"><label>SUFFIX:</label><input id="fatherSuffix" type="text"></div>
+                                <div class="form-group"><label>CONTACT NO.:</label><input id="fatherContact" type="text"></div>
+                            </div>
+                        </div>
+
+                        <div class="family-edit-block">
+                            <h4>MOTHER'S INFORMATION</h4>
+                            <div class="family-form-grid">
+                                <div class="form-group"><label>GIVEN NAME:</label><input id="motherGiven" type="text"></div>
+                                <div class="form-group"><label>SURNAME:</label><input id="motherSurname" type="text"></div>
+                                <div class="form-group"><label>MIDDLE NAME:</label><input id="motherMiddle" type="text"></div>
+                                <div class="form-group col-suffix"><label>SUFFIX:</label><input id="motherSuffix" type="text"></div>
+                                <div class="form-group"><label>CONTACT NO.:</label><input id="motherContact" type="text"></div>
+                            </div>
+                        </div>
+
+                        <div class="family-edit-block">
+                            <div class="family-title-row">
+                                <h4>SIBLING'S INFORMATION</h4>
+                                <button id="addSiblingBtn" type="button" class="add-sibling-btn" title="Add sibling">+</button>
+                            </div>
+
+                            <div id="siblingsContainer"></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card-footer edit-footer">
+                        <button id="cancelEditBtn" type="button" class="act-btn outline-btn btn-sm">CANCEL</button>
+                        <button id="saveProfileBtn" type="button" class="act-btn solid-btn btn-sm">SAVE PROFILE</button>
+                    </div>
                 </div>
 
             </div>
-
         </div>
-
     </section>
-
-
-
-    <!-- =====================================================
-         FAMILY INFORMATION
-    ====================================================== -->
-    <section id="view-profile-family"
-             class="page-view profile-view"
-             style="display:none;">
-
-        <div class="view-banner">
-            <h2>PROFILE</h2>
-        </div>
-
-        <div class="view-body bordered-frame relative-frame profile-family-frame">
-
-            <button class="close-view-btn"
-                    type="button"
-                    onclick="showSubView('view-profile')">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-
-
-            <!-- ONLY THIS AREA SCROLLS -->
-            <div class="family-scroll-area">
-
-                <div class="profile-card">
-
-                    <!-- FATHER -->
-                    <div class="family-section">
-
-                        <h4 class="family-sec-title">
-                            FATHER'S INFORMATION
-                        </h4>
-
-                        <div class="family-form-grid">
-
-                            <div class="form-group">
-                                <label>GIVEN NAME:</label>
-                                <input id="fatherGiven" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>SURNAME:</label>
-                                <input id="fatherSurname" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>MIDDLE NAME:</label>
-                                <input id="fatherMiddle" type="text">
-                            </div>
-
-                            <div class="form-group col-suffix">
-                                <label>SUFFIX:</label>
-                                <input id="fatherSuffix" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>CONTACT NO.:</label>
-                                <input id="fatherContact" type="text">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- MOTHER -->
-                    <div class="family-section">
-
-                        <h4 class="family-sec-title">
-                            MOTHER'S INFORMATION
-                        </h4>
-
-                        <div class="family-form-grid">
-
-                            <div class="form-group">
-                                <label>GIVEN NAME:</label>
-                                <input id="motherGiven" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>SURNAME:</label>
-                                <input id="motherSurname" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>MIDDLE NAME:</label>
-                                <input id="motherMiddle" type="text">
-                            </div>
-
-                            <div class="form-group col-suffix">
-                                <label>SUFFIX:</label>
-                                <input id="motherSuffix" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label>CONTACT NO.:</label>
-                                <input id="motherContact" type="text">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- SIBLINGS -->
-                    <div class="family-section">
-
-                        <h4 class="family-sec-title">
-                            SIBLING'S INFORMATION
-
-                            <button id="addSiblingBtn"
-                                    type="button"
-                                    class="add-sibling-btn">
-                                +
-                            </button>
-                        </h4>
-
-                        <div id="siblingsContainer">
-
-                            <div class="sibling-grid-row">
-
-                                <div class="form-group">
-                                    <label>GIVEN NAME:</label>
-                                    <input type="text" class="sibling-given">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>SURNAME:</label>
-                                    <input type="text" class="sibling-surname">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>MIDDLE NAME:</label>
-                                    <input type="text" class="sibling-middle">
-                                </div>
-
-                                <div class="form-group col-suffix">
-                                    <label>SUFFIX:</label>
-                                    <input type="text" class="sibling-suffix">
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- SAVE / BACK -->
-                    <div class="profile-card-footer family-footer">
-
-                        <button class="act-btn outline-btn btn-sm"
-                                type="button"
-                                onclick="showSubView('view-profile')">
-                            BACK
-                        </button>
-
-                        <button id="saveProfileBtn"
-                                class="act-btn solid-btn btn-sm"
-                                type="button">
-                            SAVE PROFILE
-                        </button>
-
-                        <button type="button" class="act-btn outline-btn btn-sm" data-logout>LOG OUT</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
 </main>
-
-<!-- =========================================================
-     BOTTOM NAVIGATION
-========================================================= -->
-
-        <nav class="bottom-nav">
-
-            <div class="bottom-nav-inner">
-
-                <!-- HOME -->
-                <a class="nav-item" href="../admin/home-admin.html">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
-                </a>
-
-                <!-- USER -->
-                <a class="nav-item" href="../admin/user-admin.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>User</span>
-                </a>
-
-                <!-- SCORECARD -->
-                <a class="nav-item" href="../admin/scorecard-admin.html">
-                    <i class="fa-solid fa-address-card"></i>
-                    <span>Scorecard</span>
-                </a>
-
-                <!-- ACTIVITY -->
-                <a class="nav-item" href="../admin/activity-admin.html">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span>Activity</span>
-                </a>
-
-                <!-- HISTORY -->
-                <a class="nav-item" href="../admin/history-admin.html">
-                    <i class="fa-solid fa-book-bookmark"></i>
-                    <span>History</span>
-                </a>
-
-                <!-- MORE -->
-                <a class="nav-item" href="../admin/more-admin.html">
-                    <i class="fa-solid fa-ellipsis"></i>
-                    <span>More</span>
-                </a>
-
-            </div>
-
-        </nav>
-
-</nav>
-
 
 <script src="../script.js?v=20261005-user-name-header"></script>
 <script src="../auth.js?v=3"></script>
-<script src="profile-admin.js?v=5"></script>
+<script src="profile-admin.js?v=6"></script>
 
+<script src="history-status.js?v=2"></script>
 </body>
 </html>
