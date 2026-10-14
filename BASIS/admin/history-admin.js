@@ -428,22 +428,15 @@
     }
 
     function isPastDueActivity(item) {
-        const raw = activityPastDueDate(item);
-        if (!raw) return false;
+        const deadlineDate = firstValue(item?.deadline_date, item?.deadlineDate, item?.due_date, item?.dueDate);
+        const date = deadlineDate || firstValue(item?.activity_date, item?.activityDate, item?.date, item?.end_date, item?.endDate);
+        if (!date) return false;
 
-        const parsed = new Date(
-            /^\\d{4}-\\d{2}-\\d{2}$/.test(String(raw).trim())
-                ? `${String(raw).trim()}T00:00:00`
-                : raw
-        );
-
-        if (Number.isNaN(parsed.getTime())) return false;
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        parsed.setHours(0, 0, 0, 0);
-
-        return parsed < today;
+        const time = deadlineDate
+            ? firstValue(item?.deadline_time, item?.deadlineTime, "23:59:59")
+            : firstValue(item?.end_time, item?.endTime, "23:59:59");
+        const due = new Date(`${String(date).trim().slice(0, 10)}T${time}`);
+        return !Number.isNaN(due.getTime()) && due <= new Date();
     }
 
     function buildRelevantNotifications(announcements, rawNotifications) {
@@ -1689,14 +1682,8 @@
         if (!item) return;
 
 
-        fillActivityDetail(
-            item
-        );
-
-
-        showAdminHistoryView(
-            "view-history-admin-activity-detail"
-        );
+        sessionStorage.setItem("basisAdminSelectedActivityId", String(item.id));
+        window.location.href = "activity_menu-admin.html";
 
     }
 

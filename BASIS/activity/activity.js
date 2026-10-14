@@ -77,7 +77,7 @@ async function loadActivities() {
     }
     renderActivities(document.getElementById('activitySearch')?.value || '');
 
-    const historyActivityId = sessionStorage.getItem('basisSelectedActivityId');
+    const historyActivityId = sessionStorage.getItem('basisSelectedActivityId') || new URLSearchParams(window.location.search).get('activity_id');
     if (historyActivityId) {
         sessionStorage.removeItem('basisSelectedActivityId');
         const historyActivity = activities.find(activity => String(activity.id) === String(historyActivityId));
