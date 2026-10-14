@@ -83,7 +83,7 @@
 .scorecard-page-intro p {
     margin: 0;
     color: var(--score-muted);
-    font-size: 7px;
+    font-size: 8px;
     font-weight: 500;
 }
 
@@ -153,7 +153,7 @@
 
 .scorecard-year-label {
     color: var(--score-muted);
-    font-size: 5px;
+    font-size: 7.5px;
     font-weight: 900;
     letter-spacing: .7px;
     text-transform: uppercase;
@@ -161,8 +161,8 @@
 
 .scorecard-year-value {
     color: var(--score-green);
-    font-size: 8px;
-    font-weight: 900;
+    font-size: 10px;
+    font-weight: 850;
 }
 
 .scorecard-year-count {
@@ -170,7 +170,7 @@
     border-radius: 5px;
     background: #fff;
     color: var(--score-muted);
-    font-size: 5px;
+    font-size: 8px;
     font-weight: 800;
 }
 
@@ -236,7 +236,7 @@
 
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
-    font-size: 10px;
+    font-size: 13px;
 
     display: flex;
     align-items: center;
@@ -256,7 +256,7 @@
 
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
-    font-size: 7px;
+    font-size: 13px;
 }
 
 .scorecard-semester-item:hover {
@@ -273,7 +273,7 @@
 
 .scorecard-semester-name {
     color: var(--score-text);
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 900;
     line-height: 1.2;
 }
@@ -281,8 +281,8 @@
 .scorecard-semester-meta {
     margin-top: 2px;
     color: var(--score-muted);
-    font-size: 5px;
-    font-weight: 600;
+    font-size: 8px;
+    font-weight: 700;
 }
 
 
@@ -517,9 +517,9 @@
 .scholar-header h3 {
     margin: 0;
     color: var(--score-text);
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.1;
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .scholar-subtitle {
@@ -540,8 +540,8 @@
 
     color: var(--score-green);
 
-    font-size: 6px;
-    font-weight: 900;
+    font-size: 8px;
+    font-weight: 800;
     letter-spacing: .5px;
     text-transform: uppercase;
 
@@ -584,17 +584,17 @@
 
 .info-label {
     color: var(--score-muted);
-    font-size: 5px;
+    font-size: 8px;
     line-height: 1.2;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .info-val {
     min-width: 0;
     color: var(--score-text);
-    font-size: 6px;
+    font-size: 11px;
     line-height: 1.25;
-    font-weight: 800;
+    font-weight: 600;
     overflow-wrap: anywhere;
 }
 
@@ -630,15 +630,15 @@
 .activity-label {
     display: block;
     color: var(--score-muted);
-    font-size: 4px;
-    font-weight: 900;
+    font-size: 8px;
+    font-weight: 700;
     letter-spacing: .6px;
 }
 
 .ay-title {
     display: block;
     color: var(--score-green);
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 900;
 }
 
@@ -650,7 +650,7 @@
 
     color: var(--score-green);
 
-    font-size: 5px;
+    font-size: 8px;
     font-weight: 900;
 }
 
@@ -695,8 +695,8 @@
 
 .field-group label {
     color: var(--score-muted);
-    font-size: 4px;
-    font-weight: 800;
+    font-size: 7px;
+    font-weight: 700;
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: .4px;
@@ -715,8 +715,8 @@
     color: var(--score-text);
 
     font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 6px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
 
     box-sizing: border-box;
 }
