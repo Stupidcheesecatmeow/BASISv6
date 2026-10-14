@@ -6,6 +6,23 @@ let selectedExcelFile = null;
 let importedCredentials = [];
 
 const $ = (id) => document.getElementById(id);
+function formatSubmittedDateTime(value) {
+    if (!value) return "—";
+    const raw = String(value).trim();
+    const normalized = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(raw)
+        ? raw
+        : `${raw.replace(" ", "T")}Z`;
+    const date = new Date(normalized);
+    if (Number.isNaN(date.getTime())) return raw;
+    return new Intl.DateTimeFormat("en-PH", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: "Asia/Manila"
+    }).format(date);
+}
 
 const BAGAC_BARANGAYS = [
     "Atilano Ricardo",
@@ -1799,6 +1816,14 @@ async function openActivities() {
 
                     </td>
 
+                    <td>
+
+                        ${escapeHtml(
+                            formatSubmittedDateTime(item.submitted_at)
+                        )}
+
+                    </td>
+
                 `;
 
 
@@ -1986,7 +2011,7 @@ async function openActivityProofs(
                 detail.textContent =
                     `${upload.file_name || "Uploaded proof"} · ${
                         upload.status || "PENDING"
-                    }`;
+                    } · Submitted ${formatSubmittedDateTime(upload.submitted_at)}`;
 
 
                 card.append(

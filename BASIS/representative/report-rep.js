@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const records = await Promise.all(matching.map(async activity => {
                 const data = await request(`${api}?action=participants&activity_id=${encodeURIComponent(activity.id)}`);
-                return (data.participants || []).filter(person => person.time_in || /^attended$/i.test(person.submission || '')).map(person => ({
+                return (data.participants || []).filter(person => /^(attended|excused|absent)$/i.test(String(person.submission || '').trim())).map(person => ({
                     activityId: String(activity.id), activity: activity.name || activity.title || '',
                     controlNumber: person.control_number || '', name: person.name || '', barangay: person.barangay || '',
-                    timeIn: person.time_in || '', timeOut: person.time_out || '', status: person.submission || 'Attended'
+                    timeIn: person.time_in || '', timeOut: person.time_out || '', status: person.submission || ''
                 }));
             }));
             generated = records.flat();

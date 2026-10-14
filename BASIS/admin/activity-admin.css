@@ -5754,3 +5754,6 @@ ACTIVITY PARTICIPANTS TABLE
     overflow: visible !important;
     box-sizing: border-box !important;
 }
+
+.admin-page #view-activity-participants .participants-table-wrap { overflow-x: auto; }
+.admin-page #view-activity-participants .participants-table { min-width: 760px; }

@@ -446,10 +446,23 @@ function getActivities(PDO $pdo): void
     }
 
     $stmt = $pdo->prepare("SELECT a.id AS activity_id, a.name AS activity_title,
-        CASE WHEN UPPER(COALESCE(att.status,'')) IN ('PRESENT','ATTENDED') AND TRIM(COALESCE(att.time_in,''))<>'' THEN 'Attended'
-             WHEN EXISTS (SELECT 1 FROM submissions s WHERE s.activity_id=a.id AND s.user_id=? AND s.status='VERIFIED' AND s.submission_type='attendance') THEN 'Attended'
-             ELSE 'Absent' END AS status
-        FROM activities a LEFT JOIN activity_attendance att ON att.activity_id=a.id AND att.user_id=?
+        CASE
+            WHEN latest.status='PENDING' THEN 'Submitted'
+            WHEN latest.status='REJECTED' THEN 'Rejected'
+            WHEN latest.status='VERIFIED' AND latest.submission_type='attendance' THEN 'Attended'
+            WHEN latest.status='VERIFIED' AND latest.submission_type='absence' AND TRIM(COALESCE(att.time_in,''))<>'' AND TRIM(COALESCE(att.time_out,''))<>'' THEN 'Excused'
+            WHEN latest.status='VERIFIED' AND latest.submission_type='absence' THEN 'Absent'
+            WHEN UPPER(COALESCE(att.status,'')) IN ('PRESENT','ATTENDED') AND TRIM(COALESCE(att.time_in,''))<>'' THEN 'Attended'
+            ELSE 'Absent'
+        END AS status,
+        COALESCE(latest.submitted_at,'') AS submitted_at,
+        COALESCE(latest.submission_type,'') AS submission_type
+        FROM activities a
+        LEFT JOIN activity_attendance att ON att.activity_id=a.id AND att.user_id=?
+        LEFT JOIN submissions latest ON latest.id=(
+            SELECT s.id FROM submissions s WHERE s.activity_id=a.id AND s.user_id=?
+            ORDER BY s.submitted_at DESC,s.id DESC LIMIT 1
+        )
         ORDER BY COALESCE(NULLIF(a.deadline_date,''),a.activity_date) DESC,a.id DESC");
 
     $stmt->execute([$id, $id]);

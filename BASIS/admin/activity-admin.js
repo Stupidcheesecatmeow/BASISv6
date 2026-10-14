@@ -16,6 +16,7 @@ async function getActivities(){ return (await activityRequest('list')).activitie
 async function getSelectedActivity(){ const id=sessionStorage.getItem(SELECTED_ACTIVITY_KEY); if(!id)return null; return (await activityRequest(`get&id=${encodeURIComponent(id)}`)).activity; }
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 function formatDate(v){ if(!v)return ''; const d=new Date(v+'T00:00:00'); return Number.isNaN(d.getTime())?v:d.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}); }
+function formatSubmissionDateTime(v){if(!v)return '';const raw=String(v).trim();const normalized=/(?:Z|[+-]\d{2}:?\d{2})$/i.test(raw)?raw:`${raw.replace(' ','T')}Z`;const date=new Date(normalized);return Number.isNaN(date.getTime())?raw:new Intl.DateTimeFormat('en-PH',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZone:'Asia/Manila'}).format(date);}
 function hasActivityDeadlinePassed(a,now=new Date()){const explicit=a.deadlineDate||a.deadline_date||'',date=explicit||a.date||a.activity_date||'';if(!date)return false;const time=explicit?(a.deadlineTime||a.deadline_time||'23:59:59'):(a.endTime||a.end_time||'23:59:59');const due=new Date(`${String(date).slice(0,10)}T${time}`);return !Number.isNaN(due.getTime())&&due<=now;}
 function setText(id,v){ const e=document.getElementById(id); if(e)e.textContent=v||''; }
 function setAll(sel,v){ document.querySelectorAll(sel).forEach(e=>e.textContent=v||''); }
@@ -221,7 +222,7 @@ function renderSubmissionList(id,rows,actionable){
    const status=row.status||'';
    const card=document.createElement('div');card.className='submission-review-card';
    const nameEl=document.createElement('strong');nameEl.textContent=name;
-   const detailEl=document.createElement('span');detailEl.textContent=[type,fileName,status].filter(Boolean).join(' · ');
+   const detailEl=document.createElement('span');detailEl.textContent=[type,fileName,status,row.submitted_at?`Submitted ${formatSubmissionDateTime(row.submitted_at)}`:''].filter(Boolean).join(' · ');
    card.append(nameEl,detailEl);
    if(actionable){
      const button=document.createElement('button');button.type='button';button.textContent='REVIEW';
@@ -248,7 +249,8 @@ function applyParticipantFilters(){
    const timeIn=participantValue(row,'time_in','timeIn');
    const timeOut=participantValue(row,'time_out','timeOut');
    const submission=participantValue(row,'submission','submission_status','submissionStatus','status');
-   const haystack=[name,barangay,timeIn,timeOut,submission].join(' ').toLowerCase();
+   const submittedAt=participantValue(row,'submitted_at','submittedAt');
+   const haystack=[name,barangay,timeIn,timeOut,submission,submittedAt].join(' ').toLowerCase();
    if(query&&!haystack.includes(query))return false;
    const submitted=String(submission||'').trim().toLowerCase();
    if(participantFilterMode==='pending'&&submitted!=='submitted')return false;
@@ -257,7 +259,7 @@ function applyParticipantFilters(){
  });
  body.innerHTML='';
  if(!rows.length){
-   body.innerHTML=`<tr><td colspan="5" class="empty-table-cell">${query||participantFilterMode!=='all'?'No matching participants found.':'No participants yet.'}</td></tr>`;
+   body.innerHTML=`<tr><td colspan="6" class="empty-table-cell">${query||participantFilterMode!=='all'?'No matching participants found.':'No participants yet.'}</td></tr>`;
    return;
  }
  rows.forEach(row=>{
@@ -267,7 +269,8 @@ function applyParticipantFilters(){
      participantValue(row,'barangay','barangay_name','barangayName')||'—',
      participantValue(row,'time_in','timeIn')||'—',
      participantValue(row,'time_out','timeOut')||'—',
-     participantValue(row,'submission','submission_status','submissionStatus','status')||'—'
+     participantValue(row,'submission','submission_status','submissionStatus','status'),
+     formatSubmissionDateTime(participantValue(row,'submitted_at','submittedAt'))
    ];
    values.forEach(value=>{const td=document.createElement('td');td.textContent=String(value);tr.appendChild(td);});
    body.appendChild(tr);
@@ -295,7 +298,8 @@ window.exportActivityParticipants=function(){
    'BARANGAY':participantValue(row,'barangay','barangay_name','barangayName'),
    'TIME IN':participantValue(row,'time_in','timeIn'),
    'TIME OUT':participantValue(row,'time_out','timeOut'),
-   'SUBMISSION':participantValue(row,'submission','submission_status','submissionStatus','status')||'—'
+   'SUBMISSION':participantValue(row,'submission','submission_status','submissionStatus','status')||'—',
+   'SUBMITTED AT':formatSubmissionDateTime(participantValue(row,'submitted_at','submittedAt'))||'—'
  }));
  const wb=XLSX.utils.book_new();
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Participants');

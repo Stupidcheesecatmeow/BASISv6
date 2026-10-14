@@ -62,19 +62,20 @@ try {
  }
  if($action==='participants') {
   requireUser($pdo,['ADMIN','REPRESENTATIVE']);$activityId=(int)($_GET['activity_id']??0);$scannerId=(int)$user['id'];
-  $s=$pdo->prepare("SELECT u.name,u.control_number,u.barangay,COALESCE(scan.attendance_date,'') AS attendance_date,COALESCE(scan.time_in,'') AS time_in,COALESCE(scan.time_out,'') AS time_out,
+  $s=$pdo->prepare("SELECT u.name,u.control_number,u.barangay,COALESCE(scan.attendance_date,'') AS attendance_date,COALESCE(scan.time_in,'') AS time_in,COALESCE(scan.time_out,'') AS time_out,COALESCE(latest.submitted_at,'') AS submitted_at,
    CASE
-    WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.submission_type='attendance' AND s.status='VERIFIED') THEN 'Attended'
-    WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.submission_type='absence' AND s.status='VERIFIED') AND COALESCE(scan.time_in,'')<>'' AND COALESCE(scan.time_out,'')<>'' THEN 'Excused'
-    WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.submission_type='absence' AND s.status='VERIFIED') THEN 'Absent'
-    WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.status='PENDING' AND s.file_data<>'') THEN 'Submitted'
-    WHEN EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.status='REJECTED' AND s.file_data<>'') THEN 'Rejected'
-    ELSE '—' END AS submission
+    WHEN latest.status='VERIFIED' AND latest.submission_type='attendance' THEN 'Attended'
+    WHEN latest.status='VERIFIED' AND latest.submission_type='absence' AND COALESCE(scan.time_in,'')<>'' AND COALESCE(scan.time_out,'')<>'' THEN 'Excused'
+    WHEN latest.status='VERIFIED' AND latest.submission_type='absence' THEN 'Absent'
+    WHEN latest.status='PENDING' THEN 'Submitted'
+    WHEN latest.status='REJECTED' THEN 'Rejected'
+    ELSE '' END AS submission
    FROM users u
    LEFT JOIN activity_attendance_scans scan ON scan.activity_id=? AND scan.user_id=u.id AND scan.scanner_id=?
-   WHERE UPPER(u.status)='ACTIVE' AND EXISTS(SELECT 1 FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.file_data<>'')
+   LEFT JOIN submissions latest ON latest.id=(SELECT s.id FROM submissions s WHERE s.activity_id=? AND s.user_id=u.id AND s.file_data<>'' ORDER BY s.submitted_at DESC,s.id DESC LIMIT 1)
+   WHERE UPPER(u.status)='ACTIVE' AND (scan.user_id IS NOT NULL OR latest.id IS NOT NULL)
    ORDER BY COALESCE(scan.time_in,''),u.name");
-  $s->execute([$activityId,$activityId,$activityId,$activityId,$activityId,$activityId,$scannerId,$activityId]);$rows=$s->fetchAll();
+  $s->execute([$activityId,$scannerId,$activityId]);$rows=$s->fetchAll();
   if(($user['role']??'')==='REPRESENTATIVE'){$assigned=normalizeBarangay(representativeAssignedBarangay($pdo,$scannerId));$rows=array_values(array_filter($rows,static fn($row)=>$assigned!==''&&normalizeBarangay((string)$row['barangay'])===$assigned));}
   jsonResponse(true,'',200,['participants'=>$rows]);
  }
