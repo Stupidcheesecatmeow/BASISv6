@@ -251,8 +251,8 @@ function applyParticipantFilters(){
    const haystack=[name,barangay,timeIn,timeOut,submission].join(' ').toLowerCase();
    if(query&&!haystack.includes(query))return false;
    const submitted=String(submission||'').trim().toLowerCase();
-   if(participantFilterMode==='submitted'&&(!submitted||['—','none','no submission','missing'].includes(submitted)))return false;
-   if(participantFilterMode==='missing'&&(submitted&&!['—','none','no submission','missing'].includes(submitted)))return false;
+   if(participantFilterMode==='pending'&&submitted!=='submitted')return false;
+   if(participantFilterMode==='verified'&&!['attended','absent','excused'].includes(submitted))return false;
    return true;
  });
  body.innerHTML='';
@@ -281,8 +281,8 @@ function cycleVerifiedFilter(){
  renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false);
 }
 function cycleParticipantFilter(){
- const modes=['all','submitted','missing'];
- const labels={all:'FILTER: ALL',submitted:'FILTER: WITH SUBMISSION',missing:'FILTER: NO SUBMISSION'};
+ const modes=['all','pending','verified'];
+ const labels={all:'FILTER: ALL',pending:'FILTER: PENDING',verified:'FILTER: VERIFIED'};
  participantFilterMode=modes[(modes.indexOf(participantFilterMode)+1)%modes.length];
  const button=document.getElementById('participantsFilterBtn');if(button)button.textContent=labels[participantFilterMode];
  applyParticipantFilters();
