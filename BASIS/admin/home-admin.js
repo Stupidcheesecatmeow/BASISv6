@@ -1029,6 +1029,67 @@ function getAnnouncements() {
 }
 
 
+
+/* =========================================================
+   ANNOUNCEMENT LIFETIME — 14 DAYS
+   The announcement's selected DATE is the primary publish date.
+   Records are hidden from Home after 14 calendar days, not deleted.
+========================================================= */
+
+const ANNOUNCEMENT_LIFETIME_DAYS = 14;
+
+function getAnnouncementPublishedDate(announcement) {
+    const raw =
+        announcement?.date ||
+        announcement?.published_at ||
+        announcement?.publishedAt ||
+        announcement?.created_at ||
+        announcement?.createdAt ||
+        "";
+
+    if (!raw) return null;
+
+    const value = String(raw).trim();
+    let date;
+
+    // Treat YYYY-MM-DD as a local calendar date to avoid UTC day shifts.
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (match) {
+        date = new Date(
+            Number(match[1]),
+            Number(match[2]) - 1,
+            Number(match[3]),
+            0, 0, 0, 0
+        );
+    } else {
+        date = new Date(value);
+    }
+
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function getAnnouncementExpirationDate(announcement) {
+    const published = getAnnouncementPublishedDate(announcement);
+    if (!published) return null;
+
+    const expires = new Date(published.getTime());
+    expires.setDate(expires.getDate() + ANNOUNCEMENT_LIFETIME_DAYS);
+    return expires;
+}
+
+function isAnnouncementActive(announcement, now = new Date()) {
+    const published = getAnnouncementPublishedDate(announcement);
+    const expires = getAnnouncementExpirationDate(announcement);
+
+    // Missing/invalid dates and future-dated announcements are not shown as active.
+    return Boolean(
+        published &&
+        expires &&
+        published <= now &&
+        now < expires
+    );
+}
+
 /* =========================================================
    RENDER ANNOUNCEMENTS
 ========================================================= */
@@ -1093,6 +1154,16 @@ function renderAnnouncements() {
 
 
         .then(announcements => {
+
+            // Keep only announcements published within the last 14 days.
+            // Expired announcements remain in the database and are shown in History.
+            announcements = announcements
+                .filter(announcement => isAnnouncementActive(announcement))
+                .sort((a, b) => {
+                    const dateA = getAnnouncementPublishedDate(a)?.getTime() || 0;
+                    const dateB = getAnnouncementPublishedDate(b)?.getTime() || 0;
+                    return dateB - dateA;
+                });
 
             container.innerHTML = "";
 

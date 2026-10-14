@@ -410,6 +410,67 @@
     }
 
 
+
+    /* =====================================================
+       ANNOUNCEMENT LIFETIME — 14 DAYS
+       Home shows announcements for 14 calendar days.
+       History shows them after the 14-day window expires.
+    ===================================================== */
+
+    const ANNOUNCEMENT_LIFETIME_DAYS = 14;
+
+    function announcementPublishedDate(item) {
+        const raw = firstValue(
+            item?.date,
+            item?.published_at,
+            item?.publishedAt,
+            item?.created_at,
+            item?.createdAt
+        );
+
+        if (!raw) return null;
+
+        const value = String(raw).trim();
+        let date;
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+        if (match) {
+            date = new Date(
+                Number(match[1]),
+                Number(match[2]) - 1,
+                Number(match[3]),
+                0, 0, 0, 0
+            );
+        } else {
+            date = new Date(value);
+        }
+
+        return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function announcementExpirationDate(item) {
+        const published = announcementPublishedDate(item);
+        if (!published) return null;
+
+        const expires = new Date(published.getTime());
+        expires.setDate(expires.getDate() + ANNOUNCEMENT_LIFETIME_DAYS);
+        return expires;
+    }
+
+    function isAnnouncementExpired(item, now = new Date()) {
+        const published = announcementPublishedDate(item);
+        const expires = announcementExpirationDate(item);
+
+        return Boolean(published && expires && published <= now && expires <= now);
+    }
+
+    function isAnnouncementActive(item, now = new Date()) {
+        const published = announcementPublishedDate(item);
+        const expires = announcementExpirationDate(item);
+
+        return Boolean(published && expires && published <= now && now < expires);
+    }
+
     /* =====================================================
        HISTORY RULES
     ===================================================== */
@@ -550,7 +611,7 @@
                 // Notifications include new announcements and feedback/concern records.
                 notifications:
                     buildRelevantNotifications(
-                        announcements,
+                        announcements.filter(isAnnouncementActive),
                         notifications
                     )
 
@@ -822,7 +883,7 @@
 
             [
                 "historyAnnouncementCount",
-                historyData.announcements.length
+                historyData.announcements.filter(isAnnouncementExpired).length
             ],
 
             [
@@ -998,7 +1059,7 @@
 
         const items =
             sortNewest(
-                historyData.announcements
+                historyData.announcements.filter(isAnnouncementExpired)
             );
 
 
@@ -1114,7 +1175,7 @@
 
         const item =
             sortNewest(
-                historyData.announcements
+                historyData.announcements.filter(isAnnouncementExpired)
             )[index];
 
 
@@ -2549,7 +2610,7 @@ function openSelectedAnnouncementFromHome() {
             "adminAnnouncementHistoryList",
 
             () =>
-                historyData.announcements,
+                historyData.announcements.filter(isAnnouncementExpired),
 
             "announcement"
 
@@ -2631,7 +2692,7 @@ function openSelectedAnnouncementFromHome() {
 
                 notifications:
                     buildRelevantNotifications(
-                        announcements,
+                        announcements.filter(isAnnouncementActive),
                         notifications
                     )
 

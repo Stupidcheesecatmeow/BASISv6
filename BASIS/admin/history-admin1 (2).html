@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIS - Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="home-admin.css?v=8">
+    <link rel="stylesheet" href="../responsive.css?v=2">
+</head>
+
+<body class="dashboard-page admin-page">
+
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                <img src="../images/LOGO.png" alt="BASIS Logo">
+            </div>
+            <div class="brand-copy">
+                <strong>BASIS</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Admin Profile">
+            <div>
+                <strong>ADMIN</strong>
+                <span>System Administrator</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+
+            <div class="sidebar-section-label">MAIN MENU</div>
+
+            <a class="sidebar-link active" href="home-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <a class="sidebar-link" href="user-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="sidebar-text">User Management</span>
+            </a>
+
+            <a class="sidebar-link" href="scorecard-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+                <span class="sidebar-text">Scorecard</span>
+            </a>
+
+            <a class="sidebar-link" href="activity-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+                <span class="sidebar-text">Activities</span>
+            </a>
+
+            <a class="sidebar-link history-nav-link" href="history-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sidebar-text">History</span>
+                <span class="history-nav-badge" data-history-notification-badge hidden>0</span>
+            </a>
+
+            <div class="sidebar-section-label">SYSTEM</div>
+
+            <a class="sidebar-link" href="more-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="sidebar-text">More</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="profile-admin.html">
+                <span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+                <span class="sidebar-text">My Profile</span>
+            </a>
+
+
+        <button class="sidebar-logout" type="button" data-logout>
+            <span class="sidebar-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span class="sidebar-text">Logout</span>
+        </button>
+
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+    <div class="admin-shell">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+                    <span class="page-eyebrow">BASIS • ADMIN</span>
+                    <h1>Dashboard</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="welcome-copy">
+                    <span>WELCOME BACK</span>
+                    <strong>MABUHAY, ADMIN!</strong>
+                </div>
+
+                <a class="topbar-avatar" href="profile-admin.html" aria-label="Open admin profile">
+                    <img src="../images/profile_default.jpg" alt="Admin Profile">
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="dash-main">
+
+            <section id="view-home" class="page-view active admin-home">
+
+                <!-- PAGE INTRO -->
+                <!-- <div class="dashboard-intro">
+                    <div>
+                        <span class="intro-label"></span>
+                        <h2>Total Registered Users</h2>
+                        <p>All Iskolar ng Bagac users of BASIS</p>
+                    </div>
+                    <div class="municipality-pill">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>BAGAC</span>
+                    </div>
+                </div> -->
+
+                <!-- SUMMARY CARDS -->
+                <div class="admin-summary">
+
+                    <div class="summary-stat total-stat">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-content">
+                            <span>TOTAL USERS</span>
+                            <strong id="totalUsers">0</strong>
+                            <small>Active registered accounts</small>
+                        </div>
+                    </div>
+
+                    <div class="summary-stat">
+                        <div class="stat-icon"><i class="fa-solid fa-mars"></i></div>
+                        <div class="stat-content">
+                            <span>MALE</span>
+                            <strong id="maleUsers">0</strong>
+                            <small>Registered users</small>
+                        </div>
+                    </div>
+
+                    <div class="summary-stat">
+                        <div class="stat-icon"><i class="fa-solid fa-venus"></i></div>
+                        <div class="stat-content">
+                            <span>FEMALE</span>
+                            <strong id="femaleUsers">0</strong>
+                            <small>Registered users</small>
+                        </div>
+                    </div>
+
+                    <!-- LATEST ACTIVITY -->
+                    <div class="latest-activity-card">
+                        <div class="latest-heading">
+                            <div>
+                                <span>RECENT ACTIVITY</span>
+                                <h3 id="latestActivityTitle">NO ACTIVITY YET</h3>
+                            </div>
+                            <div class="latest-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                        </div>
+
+                        <div class="latest-metrics">
+                            <div class="latest-metric participants">
+                                <span>TOTAL PARTICIPANTS</span>
+                                <strong id="latestTotalParticipants">0</strong>
+                            </div>
+                            <div class="latest-metric">
+                                <span>ATTENDED</span>
+                                <strong id="latestAttended">0</strong>
+                            </div>
+                            <div class="latest-metric">
+                                <span>ABSENT</span>
+                                <strong id="latestAbsent">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TWO COLUMN DASHBOARD -->
+                <div class="admin-home-grid">
+
+                    <!-- BARANGAY -->
+                    <section class="admin-panel barangay-panel">
+
+                        <div class="admin-panel-header">
+                            <div class="admin-panel-title">
+                                <div class="panel-title-icon">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h2>Barangay Overview</h2>
+                                    <span>Scholar distribution by barangay</span>
+                                </div>
+                            </div>
+                            <span class="panel-badge">14 BARANGAYS</span>
+                        </div>
+
+                        <div class="barangay-scroll-container" id="barangayContainer">
+                            <!-- GENERATED BY JS -->
+                        </div>
+
+                    </section>
+
+                    <!-- ANNOUNCEMENTS -->
+                    <section class="admin-panel announcement-panel">
+
+                        <div class="admin-panel-header">
+                            <div class="admin-panel-title">
+                                <div class="panel-title-icon">
+                                    <i class="fa-solid fa-bullhorn"></i>
+                                </div>
+                                <div>
+                                    <h2>Announcements</h2>
+                                    <span>Latest updates for BASIS users</span>
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="create-announcement-btn"
+                                id="openAnnouncementModal"
+                                title="Create Announcement"
+                                aria-label="Create Announcement">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="announcement-list" id="announcementsBox">
+                            <div class="announcement-empty">
+                                <i class="fa-regular fa-bell"></i>
+                                <span>No announcements yet.</span>
+                                <small>Click the + button to create an announcement.</small>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- =====================================================
+         CREATE ANNOUNCEMENT MODAL
+    ====================================================== -->
+    <div class="announcement-modal" id="announcementModal" aria-hidden="true">
+        <div class="announcement-modal-overlay"></div>
+
+        <div class="announcement-modal-card" role="dialog" aria-modal="true" aria-labelledby="announcementModalTitle">
+
+            <div class="announcement-modal-header">
+                <div>
+                    <span class="modal-eyebrow">BASIS • ADMIN</span>
+                    <h2 id="announcementModalTitle">Create Announcement</h2>
+                    <p>This announcement will appear on every user's dashboard.</p>
+                </div>
+
+                <button type="button" class="announcement-modal-close" id="closeAnnouncementModal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form class="announcement-form" id="announcementForm">
+
+                <div class="announcement-field">
+                    <label for="announcementTitle">TITLE</label>
+                    <input id="announcementTitle" type="text" required maxlength="160">
+                </div>
+
+                <div class="announcement-field">
+                    <label for="announcementDate">DATE</label>
+                    <input id="announcementDate" type="date" required>
+                </div>
+
+                <div class="announcement-field">
+                    <label for="announcementMessage">MESSAGE</label>
+                    <textarea id="announcementMessage" required maxlength="5000"></textarea>
+                </div>
+
+                <div class="announcement-field">
+                    <label>ATTACHMENT <span>(optional)</span></label>
+
+                    <label class="announcement-upload" for="announcementFile">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <div>
+                            <strong>Choose a file</strong>
+                            <small id="announcementFileName">PNG, JPG, PDF, DOCX and other files (up to 5 MB)</small>
+                        </div>
+                    </label>
+
+                    <input id="announcementFile" type="file" hidden>
+                </div>
+
+                <div class="announcement-form-actions">
+                    <button class="announcement-cancel-btn" id="cancelAnnouncement" type="button">CANCEL</button>
+                    <button class="announcement-publish-btn" type="submit">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        PUBLISH
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../script.js?v=20261005-user-name-header"></script>
+    <script src="home-admin.js?v=20261007-sidebar-redesign"></script>
+    <script src="../auth.js?v=3"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const announcementId = params.get("announcement");
+
+    if (!announcementId) {
+        return;
+    }
+
+    loadSelectedAnnouncement(announcementId);
+});
+
+
+async function loadSelectedAnnouncement(announcementId) {
+
+    try {
+
+        const response = await fetch(
+            "api/account_api.php?action=announcements",
+            {
+                credentials: "same-origin",
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !Array.isArray(data.announcements)
+        ) {
+            throw new Error(
+                data.message ||
+                "Unable to load announcement."
+            );
+        }
+
+        const announcement =
+            data.announcements.find(function (item) {
+
+                return String(item.id) ===
+                    String(announcementId);
+
+            });
+
+
+        if (!announcement) {
+
+            console.warn(
+                "Announcement not found:",
+                announcementId
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           TITLE
+        ========================================= */
+
+        const title =
+            document.getElementById(
+                "adminAnnouncementDetailTitle"
+            );
+
+        if (title) {
+
+            title.textContent =
+                announcement.title ||
+                "ANNOUNCEMENT TITLE";
+
+        }
+
+
+        /* =========================================
+           DATE
+        ========================================= */
+
+        const date =
+            document.getElementById(
+                "adminAnnouncementDetailDate"
+            );
+
+        if (date) {
+
+            date.textContent =
+                formatAnnouncementDetailDate(
+                    announcement.date ||
+                    announcement.createdAt ||
+                    announcement.created_at
+                );
+
+        }
+
+
+        /* =========================================
+           MESSAGE / CONTENT
+        ========================================= */
+
+        const description =
+            document.getElementById(
+                "adminAnnouncementDetailDescription"
+            );
+
+        if (description) {
+
+            description.textContent =
+                announcement.message ||
+                announcement.description ||
+                announcement.body ||
+                announcement.content ||
+                "No announcement content available.";
+
+        }
+
+
+        /* =========================================
+           IMAGE / ATTACHMENT
+        ========================================= */
+
+        const image =
+            document.getElementById(
+                "adminAnnouncementDetailImage"
+            );
+
+        const placeholder =
+            document.getElementById(
+                "adminAnnouncementDetailImagePlaceholder"
+            );
+
+
+        const attachmentName =
+            announcement.attachment_name ||
+            "";
+
+        const attachmentData =
+            announcement.attachment_data ||
+            "";
+
+
+        const isImage =
+            attachmentData &&
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(
+                attachmentName
+            );
+
+
+        if (
+            image &&
+            isImage
+        ) {
+
+            image.src =
+                attachmentData;
+
+            image.alt =
+                announcement.title ||
+                "Announcement image";
+
+            image.style.display =
+                "block";
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "none";
+
+            }
+
+        } else {
+
+            if (image) {
+
+                image.removeAttribute("src");
+
+                image.style.display =
+                    "none";
+
+            }
+
+
+            if (placeholder) {
+
+                placeholder.style.display =
+                    "flex";
+
+            }
+
+        }
+
+
+        /* =========================================
+           OPEN ANNOUNCEMENT DETAIL
+        ========================================= */
+
+        if (
+            typeof showAdminHistoryView ===
+            "function"
+        ) {
+
+            showAdminHistoryView(
+                "view-history-admin-announcement-detail"
+            );
+
+        } else {
+
+            /*
+             * Fallback kung hindi pa available
+             * ang history-admin.js function.
+             */
+
+            document
+                .querySelectorAll(".page-view")
+                .forEach(function (view) {
+
+                    view.classList.remove("active");
+
+                });
+
+
+            const detailView =
+                document.getElementById(
+                    "view-history-admin-announcement-detail"
+                );
+
+            if (detailView) {
+
+                detailView.classList.add("active");
+
+            }
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load selected announcement:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DATE FORMAT
+========================================= */
+
+function formatAnnouncementDetailDate(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+}
+</script>
+<script src="history-status.js?v=2"></script>
+</body>
+</html>

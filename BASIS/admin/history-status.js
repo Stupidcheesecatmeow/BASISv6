@@ -17,6 +17,42 @@
         return data;
     }
 
+    const ANNOUNCEMENT_LIFETIME_DAYS = 14;
+
+    function announcementIsActive(item, now = new Date()) {
+        const raw =
+            item?.date ||
+            item?.published_at ||
+            item?.publishedAt ||
+            item?.created_at ||
+            item?.createdAt ||
+            "";
+
+        if (!raw) return false;
+
+        const value = String(raw).trim();
+        let published;
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+        if (match) {
+            published = new Date(
+                Number(match[1]),
+                Number(match[2]) - 1,
+                Number(match[3]),
+                0, 0, 0, 0
+            );
+        } else {
+            published = new Date(value);
+        }
+
+        if (Number.isNaN(published.getTime())) return false;
+
+        const expires = new Date(published.getTime());
+        expires.setDate(expires.getDate() + ANNOUNCEMENT_LIFETIME_DAYS);
+
+        return published <= now && now < expires;
+    }
+
     function isFeedbackOrConcern(item) {
         const text = [
             item?.type, item?.title, item?.message, item?.body,
@@ -40,7 +76,8 @@
             const notifications = Array.isArray(notificationData.notifications)
                 ? notificationData.notifications : [];
 
-            const relevantCount = announcements.length +
+            const activeAnnouncements = announcements.filter(announcementIsActive);
+            const relevantCount = activeAnnouncements.length +
                 notifications.filter(isFeedbackOrConcern).length;
 
             badges.forEach(badge => {
