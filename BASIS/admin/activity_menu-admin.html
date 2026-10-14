@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-admin.css">
+    <link rel="stylesheet" href="activity-admin.css?v=20261014-qr-confirm">
     <link rel="stylesheet" href="home-admin.css?v=7">
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
@@ -198,6 +198,21 @@
             </div>
         </div>
 
+        <div class="qr-confirm-backdrop" id="qrConfirmModal" hidden>
+            <section class="qr-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="qrConfirmTitle" aria-describedby="qrConfirmHint">
+                <button class="qr-confirm-close" id="qrConfirmCancelClose" type="button" aria-label="Cancel check-in">&times;</button>
+                <p class="qr-confirm-eyebrow">PARTICIPANT FOUND</p>
+                <h2 id="qrConfirmTitle">Confirm attendance</h2>
+                <img class="qr-confirm-photo" id="qrConfirmPhoto" src="../images/profile_default.jpg" alt="Participant profile photo">
+                <p class="qr-confirm-name" id="qrConfirmName"></p>
+                <p class="qr-confirm-barangay"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <span id="qrConfirmBarangay"></span></p>
+                <p class="qr-confirm-hint" id="qrConfirmHint">Check that the participant details match before recording attendance.</p>
+                <div class="qr-confirm-actions">
+                    <button class="qr-confirm-cancel" id="qrConfirmCancel" type="button">CANCEL</button>
+                    <button class="qr-confirm-submit" id="qrConfirmSubmit" type="button">CONFIRM CHECK-IN</button>
+                </div>
+            </section>
+        </div>
 </section>
 
 <section id="view-activity-verify" class="page-view">
@@ -383,7 +398,7 @@
 <script src="../script.js?v=20261005-user-name-header"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="activity-admin.js?v=20261011-activity-fixes"></script>
+<script src="activity-admin.js?v=20261014-qr-confirm"></script>
 <script src="../auth.js?v=3"></script>
 
 

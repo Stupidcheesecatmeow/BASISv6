@@ -737,6 +737,23 @@ SUBMISSION VIEW
 SCAN ACTIVITY VIEW
 ========================================================= */
 
+.admin-page .qr-confirm-backdrop { position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(23,32,22,.58); backdrop-filter:blur(3px); }
+.admin-page .qr-confirm-backdrop[hidden] { display:none; }
+.admin-page .qr-confirm-dialog { position:relative; width:min(100%,420px); padding:32px 30px 26px; border-radius:22px; background:#fff; box-shadow:0 24px 80px rgba(0,0,0,.24); text-align:center; color:#283528; }
+.admin-page .qr-confirm-close { position:absolute; top:12px; right:15px; border:0; background:transparent; color:#6a7568; font-size:28px; line-height:1; cursor:pointer; }
+.admin-page .qr-confirm-eyebrow { margin:0 0 5px; color:#6b8067; font-size:11px; font-weight:800; letter-spacing:.13em; }
+.admin-page .qr-confirm-dialog h2 { margin:0 0 20px; font-size:22px; font-weight:750; }
+.admin-page .qr-confirm-photo { display:block; width:108px; height:108px; margin:0 auto 14px; border:4px solid #edf2e9; border-radius:50%; background:#f4f6f1; object-fit:cover; }
+.admin-page .qr-confirm-name { margin:0; color:#253524; font-size:20px; font-weight:800; line-height:1.3; overflow-wrap:anywhere; }
+.admin-page .qr-confirm-barangay { display:flex; justify-content:center; align-items:center; gap:7px; margin:8px 0 0; color:#5c6c57; font-size:14px; font-weight:650; }
+.admin-page .qr-confirm-hint { margin:18px 0 20px; color:#778174; font-size:12px; line-height:1.5; }
+.admin-page .qr-confirm-actions { display:flex; gap:10px; }
+.admin-page .qr-confirm-actions button { flex:1; min-height:44px; border-radius:12px; font-size:12px; font-weight:800; cursor:pointer; }
+.admin-page .qr-confirm-cancel { border:1px solid #d5ddd1; background:#fff; color:#4d5b49; }
+.admin-page .qr-confirm-submit { border:1px solid #42523f; background:#42523f; color:#fff; }
+.admin-page .qr-confirm-submit:hover { background:#344231; }
+.admin-page .qr-confirm-submit:disabled { cursor:wait; opacity:.65; }
+
 .admin-page .scan-layout {
     display: flex;
     gap: 30px;
