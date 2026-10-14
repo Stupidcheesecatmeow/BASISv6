@@ -1,9 +1,12 @@
+// The representative report uses the same live activity API as the admin report.
+window.BASISRepApiReport = true;
+
 document.addEventListener('DOMContentLoaded', () => {
-    const activityList = document.getElementById('repReportActivityFilters');
-    const semesterList = document.getElementById('repReportSemesterFilters');
-    const yearList = document.getElementById('repReportYearFilters');
-    const results = document.getElementById('repReportResults');
-    const count = document.getElementById('repReportResultCount');
+    const activityList = document.getElementById('activityCheckboxList');
+    const semesterList = document.getElementById('semesterCheckboxList');
+    const yearList = document.getElementById('academicYearCheckboxList');
+    const results = document.getElementById('reportResults');
+    const count = document.getElementById('reportResultCount');
     if (!activityList || !semesterList || !yearList || !results || !count) return;
 
     const api = '../admin/api/activity_api.php';
@@ -57,21 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderFilters() {
         activityList.replaceChildren();
-        activities.forEach(activity => addCheckbox(activityList, String(activity.id), 'rep-report-activity', activity.name || activity.title || 'Activity'));
+        activities.forEach(activity => addCheckbox(activityList, String(activity.id), 'activity-check', activity.name || activity.title || 'Activity'));
         if (!activities.length) setEmpty(activityList, 'No activities available.');
 
         const semesters = [...new Set(activities.map(activity => normalizeSemester(activity.semester)).filter(Boolean))];
         semesterList.replaceChildren();
-        semesters.forEach(semester => addCheckbox(semesterList, semester, 'rep-report-semester', semester.toUpperCase()));
+        semesters.forEach(semester => addCheckbox(semesterList, semester, 'semester-check', semester.toUpperCase()));
         if (!semesters.length) setEmpty(semesterList, 'No semesters available.');
 
         const years = [...new Set(activities.map(activity => String(activity.academicYear || activity.academic_year || '').trim()).filter(Boolean))];
         yearList.replaceChildren();
-        years.forEach(year => addCheckbox(yearList, year, 'rep-report-year', year));
+        years.forEach(year => addCheckbox(yearList, year, 'academic-year-check', year));
         if (!years.length) setEmpty(yearList, 'No academic years available.');
-        syncSelectAll('repSelectAllActivities', '.rep-report-activity');
-        syncSelectAll('repSelectAllSemesters', '.rep-report-semester');
-        syncSelectAll('repSelectAllYears', '.rep-report-year');
+        syncSelectAll('selectAllActivities', '.activity-check');
+        syncSelectAll('selectAllSemesters', '.semester-check');
+        syncSelectAll('selectAllAcademicYears', '.academic-year-check');
     }
 
     function renderReport() {
@@ -112,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('repGenerateReport')?.addEventListener('click', async () => {
-        const activityIds = selected('.rep-report-activity');
-        const semesters = selected('.rep-report-semester');
-        const years = selected('.rep-report-year');
+        const activityIds = selected('.activity-check');
+        const semesters = selected('.semester-check');
+        const years = selected('.academic-year-check');
         const matching = activities.filter(activity =>
             (!activityIds.length || activityIds.includes(String(activity.id))) &&
             (!semesters.length || semesters.includes(normalizeSemester(activity.semester))) &&
@@ -141,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('repClearReport')?.addEventListener('click', () => {
-        document.querySelectorAll('.rep-report-activity,.rep-report-year,.rep-report-semester').forEach(input => { input.checked = false; });
-        ['repSelectAllActivities','repSelectAllSemesters','repSelectAllYears'].forEach(id => { const input = document.getElementById(id); if (input) { input.checked = false; input.indeterminate = false; } });
+        document.querySelectorAll('.activity-check,.academic-year-check,.semester-check').forEach(input => { input.checked = false; });
+        ['selectAllActivities','selectAllSemesters','selectAllAcademicYears'].forEach(id => { const input = document.getElementById(id); if (input) { input.checked = false; input.indeterminate = false; } });
         generated = [];
         results.innerHTML = '<div class="report-empty-state"><i class="fa-solid fa-file-circle-check"></i><h3>No report generated yet.</h3><p>Select your filters and click GENERATE.</p></div>';
         count.textContent = '0 records';
@@ -167,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
         printWindow.document.close(); printWindow.focus(); setTimeout(() => printWindow.print(), 350);
     });
 
-    bindSelectAll('repSelectAllActivities', '.rep-report-activity');
-    bindSelectAll('repSelectAllSemesters', '.rep-report-semester');
-    bindSelectAll('repSelectAllYears', '.rep-report-year');
+    bindSelectAll('selectAllActivities', '.activity-check');
+    bindSelectAll('selectAllSemesters', '.semester-check');
+    bindSelectAll('selectAllAcademicYears', '.academic-year-check');
     request(`${api}?action=list`).then(data => {
         activities = data.activities || [];
         renderFilters();
