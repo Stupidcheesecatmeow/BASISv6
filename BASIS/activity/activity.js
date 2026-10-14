@@ -77,7 +77,7 @@ async function loadActivities() {
     }
     renderActivities(document.getElementById('activitySearch')?.value || '');
 
-    const historyActivityId = sessionStorage.getItem('basisSelectedActivityId') || new URLSearchParams(window.location.search).get('activity_id');
+    const historyActivityId = sessionStorage.getItem('basisSelectedActivityId');
     if (historyActivityId) {
         sessionStorage.removeItem('basisSelectedActivityId');
         const historyActivity = activities.find(activity => String(activity.id) === String(historyActivityId));
@@ -799,67 +799,44 @@ function formatSemester(activity) {
 
 
 
-/* =========================================================
-   SHOW / HIDE VIEWS
-========================================================= */
 
-function showSubView(
-    viewId
-) {
-
-    const views =
-        document.querySelectorAll(
-            ".page-view"
-        );
-
-
-    views.forEach(
-        function (view) {
-
-            view.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    const target =
-        document.getElementById(
-            viewId
-        );
-
-
-    if (!target) {
-
+/* =====================================================
+   ISKOLAR ACTIVITY SUBVIEW NAVIGATION
+   Keep the scholar-only detail, QR and proof-submission views.
+===================================================== */
+const ACTIVITY_SUBVIEWS = ["view-activity", "view-activity-detail", "view-qr", "view-submission"];
+window.showSubView = function(viewId) {
+    if (!ACTIVITY_SUBVIEWS.includes(viewId) || !document.getElementById(viewId)) {
+        console.error("Activity subview not found:", viewId);
         return;
-
     }
-
-
-    target.classList.add(
-        "active"
-    );
-
-
-    /*
-        Always go back to the
-        top of the page.
-    */
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    ACTIVITY_SUBVIEWS.forEach(id => {
+        const view = document.getElementById(id);
+        if (!view) return;
+        const active = id === viewId;
+        view.hidden = !active;
+        view.classList.toggle("active", active);
+        view.setAttribute("aria-hidden", String(!active));
     });
+    if (viewId === "view-activity") {
+        const search = document.getElementById("activitySearch");
+        renderActivities(search?.value || "");
+    }
+};
 
-}
+document.addEventListener("DOMContentLoaded", () => {
+    ACTIVITY_SUBVIEWS.forEach(id => {
+        const view = document.getElementById(id);
+        if (!view) return;
+        const active = id === "view-activity";
+        view.hidden = !active;
+        view.classList.toggle("active", active);
+        view.setAttribute("aria-hidden", String(!active));
+    });
+});
 
 
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
+/* SEARCH */
 function setupSearch() {
 
     const searchInput =

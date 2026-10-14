@@ -281,3 +281,399 @@
         max-height: 200px;
     }
 }
+
+
+
+/* =========================================================
+   ISKOLAR HOME CONTENT UI — adapted from Representative Home
+   Existing element IDs and JS-facing legacy classes are kept.
+========================================================= */
+.isko-home-page .carousel-area {
+    width: 100%;
+    margin: 0 0 12px;
+}
+
+.isko-home-page .carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    padding: 10px 52px;
+    border-radius: 14px;
+    background: #405840;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.isko-home-page .carousel-slider-container {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.isko-home-page .carousel-track {
+    height: 100%;
+    display: flex;
+    transition: transform .3s ease;
+}
+
+.isko-home-page .carousel-slide {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.isko-home-page .guideline-card {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 17px 22px;
+    border-radius: 10px;
+    background: #fff;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.isko-home-page .guideline-card h2 {
+    margin: 0 0 7px;
+    color: #405840;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 900;
+}
+
+.isko-home-page .guideline-card p {
+    margin: 4px 0;
+    color: #5e685c;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.isko-home-page .carousel-arrow {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    cursor: pointer;
+}
+
+.isko-home-page .carousel-arrow:hover {
+    background: rgba(255,255,255,.3);
+}
+
+.isko-home-page .carousel-arrow.prev { left: 10px; }
+.isko-home-page .carousel-arrow.next { right: 10px; }
+
+.isko-home-page .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin: 8px 0 16px;
+}
+
+.isko-home-page .carousel-dots .dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border: 1px solid #405840;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.isko-home-page .carousel-dots .dot.active {
+    background: #405840;
+}
+
+.isko-home-page .rep-home-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: stretch;
+    margin: 0 0 28px;
+}
+
+.isko-home-page .rep-panel {
+    min-width: 0;
+    height: 270px;
+    min-height: 270px;
+    border: 1px solid #dfe5dc;
+    border-radius: 15px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(48,66,49,.035);
+    display: flex;
+    flex-direction: column;
+}
+
+.isko-home-page .rep-panel-header {
+    width: 100%;
+    min-height: 65px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e8ece5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+.isko-home-page .rep-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.isko-home-page .panel-title-icon {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    border-radius: 9px;
+    background: #edf2ec;
+    color: #405840;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.isko-home-page .rep-panel-heading-copy {
+    min-width: 0;
+}
+
+.isko-home-page .rep-panel-title h2 {
+    margin: 0;
+    color: #273327;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.isko-home-page .rep-panel-title .rep-panel-heading-copy > span {
+    display: block;
+    margin-top: 4px;
+    color: #7b8579;
+    font-size: 9px;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.isko-home-page .rep-panel-body {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 11px;
+    box-sizing: border-box;
+    overflow: auto;
+    display: block;
+    flex: 1 1 auto;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+}
+
+.isko-home-page .rep-panel-body .representative-empty,
+.isko-home-page .rep-panel-body .rep-empty,
+.isko-home-page .rep-panel-body .announcement-empty {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #7b8579;
+    font-size: 10px;
+    gap: 7px;
+    padding: 16px;
+    font-style: normal;
+}
+
+.isko-home-page .rep-panel-body .representative-empty i,
+.isko-home-page .rep-panel-body .rep-empty i,
+.isko-home-page .rep-panel-body .announcement-empty i {
+    color: #405840;
+    font-size: 24px;
+}
+
+.isko-home-page .rep-panel-body > * {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.isko-home-page .rep-panel-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+.isko-home-page .home-announcement-item,
+.isko-home-page .home-activity-item {
+    overflow-wrap: anywhere;
+}
+
+.isko-home-page .home-announcement-item p,
+.isko-home-page .home-activity-item p {
+    white-space: pre-wrap;
+}
+
+.isko-home-page .dashboard-info-card {
+    width: 100%;
+    margin-bottom: 9px;
+}
+
+.isko-home-page .announcement-content-container {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #e1e7df;
+    border-radius: 10px;
+    background: #fff;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 82px;
+    align-items: center;
+    gap: 10px;
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.isko-home-page .clickable-announcement .announcement-content-container:hover {
+    border-color: #b9c7b6;
+    box-shadow: 0 4px 12px rgba(50,70,50,.06);
+}
+
+.isko-home-page .announcement-content-details {
+    min-width: 0;
+}
+
+.isko-home-page .announcement-content-title {
+    margin: 0;
+    color: #273327;
+    font-size: 12px;
+    line-height: 1.25;
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.isko-home-page .announcement-content-date {
+    display: block;
+    margin-top: 4px;
+    color: #7b8579;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.isko-home-page .announcement-content-message {
+    margin: 7px 0 0;
+    color: #626a61;
+    font-size: 10px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.isko-home-page .announcement-content-image {
+    width: 82px;
+    height: 82px;
+    border-radius: 8px;
+    background: #f0f3ef;
+    color: #a2aca0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.isko-home-page .announcement-content-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.isko-home-page .activity-content-container {
+    grid-template-columns: minmax(0, 1fr) 58px;
+}
+
+.isko-home-page .activity-status-icon {
+    width: 58px;
+    height: 58px;
+    border: 1px dashed #cbd5c8;
+    font-size: 22px;
+}
+
+.isko-home-page .announcement-attachment-link {
+    display: inline-block;
+    margin: 7px 2px 0;
+    color: #405840;
+    font-size: 10px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+    .isko-home-page .rep-home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .isko-home-page .rep-panel {
+        height: 285px;
+        min-height: 285px;
+    }
+
+    .isko-home-page .carousel-wrapper {
+        height: 150px;
+    }
+}
+
+@media (max-width: 560px) {
+    .isko-home-page .dash-main {
+        padding: 18px 13px 30px;
+    }
+
+    .isko-home-page .carousel-wrapper {
+        height: 160px;
+        padding: 9px 40px;
+    }
+
+    .isko-home-page .guideline-card {
+        padding: 13px;
+    }
+
+    .isko-home-page .guideline-card h2 {
+        font-size: 15px;
+    }
+
+    .isko-home-page .guideline-card p {
+        font-size: 9px;
+    }
+
+    .isko-home-page .rep-panel {
+        height: 285px;
+        min-height: 285px;
+    }
+
+    .isko-home-page .announcement-content-container {
+        grid-template-columns: minmax(0, 1fr) 70px;
+    }
+
+    .isko-home-page .announcement-content-image {
+        width: 70px;
+        height: 70px;
+    }
+}

@@ -1,633 +1,566 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>BASIS - More</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-    <link rel="stylesheet" href="../style.css?v=20261005-feedback-replies">
-    <link rel="stylesheet" href="more.css">
-    <link rel="stylesheet" href="../responsive.css?v=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BASIS - Iskolar More</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="../style.css?v=20261005-feedback-replies" rel="stylesheet"/>
+<link href="../admin/home-admin.css?v=7" rel="stylesheet"/>
+<link href="../responsive.css?v=2" rel="stylesheet"/>
+<link href="more.css?v=20261012-admin-ui" rel="stylesheet"/>
 </head>
+<body class="dashboard-page admin-page">
+<!-- MOBILE SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+<aside class="admin-sidebar" id="adminSidebar">
+<div class="sidebar-brand">
+<div class="brand-mark">
+<img alt="BASIS Logo" src="../images/LOGO.png"/>
+</div>
+<div class="brand-copy">
+<strong>BASIS</strong>
+<span>ISKOLAR PORTAL</span>
+</div>
+<button aria-label="Close menu" class="sidebar-close" id="sidebarClose" type="button">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+<div class="sidebar-profile">
+<img alt="Iskolar Profile" src="../images/profile_default.jpg"/>
+<div>
+<strong>ISKOLAR</strong>
+<span>Iskolar ng Bagac</span>
+</div>
+</div>
+<nav aria-label="Admin navigation" class="sidebar-nav">
+<div class="sidebar-section-label">ISKOLAR MENU</div>
+<a class="sidebar-link" href="../home/home.html">
+<span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+<span class="sidebar-text">Home</span>
+</a>
 
-<body class="dashboard-page">
-
-<header class="dash-header">
-
-    <div class="dash-logo">
-        <img
-            src="../images/LOGO.png"
-            alt="BASIS Logo"
-            onerror="this.src='https://via.placeholder.com/180x60?text=BASIS'"
-        >
-    </div>
-
-    <div class="header-right">
-
-        <div class="welcome-text">
-            <h1>MABUHAY, ISKOLAR!</h1>
-            <span>WELCOME TO BASIS</span>
-        </div>
-
-        <div
-            class="profile-avatar-wrapper"
-            onclick="window.location.href='../profile/profile.html'"
-        >
-            <img
-                src="../images/profile_default.jpg"
-                alt="User Profile"
-                class="header-avatar"
-            >
-        </div>
-
-    </div>
-
+<a class="sidebar-link" href="../scorecard/scorecard.html">
+<span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
+<span class="sidebar-text">Scorecard</span>
+</a>
+<a class="sidebar-link" href="../activity/activity.html">
+<span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span>
+<span class="sidebar-text">Activity</span>
+</a>
+<a class="sidebar-link" href="../history/history.html">
+<span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+<span class="sidebar-text">History</span>
+</a>
+<div class="sidebar-section-label">MORE</div>
+<a class="sidebar-link active" href="../more/more.html">
+<span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span>
+<span class="sidebar-text">More</span>
+</a>
+</nav>
+<div class="sidebar-footer">
+<a class="sidebar-link sidebar-profile-link" href="../profile/profile.html">
+<span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span>
+<span class="sidebar-text">My Profile</span>
+</a>
+<button class="sidebar-logout" data-logout="" type="button">
+<span class="sidebar-icon">
+<i class="fa-solid fa-right-from-bracket"></i>
+</span>
+<span class="sidebar-text">Logout</span>
+</button>
+</div>
+</aside>
+<!-- =====================================================
+         MAIN SHELL
+    ====================================================== -->
+<div class="admin-shell">
+<!-- TOPBAR -->
+<header class="admin-topbar">
+<div class="topbar-left">
+<button aria-label="Open navigation" class="menu-toggle" id="menuToggle" type="button">
+<i class="fa-solid fa-bars"></i>
+</button>
+<div class="page-heading">
+<span class="page-eyebrow">BASIS • ISKOLAR</span>
+<h1>More</h1>
+</div>
+</div>
+<div class="topbar-right">
+<div class="welcome-copy">
+<span>WELCOME BACK</span>
+<strong>MABUHAY, ISKOLAR!</strong>
+</div>
+<a aria-label="Open admin profile" class="topbar-avatar" href="../profile/profile.html">
+<img alt="Iskolar Profile" src="../images/profile_default.jpg"/>
+</a>
+</div>
 </header>
-
-
 <main class="dash-main more-page-main">
-
-
-    <!-- =========================================================
-     MORE MODULE
-========================================================= -->
-
 <section class="more-page" id="morePage">
-
-    <!-- =====================================================
-         PAGE HEADER
-    ====================================================== -->
-
-    <div class="more-page-header">
-        <h1>MORE</h1>
-    </div>
-
-
-    <!-- =====================================================
-         MAIN MORE CONTENT
-    ====================================================== -->
-
-    <div class="more-page-content">
-
-
-        <!-- =================================================
+<div class="more-page-content">
+<!-- =================================================
              MORE MENU
         ================================================== -->
-
-        <div class="more-view" id="moreMenuView">
-
-            <div class="more-menu-list">
-
-                <button
-                    type="button"
-                    class="more-menu-card"
-                    data-open-view="faqView"
-                >
-                    <span>FREQUENTLY ASKED QUESTIONS (FAQs)</span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="more-menu-card"
-                    data-open-view="termsView"
-                >
-                    <span>TERMS AND CONDITIONS</span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="more-menu-card"
-                    data-open-view="feedbackView"
-                >
-                    <span>FEEDBACK AND CONCERNS</span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="more-menu-card"
-                    data-open-view="feedbackHistoryView"
-                >
-                    <span>FEEDBACK AND CONCERN HISTORY</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
+<div class="more-view" id="moreMenuView">
+<div class="more-menu-list">
+<button class="more-menu-card" data-open-view="faqView" type="button">
+<span>FREQUENTLY ASKED QUESTIONS (FAQs)</span>
+</button>
+<button class="more-menu-card" data-open-view="termsView" type="button">
+<span>TERMS AND CONDITIONS</span>
+</button>
+<button class="more-menu-card" data-open-view="feedbackView" type="button">
+<span>FEEDBACK AND CONCERNS</span>
+</button>
+<button class="more-menu-card" data-open-view="feedbackHistoryView" type="button">
+<span>FEEDBACK AND CONCERN HISTORY</span>
+</button>
+</div>
+</div>
+<!-- =================================================
              FAQ VIEW
         ================================================== -->
-
-        <div class="more-view more-detail-view" id="faqView">
-
-            <button
-                type="button"
-                class="more-close-btn"
-                data-close-view
-            >
+<div class="more-view more-detail-view" id="faqView">
+<button class="more-close-btn" data-close-view="" type="button">
                 ×
             </button>
-
-
-            <div class="more-inner-header">
-                <h2>FREQUENTLY ASKED QUESTIONS (FAQs)</h2>
-            </div>
-
-
-            <div class="more-inner-scroll">
-
-                <div class="faq-list">
-
-                    <div class="faq-item">
-                        <h3>Question No.1</h3>
-
-                        <p>
-                            Non non aute ex eu cupidatat id adipisicing magna
-                            ullamco occaecat proident ullamco esse. Lorem enim
-                            quis aute aute do minim elit. Pariatur fugiat qui
-                            enim ex nostrud in voluptate nisi non amet nulla
-                            veniam minim. Qui Lorem sit dolore proident
-                            reprehenderit proident.
+<div class="more-inner-header">
+<h2>FREQUENTLY ASKED QUESTIONS (FAQs)</h2>
+</div>
+<div class="more-inner-scroll">
+<div class="faq-list">
+<div class="faq-item">
+<h3>1. What is BASIS?</h3>
+<p>
+                            BASIS is a web-based system designed to help Iskolars, Representatives, and Administrators manage and monitor scholarship activities, attendance records, scorecards, and announcements in one platform.
                         </p>
-                    </div>
-
-
-                    <div class="faq-item">
-                        <h3>Question No.2</h3>
-
-                        <p>
-                            Non non aute ex eu cupidatat id adipisicing magna
-                            ullamco occaecat proident ullamco esse. Lorem enim
-                            quis aute aute do minim elit. Pariatur fugiat qui
-                            enim ex nostrud in voluptate nisi non amet nulla
-                            veniam minim. Qui Lorem sit dolore proident
-                            reprehenderit proident.
+</div>
+<div class="faq-item">
+<h3>2. Who can use the system?</h3>
+<p>
+                            Only authorized Iskolars, Representatives, and Administrators of the Iskolar ng Bagac Program can access the system.
                         </p>
-                    </div>
-
-
-                    <div class="faq-item">
-                        <h3>Question No.3</h3>
-
-                        <p>
-                            Non non aute ex eu cupidatat id adipisicing magna
-                            ullamco occaecat proident ullamco esse. Lorem enim
-                            quis aute aute do minim elit. Pariatur fugiat qui
-                            enim ex nostrud in voluptate nisi non amet nulla
-                            veniam minim. Qui Lorem sit dolore proident
-                            reprehenderit proident.
+</div>
+<div class="faq-item">
+<h3>3. How can I log in to my account?</h3>
+<p>
+                            Open the BASIS website and enter your authorized login credentials. If you cannot log in, check your credentials or contact an Administrator for assistance.
                         </p>
-                    </div>
-
-
-                    <div class="faq-item">
-                        <h3>Question No.4</h3>
-
-                        <p>
-                            Non non aute ex eu cupidatat id adipisicing magna
-                            ullamco occaecat proident ullamco esse. Lorem enim
-                            quis aute aute do minim elit. Pariatur fugiat qui
-                            enim ex nostrud in voluptate nisi non amet nulla
-                            veniam minim. Qui Lorem sit dolore proident
-                            reprehenderit proident.
+</div>
+<div class="faq-item">
+<h3>4. How can I record my attendance?</h3>
+<p>
+                            You can record your attendance by having your activity QR code scanned by an authorized Representative or Administrator. If necessary, you may also submit proof of attendance through the system.
                         </p>
-                    </div>
-
-
-                    <div class="faq-item">
-                        <h3>Question No.5</h3>
-
-                        <p>
-                            Non non aute ex eu cupidatat id adipisicing magna
-                            ullamco occaecat proident ullamco esse. Lorem enim
-                            quis aute aute do minim elit. Pariatur fugiat qui
-                            enim ex nostrud in voluptate nisi non amet nulla
-                            veniam minim. Qui Lorem sit dolore proident
-                            reprehenderit proident.
+</div>
+<div class="faq-item">
+<h3>5. What should I do if I cannot attend an activity?</h3>
+<p>
+                            You may submit proof of absence through the system, following the program's requirements. Your submission will be reviewed by an authorized Representative or Administrator.
                         </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
+</div>
+<div class="faq-item">
+<h3>6. Will my submitted proof automatically be approved?</h3>
+<p>
+                            No. All submitted proofs of attendance and absence must be reviewed and verified by an authorized Representative or Administrator before approval.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>7. How can I check my attendance records and scorecard?</h3>
+<p>
+                            Log in to your account and open the Scorecard section to view your available attendance records and scholarship-related performance information.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>8. What should I do if my attendance record or scorecard is incorrect?</h3>
+<p>
+                            Contact an authorized Representative or Administrator and provide the details of the incorrect record so it can be reviewed.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>9. Where can I view announcements and activity schedules?</h3>
+<p>
+                            You can check the Dashboard, Announcements, or Activity section of the system for updates, upcoming activities, schedules, and other scholarship-related information.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>10. Can I access BASIS without an internet connection?</h3>
+<p>
+                            No. BASIS requires a stable internet connection to access its features. Offline access is not supported.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>11. Can I use my scorecard as an official scholarship document?</h3>
+<p>
+                            No. The scorecard is intended for attendance monitoring and reference purposes only. It cannot be used as an official document for scholarship validation, certification, or other formal transactions.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>12. Who should I contact if I experience a problem with the system?</h3>
+<p>
+                            Contact an authorized Representative or Administrator for assistance with login problems, attendance records, proof submissions, scorecards, or other system-related concerns.
+                        </p>
+</div>
+<div class="faq-item">
+<h3>13. Can I access BASIS using my mobile phone?</h3>
+<p>
+                            No. BASIS is currently designed for desktop and laptop computers only. It does not support a mobile-friendly view, so some features and layouts may not display properly on mobile phones. For the best user experience, access the system using a desktop or laptop computer.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- =================================================
              TERMS VIEW
         ================================================== -->
-
-        <div class="more-view more-detail-view" id="termsView">
-
-            <button
-                type="button"
-                class="more-close-btn"
-                data-close-view
-            >
-                ×
-            </button>
-
-
-            <div class="more-inner-header">
-                <h2>TERMS AND CONDITIONS</h2>
-            </div>
-
-
-            <div class="more-inner-scroll">
-
-                <div class="terms-content">
-
-                    <h3>Terms and Conditions</h3>
-
-                    <p>
-                        By using the BASIS system, you agree to follow the
-                        rules and guidelines established for the proper use
-                        of the system.
-                    </p>
-
-                    <h3>1. Account Information</h3>
-
-                    <p>
-                        Users are responsible for providing accurate and
-                        updated information when completing their profile.
-                        Information should only be used for legitimate
-                        BASIS-related purposes.
-                    </p>
-
-                    <h3>2. System Usage</h3>
-
-                    <p>
-                        The system must be used responsibly and only for its
-                        intended academic and organizational purposes.
-                    </p>
-
-                    <h3>3. Privacy</h3>
-
-                    <p>
-                        Personal information displayed in the system should
-                        be treated as confidential and should not be shared
-                        without proper authorization.
-                    </p>
-
-                    <h3>4. User Responsibility</h3>
-
-                    <p>
-                        Users are responsible for protecting their account
-                        credentials and for all activities performed through
-                        their account.
-                    </p>
-
-                    <h3>5. Updates</h3>
-
-                    <p>
-                        These terms may be updated when necessary to improve
-                        the system and its services.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
+<div class="more-view more-detail-view" id="termsView">
+<button aria-label="Close Terms and Conditions" class="more-close-btn" data-close-view="" type="button">
+        ×
+    </button>
+<div class="more-inner-header">
+<h2>TERMS AND CONDITIONS</h2>
+</div>
+<div class="more-inner-scroll">
+<div class="terms-content">
+<h3>Terms and Conditions</h3>
+<p>
+                Welcome to the Integrated Attendance and Scorecard
+                Management System for the Iskolar ng Bagac Program (BASIS).
+                These Terms and Conditions establish the rules and
+                responsibilities of all users, including Iskolars,
+                Representatives, and Administrators, when accessing
+                and using the system.
+            </p>
+<p>
+                By logging in and using BASIS, you acknowledge that you
+                have read, understood, and agreed to comply with these
+                Terms and Conditions.
+            </p>
+<h3>1. Acceptance of Terms</h3>
+<p>
+                All users must read and understand these Terms and
+                Conditions before using the system. Users who do not
+                agree with these terms should refrain from using BASIS
+                and contact an authorized Administrator for assistance.
+            </p>
+<h3>2. User Accounts and Access</h3>
+<p>
+                Users must use their own authorized accounts and provide
+                accurate and updated information in their profiles.
+                Login credentials must be kept confidential and must
+                not be shared with others. Users may only access the features and information
+                permitted by their assigned roles. Any suspected
+                unauthorized access or account misuse must be reported
+                to an Administrator.
+            </p>
+<h3>3. Use of the Dashboard</h3>
+<p>
+                Users may access their respective dashboards to view
+                scholarship information, announcements, notifications,
+                activities, attendance records, and other features
+                available to their assigned roles. Users are responsible for checking their dashboards
+                regularly for important updates and must not attempt
+                to access restricted information or functions.
+            </p>
+<h3>4. Scorecard and Attendance Records</h3>
+<p>
+                Iskolars may view their own scorecards and attendance
+                records through BASIS. Activities should only appear
+                in a scholar's scorecard when supported by the
+                scholar's own verified attendance record, according
+                to the system's attendance rules. Users must report incorrect or incomplete records to
+                an authorized Representative or Administrator.
+                Unauthorized modification, manipulation, or falsification
+                of attendance records and scorecards is prohibited.
+            </p>
+<h3>5. Activity Participation and Attendance Monitoring</h3>
+<p>
+                Iskolars must follow the attendance requirements and
+                participation guidelines established for scholarship
+                activities. (1) Attendance may be recorded using the system's QR code
+                scanning feature or other authorized attendance
+                procedures. Users must not use another person's QR
+                code, submit false attendance information, or
+                manipulate attendance records. (2) Any required proof of attendance or absence must be
+                authentic, readable, accurate, and submitted within
+                the applicable deadline. Submission does not guarantee
+                automatic approval.
+            </p>
+<h3>6. Verification of Submitted Proofs</h3>
+<p>
+                Authorized Representatives and Administrators are
+                responsible for reviewing submitted proofs of attendance
+                or absence. Submissions may be approved or rejected
+                based on their authenticity, completeness, relevance,
+                and compliance with program requirements. Users must provide additional information when reasonably
+                required and must not interfere with or improperly
+                influence the verification process.
+            </p>
+<h3>7. Activity Management</h3>
+<p>
+                Administrators are responsible for creating, updating,
+                and managing scholarship activities in the system.
+                Activity names, schedules, venues, descriptions, and
+                participation requirements should be accurate and
+                updated when necessary. Iskolars and Representatives must follow the published
+                activity guidelines and official announcements.
+            </p>
+<h3>8. Announcements and Notifications</h3>
+<p>
+                Authorized Administrators and Representatives may
+                publish announcements regarding scholarship activities,
+                schedules, requirements, and other relevant information. Users should review announcements and notifications
+                regularly. Posting or distributing false, misleading,
+                inappropriate, or unauthorized information through
+                system features is prohibited.
+            </p>
+<h3>9. User Management and Access Privileges</h3>
+<p>
+                Administrators manage user accounts, update information
+                when authorized, and assign appropriate roles and
+                permissions. Representatives must only perform actions
+                within their assigned responsibilities. Users must not impersonate another person, create
+                unauthorized accounts, or attempt to obtain privileges
+                beyond their assigned roles.
+            </p>
+<h3>10. Reports and Record Export</h3>
+<p>
+                Authorized personnel may generate, view, and export
+                attendance reports for legitimate scholarship
+                administration, monitoring, evaluation, and reporting. Exported reports must not be falsified, manipulated,
+                or distributed to unauthorized individuals. Personal
+                information contained in reports must remain confidential.
+            </p>
+<h3>11. Privacy and Data Confidentiality</h3>
+<p>
+                All users must respect the privacy and confidentiality
+                of personal information stored in BASIS, including
+                profile details, attendance records, scorecards, and
+                other scholarship-related information. Personal information must only be accessed, processed,
+                and shared for authorized purposes. Users must not
+                disclose, copy, distribute, or misuse another person's
+                information without proper authorization. The collection, use, storage, and processing of
+                personal information must comply with applicable
+                data protection laws, including the Philippine Data
+                Privacy Act of 2012 (Republic Act No. 10173).
+            </p>
+<h3>12. Feedback, Concerns, and User Support</h3>
+<p>
+                Users may report technical issues, incorrect attendance
+                records, scorecard discrepancies, or other system-related
+                concerns through the designated communication channels. All feedback must be accurate, respectful, and relevant
+                to the Iskolar ng Bagac Program. Users should provide
+                sufficient details to help authorized personnel
+                investigate and resolve reported concerns.
+            </p>
+<h3>13. System Security and Proper Use</h3>
+<p>
+                BASIS must only be used for its intended scholarship
+                and administrative purposes. Users must not attempt
+                to hack, damage, disrupt, or gain unauthorized access
+                to the system or its database. Uploading malicious files, exploiting system
+                vulnerabilities, interfering with attendance monitoring,
+                or intentionally disrupting system functions is
+                prohibited. Users should log out after using shared
+                or public computers.
+            </p>
+<h3>14. System Availability and Maintenance</h3>
+<p>
+                BASIS may occasionally experience downtime, maintenance,
+                technical errors, or temporary interruptions. Reasonable
+                efforts should be made to maintain system functionality
+                and address reported problems. Users should report technical issues through the
+                designated support channels. When technical problems
+                prevent access to records, users should contact an
+                authorized Representative or Administrator for guidance.
+            </p>
+<h3>15. Violations and Account Restrictions</h3>
+<p>
+                Violations of these Terms and Conditions may result
+                in a warning, temporary account restriction, suspension
+                of access, or referral to the appropriate program
+                authorities, depending on the nature and severity
+                of the violation. Actions taken must be consistent with applicable
+                program policies and relevant laws. Suspected fraud,
+                falsification of attendance, unauthorized access,
+                and misuse of confidential information may be
+                referred for further review.
+            </p>
+<h3>16. Updates and Changes to Terms</h3>
+<p>
+                These Terms and Conditions may be revised to reflect
+                changes in system features, scholarship procedures,
+                security requirements, or applicable laws. Updated terms will be made available through BASIS
+                or another appropriate official communication channel.
+                Users are responsible for reviewing significant
+                updates when they take effect.
+            </p>
+<h3>17. Contact and Assistance</h3>
+<p>
+                For questions, technical concerns, incorrect attendance
+                records, scorecard discrepancies, or other issues
+                involving BASIS, users should contact an authorized
+                Representative or Administrator of the Iskolar ng
+                Bagac Program through the designated communication
+                channels.
+            </p>
+<h3>18. Agreement to the Terms and Conditions</h3>
+<p>
+                By accessing and using BASIS, users acknowledge that
+                they have read, understood, and agreed to comply with
+                these Terms and Conditions. Failure to comply with these terms may result in
+                appropriate action under established program policies
+                and applicable laws.
+            </p>
+</div>
+</div>
+</div>
+<!-- =================================================
              FEEDBACK / CONCERN VIEW
         ================================================== -->
-
-        <div class="more-view more-detail-view" id="feedbackView">
-
-            <button
-                type="button"
-                class="more-close-btn"
-                data-close-view
-            >
+<div class="more-view more-detail-view" id="feedbackView">
+<button class="more-close-btn" data-close-view="" type="button">
                 ×
             </button>
-
-
-            <div class="more-inner-header">
-                <h2>FEEDBACK AND CONCERNS</h2>
-            </div>
-
-
-            <div class="more-inner-scroll">
-
-                <form id="feedbackForm" class="feedback-form">
-
-                    <h3 class="feedback-form-title">
+<div class="more-inner-header">
+<h2>FEEDBACK AND CONCERNS</h2>
+</div>
+<div class="more-inner-scroll">
+<form class="feedback-form" id="feedbackForm">
+<h3 class="feedback-form-title">
                         SEND US YOUR FEEDBACK OR CONCERNS
                     </h3>
-
-
-                    <!-- =====================================
+<!-- =====================================
                          ACCOUNT INFORMATION
                     ====================================== -->
-
-                    <div class="account-information-grid">
-
-                        <div class="account-column">
-
-                            <p>
-                                <strong>NAME:</strong>
-                                <span id="feedbackName">
+<div class="account-information-grid">
+<div class="account-column">
+<p>
+<strong>NAME:</strong>
+<span id="feedbackName">
                                     Not available
                                 </span>
-                            </p>
-
-                            <p>
-                                <strong>MUNICIPALITY:</strong>
-                                <span id="feedbackMunicipality">
+</p>
+<p>
+<strong>MUNICIPALITY:</strong>
+<span id="feedbackMunicipality">
                                     Not available
                                 </span>
-                            </p>
-
-                        </div>
-
-
-                        <div class="account-column">
-
-                            <p>
-                                <strong>EMAIL:</strong>
-                                <span id="feedbackEmail">
+</p>
+</div>
+<div class="account-column">
+<p>
+<strong>EMAIL:</strong>
+<span id="feedbackEmail">
                                     Not available
                                 </span>
-                            </p>
-
-                            <p>
-                                <strong>BARANGAY:</strong>
-                                <span id="feedbackBarangay">
+</p>
+<p>
+<strong>BARANGAY:</strong>
+<span id="feedbackBarangay">
                                     Not available
                                 </span>
-                            </p>
-
-                        </div>
-
-
-                        <div class="account-column">
-
-                            <p>
-                                <strong>CONTACT NO.:</strong>
-                                <span id="feedbackContact">
+</p>
+</div>
+<div class="account-column">
+<p>
+<strong>CONTACT NO.:</strong>
+<span id="feedbackContact">
                                     Not available
                                 </span>
-                            </p>
-
-
-                            <div class="message-type-row">
-
-                                <label for="messageType">
+</p>
+<div class="message-type-row">
+<label for="messageType">
                                     TYPE OF MESSAGE:
                                 </label>
-
-                                <select id="messageType" required>
-
-                                    <option value="Feedback">
+<select id="messageType" required="">
+<option value="Feedback">
                                         Feedback
                                     </option>
-
-                                    <option value="Concern">
+<option value="Concern">
                                         Concern
                                     </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =====================================
+</select>
+</div>
+</div>
+</div>
+<!-- =====================================
                          MESSAGE
                     ====================================== -->
-
-                    <div class="feedback-message-box">
-
-                        <label for="messageTitle">
+<div class="feedback-message-box">
+<label for="messageTitle">
                             MESSAGE TITLE
                         </label>
-
-                        <input
-                            type="text"
-                            id="messageTitle"
-                            placeholder="Message title..."
-                            maxlength="150"
-                            required
-                        >
-
-
-                        <label for="messageBody">
+<input id="messageTitle" maxlength="150" placeholder="Message title..." required="" type="text"/>
+<label for="messageBody">
                             MESSAGE
                         </label>
-
-                        <textarea
-                            id="messageBody"
-                            placeholder="Message..."
-                            maxlength="2000"
-                            required
-                        ></textarea>
-
-                        <label for="feedbackImage">ATTACH IMAGE (OPTIONAL)</label>
-                        <input type="file" id="feedbackImage" accept="image/jpeg,image/png,image/webp">
-                        <small>JPG, PNG, or WebP · up to 2 MB</small>
-
-                    </div>
-
-
-                    <!-- =====================================
+<textarea id="messageBody" maxlength="2000" placeholder="Message..." required=""></textarea>
+<label for="feedbackImage">ATTACH IMAGE (OPTIONAL)</label>
+<input accept="image/jpeg,image/png,image/webp" id="feedbackImage" type="file"/>
+<small>JPG, PNG, or WebP · up to 2 MB</small>
+</div>
+<!-- =====================================
                          SUBMIT
                     ====================================== -->
-
-                    <div class="feedback-submit-row">
-
-                        <button
-                            type="submit"
-                            class="feedback-submit-btn"
-                        >
+<div class="feedback-submit-row">
+<button class="feedback-submit-btn" type="submit">
                             SUBMIT
                         </button>
-
-                    </div>
-
-
-                    <p
-                        id="feedbackStatus"
-                        class="feedback-status"
-                    ></p>
-
-                </form>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
+</div>
+<p class="feedback-status" id="feedbackStatus"></p>
+</form>
+</div>
+</div>
+<!-- =================================================
              FEEDBACK HISTORY VIEW
         ================================================== -->
-
-        <div
-            class="more-view more-detail-view"
-            id="feedbackHistoryView"
-        >
-
-            <button
-                type="button"
-                class="more-close-btn"
-                data-close-view
-            >
+<div class="more-view more-detail-view" id="feedbackHistoryView">
+<button class="more-close-btn" data-close-view="" type="button">
                 ×
             </button>
-
-
-            <!-- =============================================
+<!-- =============================================
                  HISTORY HEADER
             ============================================== -->
-
-            <div class="history-inner-header">
-
-                <h2>
+<div class="history-inner-header">
+<h2>
                     FEEDBACK AND CONCERN HISTORY
                 </h2>
-
-
-                <div class="history-search-controls">
-
-                    <div class="history-search-wrapper">
-
-                        <i class="fas fa-search"></i>
-
-                        <input
-                            type="text"
-                            id="feedbackHistorySearch"
-                            placeholder="Search feedback..."
-                        >
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="history-filter-btn"
-                        id="feedbackHistoryFilter"
-                    >
+<div class="history-search-controls">
+<div class="history-search-wrapper">
+<i class="fas fa-search"></i>
+<input id="feedbackHistorySearch" placeholder="Search feedback..." type="text"/>
+</div>
+<button class="history-filter-btn" id="feedbackHistoryFilter" type="button">
                         FILTER
                     </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =============================================
+</div>
+</div>
+<!-- =============================================
                  HISTORY LIST
             ============================================== -->
-
-            <div
-                class="history-items-container"
-                id="feedbackHistoryList"
-            >
-
-                <!-- JS inserts records here -->
-
-            </div>
-
-        </div>
-
-
-    </div>
-
+<div class="history-items-container" id="feedbackHistoryList">
+<!-- JS inserts records here -->
+</div>
+</div>
+</div>
 </section>
-
-
 </main>
 
 
-<!-- =====================================================
-     BOTTOM NAVIGATION
-====================================================== -->
-
-<nav class="bottom-nav">
-
-    <div class="bottom-nav-inner">
-
-        <a
-            class="nav-item"
-            href="../home/home.html"
-        >
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
 
 
-        <a
-            class="nav-item"
-            href="../scorecard/scorecard.html"
-        >
-            <i class="fa-solid fa-address-card"></i>
-            <span>Scorecard</span>
-        </a>
+
+s
 
 
-        <a
-            class="nav-item"
-            href="../activity/activity.html"
-        >
-            <i class="fa-solid fa-book-open"></i>
-            <span>Activity</span>
-        </a>
-
-
-        <a
-            class="nav-item"
-            href="../history/history.html"
-        >
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>History</span>
-        </a>
-
-
-        <a
-            class="nav-item active"
-            href="../more/more.html"
-        >
-            <i class="fa-solid fa-ellipsis"></i>
-            <span>More</span>
-        </a>
-
-    </div>
-
-</nav>
-
-
-<script src="../script.js?v=20261005-user-name-header"></script>
-<script src="more.js?v=20261005-live-feedback"></script>
-<script src="../feedback-live.js?v=20261005-feedback-replies"></script>
-
-</body>
+</div><script src="../script.js?v=20261005-user-name-header"></script><script src="more.js?v=20261005-live-feedback"></script><script src="../feedback-live.js?v=20261005-feedback-replies"></script><script src="../auth.js?v=3"></script></body>
 </html>

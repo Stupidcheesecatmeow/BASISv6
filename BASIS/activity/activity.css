@@ -118,7 +118,7 @@ img[hidden] { display:none !important; }
     border-radius:24px;
     box-sizing:border-box;
     outline:none;
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:"Poppins",sans-serif;
     font-size:14px;
 }
 
@@ -140,7 +140,7 @@ img[hidden] { display:none !important; }
     border-radius:8px;
     background:#ffffff;
     color:#42523f;
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:"Poppins",sans-serif;
     font-size:17px;
     font-weight:800;
     cursor:pointer;
@@ -218,7 +218,7 @@ img[hidden] { display:none !important; }
     background-color: #ffffff;
     color: #42523f;
 
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 12px;
     font-weight: 800;
 
@@ -435,7 +435,7 @@ img[hidden] { display:none !important; }
     border-radius: 8px;
     padding: 0 20px;
 
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 13px;
     font-weight: 800;
 
@@ -862,7 +862,7 @@ img[hidden] { display:none !important; }
     background: #42523f;
     color: #ffffff;
 
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Poppins", sans-serif;
 
     font-size: 12px;
     font-weight: 800;
@@ -918,7 +918,7 @@ img[hidden] { display:none !important; }
     background: #ffffff;
     color: #42523f;
 
-    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Poppins", sans-serif;
 
     font-size: 14px;
     font-weight: 800;
@@ -1170,4 +1170,283 @@ img[hidden] { display:none !important; }
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
+}
+
+
+/* ISKOLAR ACTIVITY — ADMIN-INSPIRED SHELL COMPATIBILITY */
+body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:flex; overflow:hidden; }
+.iskolar-activity-page .admin-shell { display:flex; flex-direction:column; flex:1 1 auto; min-width:0; min-height:0; height:100%; overflow:hidden; }
+.iskolar-activity-page .admin-topbar { flex:0 0 auto; }
+.iskolar-activity-page .activity-main { flex:1 1 auto; width:100%; min-width:0; min-height:0; padding:22px clamp(14px,2vw,28px) 24px; overflow:hidden; box-sizing:border-box; }
+.iskolar-activity-page .activity-main .page-view { height:100%; min-height:0; display:none; flex-direction:column; overflow:hidden; }
+.iskolar-activity-page .activity-main .page-view.active { display:flex; }
+.iskolar-activity-page .activity-main .view-banner { flex:0 0 auto; }
+.iskolar-activity-page .activity-main .view-body { min-height:0; flex:1 1 auto; }
+.iskolar-activity-page .activity-list-frame { border-radius:14px; }
+.iskolar-activity-page .activity-list { max-height:none; flex:1 1 auto; min-height:0; }
+.iskolar-activity-page .activity-card-item { box-shadow:0 3px 12px rgba(30,45,28,.07); }
+.iskolar-activity-page .activity-detail-frame,
+.iskolar-activity-page .qr-page-frame,
+.iskolar-activity-page .submission-page-frame { border-radius:14px; }
+.iskolar-activity-page .sidebar-profile .sidebar-avatar { width:42px;height:42px;object-fit:cover;border-radius:50%; }
+.iskolar-activity-page .sidebar-profile .sidebar-user-name { overflow-wrap:anywhere; }
+.iskolar-activity-page .sidebar-logout { width:100%; }
+.iskolar-activity-page .activity-main .page-view[hidden] { display:none !important; }
+@media (max-width:900px) {
+ .iskolar-activity-page .activity-main { padding:14px 12px 18px; }
+ .iskolar-activity-page .activity-main .page-view { height:100%; }
+ .iskolar-activity-page .activity-main .view-banner { gap:12px; flex-wrap:wrap; }
+ .iskolar-activity-page #view-activity .search-filter-controls { width:100%; flex-wrap:wrap; }
+ .iskolar-activity-page #view-activity .search-input-wrapper { width:min(100%,360px); flex:1 1 220px; }
+ .iskolar-activity-page .activity-list-frame { padding:12px; }
+}
+@media (max-width:700px) {
+ .iskolar-activity-page .admin-topbar { min-height:68px; }
+ .iskolar-activity-page .topbar-right .welcome-copy { display:none; }
+ .iskolar-activity-page .activity-card-item { padding:0 12px; gap:8px; }
+ .iskolar-activity-page .activity-card-info h3 { font-size:14px; }
+ .iskolar-activity-page .open-activity-btn { min-width:76px; width:76px; }
+ .iskolar-activity-page .activity-main .view-banner h2 { font-size:20px; }
+}
+
+
+/* =========================================================
+   ISKOLAR ACTIVITY DETAILS — ADMIN-INSPIRED PRESENTATION
+   UI-only adaptation: existing IDs and JS actions are retained.
+========================================================= */
+.iskolar-activity-page #view-activity-detail {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-frame {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: clamp(12px, 1.4vw, 22px);
+    border: 1px solid var(--activity-ui-border, #dfe6dc);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(48,67,50,.055);
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-activity-detail .view-body > .close-view-btn {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0 0 12px;
+    padding: 0;
+    border: 1px solid var(--activity-ui-border, #dfe6dc);
+    border-radius: 12px;
+    background: var(--activity-ui-light, #edf3ec);
+    color: var(--activity-ui-green, #405b43);
+    cursor: pointer;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(250px, .85fr);
+    align-items: stretch;
+    gap: clamp(12px, 1.5vw, 20px);
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-info,
+.iskolar-activity-page #view-activity-detail .activity-detail-image-side {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+    padding: clamp(14px, 1.4vw, 22px);
+    border: 1px solid var(--activity-ui-border, #dfe6dc);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(48,67,50,.035);
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-header {
+    display: block;
+    min-width: 0;
+    margin: 0 0 8px;
+}
+.iskolar-activity-page #view-activity-detail .activity-main-title {
+    margin: 0;
+    color: var(--activity-ui-text, #29362b);
+    font-size: clamp(22px, 1.8vw, 30px);
+    font-weight: 900;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.iskolar-activity-page #view-activity-detail .activity-type-text {
+    margin-top: 7px;
+    color: var(--activity-ui-muted, #758175);
+    font-size: 12px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+.iskolar-activity-page #view-activity-detail .activity-type-text strong {
+    color: var(--activity-ui-text, #29362b);
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-sem {
+    align-self: flex-start;
+    max-width: 100%;
+    margin: 10px 0 12px;
+    padding: 9px 13px;
+    border-radius: 24px;
+    background: var(--activity-ui-light, #edf3ec);
+    color: var(--activity-ui-green, #405b43);
+    font-size: 11px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin: 0;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid p {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--activity-ui-border, #dfe6dc);
+    border-radius: 12px;
+    background: var(--activity-ui-bg, #f7f9f6);
+    color: var(--activity-ui-text, #29362b);
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid p strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--activity-ui-muted, #758175);
+    font-size: 10px;
+    font-weight: 800;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid p span {
+    font-weight: 700;
+}
+.iskolar-activity-page #view-activity-detail .divider {
+    width: 100%;
+    margin: 13px 0;
+    border: 0;
+    border-top: 1px solid var(--activity-ui-border, #dfe6dc);
+}
+.iskolar-activity-page #view-activity-detail .activity-description {
+    min-width: 0;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--activity-ui-border, #dfe6dc);
+    border-radius: 12px;
+    background: var(--activity-ui-bg, #f7f9f6);
+}
+.iskolar-activity-page #view-activity-detail .activity-description > strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--activity-ui-text, #29362b);
+    font-size: 12px;
+    font-weight: 900;
+}
+.iskolar-activity-page #view-activity-detail #detailDescription {
+    margin: 0;
+    color: #647365;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+.iskolar-activity-page #view-activity-detail .deadline-text {
+    margin: 9px 0 0;
+    color: var(--activity-ui-muted, #758175);
+    font-size: 11px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.iskolar-activity-page #view-activity-detail .action-buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 13px;
+    padding-bottom: 0;
+}
+.iskolar-activity-page #view-activity-detail .action-buttons-row .act-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    margin: 0;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: clamp(220px, 40vh, 360px);
+    min-height: 0;
+    max-height: 360px;
+    padding: 10px;
+    border: 1px dashed #cbd7c8;
+    border-radius: 14px;
+    background: var(--activity-ui-bg, #f7f9f6);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-box > img:not([hidden]) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    object-fit: contain;
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 180px;
+    color: #9aa79a;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-empty i { font-size: 40px; }
+.iskolar-activity-page #view-activity-detail #detailDescriptionImage[hidden] { display: none !important; }
+@media (max-width: 950px) {
+    .iskolar-activity-page #view-activity-detail .activity-detail-layout { grid-template-columns: minmax(0, 1fr); }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { order: 2; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box { height: clamp(200px, 38vh, 320px); max-height: 320px; }
+}
+@media (max-width: 650px) {
+    .iskolar-activity-page #view-activity-detail .activity-detail-frame { padding: 10px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-info,
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { padding: 12px; }
+    .iskolar-activity-page #view-activity-detail .activity-meta-grid { grid-template-columns: minmax(0, 1fr); }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box { height: 230px; max-height: 230px; }
+    .iskolar-activity-page #view-activity-detail .action-buttons-row { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .iskolar-activity-page #view-activity-detail .action-buttons-row .act-btn { width: 100%; }
 }

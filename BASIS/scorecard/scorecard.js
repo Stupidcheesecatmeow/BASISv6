@@ -1,359 +1,297 @@
 let currentScorecardData = null;
+let allScorecardActivities = [];
 let selectedScorecardPeriod = null;
 
 document.addEventListener("DOMContentLoaded", renderScorecardButtons);
+window.addEventListener("pageshow", renderScorecardButtons);
 
 async function renderScorecardButtons() {
-    const listContainer = document.querySelector(".scorecard-list");
+    const listContainer = document.getElementById("scorecardYears");
     if (!listContainer) return;
-    listContainer.innerHTML = '<div class="no-scorecard-message"><p>Loading your scorecard…</p></div>';
+
+    listContainer.innerHTML = '<div class="no-scorecard-message"><h3>Loading scorecards…</h3><p>Please wait while your records are loaded.</p></div>';
+
     try {
-        const response = await fetch('../admin/api/account_api.php?action=scorecard', {credentials:'same-origin',cache:'no-store'});
+        const response = await fetch("../admin/api/account_api.php?action=scorecard", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
         const data = await response.json();
-        if (!response.ok || !data.success) throw new Error(data.message || 'Could not load your scorecard.');
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Could not load your scorecard.");
+        }
+
         currentScorecardData = data;
         const profile = data.profile || {};
+        loadProfileInfo(profile);
+
         if (!data.profileComplete) {
-            showNoScorecardMessage();
-            loadProfileInfo(profile);
+            showNoScorecardMessage("Please complete your Profile first.");
             return;
         }
-        // The scorecard API only returns activities the user attended. The activity
-        // list is used only to discover semesters that should have their own card.
-        const scorecardActivities = Array.isArray(data.activities) ? data.activities : [];
-        const activityResponse = await fetch('../admin/api/account_api.php?action=activities', {credentials:'same-origin',cache:'no-store'});
+
+        const ownActivities = Array.isArray(data.activities) ? data.activities : [];
+        const activityResponse = await fetch("../admin/api/account_api.php?action=activities", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
         const activityData = await activityResponse.json();
-        if (!activityResponse.ok || !activityData.success) throw new Error(activityData.message || 'Could not load attendance records.');
-        currentScorecardData.activities = scorecardActivities;
+        if (!activityResponse.ok || !activityData.success) {
+            throw new Error(activityData.message || "Could not load academic periods.");
+        }
+
+        allScorecardActivities = Array.isArray(activityData.activities) ? activityData.activities : [];
+        currentScorecardData.activities = ownActivities.filter(isAttendedRecord);
+
         const periods = new Map();
-        const initialPeriod = {academicYear:defaultAcademicYear(),semester:defaultSemester()};
-        periods.set(`${initialPeriod.academicYear}|${initialPeriod.semester}`, initialPeriod);
-        (activityData.activities || []).forEach(activity => {
-            const ay = activity.academicYear || activity.academic_year || '';
-            const semester = activity.semester || '';
-            if (!ay.trim() || !isRecognizedSemester(semester)) return;
-            const key = `${ay}|${semester}`;
-            if (!periods.has(key)) periods.set(key, {academicYear:ay,semester});
+        allScorecardActivities.forEach(activity => {
+            const academicYear = getActivityAcademicYear(activity);
+            const semester = getActivitySemester(activity);
+            if (!academicYear || !isRecognizedSemester(semester)) return;
+
+            const key = `${normalizeAcademicYear(academicYear)}|${normalizeSemester(semester)}`;
+            if (!periods.has(key)) {
+                periods.set(key, { academicYear, semester });
+            }
         });
+
         listContainer.replaceChildren();
-        [...periods.values()].forEach(period => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'scorecard-btn';
-            button.textContent = `${period.academicYear} ${String(period.semester).toUpperCase()} SCORECARD`;
-            button.addEventListener('click', () => openScorecardDetail(period.academicYear, period.semester));
-            listContainer.appendChild(button);
+        const sortedPeriods = [...periods.values()].sort((a, b) => {
+            const yearCompare = normalizeAcademicYear(b.academicYear).localeCompare(normalizeAcademicYear(a.academicYear));
+            if (yearCompare !== 0) return yearCompare;
+            return normalizeSemester(a.semester) === normalizeSemester(b.semester)
+                ? 0
+                : normalizeSemester(a.semester) === "first semester" ? -1 : 1;
         });
-        loadProfileInfo(profile);
+
+        if (!sortedPeriods.length) {
+            showNoScorecardMessage("No academic-year and semester scorecards are available yet.");
+            return;
+        }
+
+        const yearGroups = new Map();
+        sortedPeriods.forEach(period => {
+            const year = String(period.academicYear).replace(/-/g, "–");
+            if (!yearGroups.has(year)) yearGroups.set(year, []);
+            yearGroups.get(year).push(period);
+        });
+
+        yearGroups.forEach((yearPeriods, academicYear) => {
+            const yearContainer = document.createElement("div");
+            yearContainer.className = "scorecard-year-container";
+            yearContainer.innerHTML = `
+                <div class="scorecard-year-header">
+                    <div>
+                        <span class="scorecard-year-label">Academic Year</span>
+                        <div class="scorecard-year-value">${scorecardEscape(academicYear)}</div>
+                    </div>
+                    <span class="scorecard-year-count">${yearPeriods.length} Semester${yearPeriods.length === 1 ? "" : "s"}</span>
+                </div>
+                <div class="scorecard-semester-list"></div>`;
+
+            const semesterList = yearContainer.querySelector(".scorecard-semester-list");
+            yearPeriods.forEach(period => {
+                const periodYear = String(period.academicYear).replace(/-/g, "–");
+                const periodSemester = normalizeSemester(period.semester);
+                const attendanceCount = currentScorecardData.activities.filter(activity =>
+                    normalizeAcademicYear(getActivityAcademicYear(activity) || periodYear) === normalizeAcademicYear(period.academicYear) &&
+                    normalizeSemester(getActivitySemester(activity) || period.semester) === periodSemester
+                ).length;
+
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "scorecard-semester-item";
+                button.innerHTML = `
+                    <span class="scorecard-semester-name">${scorecardEscape(periodSemester.toUpperCase())} SCORECARD</span>
+                    <span class="scorecard-semester-meta">${scorecardEscape(periodYear)} • ${attendanceCount} attended activit${attendanceCount === 1 ? "y" : "ies"}</span>`;
+                button.addEventListener("click", () => openScorecardDetail(period.academicYear, period.semester));
+                semesterList.appendChild(button);
+            });
+            listContainer.appendChild(yearContainer);
+        });
+
+        updateScorecardScroll();
     } catch (error) {
-        listContainer.innerHTML = `<div class="no-scorecard-message"><h3>Scorecard could not be loaded.</h3><p>${escapeScorecardText(error.message)}</p></div>`;
+        console.error("Unable to load scholar scorecards:", error);
+        listContainer.innerHTML = `<div class="no-scorecard-message"><i class="fa-solid fa-circle-exclamation"></i><h3>Scorecard could not be loaded.</h3><p>${scorecardEscape(error.message)}</p></div>`;
     }
 }
 
-function defaultAcademicYear() {
-    const now = new Date();
-    const year = now.getFullYear();
-    return now.getMonth() >= 7 ? `${year}-${year + 1}` : `${year - 1}-${year}`;
+function showNoScorecardMessage(message) {
+    const listContainer = document.getElementById("scorecardYears");
+    if (!listContainer) return;
+    listContainer.innerHTML = `
+        <div class="no-scorecard-message">
+            <i class="fa-solid fa-file-circle-xmark"></i>
+            <h3>No available scorecards yet.</h3>
+            <p>${scorecardEscape(message || "Your scorecards will appear when academic periods are available.")}</p>
+        </div>`;
+    listContainer.classList.remove("has-scroll");
 }
 
-function defaultSemester() {
-    const month = new Date().getMonth();
-    return month >= 7 || month === 0 ? '1st Semester' : '2nd Semester';
+function getActivityAcademicYear(activity) {
+    return String(activity?.academicYear || activity?.academic_year || activity?.schoolYear || activity?.school_year || "").trim();
 }
 
-function normalizeScorecardSemester(value) {
-    const normalized = String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
-    if (/^(1st|first) semester$/.test(normalized)) return '1st semester';
-    if (/^(2nd|second) semester$/.test(normalized)) return '2nd semester';
-    return normalized;
+function getActivitySemester(activity) {
+    return String(activity?.semester || activity?.sem || activity?.term || "").trim();
+}
+
+function normalizeAcademicYear(value) {
+    return String(value || "").trim().replace(/[\u2010-\u2015\u2212]/g, "-").replace(/\s+/g, "").toLowerCase();
+}
+
+function normalizeSemester(value) {
+    const semester = String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+    if (["1st semester", "first semester", "1st sem", "first sem", "semester 1", "sem 1", "1"].includes(semester)) return "first semester";
+    if (["2nd semester", "second semester", "2nd sem", "second sem", "semester 2", "sem 2", "2"].includes(semester)) return "second semester";
+    return semester;
 }
 
 function isRecognizedSemester(value) {
-    return ['1st semester', '2nd semester'].includes(normalizeScorecardSemester(value));
+    return ["first semester", "second semester"].includes(normalizeSemester(value));
 }
 
-function scorecardSemesterLabel(value) {
-    const normalized = normalizeScorecardSemester(value);
-    if (normalized === '1st semester') return 'FIRST SEMESTER';
-    if (normalized === '2nd semester') return 'SECOND SEMESTER';
-    return String(value || defaultSemester()).toUpperCase();
+function semesterLabel(value) {
+    const normalized = normalizeSemester(value);
+    if (normalized === "first semester") return "FIRST SEMESTER";
+    if (normalized === "second semester") return "SECOND SEMESTER";
+    return String(value || "").toUpperCase();
 }
 
-function normalizeScorecardAcademicYear(value) {
-    return String(value || '').trim().replace(/[\u2010-\u2015\u2212]/g, '-').replace(/\s+/g, '');
+function isAttendedRecord(activity) {
+    if (!activity || typeof activity !== "object") return false;
+    const statusValue = activity.attendanceStatus ?? activity.attendance_status ?? activity.attendance_status_name ??
+        activity.attendanceStatusName ?? activity.status ?? activity.attendance;
+    // The scorecard API is scoped to this scholar's attended activities. If it includes
+    // a status field, enforce PRESENT/ATTENDED; if it omits one, trust that API scope.
+    if (statusValue === undefined || statusValue === null || String(statusValue).trim() === "") return true;
+    const status = String(statusValue).trim().toLowerCase();
+    return ["present", "attended"].includes(status);
 }
-
-function escapeScorecardText(value) {
-    const el = document.createElement('span');
-    el.textContent = String(value || '');
-    return el.innerHTML;
-}
-
-
-
-/* =========================================================
-   NO SCORECARD MESSAGE
-   ========================================================= */
-
-function showNoScorecardMessage() {
-
-    const listContainer =
-        document.querySelector(".scorecard-list");
-
-
-    if (!listContainer) {
-
-        return;
-
-    }
-
-
-    listContainer.innerHTML = `
-
-        <div class="no-scorecard-message">
-
-            <i class="fa-solid fa-file-circle-xmark"></i>
-
-            <h3>
-                No available scorecards yet.
-            </h3>
-
-            <p>Please complete your Profile first.</p>
-
-        </div>
-
-    `;
-
-}
-
-
-
-/* =========================================================
-   OPEN SCORECARD DETAIL
-   ========================================================= */
 
 function openScorecardDetail(academicYear, semester) {
-    const data = currentScorecardData;
-    if (!data) return;
-    selectedScorecardPeriod = {academicYear,semester};
-    loadProfileInfo(data.profile || {});
-    const ayTitle=document.getElementById('scorecardAYTitle');
-    const semTitle=document.getElementById('scorecardSemTitle');
-    if(ayTitle)ayTitle.textContent=`AY: ${academicYear}`;
-    if(semTitle)semTitle.textContent=scorecardSemesterLabel(semester);
-    const attended=(data.activities||[]).filter(activity =>
-        normalizeScorecardAcademicYear(activity.academicYear||activity.academic_year||academicYear)===normalizeScorecardAcademicYear(academicYear) &&
-        normalizeScorecardSemester(activity.semester||semester)===normalizeScorecardSemester(semester)
+    if (!currentScorecardData) return;
+    selectedScorecardPeriod = { academicYear, semester };
+    loadProfileInfo(currentScorecardData.profile || {});
+
+    const ayTitle = document.getElementById("scorecardAYTitle");
+    const semTitle = document.getElementById("scorecardSemTitle");
+    if (ayTitle) ayTitle.textContent = `AY: ${String(academicYear).replace(/-/g, "–")}`;
+    if (semTitle) semTitle.textContent = semesterLabel(semester);
+
+    const rows = (currentScorecardData.activities || []).filter(activity =>
+        normalizeAcademicYear(getActivityAcademicYear(activity) || academicYear) === normalizeAcademicYear(academicYear) &&
+        normalizeSemester(getActivitySemester(activity) || semester) === normalizeSemester(semester) &&
+        isAttendedRecord(activity)
     );
-    populateActivityRows(attended);
-    showSubView('view-scorecard-detail');
+    populateActivityRows(rows);
+    showSubView("view-scorecard-detail");
 }
-
-
-
-/* =========================================================
-   LOAD PROFILE INFORMATION
-   ========================================================= */
 
 function loadProfileInfo(user) {
-
-    const father = user.father || {};
-    const mother = user.mother || {};
-    const fullName = person => [person.given, person.middle, person.surname, person.suffix].filter(Boolean).join(' ');
-    const siblingNames = Array.isArray(user.siblings) ? user.siblings.map(fullName).filter(Boolean).join(', ') : String(user.siblings || '');
+    user = user || {};
+    const father = user.father && typeof user.father === "object" ? user.father : {};
+    const mother = user.mother && typeof user.mother === "object" ? user.mother : {};
+    const family = user.familyInformation || user.family_information || user.family || {};
+    const familyFather = family.father && typeof family.father === "object" ? family.father : father;
+    const familyMother = family.mother && typeof family.mother === "object" ? family.mother : mother;
+    const fullName = member => {
+        if (!member || typeof member !== "object") return "";
+        return [member.given, member.givenName, member.firstName, member.first_name, member.middle, member.middleName,
+            member.middle_name, member.surname, member.lastName, member.last_name, member.suffix]
+            .filter(Boolean).join(" ");
+    };
+    const first = (...values) => values.find(value => value !== undefined && value !== null && String(value).trim() !== "") ?? "—";
+    const siblings = user.siblings ?? family.siblings ?? family.siblingsList ?? family.siblingList ?? "";
+    const siblingText = Array.isArray(siblings)
+        ? siblings.map(item => typeof item === "object" ? first(item.name, item.fullName, item.full_name, fullName(item)) : item).filter(Boolean).join(", ")
+        : (typeof siblings === "object" && siblings !== null ? first(siblings.name, siblings.fullName, fullName(siblings)) : siblings);
 
     const fields = {
-
-        "info-name":
-            user.name,
-
-        "info-sex":
-            user.sex,
-
-        "info-birthday":
-            user.birthday,
-
-        "info-religion":
-            user.religion,
-
-        "info-email":
-            user.email,
-
-        "info-contact":
-            user.contact,
-
-        "info-municipality":
-            user.municipality,
-
-        "info-barangay":
-            user.barangay,
-
-        "info-father":
-            fullName(father) || user.fatherName,
-
-        "info-father-contact":
-            father.contact || user.fatherContact,
-
-        "info-mother":
-            fullName(mother) || user.motherName,
-
-        "info-mother-contact":
-            mother.contact || user.motherContact,
-
-        "info-siblings":
-            siblingNames,
-
-        "info-school":
-            user.school,
-
-        "info-program":
-            user.program,
-
-        "info-year-level":
-            user.yearLevel || user.year_level,
-
-        "info-year":
-            user.yearLevel || user.year_level,
-
-        "info-control-number":
-            user.control_number,
-
-        "info-control":
-            user.control_number
-
+        "info-name": first(user.name, user.fullName, user.full_name, [user.givenName || user.given, user.middleName || user.middle, user.surname || user.lastName, user.suffix].filter(Boolean).join(" ")),
+        "info-sex": first(user.sex, user.gender),
+        "info-birthday": first(user.birthday, user.birthdate, user.dateOfBirth, user.date_of_birth),
+        "info-religion": first(user.religion),
+        "info-email": first(user.email, user.emailAddress, user.email_address),
+        "info-contact": first(user.contact, user.contactNo, user.contactNumber, user.phone, user.phoneNumber),
+        "info-municipality": first(user.municipality),
+        "info-barangay": first(user.barangay, user.assignedBarangay, user.assigned_barangay),
+        "info-father": first(user.fatherName, user.father_name, fullName(familyFather), familyFather.name, familyFather.fullName),
+        "info-father-contact": first(user.fatherContact, user.father_contact, user.fatherContactNo, familyFather.contact, familyFather.contactNo, familyFather.phone),
+        "info-mother": first(user.motherName, user.mother_name, fullName(familyMother), familyMother.name, familyMother.fullName),
+        "info-mother-contact": first(user.motherContact, user.mother_contact, user.motherContactNo, familyMother.contact, familyMother.contactNo, familyMother.phone),
+        "info-siblings": first(siblingText),
+        "info-school": first(user.school, user.schoolName, user.school_name),
+        "info-program": first(user.program, user.course, user.courseName, user.course_name),
+        "info-year-level": first(user.yearLevel, user.year_level, user.year),
+        "info-control-number": first(user.control_number, user.controlNumber, user.controlNo)
     };
 
-
-
-    Object.entries(fields).forEach(
-        function ([id, value]) {
-
-            const element =
-                document.getElementById(id);
-
-
-            if (!element) {
-
-                return;
-
-            }
-
-
-            element.textContent = value || "—";
-
-        }
-    );
-
+    Object.entries(fields).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value === "" ? "—" : String(value);
+    });
 }
 
+function populateActivityRows(activities) {
+    const container = document.getElementById("activityRows");
+    if (!container) return;
+    container.replaceChildren();
 
-
-/* =========================================================
-   POPULATE ACTIVITY ROWS
-   ========================================================= */
-
-function populateActivityRows(
-    activities
-) {
-    const column=document.getElementById('activityRows')||document.querySelector('.activity-log-column');
-    if(!column)return;
-    column.querySelectorAll('.activity-form-row,.scorecard-no-activities').forEach(element=>element.remove());
-    if(!activities.length){
-        activities=[];
+    if (!Array.isArray(activities) || activities.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "representative-empty-activity";
+        empty.textContent = "No attendance records for this academic period yet.";
+        container.appendChild(empty);
+        return;
     }
-    const rowsToRender=Math.max(6,activities.length);
-    for(let index=0;index<rowsToRender;index++){
-        const activity=activities[index]||{};
-        const row=document.createElement('div');row.className='activity-form-row';
-        const titleGroup=document.createElement('div');titleGroup.className='field-group title-field';
-        const titleLabel=document.createElement('label');titleLabel.textContent='Activity Title:';
-        const title=document.createElement('input');title.type='text';title.readOnly=true;title.value=activity.title||activity.name||'';
-        titleGroup.append(titleLabel,title);
-        const categoryGroup=document.createElement('div');categoryGroup.className='field-group category-field';
-        const categoryLabel=document.createElement('label');categoryLabel.textContent='Category:';
-        const category=document.createElement('input');category.type='text';category.readOnly=true;
-        category.value=String(activity.type||activity.category||'').replace(/\s+Activity$/i,'');
-        categoryGroup.append(categoryLabel,category);
-        const dateGroup=document.createElement('div');dateGroup.className='field-group date-field';
-        const dateLabel=document.createElement('label');dateLabel.textContent='Date:';
-        const date=document.createElement('input');date.type='text';date.readOnly=true;date.value=activity.date||activity.attendance_date||'';
-        dateGroup.append(dateLabel,date);row.append(titleGroup,categoryGroup,dateGroup);column.appendChild(row);
-    }
+
+    activities.forEach(activity => {
+        const row = document.createElement("div");
+        row.className = "activity-form-row";
+
+        const title = activity.title || activity.name || activity.activityName || activity.activity_name || "Untitled Activity";
+        const category = String(activity.category || activity.type || activity.activityCategory || activity.activity_category || "General").replace(/\s+Activity$/i, "");
+        const date = activity.date || activity.attendanceDate || activity.attendance_date || activity.activityDate || activity.activity_date || "—";
+
+        row.innerHTML = `
+            <div class="field-group title-field">
+                <label>Activity Title</label>
+                <input type="text" readonly value="${scorecardEscape(title)}">
+            </div>
+            <div class="field-group category-field">
+                <label>Category</label>
+                <input type="text" readonly value="${scorecardEscape(category)}">
+            </div>
+            <div class="field-group date-field">
+                <label>Date</label>
+                <input type="text" readonly value="${scorecardEscape(date)}">
+            </div>`;
+        container.appendChild(row);
+    });
 }
 
-
-
-/* =========================================================
-   SHOW SUB VIEW
-   ========================================================= */
+function updateScorecardScroll() {
+    const list = document.getElementById("scorecardYears");
+    if (!list) return;
+    const count = list.querySelectorAll(".scorecard-semester-item").length;
+    list.classList.toggle("has-scroll", count > 4);
+}
 
 function showSubView(viewId) {
-
-    const views =
-        document.querySelectorAll(
-            ".page-view"
-        );
-
-
-    views.forEach(
-        function (view) {
-
-            view.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    const target =
-        document.getElementById(viewId);
-
-
-    if (!target) {
-
-        return;
-
-    }
-
-
-    target.classList.add(
-        "active"
-    );
-
-
-
-    /* ================================================
-       SCROLL TO TOP
-    ================================================= */
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
+    document.querySelectorAll(".page-view").forEach(view => view.classList.remove("active"));
+    const target = document.getElementById(viewId);
+    if (!target) return;
+    target.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-window.addEventListener(
-    "pageshow",
-    function () {
-
-        renderScorecardButtons();
-
-    }
-);
-
-const scorecardList = document.querySelector(".scorecard-list");
-
-if (scorecardList) {
-    const scorecards = scorecardList.querySelectorAll(".scorecard-btn");
-
-    if (scorecards.length > 0) {
-        scorecardList.classList.add("has-scroll");
-    } else {
-        scorecardList.classList.remove("has-scroll");
-    }
+function scorecardEscape(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }

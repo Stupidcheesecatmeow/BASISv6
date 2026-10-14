@@ -42,28 +42,27 @@ document.addEventListener("DOMContentLoaded", function () {
    INITIAL ACTIVITY VIEW
 ========================================================= */
 
-ACTIVITY_SUB_VIEWS.forEach(id => {
-
-    const view = document.getElementById(id);
-
-    if (!view) return;
-
-    view.classList.remove('active');
-    view.style.display = 'none';
-
-});
-
-showSubView('view-activity-menu');
+if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
+    ACTIVITY_SUB_VIEWS.forEach(id => {
+        const view = document.getElementById(id);
+        if (!view) return;
+        view.classList.remove('active');
+        view.style.display = 'none';
+    });
+    if (typeof window.showSubView === 'function') {
+        window.showSubView('view-activity-menu');
+    }
+}
 
     const applyWelcomeName = (profile) => {
         if (!profile) return;
         const firstName = String(profile.givenName || profile.given_name || String(profile.name || "").trim().split(/\s+/)[0] || "").trim();
         if (!firstName) return;
-        document.querySelectorAll(".welcome-text h1").forEach((heading) => {
+        document.querySelectorAll(".welcome-text h1, #headerWelcomeRole").forEach((heading) => {
             heading.textContent = `MABUHAY, ${firstName.toLocaleUpperCase()}!`;
         });
     };
-    document.querySelectorAll(".welcome-text h1").forEach((heading) => {
+    document.querySelectorAll(".welcome-text h1, #headerWelcomeRole").forEach((heading) => {
         heading.textContent = "MABUHAY!";
     });
 
@@ -76,9 +75,11 @@ showSubView('view-activity-menu');
         sessionStorage.setItem("basisCurrentUserId", String(profile.id));
         localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
         if (!profile.profilePhoto) return;
-        document.querySelectorAll(".header-avatar").forEach((avatar) => {
+        document.querySelectorAll(".header-avatar, #topbarProfilePhoto, #sidebarProfilePhoto").forEach((avatar) => {
             avatar.src = profile.profilePhoto;
         });
+        const sidebarName = document.getElementById("sidebarProfileName");
+        if (sidebarName) sidebarName.textContent = String(profile.givenName || profile.given_name || profile.name || "ISKOLAR").trim().toLocaleUpperCase();
     };
 
     window.addEventListener("basis-profile-updated", (event) => {
@@ -105,30 +106,62 @@ showSubView('view-activity-menu');
     }
     const homeActivityBox = document.getElementById('activityBox');
     if (script && homeActivityBox) {
-        fetch(new URL('admin/api/account_api.php?action=activities', script.src), {credentials:'same-origin', cache:'no-store'})
-            .then(async (response) => {
-                const data = await response.json();
-                if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load activities.');
-                const activities = Array.isArray(data.activities) ? data.activities.slice(0, 3) : [];
-                homeActivityBox.replaceChildren();
-                if (!activities.length) {
-                    const empty = document.createElement('div'); empty.className = 'representative-empty';
-                    const text = document.createElement('span'); text.textContent = 'No activities yet.'; empty.appendChild(text); homeActivityBox.appendChild(empty); return;
-                }
-                activities.forEach((activity) => {
-                    const item = document.createElement('article'); item.className = 'home-activity-item';
-                    const title = document.createElement('h3'); title.textContent = activity.name || 'Activity'; item.appendChild(title);
-                    const detail = document.createElement('p');
-                    const time = [activity.startTime || '', activity.endTime || ''].filter(Boolean).join(' - ');
-                    detail.textContent = [activity.type || '', activity.date || '', time, activity.venue || '', activity.barangay || activity.municipality || ''].filter(Boolean).join(' · ');
-                    item.appendChild(detail);
-                    if (activity.description) { const description = document.createElement('p'); description.textContent = activity.description; item.appendChild(description); }
-                    homeActivityBox.appendChild(item);
-                });
-            }).catch((error) => { console.warn('Could not load activities on home.', error); });
+        const isActivityOngoing = (activity, now = new Date()) => {
+            const status = String(activity.status || '').trim().toLowerCase();
+            if (['ongoing', 'active'].includes(status) || activity.ongoing === true) return true;
+            if (['completed', 'cancelled', 'canceled', 'ended'].includes(status)) return false;
+            const rawDate = activity.activity_date || activity.activityDate || activity.date;
+            if (!rawDate) return false;
+            const match = String(rawDate).trim().slice(0, 10).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (!match) return false;
+            const starts = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+            const startTime = String(activity.startTime || activity.start_time || '00:00').slice(0, 5);
+            const endTime = String(activity.endTime || activity.end_time || '23:59').slice(0, 5);
+            const parseTime = (value, fallback) => {
+                const parts = value.split(':').map(Number);
+                return parts.length >= 2 && parts.every(Number.isFinite) ? [parts[0], parts[1], parts[2] || 0] : fallback;
+            };
+            const [startHour, startMinute, startSecond] = parseTime(startTime, [0, 0, 0]);
+            const [endHour, endMinute, endSecond] = parseTime(endTime, [23, 59, 59]);
+            starts.setHours(startHour, startMinute, startSecond, 0);
+            const ends = new Date(starts);
+            ends.setHours(endHour, endMinute, endSecond, 999);
+            if (ends < starts) ends.setDate(ends.getDate() + 1);
+            return starts <= now && now <= ends;
+        };
+        const renderHomeActivities = (activities) => {
+            homeActivityBox.replaceChildren();
+            if (!activities.length) {
+                const empty = document.createElement('div'); empty.className = 'representative-empty rep-empty';
+                empty.innerHTML = '<i class="fa-regular fa-calendar"></i><span>No ongoing activity.</span>';
+                homeActivityBox.appendChild(empty); return;
+            }
+            activities.forEach((activity) => {
+                const card = document.createElement('article'); card.className = 'dashboard-info-card ongoing-activity-card';
+                const content = document.createElement('div'); content.className = 'announcement-content-container activity-content-container';
+                const details = document.createElement('div'); details.className = 'announcement-content-details';
+                const title = document.createElement('h3'); title.className = 'announcement-content-title'; title.textContent = activity.name || activity.title || 'ACTIVITY';
+                const date = document.createElement('span'); date.className = 'announcement-content-date';
+                const time = [activity.startTime || activity.start_time || '', activity.endTime || activity.end_time || ''].filter(Boolean).join(' – ');
+                date.textContent = [activity.date || activity.activity_date || '', time, activity.venue || activity.venueAddress || activity.venue_address || ''].filter(Boolean).join(' · ');
+                const message = document.createElement('p'); message.className = 'announcement-content-message'; message.textContent = activity.description || activity.type || 'Activity is currently in progress.';
+                details.append(title, date, message);
+                const icon = document.createElement('div'); icon.className = 'announcement-content-image no-image activity-status-icon'; icon.innerHTML = '<i class="fa-solid fa-calendar-check"></i>';
+                content.append(details, icon); card.appendChild(content); homeActivityBox.appendChild(card);
+            });
+        };
+        const loadHomeActivities = () => fetch(new URL('admin/api/account_api.php?action=activities', script.src), {credentials:'same-origin', cache:'no-store'})
+            .then(async response => { const data = await response.json(); if (!response.ok || !data.success) throw new Error(data.message || 'Unable to load activities.'); const now = new Date(); const activities = (Array.isArray(data.activities) ? data.activities : []).filter(activity => isActivityOngoing(activity, now)); renderHomeActivities(activities); })
+            .catch(error => { console.warn('Could not load ongoing activities on home.', error); });
+        window.loadBasisHomeActivities = loadHomeActivities;
+        loadHomeActivities();
+        window.addEventListener('pageshow', loadHomeActivities);
+        window.addEventListener('focus', loadHomeActivities);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) loadHomeActivities(); });
+        setInterval(loadHomeActivities, 30000);
     }
     const announcementsBox = document.getElementById('announcementsBox');
-    if (script && announcementsBox && !(document.getElementById('openAnnouncementModal') && window.location.pathname.toLowerCase().includes('/admin/'))) {
+    if (script && announcementsBox && !window.location.pathname.toLowerCase().includes('/representative/') && !(document.getElementById('openAnnouncementModal') && window.location.pathname.toLowerCase().includes('/admin/'))) {
         const renderAnnouncements = (announcements) => {
             announcementsBox.replaceChildren();
             if (!announcements.length) {
@@ -136,12 +169,20 @@ showSubView('view-activity-menu');
                 const label = document.createElement('span'); label.textContent = 'No announcements yet.'; empty.appendChild(label); announcementsBox.appendChild(empty); return;
             }
             announcements.forEach((announcement) => {
-                const card = document.createElement('article'); card.className = 'home-announcement-item';
-                const title = document.createElement('h3'); title.textContent = announcement.title || 'Announcement'; card.appendChild(title);
-                const date = document.createElement('small'); date.textContent = announcement.date || announcement.created_at || ''; card.appendChild(date);
-                const message = document.createElement('p'); message.textContent = announcement.message || ''; card.appendChild(message);
-                if (announcement.attachment_data) {
-                    const attachment = document.createElement('a'); attachment.href = announcement.attachment_data; attachment.download = announcement.attachment_name || 'announcement-attachment'; attachment.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`; card.appendChild(attachment);
+                const card = document.createElement('article'); card.className = 'dashboard-info-card clickable-announcement';
+                const content = document.createElement('div'); content.className = 'announcement-content-container';
+                const details = document.createElement('div'); details.className = 'announcement-content-details';
+                const title = document.createElement('h3'); title.className = 'announcement-content-title'; title.textContent = announcement.title || 'ANNOUNCEMENT';
+                const date = document.createElement('span'); date.className = 'announcement-content-date'; date.textContent = announcement.date || announcement.created_at || '';
+                const message = document.createElement('p'); message.className = 'announcement-content-message'; message.textContent = announcement.message || '';
+                details.append(title, date, message);
+                const isImage = String(announcement.attachment_data || '').startsWith('data:image/');
+                const media = document.createElement('div'); media.className = `announcement-content-image${isImage ? '' : ' no-image'}`;
+                if (isImage) { const image = document.createElement('img'); image.src = announcement.attachment_data; image.alt = announcement.title || 'Announcement attachment'; media.appendChild(image); }
+                else { media.innerHTML = '<i class="fa-regular fa-image"></i>'; }
+                content.append(details, media); card.appendChild(content);
+                if (announcement.attachment_data && !isImage) {
+                    const attachment = document.createElement('a'); attachment.className = 'announcement-attachment-link'; attachment.href = announcement.attachment_data; attachment.download = announcement.attachment_name || 'announcement-attachment'; attachment.textContent = `Open attachment: ${announcement.attachment_name || 'file'}`; card.appendChild(attachment);
                 }
                 card.classList.add('clickable-announcement');
                 card.tabIndex = 0;
@@ -162,7 +203,7 @@ showSubView('view-activity-menu');
             });
         };
         const loadAnnouncements = () => fetch(new URL('admin/api/account_api.php?action=announcements', script.src), {credentials:'same-origin',cache:'no-store'})
-            .then(async response => { const data = await response.json(); if (!response.ok || !data.success) throw new Error(data.message || 'Announcements could not be loaded.'); renderAnnouncements(Array.isArray(data.announcements) ? data.announcements : []); })
+            .then(async response => { const data = await response.json(); if (!response.ok || !data.success) throw new Error(data.message || 'Announcements could not be loaded.'); const now = new Date(); const announcements = (Array.isArray(data.announcements) ? data.announcements : []).filter(item => { const raw = item.published_at || item.publishedAt || item.created_at || item.createdAt || item.date || item.announcement_date; if (!raw) return false; const value = String(raw).trim(); const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/); const published = match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : new Date(value); if (Number.isNaN(published.getTime()) || published > now) return false; const expires = new Date(published); expires.setDate(expires.getDate() + 14); return now < expires; }); renderAnnouncements(announcements); })
             .catch(error => console.warn('Could not load announcements on home.', error));
         loadAnnouncements();
         window.addEventListener('pageshow', loadAnnouncements);

@@ -1,260 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASIS - History</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="history.css">
-    <link rel="stylesheet" href="../responsive.css?v=1">
-</head>
-<body class="dashboard-page">
-
-    <header class="dash-header">
-        <div class="dash-logo">
-            <img src="../images/LOGO.png" alt="BASIS Logo" onerror="this.src='https://via.placeholder.com/180x60?text=BASIS'">
-        </div>
-        <div class="header-right">
-            <div class="welcome-text">
-                <h1>MABUHAY, ISKOLAR!</h1>
-                <span>WELCOME TO BASIS</span>
-            </div>
-            <div class="profile-avatar-wrapper" onclick="window.location.href='../profile/profile.html'">
-                <img src="../images/profile_default.jpg" alt="User Profile" class="header-avatar">
-            </div>
-        </div>
-    </header>
-
-    <main class="dash-main">
-
-    <!-- VIEW: HISTORY MENU -->
-        <section id="view-history" class="page-view active">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <div class="history-menu-list">
-                    <div class="history-menu-card">
-                        <h3>ANNOUNCEMENTS</h3>
-                        <button class="open-activity-btn" onclick="showSubView('view-history-announcements')">OPEN</button>
-                    </div>
-                    <div class="history-menu-card">
-                        <h3>ACTIVITIES</h3>
-                        <button class="open-activity-btn" onclick="showSubView('view-history-activities')">OPEN</button>
-                    </div>
-                    <div class="history-menu-card">
-                        <h3>NOTIFICATIONS</h3>
-                        <button class="open-activity-btn" onclick="showSubView('view-history-notifications')">OPEN</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: HISTORY ANNOUNCEMENTS LIST -->
-        <section id="view-history-announcements" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header">
-                    <h3>ANNOUNCEMENT HISTORY</h3>
-                    <div class="search-filter-controls">
-                        <div class="search-input-wrapper">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Search announcements...">
-                        </div>
-                        <button class="filter-btn">FILTER</button>
-                    </div>
-                </div>
-                <div class="history-items-container" id="announcementHistoryList">
-                    <div class="history-empty-message">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <h3>No announcement history yet.</h3>
-                        <p>History will appear here when there is data.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: HISTORY ANNOUNCEMENT DETAIL -->
-        <section id="view-history-announcement-detail" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history-announcements')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header standalone-title">
-                    <h3>ANNOUNCEMENT HISTORY</h3>
-                </div>
-                <div class="history-detail-layout">
-                    <div class="detail-text-side">
-                        <h2 class="detail-title">ANNOUNCEMENT TITLE</h2>
-                        <span class="detail-date">xx/xx/xxxx</span>
-                        <p class="desc-text">
-                            Non non aute ex eu cupidatat id adipisicing magna ullamco occaecat proident ullamco esse. Lorem enim quis aute aute do minim elit. Pariatur fugiat qui enim ex nostrud in voluptate nisi non amet nulla veniam minim. Qui Lorem sit dolore proident reprehenderit proident. Magna qui veniam Lorem aute deserunt mollit nisi dolore ipsum dolor. Sint nisi deserunt incididunt labore excepteur in proident adipisicing esse dolore commodo mollit amet. Eu eiusmod sint voluptate mollit. Non sint pariatur laborum occaecat consequat in ut cillum id. Aute dolore ea ad incididunt cillum duis ex.
-                        </p>
-                    </div>
-                    <div class="detail-media-side">
-                        <div class="media-placeholder-box">
-                            <img src="../images/image-icon.png" alt="Announcement Image" class="announcement-img">
-                        </div>
-                    </div>
-                </div>
-                <div class="btn-right-container">
-                    <button class="act-btn solid-btn" onclick="showSubView('view-history-announcements')">CLOSE</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: HISTORY ACTIVITIES LIST -->
-        <section id="view-history-activities" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header">
-                    <h3>ACTIVITY HISTORY</h3>
-                    <div class="search-filter-controls">
-                        <div class="search-input-wrapper">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Search activities...">
-                        </div>
-                        <button class="filter-btn">FILTER</button>
-                    </div>
-                </div>
-                <div class="history-items-container" id="activityHistoryList">
-                    <div class="history-empty-message">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <h3>No activity history yet.</h3>
-                        <p>History will appear here when there is data.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: HISTORY ACTIVITY DETAIL -->
-        <section id="view-history-activity-detail" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history-activities')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header standalone-title">
-                    <h3>ACTIVITY HISTORY</h3>
-                </div>
-                <div class="history-activity-detail-grid">
-                    <div class="activity-info-left">
-                        <h2 class="detail-title">ACTIVITY TITLE</h2>
-                        <span class="detail-date">xx/xx/xxxx</span>
-                        <p class="desc-text">
-                            Non non aute ex eu cupidatat id adipisicing magna ullamco occaecat proident ullamco esse. Lorem enim quis aute aute do minim elit. Pariatur fugiat qui enim ex nostrud in voluptate nisi non amet nulla veniam minim. Qui Lorem sit dolore proident reprehenderit proident. Magna qui veniam Lorem aute deserunt mollit nisi dolore ipsum dolor.
-                        </p>
-                    </div>
-                    <div class="activity-info-right">
-                        <div class="sem-tag text-right mb-15">2026 – 2027 FIRST SEMESTER</div>
-                        <div class="sub-activity-info compact-info">
-                            <h2>ACTIVITY TITLE</h2>
-                            <p><strong>TYPE OF ACTIVITY:</strong></p>
-                            <p><strong>DATE:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>TIME:</strong></p>
-                            <p><strong>VENUE:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>VENUE ADDRESS:</strong></p>
-                            <p><strong>NAME:</strong></p>
-                            <!-- <p><strong>MUNICIPALITY:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>BARANGAY:</strong></p> -->
-                        </div>
-                        <div class="submitted-file-box">
-                            SUBMITTED FILE
-                        </div>
-                    </div>
-                </div>
-                <div class="btn-right-container">
-                    <button class="act-btn solid-btn" onclick="showSubView('view-history-activities')">CLOSE</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-history-notifications" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header">
-                    <h3>NOTIFICATION HISTORY</h3>
-                    <div class="search-filter-controls">
-                        <div class="search-input-wrapper">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Search notifications...">
-                        </div>
-                        <button class="filter-btn">FILTER</button>
-                    </div>
-                </div>
-                <div class="history-items-container" id="notificationHistoryList">
-                    <div class="history-empty-message">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <h3>No notification history yet.</h3>
-                        <p>History will appear here when there is data.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: HISTORY NOTIFICATION DETAIL -->
-        <section id="view-history-notification-detail" class="page-view">
-            <div class="view-banner">
-                <h2>HISTORY</h2>
-            </div>
-            <div class="view-body bordered-frame relative-frame">
-                <button class="close-view-btn" onclick="showSubView('view-history-notifications')"><i class="fa-solid fa-circle-xmark"></i></button>
-                <div class="inner-banner-header standalone-title">
-                    <h3>NOTIFICATION HISTORY</h3>
-                </div>
-                <div class="notification-detail-card">
-                    <h2 class="notification-title">NOTIFICATION TITLE</h2>
-                    <span class="notification-date">xx/xx/xxxx</span>
-                    <p class="notification-body">
-                        Non non aute ex eu cupidatat id adipisicing magna ullamco occaecat proident ullamco esse. Lorem enim quis aute aute do minim elit. Pariatur fugiat qui enim ex nostrud in voluptate nisi non amet nulla veniam minim. Qui Lorem sit dolore proident reprehenderit proident. Magna qui veniam Lorem aute deserunt mollit nisi dolore ipsum dolor. Sint nisi deserunt incididunt labore excepteur in proident adipisicing esse dolore commodo mollit amet. Eu eiusmod sint voluptate mollit. Non sint pariatur laborum occaecat consequat in ut cillum id. Aute dolore ea ad incididunt cillum duis ex. Magna cupidatat incididunt elit ex reprehenderit ipsum amet nulla irure aliqua quis elit ut elit.
-                    </p>
-                    <div class="notification-action-row">
-                        <button class="act-btn solid-btn close-notif-btn" onclick="showSubView('view-history-notifications')">CLOSE</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav">
-        <div class="bottom-nav-inner">
-            <a class="nav-item" href="../home/home.html">
-                <i class="fa-solid fa-house"></i>
-                <span>Home</span>
-            </a>
-            <a class="nav-item" href="../scorecard/scorecard.html">
-                <i class="fa-solid fa-address-card"></i>
-                <span>Scorecard</span>
-            </a>
-            <a class="nav-item" href="../activity/activity.html">
-                <i class="fa-solid fa-book-open"></i>
-                <span>Activity</span>
-            </a>
-            <a class="nav-item active" href="../history/history.html">
-                <i class="fa-solid fa-book-bookmark"></i>
-                <span>History</span>
-            </a>
-            <a class="nav-item" href="../more/more.html">
-                <i class="fa-solid fa-ellipsis"></i>
-                <span>More</span>
-            </a>
-        </div>
-    </nav>
-
-    <script src="../script.js?v=20261005-user-name-header"></script>
-    <script src="history-live.js?v=20261014-activity-open-fix"></script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BASIS - Iskolar History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../admin/home-admin.css?v=7"><link rel="stylesheet" href="history.css?v=20261012-iskolar-admin-ui"><link rel="stylesheet" href="../responsive.css?v=2">
+</head><body class="dashboard-page admin-page iskolar-history-page">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="admin-sidebar iskolar-sidebar" id="adminSidebar">
+ <div class="sidebar-brand"><div class="brand-mark"><img src="../images/LOGO.png" alt="BASIS Logo"></div><div class="brand-copy"><strong>BASIS</strong><span>ISKOLAR PORTAL</span></div><button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
+ <div class="sidebar-profile"><img src="../images/profile_default.jpg" alt="Iskolar Profile" class="sidebar-profile-image"><div><strong class="sidebar-profile-name">ISKOLAR</strong><span>Iskolar ng Bagac</span></div></div>
+ <nav class="sidebar-nav" aria-label="Iskolar navigation"><div class="sidebar-section-label">MAIN MENU</div>
+ <a class="sidebar-link" href="../home/home.html"><span class="sidebar-icon"><i class="fa-solid fa-house"></i></span><span class="sidebar-text">Home</span></a>
+ <a class="sidebar-link" href="../scorecard/scorecard.html"><span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span><span class="sidebar-text">Scorecard</span></a>
+ <a class="sidebar-link" href="../activity/activity.html"><span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span><span class="sidebar-text">Activity</span></a>
+ <a class="sidebar-link active" href="history.html"><span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><span class="sidebar-text">History</span></a>
+ <div class="sidebar-section-label">ACCOUNT</div><a class="sidebar-link" href="../more/more.html"><span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span><span class="sidebar-text">More</span></a></nav>
+ <div class="sidebar-footer"><a class="sidebar-link sidebar-profile-link" href="../profile/profile.html"><span class="sidebar-icon"><i class="fa-solid fa-user-gear"></i></span><span class="sidebar-text">My Profile</span></a><button class="sidebar-logout" type="button" data-logout><span class="sidebar-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span class="sidebar-text">Logout</span></button></div>
+</aside>
+<div class="admin-shell"><header class="admin-topbar"><div class="topbar-left"><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button><div class="page-heading"><span class="page-eyebrow">BASIS • ISKOLAR</span><h1>History</h1></div></div><div class="topbar-right"><div class="welcome-copy"><span>WELCOME BACK</span><strong>MABUHAY, ISKOLAR!</strong></div><a class="topbar-avatar" href="../profile/profile.html"><img src="../images/profile_default.jpg" alt="Iskolar Profile" class="header-avatar"></a></div></header>
+<main class="dash-main">
+<section id="view-history" class="page-view active"><div class="history-summary-grid">
+ <div class="history-summary-card" role="button" tabindex="0" data-open-view="view-history-announcements"><div class="history-card-icon"><i class="fa-solid fa-bullhorn"></i></div><div class="history-card-main"><span class="history-card-label">UPDATES</span><h3>Announcements</h3><p>Review announcements shared with Iskolar ng Bagac.</p><div class="history-card-footer"><span><strong id="historyAnnouncementCount">0</strong> Records</span><button type="button" data-open-view="view-history-announcements">VIEW HISTORY <i class="fa-solid fa-arrow-right"></i></button></div></div></div>
+ <div class="history-summary-card" role="button" tabindex="0" data-open-view="view-history-activities"><div class="history-card-icon"><i class="fa-solid fa-calendar-check"></i></div><div class="history-card-main"><span class="history-card-label">YOUR RECORDS</span><h3>Activities</h3><p>View past activities and open their activity page for details.</p><div class="history-card-footer"><span><strong id="historyActivityCount">0</strong> Records</span><button type="button" data-open-view="view-history-activities">VIEW HISTORY <i class="fa-solid fa-arrow-right"></i></button></div></div></div>
+ <div class="history-summary-card" role="button" tabindex="0" data-open-view="view-history-notifications"><div class="history-card-icon"><i class="fa-regular fa-bell"></i></div><div class="history-card-main"><span class="history-card-label">UPDATES</span><h3>Notifications</h3><p>Review notifications related to your account and activities.</p><div class="history-card-footer"><span><strong id="historyNotificationCount">0</strong> Records</span><button type="button" data-open-view="view-history-notifications">VIEW HISTORY <i class="fa-solid fa-arrow-right"></i></button></div></div></div>
+</div></section>
+<section id="view-history-announcements" class="page-view"><div class="history-sub-header"><button class="history-back-btn" type="button" data-open-view="view-history"><i class="fa-solid fa-arrow-left"></i></button><div><span>HISTORY</span><h2>Announcement History</h2></div><div class="history-sub-icon"><i class="fa-solid fa-bullhorn"></i></div></div><div class="history-record-panel"><div class="history-record-toolbar"><div><span>ANNOUNCEMENTS</span><h3>Published Announcements</h3></div><div class="history-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="announcementSearch" type="search" placeholder="Search announcements..."></div></div><div class="history-items-container" id="announcementHistoryList"></div></div></section>
+<section id="view-history-activities" class="page-view"><div class="history-sub-header"><button class="history-back-btn" type="button" data-open-view="view-history"><i class="fa-solid fa-arrow-left"></i></button><div><span>HISTORY</span><h2>Activity History</h2></div><div class="history-sub-icon"><i class="fa-solid fa-calendar-check"></i></div></div><div class="history-record-panel"><div class="history-record-toolbar"><div><span>YOUR ACTIVITY RECORDS</span><h3>Past Activities</h3></div><div class="history-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="activitySearch" type="search" placeholder="Search activities..."></div></div><div class="history-items-container" id="activityHistoryList"></div></div></section>
+<section id="view-history-notifications" class="page-view"><div class="history-sub-header"><button class="history-back-btn" type="button" data-open-view="view-history"><i class="fa-solid fa-arrow-left"></i></button><div><span>HISTORY</span><h2>Notification History</h2></div><div class="history-sub-icon"><i class="fa-regular fa-bell"></i></div></div><div class="history-record-panel"><div class="history-record-toolbar"><div><span>SYSTEM UPDATES</span><h3>Notifications</h3></div><div class="history-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="notificationSearch" type="search" placeholder="Search notifications..."></div></div><div class="history-items-container" id="notificationHistoryList"></div></div></section>
+<section id="view-history-announcement-detail" class="page-view"><div class="history-sub-header"><button class="history-back-btn" type="button" data-open-view="view-history-announcements"><i class="fa-solid fa-arrow-left"></i></button><div><span>HISTORY</span><h2>Announcement Details</h2></div><div class="history-sub-icon"><i class="fa-solid fa-bullhorn"></i></div></div><div class="history-detail-panel"><div class="history-detail-top"><div class="history-detail-type"><i class="fa-solid fa-bullhorn"></i> ANNOUNCEMENT</div><span class="detail-date" id="announcementDetailDate">—</span></div><div class="announcement-detail-layout"><div class="announcement-detail-image-box"><img id="announcementDetailImage" class="announcement-detail-image" alt="Announcement image" hidden><div id="announcementImagePlaceholder" class="detail-image-placeholder"><i class="fa-regular fa-image"></i><span>No image attached</span></div><a id="announcementAttachmentLink" class="history-announcement-attachment" hidden></a></div><div class="announcement-detail-content"><span class="detail-section-label">ANNOUNCEMENT</span><h2 id="announcementDetailTitle" class="detail-title">ANNOUNCEMENT TITLE</h2><div class="detail-content-box"><span>MESSAGE</span><p id="announcementDetailDescription"></p></div></div></div></div></section>
+<section id="view-history-notification-detail" class="page-view"><div class="history-sub-header"><button class="history-back-btn" type="button" data-open-view="view-history-notifications"><i class="fa-solid fa-arrow-left"></i></button><div><span>HISTORY</span><h2>Notification Details</h2></div><div class="history-sub-icon"><i class="fa-regular fa-bell"></i></div></div><div class="history-detail-panel"><div class="history-detail-top"><div class="history-detail-type"><i class="fa-regular fa-bell"></i> NOTIFICATION</div><span class="detail-date" id="notificationDetailDate">—</span></div><div class="notification-detail-layout"><div class="notification-detail-icon"><i class="fa-regular fa-bell"></i></div><div class="notification-detail-content"><span class="detail-section-label">SYSTEM NOTIFICATION</span><h2 id="notificationDetailTitle" class="detail-title">NOTIFICATION TITLE</h2><div class="notification-message-box"><span>MESSAGE</span><p id="notificationDetailBody"></p></div><div class="notification-type-badge" id="notificationDetailType">ACTIVITY</div></div></div></div></section>
+</main></div>
+<script src="../script.js?v=20261005-user-name-header"></script><script src="history.js?v=20261012-iskolar-admin-ui"></script><script src="../auth.js?v=3"></script>
+</body></html>

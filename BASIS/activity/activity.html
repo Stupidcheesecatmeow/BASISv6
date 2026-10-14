@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>BASIS - Activity</title>
+    <title>BASIS - Iskolar Activity</title>
 
 
     <!-- =====================================================
@@ -28,7 +28,10 @@
         crossorigin
     >
 
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
 
 
     <!-- =====================================================
@@ -55,78 +58,49 @@
          ACTIVITY CSS
     ====================================================== -->
 
-    <link
-        rel="stylesheet"
-        href="activity.css?v=20261005-submission-parity"
-    >
+    <link rel="stylesheet" href="../admin/home-admin.css?v=7">
+    <link rel="stylesheet" href="activity.css?v=20261012-iskolar-admin-ui">
 
-    <link rel="stylesheet" href="../responsive.css?v=1">
+    <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
 
-<body class="dashboard-page activity-dashboard-page">
-
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
-    <header class="dash-header">
-
-        <!-- BASIS LOGO -->
-
-        <div class="dash-logo">
-
-            <img
-                src="../images/LOGO.png"
-                alt="BASIS Logo"
-                onerror="this.src='https://via.placeholder.com/180x60?text=BASIS'"
-            >
-
-        </div>
-
-
-        <!-- HEADER RIGHT -->
-
-        <div class="header-right">
-
-            <div class="welcome-text">
-
-                <h1>
-                    MABUHAY, ISKOLAR!
-                </h1>
-
-                <span>
-                    WELCOME TO BASIS
-                </span>
-
-            </div>
-
-
-            <!-- PROFILE -->
-
-            <div
-                class="profile-avatar-wrapper"
-                onclick="window.location.href='../profile/profile.html'"
-            >
-
-                <img
-                    src="../images/profile_default.jpg"
-                    alt="User Profile"
-                    class="header-avatar"
-                >
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
+<body class="dashboard-page admin-page activity-dashboard-page iskolar-activity-page">
+<!-- =====================================================
          MAIN CONTENT
     ====================================================== -->
+
+    
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="admin-sidebar iskolar-sidebar" id="adminSidebar">
+        <div class="sidebar-brand">
+            <div class="brand-mark"><img src="../images/LOGO.png" alt="BASIS Logo"></div>
+            <div class="brand-copy"><strong>BASIS</strong><span>ISKOLAR PORTAL</span></div>
+            <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="sidebar-profile">
+            <img src="../images/profile_default.jpg" alt="Iskolar Profile" class="sidebar-avatar">
+            <div><strong class="sidebar-user-name">ISKOLAR</strong><span>Iskolar ng Bagac</span></div>
+        </div>
+        <nav class="sidebar-nav" aria-label="Iskolar navigation">
+            <div class="sidebar-section-label">MAIN MENU</div>
+            <a class="sidebar-link" href="../home/home.html"><span class="sidebar-icon"><i class="fa-solid fa-house"></i></span><span class="sidebar-text">Home</span></a>
+            <a class="sidebar-link" href="../scorecard/scorecard.html"><span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span><span class="sidebar-text">Scorecard</span></a>
+            <a class="sidebar-link active" href="../activity/activity.html"><span class="sidebar-icon"><i class="fa-solid fa-book-open"></i></span><span class="sidebar-text">Activity</span></a>
+            <a class="sidebar-link" href="../history/history.html"><span class="sidebar-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><span class="sidebar-text">History</span></a>
+            <div class="sidebar-section-label">OTHERS</div>
+            <a class="sidebar-link" href="../more/more.html"><span class="sidebar-icon"><i class="fa-solid fa-ellipsis"></i></span><span class="sidebar-text">More</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="sidebar-link sidebar-profile-link" href="../profile/profile.html"><span class="sidebar-icon"><i class="fa-solid fa-user"></i></span><span class="sidebar-text">My Profile</span></a>
+            <button class="sidebar-logout" type="button" data-logout><span class="sidebar-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span class="sidebar-text">Logout</span></button>
+        </div>
+    </aside>
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <div class="topbar-left"><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button><div class="page-heading"><span class="page-eyebrow">BASIS • ISKOLAR</span><h1>Activity</h1></div></div>
+            <div class="topbar-right"><div class="welcome-copy"><span>WELCOME TO BASIS</span><strong>MABUHAY, ISKOLAR!</strong></div><a class="topbar-avatar" href="../profile/profile.html" aria-label="Open profile"><img src="../images/profile_default.jpg" alt="Iskolar Profile" class="header-avatar"></a></div>
+        </header>
 
     <main class="dash-main activity-main">
 
@@ -141,49 +115,7 @@
         >
 
 
-            <!-- ACTIVITY HEADER -->
-
-            <div class="view-banner search-banner">
-
-                <h2>
-                    ACTIVITY
-                </h2>
-
-
-                <!-- SEARCH + FILTER -->
-
-                <div class="search-filter-controls">
-
-
-                    <!-- SEARCH -->
-
-                    <div class="search-input-wrapper">
-
-                        <i class="fa-solid fa-magnifying-glass"></i>
-
-                        <input
-                            type="text"
-                            id="activitySearch"
-                            placeholder="Search activities..."
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-
-                    <!-- FILTER -->
-
-                    <button
-                        type="button"
-                        class="filter-btn"
-                        id="filterBtn"
-                    >
-                        FILTER
-                    </button>
-
-                </div>
-
-            </div>
+            
 
 
 
@@ -226,281 +158,77 @@
             class="page-view"
         >
 
-
-            <!-- PAGE HEADER -->
-
-            <div class="view-banner">
-
-                <h2>
-                    ACTIVITY
-                </h2>
-
-            </div>
-
-
-
-            <!-- DETAIL CONTAINER -->
-
-            <div
-                class="view-body bordered-frame relative-frame activity-detail-frame"
-            >
-
-
-                <!-- CLOSE BUTTON -->
+            <div class="view-body bordered-frame relative-frame activity-detail-frame">
 
                 <button
                     type="button"
                     class="close-view-btn"
                     onclick="showSubView('view-activity')"
-                    title="Back"
+                    title="Back to activities"
+                    aria-label="Back to activities"
                 >
-
                     <i class="fa-solid fa-circle-xmark"></i>
-
                 </button>
 
+                <div class="activity-detail-layout">
 
+                    <!-- LEFT: DETAILS THAT BELONG TO THE SCHOLAR VIEW -->
+                    <div class="activity-detail-info">
 
-                <!-- =========================================
-                     ACTIVITY HEADER
-                ========================================== -->
-
-                <div class="activity-detail-header">
-
-
-                    <!-- TITLE + TYPE -->
-
-                    <div class="activity-title-block">
-
-
-                        <h2
-                            class="activity-main-title"
-                            id="detailTitle"
-                        >
-                            ACTIVITY TITLE
-                        </h2>
-
-
-                        <div
-                            class="activity-type-text"
-                            id="detailType"
-                        >
-                            TYPE OF ACTIVITY:
+                        <div class="activity-detail-header">
+                            <div class="activity-title-block">
+                                <h2 class="activity-main-title" id="detailTitle">ACTIVITY TITLE</h2>
+                                <div class="activity-type-text" id="detailType">TYPE OF ACTIVITY:</div>
+                            </div>
                         </div>
 
+                        <div class="sem-tag activity-detail-sem" id="detailSemester">—</div>
+
+                        <div class="activity-meta-grid">
+                            <p><strong>DATE:</strong><span id="detailDate">—</span></p>
+                            <p><strong>TIME:</strong><span id="detailTime">—</span></p>
+                            <p><strong>VENUE:</strong><span id="detailVenue">—</span></p>
+                            <p><strong>VENUE ADDRESS:</strong><span id="detailVenueAddress">—</span></p>
+                        </div>
+
+                        <hr class="divider">
+
+                        <div class="activity-description">
+                            <strong>DESCRIPTION</strong>
+                            <p class="desc-text" id="detailDescription">—</p>
+                            <p class="deadline-text">
+                                <strong>Deadline:</strong>
+                                <span id="detailDeadline">—</span>
+                            </p>
+                        </div>
+
+                        <div class="action-buttons-row">
+                            <button type="button" class="act-btn solid-btn" id="activityQrButton" onclick="showSubView('view-qr')">
+                                <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+                                QR CODE
+                            </button>
+                            <button type="button" class="act-btn outline-btn" id="activityProofButton" onclick="showSubView('view-submission')">
+                                <i class="fa-solid fa-file-arrow-up" aria-hidden="true"></i>
+                                SUBMISSION
+                            </button>
+                        </div>
                     </div>
 
-
-
-                    <!-- AY + SEMESTER -->
-
-                    <div
-                        class="sem-tag"
-                        id="detailSemester"
-                    >
-                        2026–2027 FIRST SEMESTER
+                    <!-- RIGHT: ACTIVITY POSTER / IMAGE -->
+                    <div class="activity-detail-image-side">
+                        <div class="activity-detail-image-box">
+                            <img id="detailDescriptionImage" alt="Activity attachment" hidden>
+                            <div class="activity-detail-image-empty" id="activityDetailImageEmpty">
+                                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                <span>No activity picture</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-
-
-
-                <!-- =========================================
-                     ACTIVITY INFORMATION
-                ========================================== -->
-
-                <div class="activity-meta-grid">
-
-
-                    <!-- DATE -->
-
-                    <p>
-
-                        <strong>
-                            DATE:
-                        </strong>
-
-                        <span id="detailDate">
-                            —
-                        </span>
-
-                    </p>
-
-
-
-                    <!-- TIME -->
-
-                    <p>
-
-                        <strong>
-                            TIME:
-                        </strong>
-
-                        <span id="detailTime">
-                            —
-                        </span>
-
-                    </p>
-
-
-
-                    <!-- VENUE -->
-
-                    <p>
-
-                        <strong>
-                            VENUE:
-                        </strong>
-
-                        <span id="detailVenue">
-                            —
-                        </span>
-
-                    </p>
-
-
-
-                    <!-- VENUE ADDRESS -->
-
-                    <p>
-
-                        <strong>
-                            VENUE ADDRESS:
-                        </strong>
-
-                        <span id="detailVenueAddress">
-                            —
-                        </span>
-
-                    </p>
-
-
-
-                    <!-- MUNICIPALITY -->
-
-                    <!-- <p>
-
-                        <strong>
-                            MUNICIPALITY:
-                        </strong>
-
-                        <span id="detailMunicipality">
-                            —
-                        </span>
-
-                    </p> -->
-
-
-
-                    <!-- BARANGAY -->
-
-                    <!-- <p>
-
-                        <strong>
-                            BARANGAY:
-                        </strong>
-
-                        <span id="detailBarangay">
-                            —
-                        </span>
-
-                    </p> -->
-
-                </div>
-
-
-
-                <!-- DIVIDER -->
-
-                <hr class="divider">
-
-
-
-                <!-- =========================================
-                     DESCRIPTION
-                ========================================== -->
-
-                <div class="activity-description">
-
-
-                    <strong>
-                        DESCRIPTION
-                    </strong>
-
-
-                    <p
-                        class="desc-text"
-                        id="detailDescription"
-                    >
-                        —
-                    </p>
-                    <img id="detailDescriptionImage" class="activity-description-image" alt="Activity attachment" hidden>
-
-
-                    <!-- DEADLINE -->
-
-                    <p class="deadline-text">
-
-                        <em>
-
-                            <strong>
-                                Deadline:
-                            </strong>
-
-                        </em>
-
-
-                        <span id="detailDeadline">
-                            —
-                        </span>
-
-                    </p>
-
-                </div>
-
-
-
-                <!-- =========================================
-                     ACTION BUTTONS
-                ========================================== -->
-
-                <div class="action-buttons-row">
-
-
-                    <!-- QR -->
-
-                    <button
-                        type="button"
-                        class="act-btn solid-btn"
-                        id="activityQrButton"
-                        onclick="showSubView('view-qr')"
-                    >
-                        QR CODE
-                    </button>
-
-
-                    <!-- SUBMISSION -->
-
-                    <button
-                        type="button"
-                        class="act-btn outline-btn"
-                        id="activityProofButton"
-                        onclick="showSubView('view-submission')"
-                    >
-                        SUBMISSION
-                    </button>
-
-                </div>
-
             </div>
-
         </section>
 
-
-
-        <!-- =================================================
-             3. QR CODE PAGE
-        ================================================== -->
 
         <section
             id="view-qr"
@@ -510,13 +238,6 @@
 
             <!-- HEADER -->
 
-            <div class="view-banner">
-
-                <h2>
-                    ACTIVITY
-                </h2>
-
-            </div>
 
 
 
@@ -788,13 +509,6 @@
 
             <!-- HEADER -->
 
-            <div class="view-banner">
-
-                <h2>
-                    ACTIVITY
-                </h2>
-
-            </div>
 
 
 
@@ -1207,124 +921,27 @@
         </section>
 
     </main>
-
-
-
-    <!-- =====================================================
-         BOTTOM NAVIGATION
-    ====================================================== -->
-
-    <nav class="bottom-nav">
-
-
-        <div class="bottom-nav-inner">
-
-
-            <!-- HOME -->
-
-            <a
-                class="nav-item"
-                href="../home/home.html"
-            >
-
-                <i
-                    class="fa-solid fa-house"
-                ></i>
-
-                <span>
-                    Home
-                </span>
-
-            </a>
-
-
-
-            <!-- SCORECARD -->
-
-            <a
-                class="nav-item"
-                href="../scorecard/scorecard.html"
-            >
-
-                <i
-                    class="fa-solid fa-address-card"
-                ></i>
-
-                <span>
-                    Scorecard
-                </span>
-
-            </a>
-
-
-
-            <!-- ACTIVITY -->
-
-            <a
-                class="nav-item active"
-                href="../activity/activity.html"
-            >
-
-                <i
-                    class="fa-solid fa-book-open"
-                ></i>
-
-                <span>
-                    Activity
-                </span>
-
-            </a>
-
-
-
-            <!-- HISTORY -->
-
-            <a
-                class="nav-item"
-                href="../history/history.html"
-            >
-
-                <i
-                    class="fa-solid fa-book-bookmark"
-                ></i>
-
-                <span>
-                    History
-                </span>
-
-            </a>
-
-
-
-            <!-- MORE -->
-
-            <a
-                class="nav-item"
-                href="../more/more.html"
-            >
-
-                <i
-                    class="fa-solid fa-ellipsis"
-                ></i>
-
-                <span>
-                    More
-                </span>
-
-            </a>
-
-        </div>
-
-    </nav>
-
-
-
-    <!-- =====================================================
+    </div><!-- /.admin-shell -->
+<!-- =====================================================
          ACTIVITY JAVASCRIPT
     ====================================================== -->
 
             <script src="../script.js?v=20261005-user-name-header"></script>
-    <script src="activity.js?v=20261014-history-open-fix"></script>
+    <script src="activity.js?v=20261012-iskolar-admin-ui"></script>
+    <script src="../auth.js?v=3"></script>
+    <script>
+    (() => {
+      const sidebar=document.getElementById("adminSidebar");
+      const overlay=document.getElementById("sidebarOverlay");
+      const open=()=>{sidebar?.classList.add("open");overlay?.classList.add("show");};
+      const close=()=>{sidebar?.classList.remove("open");overlay?.classList.remove("show");};
+      document.getElementById("menuToggle")?.addEventListener("click",open);
+      document.getElementById("sidebarClose")?.addEventListener("click",close);
+      overlay?.addEventListener("click",close);
+      document.querySelectorAll(".sidebar-link").forEach(link=>link.addEventListener("click",close));
+      window.addEventListener("basis-account-profile-loaded",event=>{const p=event.detail?.profile||event.detail||{};const name=p.name||[p.givenName,p.middleName,p.surname].filter(Boolean).join(" ");if(name)document.querySelector(".sidebar-user-name")?.replaceChildren(document.createTextNode(name));const src=p.profilePicture||p.profile_picture||p.avatar||p.photo;if(src){document.querySelectorAll(".sidebar-avatar,.header-avatar").forEach(img=>img.src=src);}});
+    })();
+    </script>
 
 </body>
 
