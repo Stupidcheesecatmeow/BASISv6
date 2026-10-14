@@ -1032,15 +1032,20 @@ function getAnnouncements() {
 
 /* =========================================================
    ANNOUNCEMENT LIFETIME — 14 DAYS
-   The announcement's selected DATE is the primary publish date.
+   Use the actual publication/creation timestamp first.
+   The selected announcement date is only a fallback.
    Records are hidden from Home after 14 calendar days, not deleted.
 ========================================================= */
 
 const ANNOUNCEMENT_LIFETIME_DAYS = 14;
 
 function getAnnouncementPublishedDate(announcement) {
+    // account_api.php returns announcement_date as `date`.
+    // Use the same date basis as Announcement History so records move together.
     const raw =
         announcement?.date ||
+        announcement?.announcement_date ||
+        announcement?.announcementDate ||
         announcement?.published_at ||
         announcement?.publishedAt ||
         announcement?.created_at ||
