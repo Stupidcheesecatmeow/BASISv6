@@ -4,9 +4,28 @@ require_once __DIR__.'/db.php'; require_once __DIR__.'/http.php';
 try {
  $pdo=db(); $user=requireUser($pdo); $method=$_SERVER['REQUEST_METHOD']??'GET'; $action=$_GET['action']??'profile'; $in=requestInput(); $uid=(int)$user['id'];
  if($action==='announcements' && $method==='GET') { $s=$pdo->query('SELECT id,title,announcement_date AS date,message,attachment_name,attachment_data,created_at FROM announcements ORDER BY created_at DESC,id DESC');jsonResponse(true,'',200,['announcements'=>$s->fetchAll()]); }
- if($action==='notifications' && $method==='GET') { $s=$pdo->prepare('SELECT id,type,title,message,activity_id AS activityId,created_at AS createdAt,is_read AS isRead FROM notifications WHERE user_id=? ORDER BY created_at DESC,id DESC');$s->execute([$uid]);jsonResponse(true,'',200,['notifications'=>$s->fetchAll()]); }
- if($action==='notifications' && $method==='POST') { $s=$pdo->prepare('UPDATE notifications SET is_read=1 WHERE user_id=?');$s->execute([$uid]);jsonResponse(true,'Notifications marked as read.'); }
- if($action==='announcements' && $method==='POST') { if(!in_array(($user['role']??''),['ADMIN','REPRESENTATIVE'],true))jsonResponse(false,'Only admins and representatives can publish announcements.',403);$title=trim((string)($in['title']??''));$date=trim((string)($in['date']??''));$message=trim((string)($in['message']??''));$attachmentName=trim((string)($in['attachment_name']??''));$attachmentData=(string)($in['attachment_data']??'');if($title===''||$date===''||$message==='')jsonResponse(false,'Please complete the announcement details.',422);if(strlen($attachmentData)>7*1024*1024)jsonResponse(false,'Announcement attachment is too large (5 MB maximum).',413);if($attachmentData!==''&&!preg_match('#\\Adata:[^;,]+;base64,[A-Za-z0-9+/]+={0,2}\\z#',$attachmentData))jsonResponse(false,'Announcement attachment is invalid.',422);$s=$pdo->prepare('INSERT INTO announcements(title,announcement_date,message,attachment_name,attachment_data,created_by) VALUES(?,?,?,?,?,?)');$s->execute([$title,$date,$message,$attachmentName,$attachmentData,$uid]);jsonResponse(true,'Announcement published to all users.',201,['id'=>(int)$pdo->lastInsertId()]); }
+ if($action==='notifications' && $method==='GET') { $s=$pdo->prepare('SELECT id,type,title,message,activity_id AS activityId,announcement_id AS announcementId,created_at AS createdAt,is_read AS isRead FROM notifications WHERE user_id=? ORDER BY created_at DESC,id DESC');$s->execute([$uid]);jsonResponse(true,'',200,['notifications'=>$s->fetchAll()]); }
+ if($action==='notifications' && $method==='POST') { $notificationId=(int)($in['id']??$in['notification_id']??0);if($notificationId>0){$s=$pdo->prepare('UPDATE notifications SET is_read=1 WHERE id=? AND user_id=?');$s->execute([$notificationId,$uid]);}else{$s=$pdo->prepare('UPDATE notifications SET is_read=1 WHERE user_id=?');$s->execute([$uid]);}jsonResponse(true,'Notifications marked as read.'); }
+ if($action==='announcements' && $method==='POST') {
+     if(!in_array(($user['role']??''),['ADMIN','REPRESENTATIVE'],true))jsonResponse(false,'Only admins and representatives can publish announcements.',403);
+     $title=trim((string)($in['title']??''));$date=trim((string)($in['date']??''));$message=trim((string)($in['message']??''));$attachmentName=trim((string)($in['attachment_name']??''));$attachmentData=(string)($in['attachment_data']??'');
+     if($title===''||$date===''||$message==='')jsonResponse(false,'Please complete the announcement details.',422);
+     if(strlen($attachmentData)>7*1024*1024)jsonResponse(false,'Announcement attachment is too large (5 MB maximum).',413);
+     if($attachmentData!==''&&!preg_match('#\\Adata:[^;,]+;base64,[A-Za-z0-9+/]+={0,2}\\z#',$attachmentData))jsonResponse(false,'Announcement attachment is invalid.',422);
+     $pdo->beginTransaction();
+     try {
+         $s=$pdo->prepare('INSERT INTO announcements(title,announcement_date,message,attachment_name,attachment_data,created_by) VALUES(?,?,?,?,?,?)');
+         $s->execute([$title,$date,$message,$attachmentName,$attachmentData,$uid]);
+         $announcementId=(int)$pdo->lastInsertId();
+         $notify=$pdo->prepare("INSERT INTO notifications(user_id,type,title,message,announcement_id) SELECT id,'new_announcement',?,?,? FROM users WHERE UPPER(status)='ACTIVE'");
+         $notify->execute([$title,'New announcement: '.$title,$announcementId]);
+         $pdo->commit();
+     } catch(Throwable $error) {
+         if($pdo->inTransaction())$pdo->rollBack();
+         throw $error;
+     }
+     jsonResponse(true,'Announcement published to all users.',201,['id'=>$announcementId]);
+ }
  if($action==='scorecard' && $method==='GET') {
      $s=$pdo->prepare('SELECT u.id,u.control_number,u.name,u.email,u.role,u.status,u.municipality,u.barangay,u.given_name,u.middle_name,u.surname,u.suffix,u.sex,u.birthday,u.contact_no,u.religion,u.school,u.program,u.year_level,u.profile_completed,p.profile_json FROM users u LEFT JOIN account_profiles p ON p.user_id=u.id WHERE u.id=?');
      $s->execute([$uid]);
@@ -126,11 +145,11 @@ try {
          $s=$pdo->prepare('INSERT INTO feedback(user_id,type,title,message,image_name,image_data) VALUES(?,?,?,?,?,?)');
          $s->execute([$uid,$type,$title,$message,$imageName,$imageData]);
          $feedbackId=(int)$pdo->lastInsertId();
-         $admins=$pdo->query("SELECT id FROM users WHERE UPPER(role)='ADMIN'")->fetchAll(PDO::FETCH_COLUMN);
-         if($admins){
-             $notify=$pdo->prepare("INSERT INTO notifications(user_id,type,title,message) VALUES(?,'new_feedback','Someone sent a feedback/concern',?)");
+         $recipients=$pdo->query("SELECT id FROM users WHERE UPPER(role) IN ('ADMIN','REPRESENTATIVE') AND UPPER(status)='ACTIVE'")->fetchAll(PDO::FETCH_COLUMN);
+         if($recipients){
+             $notify=$pdo->prepare("INSERT INTO notifications(user_id,type,title,message) VALUES(?,'new_feedback','New feedback or concern received',?)");
              $noticeBody=$type.' from '.(string)($user['name']??'a user').': '.$title;
-             foreach($admins as $adminId)$notify->execute([(int)$adminId,$noticeBody]);
+             foreach($recipients as $recipientId)$notify->execute([(int)$recipientId,$noticeBody]);
          }
          $pdo->commit();
      } catch(Throwable $error) {

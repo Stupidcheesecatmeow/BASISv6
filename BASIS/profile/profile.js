@@ -137,67 +137,48 @@ function saveProfileOptionCatalog(catalog) {
     localStorage.setItem(PROFILE_OPTION_STORAGE, JSON.stringify(catalog));
 }
 
-function populateProfileDropdown(selectId, options, selectedValue = "", type) {
-    const select = $(selectId);
-    if (!select) return;
+function populateProfileDropdown(inputId, options, selectedValue = "", type) {
+    const input = $(inputId);
+    const list = $(`${type}Options`);
+    if (!input || !list) return;
 
     const catalog = readProfileOptionCatalog();
     const customOptions = Array.isArray(catalog[type]) ? catalog[type] : [];
     const allOptions = [...new Set([...options, ...customOptions])];
-
-    select.innerHTML = "";
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = type === "school" ? "SELECT SCHOOL / CAMPUS" :
-        type === "religion" ? "SELECT RELIGION" : "SELECT PROGRAM";
-    select.appendChild(placeholder);
-
+    list.replaceChildren();
     allOptions.forEach(label => {
         const option = document.createElement("option");
         option.value = label;
-        option.textContent = label;
-        select.appendChild(option);
+        list.appendChild(option);
     });
-
-    const otherOption = document.createElement("option");
-    otherOption.value = "__OTHER__";
-    otherOption.textContent = "Others";
-    select.appendChild(otherOption);
-
-    const otherInput = $(`${type}Other`);
-    const isKnown = allOptions.some(item => item.toLowerCase() === String(selectedValue).trim().toLowerCase());
-
-    if (selectedValue && !isKnown) {
-        const other = document.createElement("option");
-        other.value = "__OTHER__";
-        other.textContent = "Others";
-        select.value = "__OTHER__";
-        if (otherInput) {
-            otherInput.hidden = false;
-            otherInput.value = selectedValue;
-        }
-    } else {
-        select.value = selectedValue || "";
-        if (otherInput) {
-            otherInput.hidden = true;
-            otherInput.value = "";
-        }
+    if (type === "program") {
+        const otherOption = document.createElement("option");
+        otherOption.value = "Others";
+        list.appendChild(otherOption);
     }
+    input.value = selectedValue || "";
+    input.placeholder = type === "school" ? "TYPE OR SELECT SCHOOL / CAMPUS" :
+        type === "religion" ? "TYPE OR SELECT RELIGION" : "TYPE OR SELECT PROGRAM";
+
+    input.oninput = () => {
+        if (type === "program" && input.value.trim().toLowerCase() === "others") {
+            input.value = "Bachelor of Science in ";
+            input.setSelectionRange(input.value.length, input.value.length);
+        }
+    };
 }
 
 function getDropdownFieldValue(type) {
-    const select = $({ school: "school", religion: "religion", program: "program" }[type]);
-    if (!select) return "";
-
-    if (select.value !== "__OTHER__") return select.value.trim();
-
-    const otherInput = $(`${type}Other`);
-    const value = otherInput?.value.trim() || "";
+    const input = $({ school: "school", religion: "religion", program: "program" }[type]);
+    if (!input) return "";
+    let value = input.value.trim();
+    if (type === "program" && value.toLowerCase() === "others") value = "Bachelor of Science in ";
     if (!value) return "";
 
     const catalog = readProfileOptionCatalog();
     catalog[type] = Array.isArray(catalog[type]) ? catalog[type] : [];
-    if (!catalog[type].some(item => item.toLowerCase() === value.toLowerCase())) {
+    const knownOptions = { school: SCHOOL_OPTIONS, religion: RELIGION_OPTIONS, program: PROGRAM_OPTIONS }[type];
+    if (![...knownOptions, ...catalog[type]].some(item => item.toLowerCase() === value.toLowerCase())) {
         catalog[type].push(value);
         saveProfileOptionCatalog(catalog);
     }
@@ -208,23 +189,6 @@ function setupProfileDropdowns(profile = getProfile()) {
     populateProfileDropdown("school", SCHOOL_OPTIONS, profile.school || "", "school");
     populateProfileDropdown("religion", RELIGION_OPTIONS, profile.religion || "", "religion");
     populateProfileDropdown("program", PROGRAM_OPTIONS, profile.program || "", "program");
-
-    [
-        ["school", "schoolOther"],
-        ["religion", "religionOther"],
-        ["program", "programOther"]
-    ].forEach(([selectId, inputId]) => {
-        const select = $(selectId);
-        const input = $(inputId);
-        if (!select || !input) return;
-
-        select.onchange = () => {
-            const isOther = select.value === "__OTHER__";
-            input.hidden = !isOther;
-            if (isOther) input.focus();
-            else input.value = "";
-        };
-    });
 }
 
 /* =========================================================

@@ -397,7 +397,7 @@
 
         const data =
             await getJson(
-                `${ACTIVITY_API}?action=notifications`
+                `${ACCOUNT_API}?action=notifications`
             );
 
 
@@ -440,30 +440,7 @@
     }
 
     function buildRelevantNotifications(announcements, rawNotifications) {
-        const announcementItems = (announcements || []).map(item => ({
-            ...item,
-            id: `announcement-${item.id ?? item.announcement_id ?? recordDate(item)}`,
-            source_id: item.id ?? item.announcement_id ?? null,
-            type: "new_announcement",
-            title: firstValue(item.title, item.announcement_title, "New announcement"),
-            message: firstValue(item.message, item.content, item.description, "A new announcement has been published."),
-            created_at: firstValue(item.created_at, item.published_at, item.date)
-        }));
-
-        const feedbackItems = (rawNotifications || []).filter(item => {
-            const text = [
-                item?.type, item?.title, item?.message,
-                item?.body, item?.description, item?.content,
-                item?.category, item?.subject
-            ].join(" ").toLowerCase();
-
-            return text.includes("feedback") || text.includes("concern");
-        });
-
-        return uniqueById(
-            sortNewest([...announcementItems, ...feedbackItems]),
-            "relevant-notification"
-        );
+        return uniqueById(sortNewest(rawNotifications || []), "notification");
     }
 
 
@@ -636,7 +613,9 @@
 
                         item.title,
 
-                        item.message
+                        item.message,
+
+                        item.isRead
 
                     ])
 
@@ -1773,6 +1752,10 @@
 
         }
 
+        if (type.includes("new_announcement")) return "NEW ANNOUNCEMENT";
+        if (type.includes("new_feedback")) return "NEW FEEDBACK / CONCERN";
+        if (type.includes("feedback_response")) return "FEEDBACK / CONCERN REPLY";
+
 
         return "ACTIVITY";
 
@@ -1824,10 +1807,12 @@
                     return `
 
                         <button
-                            class="history-record-row"
+                            class="history-record-row${Number(item.isRead) ? "" : " is-unread"}"
                             type="button"
                             data-index="${index}"
                         >
+
+                            ${Number(item.isRead) ? "" : '<span class="notification-unread-dot" aria-label="Unread notification"></span>'}
 
                             <div class="history-record-icon">
 
@@ -1918,6 +1903,8 @@
 
         if (!item) return;
 
+        markNotificationRead(item);
+
 
         setText(
 
@@ -1966,6 +1953,25 @@
 
     window.openNotificationDetail =
         openNotificationDetail;
+
+    async function markNotificationRead(item) {
+        if (!item?.id || Number(item.isRead)) return;
+        try {
+            const response = await fetch(`${ACCOUNT_API}?action=notifications`, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({ id: Number(item.id) })
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Could not update notification status.");
+            item.isRead = 1;
+            renderNotificationHistory();
+            document.dispatchEvent(new CustomEvent("basis-notifications-updated"));
+        } catch (error) {
+            console.warn("Could not mark notification as read:", error);
+        }
+    }
 
 
     /* =====================================================
@@ -2449,6 +2455,8 @@
         item
     ) {
 
+        markNotificationRead(item);
+
         setText(
 
             "repNotificationDetailDate",
@@ -2699,7 +2707,9 @@ function openSelectedAnnouncementFromHome() {
 
                                 item.title,
 
-                                item.message
+                                item.message,
+
+                                item.isRead
 
                             ])
 

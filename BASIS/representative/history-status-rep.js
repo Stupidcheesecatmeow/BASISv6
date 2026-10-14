@@ -1,66 +1,38 @@
-/* BASIS Representative — History notification badge */
+/* Representative unread notification indicator */
 (() => {
     "use strict";
 
-    const HISTORY_API = "../admin/api/account_api.php?action=announcements";
-    const NOTIFICATION_API = "../admin/api/activity_api.php?action=notifications";
-
-    async function getJson(url) {
-        const response = await fetch(url, {
-            credentials: "same-origin",
-            cache: "no-store",
-            headers: { Accept: "application/json" }
-        });
-        if (!response.ok) throw new Error("Notification request failed");
-        const data = await response.json();
-        if (data && data.success === false) throw new Error(data.message || "Request failed");
-        return data;
-    }
-
-    function isFeedbackOrConcern(item) {
-        const text = [
-            item?.type, item?.title, item?.message, item?.body,
-            item?.description, item?.content, item?.category, item?.subject
-        ].join(" ").toLowerCase();
-        return text.includes("feedback") || text.includes("concern");
-    }
+    const API = "../admin/api/account_api.php?action=notifications";
 
     async function updateHistoryBadge() {
         const badges = document.querySelectorAll("[data-history-notification-badge]");
         if (!badges.length) return;
 
         try {
-            const [announcementData, notificationData] = await Promise.all([
-                getJson(HISTORY_API),
-                getJson(NOTIFICATION_API)
-            ]);
+            const response = await fetch(API, {
+                credentials: "same-origin",
+                cache: "no-store",
+                headers: { Accept: "application/json" }
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) throw new Error(data.message || "Notifications could not be loaded.");
 
-            const announcements = Array.isArray(announcementData.announcements)
-                ? announcementData.announcements : [];
-            const notifications = Array.isArray(notificationData.notifications)
-                ? notificationData.notifications : [];
-
-            const relevantCount = announcements.length +
-                notifications.filter(isFeedbackOrConcern).length;
-
+            const unreadCount = (Array.isArray(data.notifications) ? data.notifications : [])
+                .filter(item => !Number(item.isRead)).length;
             badges.forEach(badge => {
-                badge.hidden = relevantCount < 1;
-                badge.textContent = relevantCount > 9 ? "9+" : String(relevantCount);
-                badge.setAttribute(
-                    "aria-label",
-                    `${relevantCount} new announcement or feedback/concern notification${relevantCount === 1 ? "" : "s"}`
-                );
-                badge.title = "New announcement or feedback/concern notification";
+                badge.hidden = unreadCount === 0;
+                badge.textContent = unreadCount > 9 ? "9+" : String(unreadCount);
+                badge.setAttribute("aria-label", `${unreadCount} unread notification${unreadCount === 1 ? "" : "s"}`);
+                badge.title = `${unreadCount} unread notification${unreadCount === 1 ? "" : "s"}`;
             });
         } catch (error) {
-            // Fail quietly so the sidebar navigation still works if the API is offline.
-            badges.forEach(badge => { badge.hidden = true; });
             console.warn("History notification badge could not load:", error);
         }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         updateHistoryBadge();
+        document.addEventListener("basis-notifications-updated", updateHistoryBadge);
         window.setInterval(updateHistoryBadge, 15000);
     });
 })();

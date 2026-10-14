@@ -374,11 +374,9 @@
 
                             <div class="form-group span-religion">
                                 <label for="religion">RELIGION:</label>
-                                <select id="religion">
-                                    <option value="">SELECT RELIGION</option>
-                                </select>
-                                <input id="religionOther" class="other-option-input" type="text"
-                                       placeholder="Enter religion" hidden>
+                                <input id="religion" type="text" list="religionOptions" autocomplete="off"
+                                       placeholder="TYPE OR SELECT RELIGION">
+                                <datalist id="religionOptions"></datalist>
                             </div>
 
                             <div class="form-group span-muni">
@@ -393,20 +391,16 @@
 
                             <div class="form-group span-school">
                                 <label for="school">SCHOOL / CAMPUS:</label>
-                                <select id="school">
-                                    <option value="">SELECT SCHOOL / CAMPUS</option>
-                                </select>
-                                <input id="schoolOther" class="other-option-input" type="text"
-                                       placeholder="Enter school / campus" hidden>
+                                <input id="school" type="text" list="schoolOptions" autocomplete="off"
+                                       placeholder="TYPE OR SELECT SCHOOL / CAMPUS">
+                                <datalist id="schoolOptions"></datalist>
                             </div>
 
                             <div class="form-group span-program">
                                 <label for="program">PROGRAM:</label>
-                                <select id="program">
-                                    <option value="">SELECT PROGRAM</option>
-                                </select>
-                                <input id="programOther" class="other-option-input" type="text"
-                                       placeholder="Enter program" hidden>
+                                <input id="program" type="text" list="programOptions" autocomplete="off"
+                                       placeholder="TYPE OR SELECT PROGRAM">
+                                <datalist id="programOptions"></datalist>
                             </div>
 
                             <div class="form-group span-year">
@@ -476,10 +470,10 @@
     </section>
 </main>
 
-<script src="../script.js?v=20261005-user-name-header"></script>
+<script src="../script.js?v=20261015-unread-notifications"></script>
 <script src="../auth.js?v=3"></script>
-<script src="profile-rep.js?v=20261013"></script>
+<script src="profile-rep.js?v=20261015-searchable-academic-fields"></script>
 
-<script src="history-status.js?v=2"></script>
+<script src="history-status-rep.js?v=20261015-unread-notifications"></script>
 </body>
 </html>

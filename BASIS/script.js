@@ -224,14 +224,30 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         }).catch((error) => console.warn("Could not load account avatar.", error));
     }
     
-    if (script && document.querySelector('.bottom-nav a[href*="history"]')) {
-        const historyLink = document.querySelector('.bottom-nav a[href*="history"]');
-        fetch(new URL('admin/api/account_api.php?action=notifications', script.src), {credentials:'same-origin',cache:'no-store'})
+    const historyLinks = [...document.querySelectorAll('a[href*="history"]')]
+        .filter(link => !link.querySelector('[data-history-notification-badge]'));
+    if (script && historyLinks.length) {
+        const updateHistoryNotificationDots = () => fetch(new URL('admin/api/account_api.php?action=notifications', script.src), {credentials:'same-origin',cache:'no-store'})
             .then(response => response.json()).then(data => {
-                if (!data.success || !(data.notifications || []).some(item => !Number(item.isRead))) return;
-                historyLink.classList.add('has-new-notifications');
-                if (!historyLink.querySelector('.history-notification-dot')) { const dot=document.createElement('span');dot.className='history-notification-dot';dot.setAttribute('aria-label','New notifications');historyLink.appendChild(dot); }
+                if (!data.success) return;
+                const hasUnread = (data.notifications || []).some(item => !Number(item.isRead));
+                historyLinks.forEach(historyLink => {
+                    historyLink.classList.toggle('has-new-notifications', hasUnread);
+                    if (hasUnread) historyLink.style.position = 'relative';
+                    let dot = historyLink.querySelector('.history-notification-dot');
+                    if (hasUnread && !dot) {
+                        dot = document.createElement('span');
+                        dot.className = 'history-notification-dot';
+                        dot.setAttribute('aria-label', 'New notifications');
+                        historyLink.appendChild(dot);
+                    } else if (!hasUnread && dot) {
+                        dot.remove();
+                    }
+                });
             }).catch(() => {});
+        updateHistoryNotificationDots();
+        document.addEventListener('basis-notifications-updated', updateHistoryNotificationDots);
+        window.setInterval(updateHistoryNotificationDots, 15000);
     }
 
     // Helper function to toggle header avatar visibility

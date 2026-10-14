@@ -221,6 +221,7 @@ function db(): PDO
         title TEXT NOT NULL,
         message TEXT NOT NULL DEFAULT '',
         activity_id INTEGER,
+        announcement_id INTEGER,
         is_read INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -230,7 +231,11 @@ function db(): PDO
     if (!in_array('is_read', $notificationColumns, true)) {
         $pdo->exec('ALTER TABLE notifications ADD COLUMN is_read INTEGER NOT NULL DEFAULT 0');
     }
+    if (!in_array('announcement_id', $notificationColumns, true)) {
+        $pdo->exec('ALTER TABLE notifications ADD COLUMN announcement_id INTEGER');
+    }
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id,created_at DESC,id DESC)');
+    $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_notifications_announcement_user ON notifications(user_id,announcement_id) WHERE announcement_id IS NOT NULL');
 
     return $pdo;
 }
