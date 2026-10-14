@@ -420,17 +420,15 @@
     const ANNOUNCEMENT_LIFETIME_DAYS = 14;
 
     function announcementPublishedDate(item) {
-        // The API maps announcements.announcement_date to `date`.
-        // Use that announcement date consistently for the 14-day Home/History rule.
-        // Fall back to the saved timestamp only when the announcement date is absent.
+        // Start the 14-day Home/History window from publication, not the entered event date.
         const raw = firstValue(
-            item?.date,
-            item?.announcement_date,
-            item?.announcementDate,
             item?.published_at,
             item?.publishedAt,
             item?.created_at,
-            item?.createdAt
+            item?.createdAt,
+            item?.date,
+            item?.announcement_date,
+            item?.announcementDate
         );
 
         if (!raw) return null;

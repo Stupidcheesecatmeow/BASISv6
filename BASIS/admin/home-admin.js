@@ -1040,16 +1040,15 @@ function getAnnouncements() {
 const ANNOUNCEMENT_LIFETIME_DAYS = 14;
 
 function getAnnouncementPublishedDate(announcement) {
-    // account_api.php returns announcement_date as `date`.
-    // Use the same date basis as Announcement History so records move together.
+    // Use the saved publication timestamp so the 14-day window starts when it is published.
     const raw =
-        announcement?.date ||
-        announcement?.announcement_date ||
-        announcement?.announcementDate ||
         announcement?.published_at ||
         announcement?.publishedAt ||
         announcement?.created_at ||
         announcement?.createdAt ||
+        announcement?.date ||
+        announcement?.announcement_date ||
+        announcement?.announcementDate ||
         "";
 
     if (!raw) return null;
