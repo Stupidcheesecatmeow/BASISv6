@@ -11,6 +11,7 @@ let activities = [];
 let activityLoadErrorMessage = '';
 
 let currentActivity = null;
+let activityDetailRequestSequence = 0;
 
 let currentSubmissionType = "attendance";
 
@@ -213,7 +214,7 @@ function renderActivities(
 
 
             card.className =
-                "activity-card-item";
+                "admin-activity-card";
 
 
             const title =
@@ -296,14 +297,20 @@ function getActivityTitle(activity) {
 ========================================================= */
 
 function getActivityDate(activity) {
+    const value = activity.date || activity.activityDate || activity.startDate || "";
+    return formatActivityDate(value) || "—";
 
-    return (
-        activity.date ||
-        activity.activityDate ||
-        activity.startDate ||
-        "XX/XX/XXXX"
-    );
+}
 
+function formatActivityDate(value) {
+    if (!value) return "";
+    const raw = String(value).trim();
+    const match = raw.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (!match) return raw;
+    const date = new Date(`${match[1]}T00:00:00`);
+    return Number.isNaN(date.getTime())
+        ? raw
+        : date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
 }
 
 
@@ -313,6 +320,7 @@ function getActivityDate(activity) {
 ========================================================= */
 
 async function openActivityDetail(activity) {
+    const requestSequence = ++activityDetailRequestSequence;
     const activityId = Number(activity?.id || activity?.activity_id || 0);
     if (!activityId) {
         showActivityLoadError('This activity is missing its system ID. Refresh the activity list and try again.');
@@ -323,9 +331,11 @@ async function openActivityDetail(activity) {
         const response = await fetch(`../admin/api/activity_api.php?action=get&id=${encodeURIComponent(activityId)}`, { credentials: 'same-origin', cache: 'no-store' });
         const data = await response.json();
         if (!response.ok || !data.success || !data.activity) throw new Error(data.message || 'Could not load this activity. Please refresh and try again.');
+        if (requestSequence !== activityDetailRequestSequence) return;
         activity = normalizeActivityRecord(data.activity);
         if (!String(activity.name).trim()) throw new Error('This activity record has no title. Please ask the admin to edit and save the activity again.');
     } catch (error) {
+        if (requestSequence !== activityDetailRequestSequence) return;
         showActivityLoadError(error.message || 'Could not load this activity. Please sign in again and retry.');
         return;
     }
@@ -459,21 +469,26 @@ const imageEmpty =
     document.getElementById('activityDetailImageEmpty');
 
 const imageSource =
-    activity.description_image || '';
+    activity.description_image || activity.descriptionImage || '';
 
 if (descriptionImage) {
-    descriptionImage.hidden = !imageSource;
-
+    descriptionImage.onload = () => {
+        descriptionImage.hidden = false;
+        if (imageEmpty) imageEmpty.hidden = true;
+    };
+    descriptionImage.onerror = () => {
+        descriptionImage.hidden = true;
+        if (imageEmpty) imageEmpty.hidden = false;
+    };
     if (imageSource) {
+        descriptionImage.hidden = true;
+        if (imageEmpty) imageEmpty.hidden = false;
         descriptionImage.src = imageSource;
     } else {
+        descriptionImage.hidden = true;
         descriptionImage.removeAttribute('src');
+        if (imageEmpty) imageEmpty.hidden = false;
     }
-}
-
-if (imageEmpty) {
-    imageEmpty.style.display =
-        imageSource ? 'none' : 'flex';
 }
 
     setText(
@@ -495,7 +510,9 @@ async function populateQRPage(
 
     const qrImage = document.getElementById("activityQrImage");
     const downloadButton = document.getElementById("downloadActivityQrButton");
+    const qrStatus = document.getElementById("activityQrStatus");
     if (downloadButton) downloadButton.disabled = true;
+    if (qrStatus) qrStatus.textContent = "";
     if (qrImage) {
         qrImage.hidden = !["qr", "both"].includes(String(activity.generateQr || activity.generate_qr || "").toLowerCase());
         if (!qrImage.hidden) {
@@ -503,16 +520,20 @@ async function populateQRPage(
                 const response = await fetch(`../admin/api/activity_qr.php?id=${encodeURIComponent(activity.id)}`, { credentials: "same-origin", cache: "no-store" });
                 if (!response.ok) throw new Error("The QR code could not be loaded for this signed-in iskolar.");
                 const blob = await response.blob();
+                if (String(currentActivity?.id) !== String(activity.id)) return;
                 if (qrImage.dataset.qrObjectUrl) URL.revokeObjectURL(qrImage.dataset.qrObjectUrl);
                 qrImage.dataset.qrObjectUrl = URL.createObjectURL(blob);
                 qrImage.src = qrImage.dataset.qrObjectUrl;
                 if (downloadButton) downloadButton.disabled = false;
             } catch (error) {
+                if (String(currentActivity?.id) !== String(activity.id)) return;
                 qrImage.removeAttribute("src");
+                if (qrStatus) qrStatus.textContent = error.message || "The QR code could not be loaded. Please try again.";
                 console.error(error.message);
             }
         } else {
             qrImage.removeAttribute("src");
+            if (qrStatus) qrStatus.textContent = "QR attendance is not enabled for this activity.";
         }
     }
 
@@ -766,7 +787,7 @@ function getActivityDescription(activity) {
 function getActivityDeadline(activity) {
     const date = activity.deadlineDate || activity.deadline_date || '';
     const time = activity.deadlineTime || activity.deadline_time || '';
-    return [date, time].filter(Boolean).join(' ') || activity.deadline || '—';
+    return [formatActivityDate(date), time].filter(Boolean).join(' ') || activity.deadline || '—';
 
 }
 

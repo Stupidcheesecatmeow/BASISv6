@@ -264,17 +264,17 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         toggleHeaderAvatar(tabName === 'profile');
     };
 
-    window.showSubView = function (viewId) {
-        const views = document.querySelectorAll('.page-view');
-        views.forEach(view => view.classList.remove('active'));
-        const target = document.getElementById(viewId);
-        if (target) {
-            target.classList.add('active');
-        }
-
-        // HIDE AVATAR IF SUBVIEW IS ANY PROFILE STEP
-        toggleHeaderAvatar(viewId.startsWith('view-profile'));
-    };
+    // Specialized modules (such as scholar Activity) own their subview state,
+    // including hidden/aria-hidden attributes. Keep this as a fallback only.
+    if (typeof window.showSubView !== 'function') {
+        window.showSubView = function (viewId) {
+            const views = document.querySelectorAll('.page-view');
+            views.forEach(view => view.classList.remove('active'));
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+            toggleHeaderAvatar(viewId.startsWith('view-profile'));
+        };
+    }
 
     window.openScorecardDetail = function (semesterName) {
         const semTitleElem = document.getElementById('scorecardSemTitle');

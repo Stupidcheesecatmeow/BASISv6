@@ -59,7 +59,7 @@
     ====================================================== -->
 
     <link rel="stylesheet" href="../admin/home-admin.css?v=7">
-    <link rel="stylesheet" href="activity.css?v=20261012-iskolar-admin-ui">
+    <link rel="stylesheet" href="activity.css?v=20261014-iskolar-activity-details-v2">
 
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
@@ -114,11 +114,6 @@
             class="page-view active"
         >
 
-
-            
-
-
-
             <!-- ACTIVITY LIST CONTAINER -->
 
             <div
@@ -126,20 +121,15 @@
             >
 
                 <div
-                    class="activity-list"
+                    class="admin-activity-list"
                     id="activityList"
                 >
 
-                    <!--
-
-                        ACTIVITY CARDS ARE GENERATED
-                        AUTOMATICALLY BY activity.js
-
-                        IF THERE ARE NO ACTIVITIES:
-
-                        No activities yet.
-
-                    -->
+                    <div class="no-activities-message" role="status" aria-live="polite">
+                        <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                        <h3>Loading activities…</h3>
+                        <p>Your available activities will appear here.</p>
+                    </div>
 
                 </div>
 
@@ -285,6 +275,8 @@
                         <div class="qr-placeholder">
                             <img id="activityQrImage" alt="Activity attendance QR code">
                         </div>
+
+                        <p id="activityQrStatus" class="activity-qr-status" role="status" aria-live="polite"></p>
 
 
                         <p class="qr-placeholder-note">
@@ -926,8 +918,8 @@
          ACTIVITY JAVASCRIPT
     ====================================================== -->
 
-            <script src="../script.js?v=20261005-user-name-header"></script>
-    <script src="activity.js?v=20261012-iskolar-admin-ui"></script>
+            <script src="../script.js?v=20261014-activity-subview-fix"></script>
+    <script src="activity.js?v=20261014-iskolar-activity-details-v2"></script>
     <script src="../auth.js?v=3"></script>
     <script>
     (() => {
