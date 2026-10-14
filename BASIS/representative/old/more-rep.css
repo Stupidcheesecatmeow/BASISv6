@@ -65,7 +65,7 @@
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 28px;
 
@@ -181,7 +181,7 @@
 
     box-sizing: border-box;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     cursor: pointer;
 
@@ -328,7 +328,7 @@
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 21px;
 
@@ -648,7 +648,7 @@
 
     color: #42523f;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 13px;
 
@@ -709,7 +709,7 @@
 
     color: #42523f;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 14px;
 
@@ -736,7 +736,7 @@
 
     color: #42523f;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 14px;
 
@@ -774,7 +774,7 @@
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 13px;
 
@@ -910,7 +910,7 @@
 
     outline: none;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 13px;
 
@@ -933,7 +933,7 @@
 
     color: #42523f;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 15px;
 
@@ -1182,7 +1182,7 @@
 
 .representative-more-page .report-header { justify-content:space-between; gap:15px; }
 .representative-more-page .report-header-actions { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:7px; }
-.representative-more-page .report-action-btn { min-width:88px; height:34px; padding:0 12px; border:0; border-radius:7px; background:#fff; color:#42523f; font-family:"Poppins",sans-serif; font-size:11px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:5px; transition:.2s ease; }
+.representative-more-page .report-action-btn { min-width:88px; height:34px; padding:0 12px; border:0; border-radius:7px; background:#fff; color:#42523f; font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:11px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:5px; transition:.2s ease; }
 .representative-more-page .report-action-btn:hover { background:#f2f4f1; transform:translateY(-1px); }
 .representative-more-page .report-builder { width:100%; padding:24px 28px 35px; box-sizing:border-box; }
 .representative-more-page .report-intro { margin-bottom:18px; }
@@ -1203,7 +1203,7 @@
 .representative-more-page .report-result-toolbar>div { display:flex; align-items:center; gap:10px; }
 .representative-more-page .report-result-toolbar strong { font-size:13px; font-weight:900; }
 .representative-more-page .report-result-toolbar span { font-size:11px; font-weight:600; opacity:.9; }
-.representative-more-page .clear-report-btn { width:75px; height:28px; border:1px solid #fff; border-radius:6px; background:transparent; color:#fff; font-family:"Poppins",sans-serif; font-size:10px; font-weight:900; cursor:pointer; }
+.representative-more-page .clear-report-btn { width:75px; height:28px; border:1px solid #fff; border-radius:6px; background:transparent; color:#fff; font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:10px; font-weight:900; cursor:pointer; }
 .representative-more-page .clear-report-btn:hover { background:#fff; color:#42523f; }
 .representative-more-page .report-results { width:100%; border:1px solid #a3b2a0; border-radius:8px; background:#fff; overflow:hidden; }
 .representative-more-page .report-group { width:100%; border-bottom:1px solid #a3b2a0; }
@@ -1212,7 +1212,7 @@
 .representative-more-page .report-group-title h4 { margin:0; font-size:14px; font-weight:900; text-transform:uppercase; overflow-wrap:anywhere; }
 .representative-more-page .report-group-title span { flex-shrink:0; font-size:10px; font-weight:800; }
 .representative-more-page .report-table-wrap { width:100%; overflow-x:auto; }
-.representative-more-page .report-table { width:100%; min-width:700px; border-collapse:collapse; font-family:"Poppins",sans-serif; }
+.representative-more-page .report-table { width:100%; min-width:700px; border-collapse:collapse; font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .representative-more-page .report-table th { padding:9px 10px; background:#eef2ec; color:#42523f; border-bottom:1px solid #a3b2a0; text-align:left; font-size:10px; font-weight:900; white-space:nowrap; }
 .representative-more-page .report-table td { padding:9px 10px; color:#42523f; border-bottom:1px solid #e1e6df; text-align:left; font-size:10px; font-weight:600; vertical-align:top; }
 .representative-more-page .report-table tr:last-child td { border-bottom:0; }

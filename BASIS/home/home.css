@@ -165,7 +165,7 @@
 }
 
 .empty-state-content span {
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 13px;
     font-weight: 800;
@@ -202,7 +202,7 @@
 .representative-update h2 {
     margin: 0 0 8px 0;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 25px;
     font-weight: 900;
@@ -238,7 +238,7 @@
 
     box-sizing: border-box;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 14px;
     font-style: italic;

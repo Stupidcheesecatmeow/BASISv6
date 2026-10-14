@@ -959,7 +959,7 @@ body.admin-page {
 
     color: #777777 !important;
 
-    font-family: 'Poppins', sans-serif !important;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif!important;
     font-size: 12px !important;
     font-weight: 400 !important;
     font-style: italic !important;
@@ -1663,7 +1663,7 @@ body.admin-page {
 
     color: #405840;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 11px;
 
@@ -1829,7 +1829,7 @@ body.admin-page {
 
     padding: 0 14px;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 10px;
 

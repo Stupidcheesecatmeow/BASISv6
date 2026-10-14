@@ -188,7 +188,7 @@
     border-radius: 6px;
     background: #768a75;
     color: #ffffff;
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 10px;
     font-weight: 900;
     cursor: pointer;
@@ -470,7 +470,7 @@
     outline: none;
     background: #ffffff;
     color: #42523f;
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 10.5px;
     font-weight: 600;
 }

@@ -72,7 +72,7 @@
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 21px;
     font-weight: 900;
 
@@ -187,7 +187,7 @@
 
     box-sizing: border-box;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     cursor: pointer;
 
@@ -423,7 +423,7 @@
 
     color: var(--more-text);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 19px;
     font-weight: 900;
@@ -714,7 +714,7 @@
 
     color: var(--more-text);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px;
 
@@ -773,7 +773,7 @@
 
     color: var(--more-text);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px;
 
@@ -800,7 +800,7 @@
 
     color: var(--more-text);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px;
 
@@ -842,7 +842,7 @@
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 8px;
 
@@ -965,7 +965,7 @@
 
     color: var(--more-text);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 8px;
 
@@ -1003,7 +1003,7 @@
 
     color: var(--more-green);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 8px;
 
@@ -1181,7 +1181,7 @@
 
     color: var(--more-green);
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 8px;
 
@@ -1378,7 +1378,7 @@
 
     border-collapse: collapse;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .report-table th {
@@ -1942,7 +1942,7 @@
 
     box-sizing: border-box;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     cursor: pointer;
 
@@ -2079,7 +2079,7 @@
     align-items: center;
     justify-content: center;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 18px !important;
     font-weight: 900;
@@ -2152,7 +2152,7 @@
 
     color: #263329 !important;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 18px !important;
 
@@ -2388,7 +2388,7 @@
 
     gap: 3px;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 6px !important;
 
@@ -2726,7 +2726,7 @@
 
     color: #405c43;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 7px;
 
@@ -2905,7 +2905,7 @@
 
     color: #263329;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 8px;
 
@@ -2934,7 +2934,7 @@
 
     color: #405c43;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 7px;
 
@@ -3441,7 +3441,7 @@
 
     color: #263329 !important;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 18px !important;
 
@@ -3480,7 +3480,7 @@
     align-items: center;
     justify-content: center;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 17px !important;
     font-weight: 900;
@@ -3606,7 +3606,7 @@
 
     color: #263329 !important;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 12px !important;
 
@@ -3622,7 +3622,7 @@
 
     color: #667168 !important;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px !important;
 
@@ -3670,7 +3670,7 @@
 
     color: #263329;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 12px;
 
@@ -3695,7 +3695,7 @@
 
     color: #667168;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px;
 
@@ -3725,7 +3725,7 @@
 
     color: #263329;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 12px;
 
@@ -3750,7 +3750,7 @@
 
     color: #667168;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     font-size: 9px;
 

@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: var(--text);
     background: #ffffff;
     padding-bottom: 92px;
@@ -1182,7 +1182,7 @@ button {
 
     color: #405840;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 11px;
 }
 
@@ -1202,7 +1202,7 @@ button {
     background: #ffffff;
     color: #405840;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 10px;
     font-weight: 900;
 
@@ -1245,7 +1245,7 @@ button {
 
     border-radius: 6px;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 10px;
     font-weight: 900;
 
@@ -1307,7 +1307,7 @@ button {
     border-collapse: collapse;
     table-layout: fixed;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* HEADER */
@@ -1459,7 +1459,7 @@ button {
     background: #7c907b;
     color: #ffffff;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 8px;
     font-weight: 900;
 
@@ -1700,7 +1700,7 @@ body.user-admin-page {
     background: #edf1eb;
     color: #42523f;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 21px;
     font-weight: 800;
 

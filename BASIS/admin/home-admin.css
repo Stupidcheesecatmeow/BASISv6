@@ -29,7 +29,7 @@ body.admin-page {
     min-height: 100vh;
     background: var(--admin-cream);
     color: var(--admin-text);
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     overflow-x: hidden;
 }
 
@@ -40,7 +40,7 @@ body.admin-page {
 .admin-page button,
 .admin-page input,
 .admin-page textarea {
-    font-family: "Poppins", sans-serif;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* =========================================================
