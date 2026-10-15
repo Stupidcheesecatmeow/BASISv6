@@ -801,7 +801,7 @@
 
             [
                 "historyAnnouncementCount",
-                historyData.announcements.length
+                historyData.announcements.filter(isAnnouncementExpired).length
             ],
 
             [
@@ -964,6 +964,27 @@
        ANNOUNCEMENT LIST
     ===================================================== */
 
+    const ANNOUNCEMENT_LIFETIME_DAYS = 14;
+
+    function announcementPublishedDate(item) {
+        const raw = firstValue(item?.published_at, item?.publishedAt, item?.created_at, item?.createdAt, item?.date, item?.announcement_date, item?.announcementDate);
+        if (!raw) return null;
+        const value = String(raw).trim();
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        const published = match
+            ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+            : new Date(value);
+        return Number.isNaN(published.getTime()) ? null : published;
+    }
+
+    function isAnnouncementExpired(item, now = new Date()) {
+        const published = announcementPublishedDate(item);
+        if (!published || published > now) return false;
+        const expires = new Date(published.getTime());
+        expires.setDate(expires.getDate() + ANNOUNCEMENT_LIFETIME_DAYS);
+        return expires <= now;
+    }
+
     function renderAnnouncementHistory() {
 
         const container =
@@ -975,20 +996,7 @@
         if (!container) return;
 
 
-        const now = new Date();
-        const items = sortNewest(historyData.announcements).filter(item => {
-            const raw = firstValue(item?.published_at, item?.publishedAt, item?.created_at, item?.createdAt, item?.date, item?.announcement_date, item?.announcementDate);
-            if (!raw) return false;
-            const value = String(raw).trim();
-            const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-            const published = match
-                ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
-                : new Date(value);
-            if (Number.isNaN(published.getTime()) || published > now) return false;
-            const expires = new Date(published);
-            expires.setDate(expires.getDate() + 14);
-            return expires <= now;
-        });
+        const items = sortNewest(historyData.announcements).filter(isAnnouncementExpired);
 
 
         if (!items.length) {
@@ -2073,18 +2081,7 @@
                         .toLowerCase();
 
 
-            const items = sortNewest(getItems()).filter(item => {
-                if (type !== "announcement") return true;
-                const raw = firstValue(item?.published_at, item?.publishedAt, item?.created_at, item?.createdAt, item?.date, item?.announcement_date, item?.announcementDate);
-                if (!raw) return false;
-                const value = String(raw).trim();
-                const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                const published = match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : new Date(value);
-                if (Number.isNaN(published.getTime()) || published > new Date()) return false;
-                const expires = new Date(published);
-                expires.setDate(expires.getDate() + 14);
-                return expires <= new Date();
-            });
+            const items = sortNewest(getItems()).filter(item => type !== "announcement" || isAnnouncementExpired(item));
 
 
                 if (!query) {
