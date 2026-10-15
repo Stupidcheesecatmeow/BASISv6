@@ -74,6 +74,13 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
     const applyProfileAvatar = (profile) => {
         if (!profile) return;
         applyWelcomeName(profile);
+        const composedName = [profile.givenName || profile.given_name, profile.middleName || profile.middle_name, profile.surname, profile.suffix].filter(value => String(value || "").trim()).join(" ");
+        const fullName = String(composedName || profile.fullName || profile.full_name || profile.name || "").trim();
+        if (fullName) {
+            document.querySelectorAll(".sidebar-profile strong, .sidebar-user-name, .sidebar-profile-name, #sidebarProfileName, #sidebarRepName").forEach((nameElement) => {
+                nameElement.textContent = fullName;
+            });
+        }
         if (!profile.id) return;
         sessionStorage.setItem("basisCurrentUserId", String(profile.id));
         localStorage.setItem(`basisProfile_${profile.id}`, JSON.stringify(profile));
@@ -81,8 +88,6 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         document.querySelectorAll(".header-avatar, #topbarProfilePhoto, #sidebarProfilePhoto").forEach((avatar) => {
             avatar.src = profile.profilePhoto;
         });
-        const sidebarName = document.getElementById("sidebarProfileName");
-        if (sidebarName) sidebarName.textContent = String(profile.givenName || profile.given_name || profile.name || "ISKOLAR").trim().toLocaleUpperCase();
     };
 
     window.addEventListener("basis-profile-updated", (event) => {

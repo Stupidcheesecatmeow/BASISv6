@@ -179,7 +179,7 @@
         </main>
     </div>
 
-    <script src="../script.js?v=20261016-user-greeting"></script>
+    <script src="../script.js?v=20261016-fullname-sidebar-v2"></script>
     <script src="scorecard.js?v=20261016-activity-period-v8"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -197,7 +197,7 @@
         });
         window.addEventListener("basis-account-profile-loaded", function (event) {
             const profile = event.detail || {};
-            const name = profile.name || [profile.givenName, profile.middleName, profile.surname, profile.suffix].filter(Boolean).join(" ") || "ISKOLAR";
+            const name = [profile.givenName || profile.given_name, profile.middleName || profile.middle_name, profile.surname, profile.suffix].filter(value => String(value || "").trim()).join(" ") || profile.fullName || profile.full_name || profile.name || "ISKOLAR";
             document.querySelectorAll(".sidebar-user-name").forEach(el => el.textContent = name);
             const avatar = profile.profilePicture || profile.profile_picture || profile.avatar || profile.photo;
             if (avatar) document.querySelectorAll(".sidebar-avatar, .topbar-avatar img").forEach(img => img.src = avatar);

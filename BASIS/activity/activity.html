@@ -919,7 +919,7 @@
          ACTIVITY JAVASCRIPT
     ====================================================== -->
 
-            <script src="../script.js?v=20261016-user-greeting"></script>
+            <script src="../script.js?v=20261016-fullname-sidebar-v2"></script>
 <script src="activity.js?v=20261015-activity-details-admin-ui"></script>
     <script src="../auth.js?v=3"></script>
     <script>
@@ -932,7 +932,7 @@
       document.getElementById("sidebarClose")?.addEventListener("click",close);
       overlay?.addEventListener("click",close);
       document.querySelectorAll(".sidebar-link").forEach(link=>link.addEventListener("click",close));
-      window.addEventListener("basis-account-profile-loaded",event=>{const p=event.detail?.profile||event.detail||{};const name=p.name||[p.givenName,p.middleName,p.surname].filter(Boolean).join(" ");if(name)document.querySelector(".sidebar-user-name")?.replaceChildren(document.createTextNode(name));const src=p.profilePicture||p.profile_picture||p.avatar||p.photo;if(src){document.querySelectorAll(".sidebar-avatar,.header-avatar").forEach(img=>img.src=src);}});
+      window.addEventListener("basis-account-profile-loaded",event=>{const p=event.detail?.profile||event.detail||{};const name=[p.givenName||p.given_name,p.middleName||p.middle_name,p.surname,p.suffix].filter(value=>String(value||"").trim()).join(" ")||p.fullName||p.full_name||p.name;if(name)document.querySelectorAll(".sidebar-user-name").forEach(el=>el.textContent=name);const src=p.profilePhoto||p.profilePicture||p.profile_picture||p.avatar||p.photo;if(src){document.querySelectorAll(".sidebar-avatar,.header-avatar").forEach(img=>img.src=src);}});
     })();
     </script>
 
