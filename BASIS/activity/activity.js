@@ -404,7 +404,7 @@ function populateActivityDetail(
 
     setText(
         "detailType",
-        `TYPE OF ACTIVITY: ${getActivityType(activity)}`
+        getActivityType(activity)
     );
 
 

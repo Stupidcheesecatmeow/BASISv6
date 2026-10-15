@@ -59,7 +59,7 @@
     ====================================================== -->
 
     <link rel="stylesheet" href="../admin/home-admin.css?v=7">
-    <link rel="stylesheet" href="activity.css?v=20261014-iskolar-activity-details-v2">
+    <link rel="stylesheet" href="activity.css?v=20261015-activity-compact-panels">
 
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
@@ -166,9 +166,12 @@
                     <div class="activity-detail-info">
 
                         <div class="activity-detail-header">
-                            <div class="activity-title-block">
+                            <div>
                                 <h2 class="activity-main-title" id="detailTitle">ACTIVITY TITLE</h2>
-                                <div class="activity-type-text" id="detailType">TYPE OF ACTIVITY:</div>
+                                <div class="activity-type-text">
+                                    <strong>TYPE OF ACTIVITY:</strong>
+                                    <span id="detailType">—</span>
+                                </div>
                             </div>
                         </div>
 
@@ -193,12 +196,10 @@
                         </div>
 
                         <div class="action-buttons-row">
-                            <button type="button" class="act-btn solid-btn" id="activityQrButton" onclick="showSubView('view-qr')">
-                                <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
-                                QR CODE
+                            <button type="button" class="act-btn solid-btn" id="activityQrButton" data-requires-qr onclick="showSubView('view-qr')">
+                                MY QR CODE
                             </button>
-                            <button type="button" class="act-btn outline-btn" id="activityProofButton" onclick="showSubView('view-submission')">
-                                <i class="fa-solid fa-file-arrow-up" aria-hidden="true"></i>
+                            <button type="button" class="act-btn outline-btn" id="activityProofButton" data-requires-proof onclick="showSubView('view-submission')">
                                 SUBMISSION
                             </button>
                         </div>
@@ -919,7 +920,7 @@
     ====================================================== -->
 
             <script src="../script.js?v=20261015-unread-notifications"></script>
-    <script src="activity.js?v=20261014-iskolar-activity-details-v2"></script>
+<script src="activity.js?v=20261015-activity-details-admin-ui"></script>
     <script src="../auth.js?v=3"></script>
     <script>
     (() => {

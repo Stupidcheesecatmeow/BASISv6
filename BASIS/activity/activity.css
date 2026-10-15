@@ -1487,3 +1487,436 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
     .iskolar-activity-page .admin-activity-card .open-activity-btn { align-self:flex-end; }
     .iskolar-activity-page .activity-page-heading p { max-width:280px; }
 }
+
+/* Match the admin and representative activity detail presentation. */
+.iskolar-activity-page #view-activity-detail .activity-detail-frame {
+    padding: clamp(14px, 1.4vw, 22px);
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-layout {
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, .85fr);
+    align-items: start;
+    gap: clamp(18px, 2vw, 30px);
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-info,
+.iskolar-activity-page #view-activity-detail .activity-detail-image-side {
+    padding: clamp(18px, 2vw, 28px);
+    border-radius: 18px;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-header { margin-bottom: 12px; }
+.iskolar-activity-page #view-activity-detail .activity-main-title {
+    font-size: clamp(24px, 2.1vw, 34px);
+    line-height: 1.25;
+}
+.iskolar-activity-page #view-activity-detail .activity-type-text {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-sem {
+    margin: 14px 0 20px;
+    padding: 12px 16px;
+    font-size: 12px;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid { gap: 12px; }
+.iskolar-activity-page #view-activity-detail .activity-meta-grid p {
+    padding: 15px 16px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.65;
+}
+.iskolar-activity-page #view-activity-detail .activity-meta-grid p strong {
+    margin-bottom: 7px;
+    font-size: 11px;
+}
+.iskolar-activity-page #view-activity-detail .divider { margin: 20px 0; }
+.iskolar-activity-page #view-activity-detail .activity-description {
+    padding: 17px 18px;
+    border-radius: 14px;
+}
+.iskolar-activity-page #view-activity-detail .activity-description > strong {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.iskolar-activity-page #view-activity-detail #detailDescription {
+    font-size: 14px;
+    line-height: 1.8;
+}
+.iskolar-activity-page #view-activity-detail .deadline-text {
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 1.7;
+}
+.iskolar-activity-page #view-activity-detail .action-buttons-row {
+    gap: 10px;
+    margin-top: 22px;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-side { padding: 20px; }
+.iskolar-activity-page #view-activity-detail .activity-detail-image-box {
+    height: clamp(220px, 40vh, 360px);
+    max-height: 360px;
+    padding: 10px;
+    border-radius: 16px;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-image-empty { font-size: 13px; }
+.iskolar-activity-page #view-activity-detail .activity-detail-image-empty i { font-size: 42px; }
+@media (max-height: 800px) and (min-width: 951px) {
+    .iskolar-activity-page #view-activity-detail .activity-detail-frame { padding: 12px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-info,
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { padding: 13px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box {
+        height: clamp(190px, 34vh, 280px);
+        max-height: 280px;
+    }
+    .iskolar-activity-page #view-activity-detail .activity-detail-sem { margin: 8px 0 10px; }
+    .iskolar-activity-page #view-activity-detail .divider { margin: 10px 0; }
+}
+@media (max-width: 950px) {
+    .iskolar-activity-page #view-activity-detail .activity-detail-layout { grid-template-columns: minmax(0, 1fr); }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { order: 2; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box {
+        height: clamp(200px, 38vh, 320px);
+        max-height: 320px;
+    }
+}
+@media (max-width: 650px) {
+    .iskolar-activity-page #view-activity-detail .activity-detail-frame { padding: 10px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-info,
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { padding: 12px; }
+    .iskolar-activity-page #view-activity-detail .activity-meta-grid { grid-template-columns: minmax(0, 1fr); }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box { height: 230px; max-height: 230px; }
+}
+
+/* Scholar QR and proof submission views use the same presentation as admin/representative. */
+.iskolar-activity-page #view-qr,
+.iskolar-activity-page #view-submission {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+.iskolar-activity-page #view-qr .qr-page-frame,
+.iskolar-activity-page #view-submission .submission-page-frame {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    max-height: 100%;
+    margin: 0;
+    padding: clamp(16px, 2vw, 28px) clamp(16px, 2.1vw, 32px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #dfe6dc;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(48,67,50,.055);
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+.iskolar-activity-page #view-qr .close-view-btn,
+.iskolar-activity-page #view-submission .close-view-btn {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0 0 24px;
+    padding: 0;
+    border: 1px solid #dfe6dc;
+    border-radius: 15px;
+    background: #edf3ec;
+    color: #405b43;
+    font-size: 18px;
+    cursor: pointer;
+}
+.iskolar-activity-page #view-qr .qr-view-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.62fr) minmax(0, 1.7fr);
+    align-items: start;
+    gap: clamp(20px, 2.4vw, 40px);
+    min-width: 0;
+    padding: 0;
+}
+.iskolar-activity-page #view-qr .qr-code-box,
+.iskolar-activity-page #view-submission .submission-bin-box {
+    width: 100%;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid #dfe6dc;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(35,55,38,.08);
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-qr .qr-code-box h3,
+.iskolar-activity-page #view-submission .submission-bin-box h3 {
+    margin: 0 0 20px;
+    color: #29362b;
+    font-size: clamp(16px, 1.25vw, 20px);
+    font-weight: 900;
+}
+.iskolar-activity-page #view-qr .qr-placeholder {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 260px;
+    aspect-ratio: 1 / .9;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    border: 0;
+    border-radius: 14px;
+    background: #f7f9f6;
+    box-sizing: border-box;
+}
+.iskolar-activity-page #view-qr .qr-placeholder img {
+    width: min(100%, 280px);
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+}
+.iskolar-activity-page #view-qr .activity-qr-status:empty { display: none; }
+.iskolar-activity-page #view-qr .qr-placeholder-note {
+    margin: 12px 0 0;
+    color: #526052;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+.iskolar-activity-page #view-qr .qr-info-side { min-width: 0; }
+.iskolar-activity-page #view-qr .note-box,
+.iskolar-activity-page #view-submission .submission-note {
+    padding: 16px 18px;
+    border: 1px solid #b8b8b8;
+    border-radius: 10px;
+    background: #fff;
+    color: #344239;
+}
+.iskolar-activity-page #view-qr .note-box p,
+.iskolar-activity-page #view-submission .submission-note p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+}
+.iskolar-activity-page #view-qr .text-right {
+    width: fit-content;
+    max-width: 100%;
+    margin: 16px 0 24px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: #edf3ec;
+    color: #405b43;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 800;
+}
+.iskolar-activity-page #view-qr .qr-details-grid { gap: 9px; }
+.iskolar-activity-page #view-qr .qr-details-grid h2 {
+    margin: 10px 0 4px;
+    color: #29362b;
+    font-size: clamp(23px, 2vw, 32px);
+}
+.iskolar-activity-page #view-qr .qr-details-grid p { font-size: 15px; line-height: 1.55; }
+.iskolar-activity-page #view-qr .qr-details-grid p strong { color: #405b43; }
+.iskolar-activity-page #view-qr .btn-right-container { margin-top: 28px; }
+.iskolar-activity-page #view-qr .download-btn {
+    width: auto;
+    min-width: 180px;
+    min-height: 48px;
+    border-radius: 10px;
+}
+
+.iskolar-activity-page #view-submission .submission-top-info {
+    display: grid;
+    grid-template-columns: minmax(300px, .8fr) minmax(0, 1.5fr);
+    gap: 22px;
+    align-items: center;
+    padding: 0;
+    margin: 0 0 30px;
+}
+.iskolar-activity-page #view-submission .submission-sem-info h3 {
+    margin: 0 0 8px;
+    color: #29362b;
+    font-size: clamp(18px, 1.5vw, 23px);
+    font-weight: 900;
+}
+.iskolar-activity-page #view-submission .submission-sem-info p {
+    color: #344239;
+    font-size: 14px;
+    line-height: 1.65;
+}
+.iskolar-activity-page #view-submission .submission-main-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, .62fr) minmax(0, 1.9fr);
+    align-items: start;
+    gap: clamp(22px, 2.3vw, 40px);
+}
+.iskolar-activity-page #view-submission .submission-bin-box { max-width: 360px; padding: 24px; }
+.iskolar-activity-page #view-submission .upload-drop-area {
+    min-height: 225px;
+    border-color: #cbd7c8;
+    border-radius: 13px;
+    background: #f8faf7;
+}
+.iskolar-activity-page #view-submission .upload-drop-area i { font-size: 64px; }
+.iskolar-activity-page #view-submission .upload-drop-area p { font-size: 14px; }
+.iskolar-activity-page #view-submission .upload-drop-area span { font-size: 14px; }
+.iskolar-activity-page #view-submission .selected-file,
+.iskolar-activity-page #view-submission .upload-status { font-size: 12px; }
+.iskolar-activity-page #view-submission .submit-file-btn { min-height: 44px; font-size: 13px; }
+.iskolar-activity-page #view-submission .submission-details-side { min-width: 0; }
+.iskolar-activity-page #view-submission .attendance-toggle-bar { gap: 14px; margin-bottom: 24px; }
+.iskolar-activity-page #view-submission .toggle-tab {
+    min-height: 52px;
+    border-width: 1px;
+    border-color: #d6e0d4;
+    border-radius: 11px;
+    font-size: 15px;
+}
+.iskolar-activity-page #view-submission .toggle-tab.active { border-color: #405b43; background: #405b43; }
+.iskolar-activity-page #view-submission .sub-activity-info { gap: 8px; }
+.iskolar-activity-page #view-submission .sub-activity-info h2 {
+    margin: 0 0 3px;
+    color: #405b43;
+    font-size: clamp(23px, 2vw, 32px);
+}
+.iskolar-activity-page #view-submission .sub-activity-info p { font-size: 15px; line-height: 1.55; }
+.iskolar-activity-page #view-submission .sub-activity-info p strong { color: #405b43; }
+.iskolar-activity-page #view-submission .submission-details-side .btn-right-container { margin-top: 26px; }
+.iskolar-activity-page #view-submission .submission-details-side .act-btn {
+    min-width: 180px;
+    min-height: 52px;
+    border-radius: 11px;
+    font-size: 15px;
+}
+
+@media (max-width: 950px) {
+    .iskolar-activity-page #view-qr .qr-view-layout,
+    .iskolar-activity-page #view-submission .submission-top-info,
+    .iskolar-activity-page #view-submission .submission-main-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .iskolar-activity-page #view-qr .qr-code-box,
+    .iskolar-activity-page #view-submission .submission-bin-box { max-width: 420px; }
+}
+@media (max-width: 600px) {
+    .iskolar-activity-page #view-qr .qr-page-frame,
+    .iskolar-activity-page #view-submission .submission-page-frame { padding: 14px; }
+    .iskolar-activity-page #view-qr .close-view-btn,
+    .iskolar-activity-page #view-submission .close-view-btn { margin-bottom: 16px; }
+    .iskolar-activity-page #view-submission .submission-top-info { gap: 14px; margin-bottom: 20px; }
+    .iskolar-activity-page #view-submission .submission-bin-box { max-width: none; }
+    .iskolar-activity-page #view-submission .attendance-toggle-bar { gap: 8px; }
+    .iskolar-activity-page #view-submission .toggle-tab { min-height: 44px; font-size: 12px; }
+    .iskolar-activity-page #view-submission .submission-details-side .btn-right-container .act-btn { width: 100%; }
+}
+
+/* Let activity cards grow with their content; scrolling belongs to the main page. */
+.iskolar-activity-page .activity-main {
+    padding-top: clamp(10px, 1.5vh, 18px);
+    padding-bottom: clamp(10px, 1.5vh, 18px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.iskolar-activity-page .activity-main .page-view,
+.iskolar-activity-page .activity-main .page-view.active {
+    height: auto;
+    min-height: 100%;
+    max-height: none;
+    flex: 0 0 auto;
+    overflow: visible;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-frame,
+.iskolar-activity-page #view-qr .qr-page-frame,
+.iskolar-activity-page #view-submission .submission-page-frame {
+    flex: 0 0 auto;
+    height: auto;
+    max-height: none;
+    min-height: min-content;
+    box-sizing: border-box;
+    overflow: visible;
+}
+@media (max-width: 900px) {
+    .iskolar-activity-page .activity-main {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+}
+@media (max-height: 800px) and (min-width: 951px) {
+    .iskolar-activity-page #view-qr .qr-page-frame,
+    .iskolar-activity-page #view-submission .submission-page-frame {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+    .iskolar-activity-page #view-qr .close-view-btn,
+    .iskolar-activity-page #view-submission .close-view-btn { margin-bottom: 12px; }
+    .iskolar-activity-page #view-qr .qr-placeholder { min-height: 210px; }
+    .iskolar-activity-page #view-submission .submission-top-info { margin-bottom: 18px; }
+    .iskolar-activity-page #view-submission .upload-drop-area { min-height: 185px; }
+}
+
+/* Compact the inner panels on normal laptop screens so controls stay in view. */
+@media (max-height: 950px) and (min-width: 951px) {
+    .iskolar-activity-page .activity-main {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .iskolar-activity-page #view-activity-detail .activity-detail-frame,
+    .iskolar-activity-page #view-qr .qr-page-frame,
+    .iskolar-activity-page #view-submission .submission-page-frame {
+        padding: 14px 18px;
+    }
+    .iskolar-activity-page #view-activity-detail .view-body > .close-view-btn,
+    .iskolar-activity-page #view-qr .close-view-btn,
+    .iskolar-activity-page #view-submission .close-view-btn {
+        width: 38px;
+        height: 38px;
+        margin-bottom: 10px;
+    }
+    .iskolar-activity-page #view-activity-detail .activity-detail-layout { gap: 14px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-info,
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { padding: 14px; }
+    .iskolar-activity-page #view-activity-detail .activity-main-title { font-size: clamp(22px, 1.8vw, 28px); }
+    .iskolar-activity-page #view-activity-detail .activity-type-text { margin-top: 6px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-sem { margin: 8px 0 10px; padding: 9px 12px; }
+    .iskolar-activity-page #view-activity-detail .activity-meta-grid { gap: 8px; }
+    .iskolar-activity-page #view-activity-detail .activity-meta-grid p { padding: 10px 12px; }
+    .iskolar-activity-page #view-activity-detail .divider { margin: 10px 0; }
+    .iskolar-activity-page #view-activity-detail .activity-description { padding: 12px 14px; }
+    .iskolar-activity-page #view-activity-detail .activity-description > strong { margin-bottom: 6px; }
+    .iskolar-activity-page #view-activity-detail .deadline-text { margin-top: 7px; }
+    .iskolar-activity-page #view-activity-detail .action-buttons-row { margin-top: 12px; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-side { align-self: start; }
+    .iskolar-activity-page #view-activity-detail .activity-detail-image-box { height: clamp(200px, 31vh, 280px); max-height: 280px; }
+
+    .iskolar-activity-page #view-qr .qr-view-layout { gap: 22px; }
+    .iskolar-activity-page #view-qr .qr-code-box,
+    .iskolar-activity-page #view-submission .submission-bin-box { padding: 16px; }
+    .iskolar-activity-page #view-qr .qr-code-box h3,
+    .iskolar-activity-page #view-submission .submission-bin-box h3 { margin-bottom: 12px; }
+    .iskolar-activity-page #view-qr .qr-placeholder { min-height: 200px; }
+    .iskolar-activity-page #view-qr .qr-placeholder-note { margin-top: 8px; font-size: 12px; }
+    .iskolar-activity-page #view-qr .note-box,
+    .iskolar-activity-page #view-submission .submission-note { padding: 11px 14px; }
+    .iskolar-activity-page #view-qr .note-box p,
+    .iskolar-activity-page #view-submission .submission-note p { font-size: 12px; line-height: 1.5; }
+    .iskolar-activity-page #view-qr .text-right { margin: 10px 0 14px; padding: 8px 13px; }
+    .iskolar-activity-page #view-qr .qr-details-grid { gap: 6px; }
+    .iskolar-activity-page #view-qr .qr-details-grid h2 { margin: 6px 0 2px; font-size: 26px; }
+    .iskolar-activity-page #view-qr .qr-details-grid p { font-size: 13px; line-height: 1.4; }
+    .iskolar-activity-page #view-qr .btn-right-container { margin-top: 14px; }
+    .iskolar-activity-page #view-qr .download-btn { min-height: 42px; }
+
+    .iskolar-activity-page #view-submission .submission-top-info { gap: 14px; margin-bottom: 18px; }
+    .iskolar-activity-page #view-submission .submission-main-layout { gap: 22px; }
+    .iskolar-activity-page #view-submission .upload-drop-area { min-height: 170px; }
+    .iskolar-activity-page #view-submission .upload-drop-area i { font-size: 52px; }
+    .iskolar-activity-page #view-submission .attendance-toggle-bar { margin-bottom: 15px; }
+    .iskolar-activity-page #view-submission .toggle-tab { min-height: 44px; }
+    .iskolar-activity-page #view-submission .sub-activity-info { gap: 5px; }
+    .iskolar-activity-page #view-submission .sub-activity-info h2 { font-size: 26px; }
+    .iskolar-activity-page #view-submission .sub-activity-info p { font-size: 13px; }
+    .iskolar-activity-page #view-submission .submission-details-side .btn-right-container { margin-top: 14px; }
+    .iskolar-activity-page #view-submission .submission-details-side .act-btn { min-height: 44px; }
+}
