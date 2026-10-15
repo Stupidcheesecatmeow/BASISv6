@@ -58,11 +58,14 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         if (!profile) return;
         const firstName = String(profile.givenName || profile.given_name || String(profile.name || "").trim().split(/\s+/)[0] || "").trim();
         if (!firstName) return;
-        document.querySelectorAll(".welcome-text h1, #headerWelcomeRole").forEach((heading) => {
+        document.querySelectorAll(".welcome-text h1, .welcome-copy strong, #headerWelcomeRole").forEach((heading) => {
             heading.textContent = `MABUHAY, ${firstName.toLocaleUpperCase()}!`;
         });
     };
-    document.querySelectorAll(".welcome-text h1, #headerWelcomeRole").forEach((heading) => {
+    document.querySelectorAll(".welcome-copy > span, .welcome-text > span").forEach((label) => {
+        label.textContent = "WELCOME TO BASIS";
+    });
+    document.querySelectorAll(".welcome-text h1, .welcome-copy strong, #headerWelcomeRole").forEach((heading) => {
         heading.textContent = "MABUHAY!";
     });
 
@@ -211,7 +214,7 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         window.addEventListener('storage', event => { if (event.key === 'basisAnnouncementPublished') loadAnnouncements(); });
         setInterval(loadAnnouncements, 30000);
     }
-    if (script && (document.querySelector(".header-avatar") || document.querySelector(".welcome-text h1"))) {
+    if (script && (document.querySelector(".header-avatar") || document.querySelector(".welcome-text h1") || document.querySelector(".welcome-copy strong"))) {
         fetch(new URL("admin/api/account_api.php?action=profile", script.src), {
             credentials: "same-origin",
             cache: "no-store"

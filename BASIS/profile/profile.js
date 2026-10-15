@@ -907,7 +907,7 @@ function updateProfileHeader(
 
         $("headerWelcomeRole")
             .textContent =
-            `MABUHAY, ${assignedRole}!`;
+            `MABUHAY, ${String(profile.givenName || profile.given_name || profile.name || "").trim().split(/\s+/)[0].toLocaleUpperCase()}!`;
 
     }
 
