@@ -122,10 +122,11 @@ async function renderScorecardButtons() {
                     normalizeSemester(item.semester) === normalizeSemester(semester)
                 );
 
-                if (period) {
-                    scorecardInitialPeriodOpened = true;
-                    openScorecardDetail(period.academicYear, period.semester);
-                }
+                scorecardInitialPeriodOpened = true;
+                openScorecardDetail(
+                    period ? period.academicYear : year,
+                    period ? period.semester : semester
+                );
             }
         }
     } catch (error) {
@@ -176,6 +177,29 @@ function semesterLabel(value) {
     return String(value || "").toUpperCase();
 }
 
+function getCurrentAcademicYear() {
+    const year = new Date().getFullYear();
+    return `${year}–${year + 1}`;
+}
+
+function getScorecardHeaderPeriod(academicYear, semester) {
+    const yearPattern = /^\s*\d{4}\s*[-–—]\s*\d{4}\s*$/;
+    const yearValue = String(academicYear || "").trim();
+    const semesterValue = String(semester || "").trim();
+    const resolvedYear = yearPattern.test(yearValue)
+        ? yearValue
+        : yearPattern.test(semesterValue)
+            ? semesterValue
+            : getCurrentAcademicYear();
+    const resolvedSemester = isRecognizedSemester(semesterValue)
+        ? semesterValue
+        : isRecognizedSemester(yearValue)
+            ? yearValue
+            : "";
+
+    return { academicYear: resolvedYear, semester: resolvedSemester };
+}
+
 function isAttendedRecord(activity) {
     if (!activity || typeof activity !== "object") return false;
     const statusValue = activity.attendanceStatus ?? activity.attendance_status ?? activity.attendance_status_name ??
@@ -192,10 +216,11 @@ function openScorecardDetail(academicYear, semester) {
     selectedScorecardPeriod = { academicYear, semester };
     loadProfileInfo(currentScorecardData.profile || {});
 
+    const headerPeriod = getScorecardHeaderPeriod(academicYear, semester);
     const ayTitle = document.getElementById("scorecardAYTitle");
     const semTitle = document.getElementById("scorecardSemTitle");
-    if (ayTitle) ayTitle.textContent = `AY: ${String(academicYear).replace(/-/g, "–")}`;
-    if (semTitle) semTitle.textContent = semesterLabel(semester);
+    if (ayTitle) ayTitle.textContent = `AY: ${String(headerPeriod.academicYear).replace(/-/g, "–")}`;
+    if (semTitle) semTitle.textContent = semesterLabel(headerPeriod.semester);
 
     const rows = (currentScorecardData.activities || []).filter(activity =>
         normalizeAcademicYear(getActivityAcademicYear(activity) || academicYear) === normalizeAcademicYear(academicYear) &&

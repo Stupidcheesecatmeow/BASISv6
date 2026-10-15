@@ -292,13 +292,18 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
         };
     }
 
-    window.openScorecardDetail = function (semesterName) {
-        const semTitleElem = document.getElementById('scorecardSemTitle');
-        if (semTitleElem) {
-            semTitleElem.innerText = semesterName.toUpperCase();
-        }
-        showSubView('view-scorecard-detail');
-    };
+    // Keep this as a fallback only. Scorecard modules provide a data-aware
+    // handler that sets both the academic year and semester for the selected
+    // activity period.
+    if (typeof window.openScorecardDetail !== 'function') {
+        window.openScorecardDetail = function (semesterName) {
+            const semTitleElem = document.getElementById('scorecardSemTitle');
+            if (semTitleElem) {
+                semTitleElem.innerText = String(semesterName || '').toUpperCase();
+            }
+            showSubView('view-scorecard-detail');
+        };
+    }
 
     // Activity modules provide a handler that loads the selected activity
     // before opening its detail view. Keep this simple fallback only on pages

@@ -422,10 +422,11 @@ async function renderScorecardButtons() {
                 normalizeSemester(group.semester) === normalizeSemester(term)
             );
 
-            if (period) {
-                scorecardInitialPeriodOpened = true;
-                openScorecardDetail(period.academicYear, period.semester);
-            }
+            scorecardInitialPeriodOpened = true;
+            openScorecardDetail(
+                period ? period.academicYear : year,
+                period ? period.semester : term
+            );
         }
     }
 
@@ -442,6 +443,24 @@ function getCurrentAcademicYear() {
 
     return `${year}–${year + 1}`;
 
+}
+
+function getScorecardHeaderPeriod(academicYear, semester) {
+    const yearPattern = /^\s*\d{4}\s*[-–—]\s*\d{4}\s*$/;
+    const yearValue = String(academicYear || "").trim();
+    const semesterValue = String(semester || "").trim();
+    const resolvedYear = yearPattern.test(yearValue)
+        ? yearValue
+        : yearPattern.test(semesterValue)
+            ? semesterValue
+            : getCurrentAcademicYear();
+    const resolvedSemester = ["first semester", "second semester"].includes(normalizeSemester(semesterValue))
+        ? semesterValue
+        : ["first semester", "second semester"].includes(normalizeSemester(yearValue))
+            ? yearValue
+            : "";
+
+    return { academicYear: resolvedYear, semester: resolvedSemester };
 }
 
 
@@ -542,20 +561,14 @@ async function openScorecardDetail(
     semester
 ) {
 
-    const currentRepresentative =
-        await getScorecardProfile();
-
-    if (currentRepresentative) {
-        loadRepresentativeInfo(currentRepresentative);
-    } else {
-        loadDefaultRepresentativeInfo();
-    }
+    const headerPeriod =
+        getScorecardHeaderPeriod(academicYear, semester);
 
     const ayTitle =
         document.getElementById("scorecardAYTitle");
 
     if (ayTitle) {
-        ayTitle.textContent = `AY: ${academicYear}`;
+        ayTitle.textContent = `AY: ${headerPeriod.academicYear}`;
     }
 
     const semTitle =
@@ -563,7 +576,16 @@ async function openScorecardDetail(
 
     if (semTitle) {
         semTitle.textContent =
-            String(semester).toUpperCase();
+            headerPeriod.semester.toUpperCase() || "SEMESTER";
+    }
+
+    const currentRepresentative =
+        await getScorecardProfile();
+
+    if (currentRepresentative) {
+        loadRepresentativeInfo(currentRepresentative);
+    } else {
+        loadDefaultRepresentativeInfo();
     }
 
     const container =
