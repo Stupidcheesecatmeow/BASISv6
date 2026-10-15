@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="profile-shell-rep.css?v=20261013">
-    <link rel="stylesheet" href="profile-rep.css?v=20261013">
+    <link rel="stylesheet" href="profile-rep.css?v=20261016-save-button-spacing">
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
@@ -184,6 +184,11 @@
                                     type="button">
                                 EDIT PROFILE
                             </button>
+                            <button class="edit-profile-btn edit-only save-profile-top-btn"
+                                    id="saveProfileBtn"
+                                    type="button">
+                                SAVE PROFILE
+                            </button>
                         </div>
 
                         <div class="profile-info-col">
@@ -283,8 +288,8 @@
                         <div class="family-summary-block">
                             <h4>FATHER'S INFORMATION</h4>
                             <div class="summary-grid summary-grid-five">
-                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryFatherGiven">—</strong></div>
                                 <div class="summary-item"><span>SURNAME</span><strong id="summaryFatherSurname">—</strong></div>
+                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryFatherGiven">—</strong></div>
                                 <div class="summary-item"><span>MIDDLE NAME</span><strong id="summaryFatherMiddle">—</strong></div>
                                 <div class="summary-item"><span>SUFFIX</span><strong id="summaryFatherSuffix">—</strong></div>
                                 <div class="summary-item"><span>CONTACT NO.</span><strong id="summaryFatherContact">—</strong></div>
@@ -294,8 +299,8 @@
                         <div class="family-summary-block">
                             <h4>MOTHER'S INFORMATION</h4>
                             <div class="summary-grid summary-grid-five">
-                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryMotherGiven">—</strong></div>
                                 <div class="summary-item"><span>SURNAME</span><strong id="summaryMotherSurname">—</strong></div>
+                                <div class="summary-item"><span>GIVEN NAME</span><strong id="summaryMotherGiven">—</strong></div>
                                 <div class="summary-item"><span>MIDDLE NAME</span><strong id="summaryMotherMiddle">—</strong></div>
                                 <div class="summary-item"><span>SUFFIX</span><strong id="summaryMotherSuffix">—</strong></div>
                                 <div class="summary-item"><span>CONTACT NO.</span><strong id="summaryMotherContact">—</strong></div>
@@ -430,8 +435,8 @@
                         <div class="family-edit-block">
                             <h4>FATHER'S INFORMATION</h4>
                             <div class="family-form-grid">
-                                <div class="form-group"><label>GIVEN NAME:</label><input id="fatherGiven" type="text"></div>
                                 <div class="form-group"><label>SURNAME:</label><input id="fatherSurname" type="text"></div>
+                                <div class="form-group"><label>GIVEN NAME:</label><input id="fatherGiven" type="text"></div>
                                 <div class="form-group"><label>MIDDLE NAME:</label><input id="fatherMiddle" type="text"></div>
                                 <div class="form-group col-suffix"><label>SUFFIX:</label><input id="fatherSuffix" type="text"></div>
                                 <div class="form-group"><label>CONTACT NO.:</label><input id="fatherContact" type="text"></div>
@@ -441,8 +446,8 @@
                         <div class="family-edit-block">
                             <h4>MOTHER'S INFORMATION</h4>
                             <div class="family-form-grid">
-                                <div class="form-group"><label>GIVEN NAME:</label><input id="motherGiven" type="text"></div>
                                 <div class="form-group"><label>SURNAME:</label><input id="motherSurname" type="text"></div>
+                                <div class="form-group"><label>GIVEN NAME:</label><input id="motherGiven" type="text"></div>
                                 <div class="form-group"><label>MIDDLE NAME:</label><input id="motherMiddle" type="text"></div>
                                 <div class="form-group col-suffix"><label>SUFFIX:</label><input id="motherSuffix" type="text"></div>
                                 <div class="form-group"><label>CONTACT NO.:</label><input id="motherContact" type="text"></div>
@@ -461,7 +466,6 @@
 
                     <div class="profile-card-footer edit-footer">
                         <button id="cancelEditBtn" type="button" class="act-btn outline-btn btn-sm">CANCEL</button>
-                        <button id="saveProfileBtn" type="button" class="act-btn solid-btn btn-sm">SAVE PROFILE</button>
                     </div>
                 </div>
 
@@ -472,7 +476,7 @@
 
 <script src="../script.js?v=20261016-fullname-sidebar-v2"></script>
 <script src="../auth.js?v=3"></script>
-<script src="profile-rep.js?v=20261015-searchable-academic-fields"></script>
+<script src="profile-rep.js?v=20261016-top-save-button"></script>
 
 <script src="history-status-rep.js?v=20261015-unread-notifications"></script>
 </body>

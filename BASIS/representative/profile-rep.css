@@ -198,6 +198,10 @@
     background: #42523f;
 }
 
+.save-profile-top-btn {
+    margin-top: 8px;
+}
+
 .profile-info-col {
     flex: 1;
     min-width: 0;

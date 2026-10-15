@@ -1121,20 +1121,6 @@ function addSiblingRow(
 
         <div class="form-group">
 
-            <label>GIVEN NAME:</label>
-
-            <input
-                type="text"
-                class="sibling-given"
-                value="${escapeHtml(
-                    data.given || ""
-                )}"
-            >
-
-        </div>
-
-        <div class="form-group">
-
             <label>SURNAME:</label>
 
             <input
@@ -1142,6 +1128,20 @@ function addSiblingRow(
                 class="sibling-surname"
                 value="${escapeHtml(
                     data.surname || ""
+                )}"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>GIVEN NAME:</label>
+
+            <input
+                type="text"
+                class="sibling-given"
+                value="${escapeHtml(
+                    data.given || ""
                 )}"
             >
 
@@ -1646,12 +1646,12 @@ function renderSiblingSummary(
 
                 <div class="summary-item">
 
-                    <span>GIVEN NAME</span>
+                    <span>SURNAME</span>
 
                     <strong>
                         ${escapeHtml(
                             displayValue(
-                                sibling.given
+                                sibling.surname
                             )
                         )}
                     </strong>
@@ -1660,12 +1660,12 @@ function renderSiblingSummary(
 
                 <div class="summary-item">
 
-                    <span>SURNAME</span>
+                    <span>GIVEN NAME</span>
 
                     <strong>
                         ${escapeHtml(
                             displayValue(
-                                sibling.surname
+                                sibling.given
                             )
                         )}
                     </strong>
