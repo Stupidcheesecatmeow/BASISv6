@@ -22,7 +22,7 @@
     <!-- SYSTEM CSS -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="home-admin.css">
-    <link rel="stylesheet" href="history-admin.css?v=20261015-unread-notifications">
+    <link rel="stylesheet" href="history-admin.css?v=20261015-notification-preview-scroll">
 </head>
 
 
@@ -1111,7 +1111,7 @@
             </div>
 
 
-            <div class="history-detail-panel">
+            <div class="history-detail-panel notification-detail-scroll-panel">
 
 
                 <div class="history-detail-top">
@@ -1176,6 +1176,10 @@
 
                         </div>
 
+                        <img id="adminNotificationDetailImage" class="notification-preview-image" alt="Notification attachment" hidden>
+
+                        <div id="adminNotificationDetailActivityDetails" class="notification-activity-details" hidden></div>
+
 
                         <div class="notification-type-badge"
                              id="adminNotificationDetailType">
@@ -1208,7 +1212,7 @@
 
 
 <script src="../script.js"></script>
-<script src="history-admin.js?v=20261015-unread-notifications"></script>
+<script src="history-admin.js?v=20261015-notification-preview"></script>
 <script src="../auth.js?v=3"></script>
 
 <script src="history-status.js?v=20261015-unread-notifications"></script>

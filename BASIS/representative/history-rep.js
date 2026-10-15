@@ -1761,6 +1761,35 @@
 
     }
 
+    function renderNotificationPreview(item, prefix) {
+        const type = String(item?.type || "").toLowerCase();
+        const isActivity = type.includes("new_activity") || Number(item?.activityId) > 0;
+        const isAnnouncement = type.includes("new_announcement") || Number(item?.announcementId) > 0;
+        const image = $(`${prefix}Image`);
+        const details = $(`${prefix}ActivityDetails`);
+        if (!image || !details) return;
+        const source = isActivity ? item?.activityImage : item?.announcementImage;
+        const imageName = item?.announcementAttachmentName || "";
+        const validImage = /^data:image\//i.test(String(source || "")) || (isAnnouncement && imageName && /\.(jpg|jpeg|png|gif|webp)$/i.test(imageName));
+        if ((isActivity || isAnnouncement) && validImage) {
+            image.src = source;
+            image.hidden = false;
+            image.onerror = () => { image.hidden = true; image.removeAttribute("src"); };
+        } else {
+            image.hidden = true;
+            image.removeAttribute("src");
+            image.onerror = null;
+        }
+        const rows = isActivity ? [
+            ["Activity", item?.activityName], ["Type", item?.activityType], ["Date", item?.activityDate],
+            ["Time", [item?.activityStartTime, item?.activityEndTime].filter(Boolean).join(" – ")],
+            ["Venue", item?.activityVenueAddress || item?.activityVenue], ["Academic year", item?.activityAcademicYear], ["Semester", item?.activitySemester]
+        ] : isAnnouncement ? [["Announcement date", item?.announcementDate]] : [];
+        const available = rows.filter(([, value]) => String(value || "").trim());
+        details.innerHTML = available.map(([label, value]) => `<div class="notification-activity-detail"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+        details.hidden = available.length === 0;
+    }
+
 
     /* =====================================================
        NOTIFICATION LIST
@@ -1891,7 +1920,7 @@
        NOTIFICATION DETAIL
     ===================================================== */
 
-    function openNotificationDetail(
+    async function openNotificationDetail(
         index
     ) {
 
@@ -1905,13 +1934,20 @@
 
         markNotificationRead(item);
 
+        let detailItem = item;
+        try {
+            const response = await fetch(`${ACCOUNT_API}?action=notification-detail&id=${encodeURIComponent(item.id)}`, { credentials: "same-origin", headers: { Accept: "application/json" } });
+            const result = await response.json();
+            if (response.ok && result.success && result.notification) detailItem = result.notification;
+        } catch (error) { console.warn("Could not load notification preview:", error); }
+
 
         setText(
 
             "repNotificationDetailDate",
 
             formatDateTime(
-                recordDate(item)
+                recordDate(detailItem)
             )
 
         );
@@ -1921,7 +1957,7 @@
 
             "repNotificationDetailTitle",
 
-            notificationTitle(item)
+            detailItem.announcementTitle || detailItem.activityName || notificationTitle(detailItem)
 
         );
 
@@ -1930,7 +1966,7 @@
 
             "repNotificationDetailBody",
 
-            notificationBody(item)
+            firstValue(detailItem.announcementMessage, detailItem.activityDescription, notificationBody(detailItem))
 
         );
 
@@ -1939,9 +1975,11 @@
 
             "repNotificationDetailType",
 
-            notificationType(item)
+            notificationType(detailItem)
 
         );
+
+        renderNotificationPreview(detailItem, "repNotificationDetail");
 
 
         showRepHistoryView(
