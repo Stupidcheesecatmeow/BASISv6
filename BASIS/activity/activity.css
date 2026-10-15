@@ -1176,6 +1176,8 @@ img[hidden] { display:none !important; }
 
 /* ISKOLAR ACTIVITY — ADMIN-INSPIRED SHELL COMPATIBILITY */
 body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:flex; overflow:hidden; }
+.iskolar-activity-page { --sidebar-width:255px; }
+.iskolar-activity-page .admin-sidebar { width:var(--sidebar-width); flex:0 0 var(--sidebar-width); }
 .iskolar-activity-page .admin-shell { display:flex; flex-direction:column; flex:1 1 auto; min-width:0; min-height:0; height:100%; overflow:hidden; }
 .iskolar-activity-page .admin-topbar { flex:0 0 auto; }
 .iskolar-activity-page .activity-main { flex:1 1 auto; width:100%; min-width:0; min-height:0; padding:22px clamp(14px,2vw,28px) 24px; overflow:hidden; box-sizing:border-box; }
@@ -1189,7 +1191,7 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
 .iskolar-activity-page .activity-detail-frame,
 .iskolar-activity-page .qr-page-frame,
 .iskolar-activity-page .submission-page-frame { border-radius:14px; }
-.iskolar-activity-page .sidebar-profile .sidebar-avatar { width:42px;height:42px;object-fit:cover;border-radius:50%; }
+.iskolar-activity-page .sidebar-profile .sidebar-avatar { width:38px;height:38px;flex:0 0 38px;object-fit:cover;border-radius:50%; }
 .iskolar-activity-page .sidebar-profile .sidebar-user-name { overflow-wrap:anywhere; }
 .iskolar-activity-page .sidebar-logout { width:100%; }
 .iskolar-activity-page .activity-main .page-view[hidden] { display:none !important; }
@@ -1818,6 +1820,12 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 901px) {
+    .iskolar-activity-page .admin-shell {
+        width: calc(100% - var(--sidebar-width));
+        margin-left: var(--sidebar-width);
+    }
 }
 .iskolar-activity-page .activity-main .page-view,
 .iskolar-activity-page .activity-main .page-view.active {
