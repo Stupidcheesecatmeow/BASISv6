@@ -3812,3 +3812,54 @@
     }
 
 }
+/* Richer More menu cards shared with the admin and representative views. */
+.more-menu-card {
+    min-height: 220px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #fff 35%, #f4f8f3 100%);
+}
+
+.more-menu-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, #405a43, #a8c3a7);
+}
+
+.more-menu-card .more-card-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    margin: 0;
+    border: 1px solid #e0e9df;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    background: #edf3ed;
+    color: #405a43;
+    font-size: 20px;
+}
+
+.more-menu-card .more-card-copy {
+    display: block;
+    max-width: calc(100% - 48px);
+    padding-bottom: 26px;
+}
+
+.more-menu-card .more-card-copy > span {
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+.more-menu-card .more-card-copy small {
+    display: block;
+    margin: 9px 0 0;
+    color: #738173;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+}
