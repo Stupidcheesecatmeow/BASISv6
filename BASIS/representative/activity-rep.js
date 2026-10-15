@@ -283,13 +283,6 @@ function cycleVerifiedFilter(){
  const button=document.getElementById('verifiedFilterBtn');if(button)button.textContent=labels[verifiedFilterMode];
  renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false);
 }
-function cycleParticipantFilter(){
- const modes=['all','pending','verified'];
- const labels={all:'FILTER: ALL',pending:'FILTER: PENDING',verified:'FILTER: VERIFIED'};
- participantFilterMode=modes[(modes.indexOf(participantFilterMode)+1)%modes.length];
- const button=document.getElementById('participantsFilterBtn');if(button)button.textContent=labels[participantFilterMode];
- applyParticipantFilters();
-}
 window.exportActivityParticipants=function(){
  if(!activityParticipantRows.length){alert('There are no participant records to export yet.');return;}
  if(!window.XLSX){alert('Excel export could not load. Refresh the page and try again.');return;}
@@ -317,7 +310,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  verifiedSearch?.addEventListener('input',()=>renderSubmissionList('verifiedSubmissionList',activityVerifiedRows,false));
  participantsSearch?.addEventListener('input',applyParticipantFilters);
  document.getElementById('verifiedFilterBtn')?.addEventListener('click',cycleVerifiedFilter);
- document.getElementById('participantsFilterBtn')?.addEventListener('click',cycleParticipantFilter);
+ document.getElementById('participantsFilterBtn')?.addEventListener('change',event=>{participantFilterMode=event.target.value||'all';applyParticipantFilters();});
 });
 document.addEventListener('DOMContentLoaded',async()=>{ if(document.getElementById('adminActivityList'))renderActivityList(); if(document.getElementById('activityName'))setupCreateActivity(); if(document.getElementById('scanActionBtn'))document.getElementById('qrImportFile')?.addEventListener('change',window.importActivityQr); if(document.getElementById('scanActionBtn'))document.addEventListener('visibilitychange',()=>{if(document.hidden)window.stopActivityScanner?.();}); try{const a=await getSelectedActivity();if(a)fillActivityDetails(a);if(document.getElementById('verifyListContainer')||document.getElementById('participantsTableBody'))await loadSubmissionData();}catch(e){console.warn(e.message);} });
 

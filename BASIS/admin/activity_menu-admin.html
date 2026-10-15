@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="activity-admin.css?v=20261014-submission-timestamp">
+    <link rel="stylesheet" href="activity-admin.css?v=20261016-participant-filter-dropdown">
     <link rel="stylesheet" href="home-admin.css?v=7">
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
@@ -369,7 +369,11 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input id="participantsSearchInput" type="search" placeholder="Search participants..." autocomplete="off">
                     </div>
-                    <button class="filter-btn" id="participantsFilterBtn" type="button">FILTER: ALL</button>
+                    <select class="filter-btn participant-filter-select" id="participantsFilterBtn" aria-label="Filter activity participants">
+                        <option value="all">FILTER: ALL</option>
+                        <option value="pending">FILTER: PENDING</option>
+                        <option value="verified">FILTER: VERIFIED</option>
+                    </select>
                     <button class="export-btn" type="button" onclick="exportActivityParticipants()"><i class="fa-solid fa-file-excel"></i> EXPORT TO EXCEL</button>
                 </div>
             </div>
@@ -399,7 +403,7 @@
 <script src="../script.js?v=20261016-fullname-sidebar-v2"></script>
 <script src="xlsx.full.min.js?v=0.20.3"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="activity-admin.js?v=20261014-submission-timestamp"></script>
+<script src="activity-admin.js?v=20261016-participant-filter-dropdown"></script>
 <script src="../auth.js?v=3"></script>
 
 

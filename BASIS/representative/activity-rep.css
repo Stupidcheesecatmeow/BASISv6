@@ -3316,6 +3316,20 @@ ACTIVITY PARTICIPANTS TABLE
     background: #fff;
 }
 
+.representative-page #view-activity-participants .participant-filter-select {
+    min-width: 145px;
+    min-height: 42px;
+    padding: 0 34px 0 14px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m2 4 4 4 4-4' fill='none' stroke='%23405840' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+}
+@media (max-width: 560px) {
+    .representative-page #view-activity-participants .participant-filter-select { flex: 1 1 auto; }
+}
+
 .representative-page #view-activity-participants .participants-table {
     width: 100%;
     min-width: 620px;
@@ -5757,3 +5771,13 @@ ACTIVITY PARTICIPANTS TABLE
 
 .representative-page #view-activity-participants .participants-table-wrap { overflow-x: auto; }
 .representative-page #view-activity-participants .participants-table { min-width: 760px; }
+
+.representative-page #view-activity-participants select.participant-filter-select {
+    min-width: 145px;
+    padding-right: 34px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m2 4 4 4 4-4' fill='none' stroke='%23405840' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+}
