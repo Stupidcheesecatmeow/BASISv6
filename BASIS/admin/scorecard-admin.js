@@ -1100,13 +1100,15 @@ function formatDisplayValue(value) {
 
 function formatSiblings(siblings) {
 
+    const emptyLabel = "No sibling information";
+
     if (
         siblings === undefined ||
         siblings === null ||
         siblings === ""
     ) {
 
-        return "—";
+        return emptyLabel;
 
     }
 
@@ -1115,7 +1117,7 @@ function formatSiblings(siblings) {
 
     if (typeof siblings === "string") {
 
-        return siblings.trim() || "—";
+        return siblings.trim() || emptyLabel;
 
     }
 
@@ -1126,7 +1128,7 @@ function formatSiblings(siblings) {
 
         if (siblings.length === 0) {
 
-            return "—";
+            return emptyLabel;
 
         }
 
@@ -1157,8 +1159,7 @@ function formatSiblings(siblings) {
                         ]
                             .filter(Boolean)
                             .join(" ") ||
-                        sibling.relationship ||
-                        JSON.stringify(sibling)
+                        ""
                     );
 
                 }
@@ -1171,7 +1172,7 @@ function formatSiblings(siblings) {
                     value &&
                     String(value).trim() !== ""
             )
-            .join(", ");
+            .join(", ") || emptyLabel;
 
     }
 
@@ -1195,17 +1196,13 @@ function formatSiblings(siblings) {
             ]
                 .filter(Boolean)
                 .join(" ") ||
-            (
-                siblings.count
-                    ? String(siblings.count)
-                    : JSON.stringify(siblings)
-            )
-        );
+            (siblings.count ? String(siblings.count) : "")
+        ) || emptyLabel;
 
     }
 
 
-    return String(siblings);
+    return String(siblings).trim() || emptyLabel;
 
 }
 

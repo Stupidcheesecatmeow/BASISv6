@@ -246,9 +246,14 @@ function loadProfileInfo(user) {
     };
     const first = (...values) => values.find(value => value !== undefined && value !== null && String(value).trim() !== "") ?? "—";
     const siblings = user.siblings ?? family.siblings ?? family.siblingsList ?? family.siblingList ?? "";
+    const siblingName = item => {
+        if (typeof item === "string" || typeof item === "number") return String(item).trim();
+        if (!item || typeof item !== "object") return "";
+        return String(item.name || item.fullName || item.full_name || fullName(item) || "").trim();
+    };
     const siblingText = Array.isArray(siblings)
-        ? siblings.map(item => typeof item === "object" ? first(item.name, item.fullName, item.full_name, fullName(item)) : item).filter(Boolean).join(", ")
-        : (typeof siblings === "object" && siblings !== null ? first(siblings.name, siblings.fullName, fullName(siblings)) : siblings);
+        ? siblings.map(siblingName).filter(Boolean).join(", ")
+        : siblingName(siblings);
 
     const fields = {
         "info-name": first(user.name, user.fullName, user.full_name, [user.givenName || user.given, user.middleName || user.middle, user.surname || user.lastName, user.suffix].filter(Boolean).join(" ")),
@@ -263,7 +268,7 @@ function loadProfileInfo(user) {
         "info-father-contact": first(user.fatherContact, user.father_contact, user.fatherContactNo, familyFather.contact, familyFather.contactNo, familyFather.phone),
         "info-mother": first(user.motherName, user.mother_name, fullName(familyMother), familyMother.name, familyMother.fullName),
         "info-mother-contact": first(user.motherContact, user.mother_contact, user.motherContactNo, familyMother.contact, familyMother.contactNo, familyMother.phone),
-        "info-siblings": first(siblingText),
+        "info-siblings": siblingText || "No sibling information",
         "info-school": first(user.school, user.schoolName, user.school_name),
         "info-program": first(user.program, user.course, user.courseName, user.course_name),
         "info-year-level": first(user.yearLevel, user.year_level, user.year),
