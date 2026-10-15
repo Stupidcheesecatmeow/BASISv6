@@ -343,11 +343,11 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
     const nextBtn = document.getElementById('carouselNext');
 
     let currentIndex = 0;
-    const totalSlides = 6;
+    const totalSlides = track ? track.children.length : 0;
 
     function updateCarousel(index) {
-        if (index < 0) index = 0;
-        if (index >= totalSlides) index = totalSlides - 1;
+        if (!totalSlides) return;
+        index = (index + totalSlides) % totalSlides;
         
         currentIndex = index;
         if (track) {
@@ -400,9 +400,9 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
 
     function handleSwipe() {
         const diffX = startX - currentX;
-        if (diffX > 40 && currentIndex < totalSlides - 1) {
+        if (diffX > 40) {
             updateCarousel(currentIndex + 1);
-        } else if (diffX < -40 && currentIndex > 0) {
+        } else if (diffX < -40) {
             updateCarousel(currentIndex - 1);
         }
         startX = 0;

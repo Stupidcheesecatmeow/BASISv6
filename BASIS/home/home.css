@@ -296,7 +296,7 @@
 .isko-home-page .carousel-wrapper {
     position: relative;
     width: 100%;
-    height: 150px;
+    height: 195px;
     padding: 10px 52px;
     border-radius: 14px;
     background: #405840;
@@ -405,8 +405,8 @@
 
 .isko-home-page .rep-panel {
     min-width: 0;
-    height: 270px;
-    min-height: 270px;
+    height: 315px;
+    min-height: 315px;
     border: 1px solid #dfe5dc;
     border-radius: 15px;
     background: #fff;
