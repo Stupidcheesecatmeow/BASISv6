@@ -2059,29 +2059,6 @@ document.addEventListener(
         );
 
         /* =================================================
-           CANCEL EDIT
-        ================================================= */
-
-        on(
-            "cancelEditBtn",
-            "click",
-            function() {
-
-                const profile =
-                    getProfile();
-
-                loadProfile(
-                    profile
-                );
-
-                setEditMode(
-                    false
-                );
-
-            }
-        );
-
-        /* =================================================
            BARANGAY
         ================================================= */
 
