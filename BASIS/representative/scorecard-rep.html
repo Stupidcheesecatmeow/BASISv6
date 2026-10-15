@@ -3,6 +3,9 @@
 <head>
         <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>BASIS - Representative Scorecard</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +15,7 @@
 
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../admin/home-admin.css?v=7">
-    <link rel="stylesheet" href="scorecard-rep.css?v=20261013-admin-style">
+    <link rel="stylesheet" href="scorecard-rep.css?v=20261015-scorecard-live-v4">
     <link rel="stylesheet" href="../responsive.css?v=2">
 </head>
 
@@ -56,7 +59,7 @@
                 <span class="sidebar-text">Dashboard</span>
             </a>
 
-            <a class="sidebar-link active" href="scorecard-rep.html">
+            <a class="sidebar-link active" href="scorecard-rep.html?v=20261015-scorecard-v4">
                 <span class="sidebar-icon"><i class="fa-solid fa-address-card"></i></span>
                 <span class="sidebar-text">Scorecard</span>
             </a>
@@ -147,7 +150,7 @@
                 </div>
 
                 <div class="scorecard-list-shell">
-                    <div id="scorecardYears"></div>
+                    <div id="scorecardYears" class="scorecard-years"></div>
                 </div>
 
             </section>
@@ -352,159 +355,39 @@
                                     <div>
                                         <span class="activity-label">ACADEMIC YEAR</span>
                                         <strong class="ay-title" id="scorecardAYTitle">
-                                            AY: 2026–2027
+                                            AY: —
                                         </strong>
                                     </div>
 
                                     <span class="sem-title" id="scorecardSemTitle">
-                                        FIRST SEMESTER
+                                        SEMESTER
                                     </span>
 
                                 </div>
 
 
-                                <div
-                                    class="activity-rows-container"
-                                    id="activityRows"
-                                >
-                        <div class="activity-form-row">
+                                <div class="activity-rows-container" id="activityRows">
+    <div class="representative-empty-activity">Choose a scorecard period to view attendance.</div>
+</div>
+                                <template id="activityRowTemplate">
+                                    <div class="activity-form-row">
+                                        <div class="field-group title-field">
+                                            <label>Activity Title:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                        <div class="field-group category-field">
+                                            <label>Category:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                        <div class="field-group date-field">
+                                            <label>Date:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                    </div>
+                                </template>
 
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
 
                         </div>
-
-
-                        <!-- =================================================
-                            ACTIVITY 2
-                        ================================================== -->
-                        <div class="activity-form-row">
-
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                        </div>
-
-
-                        <!-- =================================================
-                            ACTIVITY 3
-                        ================================================== -->
-                        <div class="activity-form-row">
-
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                        </div>
-
-
-                        <!-- =================================================
-                            ACTIVITY 4
-                        ================================================== -->
-                        <div class="activity-form-row">
-
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                        </div>
-
-
-                        <!-- =================================================
-                            ACTIVITY 5
-                        ================================================== -->
-                        <div class="activity-form-row">
-
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                        </div>
-
-
-                        <!-- =================================================
-                            ACTIVITY 6
-                        ================================================== -->
-                        <div class="activity-form-row">
-
-                            <div class="field-group title-field">
-                                <label>Activity Title:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group category-field">
-                                <label>Category:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                            <div class="field-group date-field">
-                                <label>Date:</label>
-                                <input type="text" readonly>
-                            </div>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>                            
 
                             </div>
 
@@ -512,20 +395,22 @@
 
                         </div>
 
-                    </div>
 
-                </div>
+
+
 
             </section>
 
         </main>
+
+    </div><!-- /.admin-shell -->
 
     <!-- =====================================================
          JAVASCRIPT
          ===================================================== -->
 
 <script src="../script.js?v=20261015-unread-notifications"></script>
-<script src="scorecard-rep.js"></script>
+<script src="scorecard-rep.js?v=20261015-attendance-scorecard-v9"></script>
 <script src="../auth.js?v=3"></script>
 
 

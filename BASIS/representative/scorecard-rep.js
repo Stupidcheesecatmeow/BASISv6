@@ -3,6 +3,8 @@
    COMPLETE WORKING VERSION
    ========================================================= */
 
+let scorecardInitialPeriodOpened = false;
+
 
 /* =========================================================
    GET REGISTERED ADMIN
@@ -155,6 +157,14 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+        // Remove old hard-coded activity placeholders from any cached HTML.
+        const activityRows = document.getElementById("activityRows");
+        if (activityRows) {
+            activityRows.replaceChildren();
+            activityRows.innerHTML =
+                '<div class="representative-empty-activity">Choose a scorecard period to view attendance.</div>';
+        }
+
         renderScorecardButtons();
 
     }
@@ -176,27 +186,54 @@ async function renderScorecardButtons() {
         '<div class="scorecard-empty">Loading scorecards…</div>';
 
     let activities;
+    let attendedActivities = [];
 
     try {
 
-        const response = await fetch(
-            "../admin/api/activity_api.php?action=list",
+        const profileResponse = await fetch(
+            "../admin/api/account_api.php?action=profile",
             {
                 credentials: "same-origin",
                 cache: "no-store"
             }
         );
 
-        const data = await response.json();
+        const profileData = await profileResponse.json();
 
-        if (!response.ok || !data.success) {
+        if (!profileResponse.ok || !profileData.success) {
             throw new Error(
-                data.message || "Unable to load activities."
+                profileData.message || "Unable to load profile."
             );
         }
 
-        activities = Array.isArray(data.activities)
-            ? data.activities
+        if (profileData.profile) {
+            loadRepresentativeInfo(profileData.profile);
+        } else {
+            loadDefaultRepresentativeInfo();
+        }
+
+        const attendanceResponse = await fetch(
+            "../admin/api/activity_api.php?action=my-attended-activities",
+            { credentials: "same-origin", cache: "no-store" }
+        );
+        const attendanceData = await attendanceResponse.json();
+        if (!attendanceResponse.ok || !attendanceData.success) {
+            throw new Error(attendanceData.message || "Unable to load attendance records.");
+        }
+        attendedActivities = Array.isArray(attendanceData.activities)
+            ? attendanceData.activities
+            : [];
+
+        const periodsResponse = await fetch(
+            "../admin/api/account_api.php?action=activities",
+            { credentials: "same-origin", cache: "no-store" }
+        );
+        const periodsData = await periodsResponse.json();
+        if (!periodsResponse.ok || !periodsData.success) {
+            throw new Error(periodsData.message || "Unable to load academic periods.");
+        }
+        activities = Array.isArray(periodsData.activities)
+            ? periodsData.activities
             : [];
 
     } catch (error) {
@@ -341,9 +378,16 @@ async function renderScorecardButtons() {
             const label =
                 group.semester.toUpperCase();
 
+            const attendedCount = attendedActivities.filter(activity => {
+                const activityAY = activity.academicYear || activity.academic_year || activity.schoolYear || activity.school_year || "";
+                const activitySemester = activity.semester || activity.sem || activity.term || "";
+                return normalizeAcademicYear(activityAY) === normalizeAcademicYear(academicYear) &&
+                    normalizeSemester(activitySemester) === normalizeSemester(group.semester);
+            }).length;
+
             button.innerHTML = `
                 <span class="scorecard-semester-name">${escapeHtml(label)} SCORECARD</span>
-                <span class="scorecard-semester-meta">${escapeHtml(academicYear)} • ${group.activities.length} activit${group.activities.length === 1 ? "y" : "ies"}</span>
+                <span class="scorecard-semester-meta">${escapeHtml(academicYear)} • ${attendedCount} attended activit${attendedCount === 1 ? "y" : "ies"}</span>
                 <span class="scorecard-arrow"><i class="fa-solid fa-chevron-right"></i></span>`;
 
             button.addEventListener("click", () => {
@@ -362,6 +406,28 @@ async function renderScorecardButtons() {
     });
 
     updateScorecardScroll();
+
+    if (!scorecardInitialPeriodOpened) {
+        const latestAttended = attendedActivities.find(activity => {
+            const year = activity.academicYear || activity.academic_year || activity.schoolYear || activity.school_year || "";
+            const term = activity.semester || activity.sem || activity.term || "";
+            return year && term;
+        });
+
+        if (latestAttended) {
+            const year = latestAttended.academicYear || latestAttended.academic_year || latestAttended.schoolYear || latestAttended.school_year;
+            const term = latestAttended.semester || latestAttended.sem || latestAttended.term;
+            const period = orderedGroups.find(group =>
+                normalizeAcademicYear(group.academicYear) === normalizeAcademicYear(year) &&
+                normalizeSemester(group.semester) === normalizeSemester(term)
+            );
+
+            if (period) {
+                scorecardInitialPeriodOpened = true;
+                openScorecardDetail(period.academicYear, period.semester);
+            }
+        }
+    }
 
 }
 
@@ -511,7 +577,7 @@ async function openScorecardDetail(
     try {
 
         const response = await fetch(
-        "../admin/api/activity_api.php?action=my-attended-activities",
+            "../admin/api/activity_api.php?action=my-attended-activities",
             {
                 credentials: "same-origin",
                 cache: "no-store"
@@ -527,11 +593,8 @@ async function openScorecardDetail(
         }
 
         const activities =
-            (
-                Array.isArray(data.activities)
-                    ? data.activities
-                    : []
-            ).filter(activity => {
+            (Array.isArray(data.activities) ? data.activities : [])
+            .filter(activity => {
 
                 const activityAY =
                     activity.academicYear ||
@@ -1194,9 +1257,16 @@ function populateActivityRows(activities) {
     }
 
 
+    const rowTemplate = document.getElementById("activityRowTemplate")
+        ?.content?.firstElementChild;
+    if (!rowTemplate) {
+        console.error("Activity row template #activityRowTemplate was not found.");
+        return;
+    }
+
     /* CLEAR EXISTING HTML */
 
-    container.innerHTML = "";
+    container.replaceChildren();
 
 
     /* SAFETY FALLBACK */
@@ -1228,11 +1298,7 @@ function populateActivityRows(activities) {
         }
 
 
-        const row =
-            document.createElement("div");
-
-        row.className =
-            "activity-form-row";
+        const row = rowTemplate.cloneNode(true);
 
 
         /* TITLE */
@@ -1264,55 +1330,9 @@ function populateActivityRows(activities) {
             "—";
 
 
-        /* CREATE HTML */
-
-        row.innerHTML = `
-
-            <div class="field-group title-field">
-
-                <label>
-                    Activity Title:
-                </label>
-
-                <input
-                    type="text"
-                    readonly
-                    value="${escapeAttribute(title)}"
-                >
-
-            </div>
-
-
-            <div class="field-group category-field">
-
-                <label>
-                    Category:
-                </label>
-
-                <input
-                    type="text"
-                    readonly
-                    value="${escapeAttribute(category)}"
-                >
-
-            </div>
-
-
-            <div class="field-group date-field">
-
-                <label>
-                    Date:
-                </label>
-
-                <input
-                    type="text"
-                    readonly
-                    value="${escapeAttribute(date)}"
-                >
-
-            </div>
-
-        `;
+        row.querySelector(".title-field input").value = String(title);
+        row.querySelector(".category-field input").value = String(category);
+        row.querySelector(".date-field input").value = String(date);
 
 
         container.appendChild(row);
@@ -1497,6 +1517,11 @@ window.addEventListener(
 
     }
 );
+
+window.addEventListener("focus", renderScorecardButtons);
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) renderScorecardButtons();
+});
 
 
 /* =========================================================

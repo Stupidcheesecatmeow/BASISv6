@@ -101,25 +101,52 @@ if ($action === 'my-attended-activities') {
             a.deadline_date AS deadlineDate,
             a.deadline_time AS deadlineTime,
             a.academic_year AS academicYear,
-            aa.attendance_date AS attendedDate,
-            aa.time_in AS timeIn,
-            aa.time_out AS timeOut,
-            aa.status AS attendanceStatus
+            COALESCE(NULLIF(aa.attendance_date,''),NULLIF(scan.attendance_date,''),'') AS attendedDate,
+            COALESCE(NULLIF(aa.time_in,''),NULLIF(scan.time_in,''),'') AS timeIn,
+            COALESCE(NULLIF(aa.time_out,''),NULLIF(scan.time_out,''),'') AS timeOut,
+            CASE
+                WHEN UPPER(COALESCE(aa.status,'')) IN ('PRESENT','ATTENDED')
+                    OR scan.user_id IS NOT NULL
+                    OR EXISTS (
+                        SELECT 1 FROM submissions sub
+                        WHERE sub.activity_id=a.id
+                          AND sub.user_id=?
+                          AND sub.status='VERIFIED'
+                          AND sub.submission_type='attendance'
+                    )
+                THEN 'ATTENDED'
+                ELSE COALESCE(aa.status,'')
+            END AS attendanceStatus
 
-        FROM activity_attendance aa
+        FROM activities a
+        LEFT JOIN activity_attendance aa
+            ON aa.activity_id=a.id AND aa.user_id=?
+        LEFT JOIN (
+            SELECT activity_id,user_id,
+                   MIN(attendance_date) AS attendance_date,
+                   MIN(time_in) AS time_in,
+                   MAX(time_out) AS time_out
+            FROM activity_attendance_scans
+            GROUP BY activity_id,user_id
+        ) scan
+            ON scan.activity_id=a.id AND scan.user_id=?
 
-        INNER JOIN activities a
-            ON a.id = aa.activity_id
-
-        WHERE aa.user_id = ?
-          AND UPPER(TRIM(aa.status)) IN ('PRESENT', 'ATTENDED')
+        WHERE UPPER(COALESCE(aa.status,'')) IN ('PRESENT','ATTENDED')
+           OR scan.user_id IS NOT NULL
+           OR EXISTS (
+                SELECT 1 FROM submissions sub
+                WHERE sub.activity_id=a.id
+                  AND sub.user_id=?
+                  AND sub.status='VERIFIED'
+                  AND sub.submission_type='attendance'
+           )
 
         ORDER BY
             a.activity_date DESC,
             a.id DESC
     ");
 
-    $stmt->execute([$userId]);
+    $stmt->execute([$userId, $userId, $userId, $userId]);
 
     $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

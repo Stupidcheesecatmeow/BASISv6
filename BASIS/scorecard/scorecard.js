@@ -1,9 +1,14 @@
 let currentScorecardData = null;
 let allScorecardActivities = [];
 let selectedScorecardPeriod = null;
+let scorecardInitialPeriodOpened = false;
 
 document.addEventListener("DOMContentLoaded", renderScorecardButtons);
 window.addEventListener("pageshow", renderScorecardButtons);
+window.addEventListener("focus", renderScorecardButtons);
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) renderScorecardButtons();
+});
 
 async function renderScorecardButtons() {
     const listContainer = document.getElementById("scorecardYears");
@@ -24,11 +29,6 @@ async function renderScorecardButtons() {
         currentScorecardData = data;
         const profile = data.profile || {};
         loadProfileInfo(profile);
-
-        if (!data.profileComplete) {
-            showNoScorecardMessage("Please complete your Profile first.");
-            return;
-        }
 
         const ownActivities = Array.isArray(data.activities) ? data.activities : [];
         const activityResponse = await fetch("../admin/api/account_api.php?action=activities", {
@@ -111,6 +111,23 @@ async function renderScorecardButtons() {
         });
 
         updateScorecardScroll();
+
+        if (!scorecardInitialPeriodOpened) {
+            const latestAttended = currentScorecardData.activities.find(isAttendedRecord);
+            if (latestAttended) {
+                const year = getActivityAcademicYear(latestAttended);
+                const semester = getActivitySemester(latestAttended);
+                const period = sortedPeriods.find(item =>
+                    normalizeAcademicYear(item.academicYear) === normalizeAcademicYear(year) &&
+                    normalizeSemester(item.semester) === normalizeSemester(semester)
+                );
+
+                if (period) {
+                    scorecardInitialPeriodOpened = true;
+                    openScorecardDetail(period.academicYear, period.semester);
+                }
+            }
+        }
     } catch (error) {
         console.error("Unable to load scholar scorecards:", error);
         listContainer.innerHTML = `<div class="no-scorecard-message"><i class="fa-solid fa-circle-exclamation"></i><h3>Scorecard could not be loaded.</h3><p>${scorecardEscape(error.message)}</p></div>`;
@@ -237,6 +254,11 @@ function loadProfileInfo(user) {
 function populateActivityRows(activities) {
     const container = document.getElementById("activityRows");
     if (!container) return;
+    const rowTemplate = document.getElementById("activityRowTemplate")?.content?.firstElementChild;
+    if (!rowTemplate) {
+        console.error("Activity row template #activityRowTemplate was not found.");
+        return;
+    }
     container.replaceChildren();
 
     if (!Array.isArray(activities) || activities.length === 0) {
@@ -248,26 +270,15 @@ function populateActivityRows(activities) {
     }
 
     activities.forEach(activity => {
-        const row = document.createElement("div");
-        row.className = "activity-form-row";
+        const row = rowTemplate.cloneNode(true);
 
         const title = activity.title || activity.name || activity.activityName || activity.activity_name || "Untitled Activity";
         const category = String(activity.category || activity.type || activity.activityCategory || activity.activity_category || "General").replace(/\s+Activity$/i, "");
         const date = activity.date || activity.attendanceDate || activity.attendance_date || activity.activityDate || activity.activity_date || "—";
 
-        row.innerHTML = `
-            <div class="field-group title-field">
-                <label>Activity Title</label>
-                <input type="text" readonly value="${scorecardEscape(title)}">
-            </div>
-            <div class="field-group category-field">
-                <label>Category</label>
-                <input type="text" readonly value="${scorecardEscape(category)}">
-            </div>
-            <div class="field-group date-field">
-                <label>Date</label>
-                <input type="text" readonly value="${scorecardEscape(date)}">
-            </div>`;
+        row.querySelector(".title-field input").value = String(title);
+        row.querySelector(".category-field input").value = String(category);
+        row.querySelector(".date-field input").value = String(date);
         container.appendChild(row);
     });
 }

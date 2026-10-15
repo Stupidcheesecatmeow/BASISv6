@@ -155,6 +155,22 @@
                                 <div class="activity-rows-container" id="activityRows">
                                     <div class="representative-empty-activity">Choose a scorecard period to view attendance.</div>
                                 </div>
+                                <template id="activityRowTemplate">
+                                    <div class="activity-form-row">
+                                        <div class="field-group title-field">
+                                            <label>Activity Title:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                        <div class="field-group category-field">
+                                            <label>Category:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                        <div class="field-group date-field">
+                                            <label>Date:</label>
+                                            <input type="text" readonly>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -164,7 +180,7 @@
     </div>
 
     <script src="../script.js?v=20261015-unread-notifications"></script>
-    <script src="scorecard.js?v=20261012-iskolar-scorecard"></script>
+    <script src="scorecard.js?v=20261015-attendance-scorecard-v5"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const sidebar = document.getElementById("iskolarSidebar");
