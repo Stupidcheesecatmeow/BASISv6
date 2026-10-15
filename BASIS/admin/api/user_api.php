@@ -74,9 +74,19 @@ function listUsers(PDO $pdo): void
             u.email,
             u.role,
             u.status,
+            u.given_name,
+            u.middle_name,
+            u.surname,
+            u.suffix,
             u.sex,
+            u.birthday,
+            u.contact_no,
+            u.religion,
             u.municipality,
             u.barangay,
+            u.school,
+            u.program,
+            u.year_level,
             u.profile_completed,
             u.created_at,
             u.updated_at,
@@ -91,10 +101,7 @@ function listUsers(PDO $pdo): void
     foreach ($users as &$user) {
         $profile = json_decode((string)($user['profile_json'] ?? '{}'), true);
         $profile = is_array($profile) ? $profile : [];
-        $user['surname'] = (string)($profile['surname'] ?? $profile['lastName'] ?? '');
-        $user['given_name'] = (string)($profile['given_name'] ?? $profile['givenName'] ?? $profile['firstName'] ?? '');
-        $user['middle_name'] = (string)($profile['middle_name'] ?? $profile['middleName'] ?? '');
-        $user['suffix'] = (string)($profile['suffix'] ?? '');
+        hydrateProfileFields($user, $profile);
         unset($user['profile_json']);
     }
     unset($user);
@@ -587,35 +594,58 @@ function fetchUser(PDO $pdo, int $id): ?array
     }
 
     $profile = json_decode((string)($user['profile_json'] ?? '{}'), true);
+    $profile = is_array($profile) ? $profile : [];
     unset($user['profile_json']);
-    $user['profilePhoto'] = is_array($profile)
-        ? (string)($profile['profilePhoto'] ?? '')
-        : '';
-    $user['assignedBarangay'] = is_array($profile)
-        ? (string)($profile['assignedBarangay'] ?? '')
-        : '';
-    $user['surname'] = is_array($profile)
-        ? (string)($profile['surname'] ?? $profile['lastName'] ?? '')
-        : '';
-    $user['given_name'] = is_array($profile)
-        ? (string)($profile['given_name'] ?? $profile['givenName'] ?? $profile['firstName'] ?? '')
-        : '';
-    $user['middle_name'] = is_array($profile)
-        ? (string)($profile['middle_name'] ?? $profile['middleName'] ?? '')
-        : '';
-    $user['suffix'] = is_array($profile)
-        ? (string)($profile['suffix'] ?? '')
-        : '';
-    $user['sex'] = $user['sex'] ?? (is_array($profile) ? (string)($profile['sex'] ?? '') : '');
-    $user['birthday'] = is_array($profile) ? (string)($profile['birthday'] ?? '') : '';
-    $user['contact_no'] = is_array($profile) ? (string)($profile['contact'] ?? $profile['contactNo'] ?? '') : '';
-    $user['religion'] = is_array($profile) ? (string)($profile['religion'] ?? '') : '';
-    $user['school'] = is_array($profile) ? (string)($profile['school'] ?? '') : '';
-    $user['program'] = is_array($profile) ? (string)($profile['program'] ?? '') : '';
-    $user['year_level'] = is_array($profile) ? (string)($profile['yearLevel'] ?? $profile['year_level'] ?? '') : '';
-    $user['profile_completed'] = $user['profile_completed'] ?? (is_array($profile) ? (string)($profile['profileCompleted'] ?? '') : '');
+    hydrateProfileFields($user, $profile);
+    $user['profilePhoto'] = profileValue($profile, ['profilePhoto', 'profilePicture', 'profile_picture']);
+    $user['assignedBarangay'] = profileValue($profile, ['assignedBarangay', 'assigned_barangay']);
 
     return $user;
+}
+
+/** Prefer populated account_profiles values, then fall back to users columns. */
+function hydrateProfileFields(array &$user, array $profile): void
+{
+    $fields = [
+        'surname' => [['surname', 'lastName', 'last_name'], ['surname', 'last_name']],
+        'given_name' => [['given_name', 'givenName', 'firstName', 'first_name'], ['given_name', 'first_name']],
+        'middle_name' => [['middle_name', 'middleName'], ['middle_name']],
+        'suffix' => [['suffix'], ['suffix']],
+        'sex' => [['sex', 'gender'], ['sex']],
+        'birthday' => [['birthday', 'birthdate', 'dateOfBirth', 'date_of_birth'], ['birthday']],
+        'contact_no' => [['contact', 'contactNo', 'contact_no', 'contactNumber', 'phone'], ['contact_no']],
+        'religion' => [['religion'], ['religion']],
+        'municipality' => [['municipality'], ['municipality']],
+        'barangay' => [['barangay'], ['barangay']],
+        'school' => [['school', 'schoolName', 'school_name'], ['school']],
+        'program' => [['program', 'course', 'courseName', 'course_name'], ['program']],
+        'year_level' => [['yearLevel', 'year_level', 'year'], ['year_level']],
+        'profile_completed' => [['profileCompleted', 'profile_completed'], ['profile_completed']],
+    ];
+
+    foreach ($fields as $target => [$profileKeys, $userKeys]) {
+        $value = profileValue($profile, $profileKeys);
+        if ($value === '') {
+            $value = profileValue($user, $userKeys);
+        }
+        if ($value !== '') {
+            $user[$target] = $value;
+        }
+    }
+}
+
+function profileValue(array $source, array $keys): string
+{
+    foreach ($keys as $key) {
+        if (!array_key_exists($key, $source) || is_array($source[$key]) || is_object($source[$key])) {
+            continue;
+        }
+        $value = trim((string)$source[$key]);
+        if ($value !== '') {
+            return $value;
+        }
+    }
+    return '';
 }
 
 function validateRepresentativeBarangay(string $role, string $barangay): void

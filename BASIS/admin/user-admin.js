@@ -675,10 +675,10 @@ function fillProfile(user) {
     $("role").value = user.role || "ISKOLAR";
     $("status").value = user.status || "ACTIVE";
 
-    $("assignedBarangay").value =
-        user.assignedBarangay ||
-        user.assigned_barangay ||
-        "";
+    setProfileSelectValue(
+        "assignedBarangay",
+        user.assignedBarangay || user.assigned_barangay || ""
+    );
 
     updateRepresentativeBarangayField(
         "role",
@@ -708,8 +708,7 @@ function fillProfile(user) {
     $("municipality").value =
         user.municipality || "BAGAC";
 
-    $("barangay").value =
-        user.barangay || "";
+    setProfileSelectValue("barangay", user.barangay || "");
 
     $("school").value =
         user.school || "";
@@ -726,6 +725,37 @@ function fillProfile(user) {
         Number(user.profile_completed) === 1
             ? "YES"
             : "NO";
+}
+
+function setProfileSelectValue(elementId, rawValue) {
+    const select = $(elementId);
+    if (!select) return;
+
+    const value = String(rawValue || "").trim();
+    if (!value) {
+        select.value = "";
+        return;
+    }
+
+    const normalize = text => String(text || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLocaleLowerCase();
+    const match = [...select.options].find(option =>
+        normalize(option.value || option.textContent) === normalize(value)
+    );
+
+    if (match) {
+        select.value = match.value;
+        return;
+    }
+
+    // Preserve a legacy/custom value instead of displaying an empty select.
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+    select.value = value;
 }
 
 
