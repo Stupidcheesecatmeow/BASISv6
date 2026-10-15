@@ -3,7 +3,6 @@
    COMPLETE WORKING VERSION
    ========================================================= */
 
-let scorecardInitialPeriodOpened = false;
 
 
 /* =========================================================
@@ -406,29 +405,6 @@ async function renderScorecardButtons() {
     });
 
     updateScorecardScroll();
-
-    if (!scorecardInitialPeriodOpened) {
-        const latestAttended = attendedActivities.find(activity => {
-            const year = activity.academicYear || activity.academic_year || activity.schoolYear || activity.school_year || "";
-            const term = activity.semester || activity.sem || activity.term || "";
-            return year && term;
-        });
-
-        if (latestAttended) {
-            const year = latestAttended.academicYear || latestAttended.academic_year || latestAttended.schoolYear || latestAttended.school_year;
-            const term = latestAttended.semester || latestAttended.sem || latestAttended.term;
-            const period = orderedGroups.find(group =>
-                normalizeAcademicYear(group.academicYear) === normalizeAcademicYear(year) &&
-                normalizeSemester(group.semester) === normalizeSemester(term)
-            );
-
-            scorecardInitialPeriodOpened = true;
-            openScorecardDetail(
-                period ? period.academicYear : year,
-                period ? period.semester : term
-            );
-        }
-    }
 
 }
 

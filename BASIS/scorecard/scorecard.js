@@ -1,7 +1,6 @@
 let currentScorecardData = null;
 let allScorecardActivities = [];
 let selectedScorecardPeriod = null;
-let scorecardInitialPeriodOpened = false;
 
 document.addEventListener("DOMContentLoaded", renderScorecardButtons);
 window.addEventListener("pageshow", renderScorecardButtons);
@@ -112,23 +111,6 @@ async function renderScorecardButtons() {
 
         updateScorecardScroll();
 
-        if (!scorecardInitialPeriodOpened) {
-            const latestAttended = currentScorecardData.activities.find(isAttendedRecord);
-            if (latestAttended) {
-                const year = getActivityAcademicYear(latestAttended);
-                const semester = getActivitySemester(latestAttended);
-                const period = sortedPeriods.find(item =>
-                    normalizeAcademicYear(item.academicYear) === normalizeAcademicYear(year) &&
-                    normalizeSemester(item.semester) === normalizeSemester(semester)
-                );
-
-                scorecardInitialPeriodOpened = true;
-                openScorecardDetail(
-                    period ? period.academicYear : year,
-                    period ? period.semester : semester
-                );
-            }
-        }
     } catch (error) {
         console.error("Unable to load scholar scorecards:", error);
         listContainer.innerHTML = `<div class="no-scorecard-message"><i class="fa-solid fa-circle-exclamation"></i><h3>Scorecard could not be loaded.</h3><p>${scorecardEscape(error.message)}</p></div>`;

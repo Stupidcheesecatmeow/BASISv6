@@ -894,10 +894,12 @@
     width: 100%;
     text-align: left;
     font: inherit;
+    font-size: 10px;
+    font-weight: 600;
     cursor: pointer;
 }
 .iskolar-sidebar .sidebar-logout-link .sidebar-icon {
-    background: rgba(255,255,255,.10);
+    background: transparent;
 }
 .iskolar-sidebar .sidebar-logout-link:hover {
     color: #fff;
