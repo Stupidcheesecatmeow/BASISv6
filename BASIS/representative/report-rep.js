@@ -77,6 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
         syncSelectAll('selectAllAcademicYears', '.academic-year-check');
     }
 
+    // more-rep.js refreshes report filters whenever the report view is opened.
+    // Keep that hook available while caching the loaded activities between opens.
+    window.loadRepApiReportFilters = async function () {
+        try {
+            const data = await request(`${api}?action=list`);
+            activities = data.activities || [];
+            renderFilters();
+        } catch (error) {
+            setEmpty(activityList, error.message);
+            setEmpty(semesterList, 'Unable to load semesters.');
+            setEmpty(yearList, 'Unable to load academic years.');
+        }
+    };
+
     function renderReport() {
         results.replaceChildren();
         if (!generated.length) {
@@ -114,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         count.textContent = `${generated.length} record${generated.length === 1 ? '' : 's'}`;
     }
 
-    document.getElementById('repGenerateReport')?.addEventListener('click', async () => {
+    document.getElementById('generateReportBtn')?.addEventListener('click', async () => {
         const activityIds = selected('.activity-check');
         const semesters = selected('.semester-check');
         const years = selected('.academic-year-check');
@@ -143,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('repClearReport')?.addEventListener('click', () => {
+    document.getElementById('clearReportBtn')?.addEventListener('click', () => {
         document.querySelectorAll('.activity-check,.academic-year-check,.semester-check').forEach(input => { input.checked = false; });
         ['selectAllActivities','selectAllSemesters','selectAllAcademicYears'].forEach(id => { const input = document.getElementById(id); if (input) { input.checked = false; input.indeterminate = false; } });
         generated = [];
@@ -151,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         count.textContent = '0 records';
     });
 
-    document.getElementById('repExportReport')?.addEventListener('click', () => {
+    document.getElementById('exportExcelBtn')?.addEventListener('click', () => {
         if (!generated.length) { alert('Generate a report with at least one attendee first.'); return; }
         if (!window.XLSX) { alert('Excel export could not load. Refresh the page and try again.'); return; }
         const rows = generated.map(row => ({'ACTIVITY':row.activity,'CONTROL NO.':row.controlNumber,'NAME':row.name,'BARANGAY':row.barangay,'TIME IN':row.timeIn,'TIME OUT':row.timeOut,'STATUS':row.status}));
@@ -160,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         XLSX.writeFile(workbook, 'BASIS_Representative_Activity_Report.xlsx');
     });
 
-    document.getElementById('repExportPdf')?.addEventListener('click', () => {
+    document.getElementById('exportPdfBtn')?.addEventListener('click', () => {
         if (!generated.length) { alert('Generate a report with at least one attendee first.'); return; }
         const rows = generated.map(row => `<tr>${[row.activity,row.controlNumber,row.name,row.barangay,row.timeIn,row.timeOut,row.status].map(value => `<td>${escape(value || '—')}</td>`).join('')}</tr>`).join('');
         const printWindow = window.open('', '_blank', 'width=1100,height=800');
@@ -173,12 +187,5 @@ document.addEventListener('DOMContentLoaded', () => {
     bindSelectAll('selectAllActivities', '.activity-check');
     bindSelectAll('selectAllSemesters', '.semester-check');
     bindSelectAll('selectAllAcademicYears', '.academic-year-check');
-    request(`${api}?action=list`).then(data => {
-        activities = data.activities || [];
-        renderFilters();
-    }).catch(error => {
-        setEmpty(activityList, error.message);
-        setEmpty(semesterList, 'Unable to load semesters.');
-        setEmpty(yearList, 'Unable to load academic years.');
-    });
+    window.loadRepApiReportFilters();
 });
