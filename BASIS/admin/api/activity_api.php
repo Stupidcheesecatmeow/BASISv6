@@ -62,7 +62,7 @@ try {
  }
  if($action==='participants') {
   requireUser($pdo,['ADMIN','REPRESENTATIVE']);$activityId=(int)($_GET['activity_id']??0);$scannerId=(int)$user['id'];
-  $s=$pdo->prepare("SELECT u.name,u.control_number,u.barangay,COALESCE(scan.attendance_date,'') AS attendance_date,COALESCE(scan.time_in,'') AS time_in,COALESCE(scan.time_out,'') AS time_out,COALESCE(latest.submitted_at,'') AS submitted_at,
+  $s=$pdo->prepare("SELECT u.name,u.given_name,u.middle_name,u.surname,u.suffix,u.control_number,u.barangay,COALESCE(scan.attendance_date,'') AS attendance_date,COALESCE(scan.time_in,'') AS time_in,COALESCE(scan.time_out,'') AS time_out,COALESCE(latest.submitted_at,'') AS submitted_at,
    CASE
     WHEN latest.status='VERIFIED' AND latest.submission_type='attendance' THEN 'Attended'
     WHEN latest.status='VERIFIED' AND latest.submission_type='absence' AND COALESCE(scan.time_in,'')<>'' AND COALESCE(scan.time_out,'')<>'' THEN 'Excused'
