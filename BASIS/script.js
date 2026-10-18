@@ -116,26 +116,28 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
     if (script && homeActivityBox) {
         const isActivityOngoing = (activity, now = new Date()) => {
             const status = String(activity.status || '').trim().toLowerCase();
-            if (['ongoing', 'active'].includes(status) || activity.ongoing === true) return true;
             if (['completed', 'cancelled', 'canceled', 'ended'].includes(status)) return false;
-            const rawDate = activity.activity_date || activity.activityDate || activity.date;
-            if (!rawDate) return false;
+
+            // Upcoming activities stay visible until their submission/attendance deadline.
+            const deadlineDate = activity.deadlineDate || activity.deadline_date || '';
+            const eventDate = activity.activity_date || activity.activityDate || activity.date || '';
+            const rawDate = deadlineDate || eventDate;
+            if (!rawDate) return ['ongoing', 'active'].includes(status) || activity.ongoing === true;
+
             const match = String(rawDate).trim().slice(0, 10).match(/^(\d{4})-(\d{2})-(\d{2})$/);
             if (!match) return false;
-            const starts = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-            const startTime = String(activity.startTime || activity.start_time || '00:00').slice(0, 5);
-            const endTime = String(activity.endTime || activity.end_time || '23:59').slice(0, 5);
-            const parseTime = (value, fallback) => {
-                const parts = value.split(':').map(Number);
-                return parts.length >= 2 && parts.every(Number.isFinite) ? [parts[0], parts[1], parts[2] || 0] : fallback;
-            };
-            const [startHour, startMinute, startSecond] = parseTime(startTime, [0, 0, 0]);
-            const [endHour, endMinute, endSecond] = parseTime(endTime, [23, 59, 59]);
-            starts.setHours(startHour, startMinute, startSecond, 0);
-            const ends = new Date(starts);
-            ends.setHours(endHour, endMinute, endSecond, 999);
-            if (ends < starts) ends.setDate(ends.getDate() + 1);
-            return starts <= now && now <= ends;
+
+            const due = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+            const rawTime = deadlineDate
+                ? (activity.deadlineTime || activity.deadline_time || '23:59:59')
+                : (activity.endTime || activity.end_time || '23:59:59');
+            const timeMatch = String(rawTime).trim().match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+            if (timeMatch) {
+                due.setHours(Number(timeMatch[1]), Number(timeMatch[2]), Number(timeMatch[3] || 0), 999);
+            } else {
+                due.setHours(23, 59, 59, 999);
+            }
+            return now <= due;
         };
         const renderHomeActivities = (activities) => {
             homeActivityBox.replaceChildren();
