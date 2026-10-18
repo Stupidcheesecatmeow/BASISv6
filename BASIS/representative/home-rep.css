@@ -1426,6 +1426,12 @@ body.rep-page {
     }
 }
 
+/* Tighten the welcome carousel card's inner top and side spacing. */
+.rep-page .guideline-card { padding: 10px 14px !important; }
+@media (max-width: 560px) {
+  .rep-page .guideline-card { padding: 9px 11px !important; }
+}
+
 @media (max-width: 370px) {
     .rep-page .admin-summary {
         grid-template-columns: 1fr;
@@ -1549,6 +1555,8 @@ body.rep-page {
 .rep-page .announcement-content-image { width:82px; height:82px; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f0f3ef; color:#a2aca0; }
 .rep-page .announcement-content-image img { width:100%; height:100%; object-fit:cover; }
 .rep-page .rep-modal-note { margin:0; color:var(--admin-muted); font-size:8px; }
+/* Keep carousel card titles close to their welcome/instruction text. */
+.rep-page .guideline-card h2 { margin: 0 0 2px !important; line-height: 1.2; }
 @media(max-width:900px){ .rep-page .representative-summary{grid-template-columns:1fr;} .rep-page .rep-home-grid{grid-template-columns:1fr;} .rep-page .rep-panel{height:300px;} }
 @media(max-width:560px){ .rep-page .scholar-counts{gap:7px;} .rep-page .rep-count-card{min-height:95px;padding:11px;} .rep-page .rep-count-card strong{font-size:24px;} .rep-page .count-label{font-size:7px;} .rep-page .rep-count-card small{font-size:7px;} .rep-page .carousel-wrapper{height:180px;padding:9px 40px;} .rep-page .guideline-card{padding:15px;} .rep-page .rep-panel{height:315px;} .rep-page .announcement-content-container{grid-template-columns:minmax(0,1fr) 65px;} .rep-page .announcement-content-image{width:65px;height:65px;} }
 
