@@ -80,9 +80,13 @@ loginForm.addEventListener('submit', async (event) => {
     if (!response.ok || !data.success) throw new Error(data.message || 'Sign in failed.');
     if (data.token) sessionStorage.setItem('basisAuthToken', data.token);
     if (data.user && data.user.id) sessionStorage.setItem('basisCurrentUserId', String(data.user.id));
-    if (Number(data.user.must_change_password) === 1) { window.location.href = 'change-password.html'; return; }
+    const user = data.user || {};
+    if (Number(user.must_change_password) === 1) { window.location.assign('change-password.html'); return; }
     const destinations = {ADMIN: '../admin/home-admin.html', REPRESENTATIVE: '../representative/home-rep.html', ISKOLAR: '../home/home.html'};
-    window.location.href = destinations[data.user.role] || '../home/home.html';
+    const role = String(user.role || '').trim().toUpperCase();
+    const destination = destinations[role];
+    if (!destination) throw new Error('Your account role is not recognized. Please contact an administrator.');
+    window.location.assign(destination);
   } catch (error) { message.textContent = error.message; }
   finally { signInButton.disabled = !acceptTerms.checked; }
 });
