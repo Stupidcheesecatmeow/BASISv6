@@ -1502,4 +1502,18 @@
     overflow-y: auto;
     overscroll-behavior: contain;
 }
+.announcement-detail-content .detail-content-box {
+    max-height: min(42vh, 360px);
+    min-height: 120px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+.announcement-detail-content .detail-content-box::-webkit-scrollbar { width: 8px; }
+.announcement-detail-content .detail-content-box::-webkit-scrollbar-thumb {
+    border: 2px solid #fafbf9;
+    border-radius: 999px;
+    background: #aab9a8;
+}
+.announcement-detail-content .detail-content-box::-webkit-scrollbar-thumb:hover { background: #7d927d; }
 .history-record-row.is-unread .history-record-main strong { font-weight:900; }

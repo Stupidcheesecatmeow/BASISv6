@@ -1443,6 +1443,9 @@
 .iskolar-history-page .detail-section-label, .iskolar-history-page .detail-content-box > span, .iskolar-history-page .notification-message-box > span { color:var(--history-muted); font-size:11px; font-weight:800; letter-spacing:.08em; }
 .iskolar-history-page .detail-title { color:var(--history-text); margin:8px 0 16px; font-size:clamp(20px,2vw,28px); overflow-wrap:anywhere; }
 .iskolar-history-page .detail-content-box, .iskolar-history-page .notification-message-box { background:#f8faf7; border:1px solid var(--history-border); border-radius:12px; padding:18px; }
+.iskolar-history-page .announcement-detail-content .detail-content-box { max-height:min(42vh,360px); min-height:120px; overflow-y:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
+.iskolar-history-page .announcement-detail-content .detail-content-box::-webkit-scrollbar { width:8px; }
+.iskolar-history-page .announcement-detail-content .detail-content-box::-webkit-scrollbar-thumb { border:2px solid #f8faf7; border-radius:999px; background:#aab9a8; }
 .iskolar-history-page .detail-content-box p, .iskolar-history-page .notification-message-box p { margin:10px 0 0; white-space:pre-wrap; line-height:1.7; overflow-wrap:anywhere; }
 .iskolar-history-page .notification-detail-layout { grid-template-columns:70px minmax(0,1fr); }
 .iskolar-history-page .notification-detail-icon { width:64px; height:64px; display:grid; place-items:center; border-radius:18px; background:var(--history-green-soft); color:var(--history-green); font-size:27px; }
