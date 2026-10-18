@@ -147,7 +147,9 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
                 homeActivityBox.appendChild(empty); return;
             }
             activities.forEach((activity) => {
-                const card = document.createElement('article'); card.className = 'dashboard-info-card ongoing-activity-card';
+                const card = document.createElement('article'); card.className = 'dashboard-info-card ongoing-activity-card clickable-announcement';
+                card.tabIndex = 0; card.setAttribute('role', 'link');
+                card.setAttribute('aria-label', `View activity: ${activity.name || activity.title || 'ACTIVITY'}`);
                 const content = document.createElement('div'); content.className = 'announcement-content-container activity-content-container';
                 const details = document.createElement('div'); details.className = 'announcement-content-details';
                 const title = document.createElement('h3'); title.className = 'announcement-content-title'; title.textContent = activity.name || activity.title || 'ACTIVITY';
@@ -158,6 +160,24 @@ if (typeof ACTIVITY_SUB_VIEWS !== 'undefined') {
                 details.append(title, date, message);
                 const icon = document.createElement('div'); icon.className = 'announcement-content-image no-image activity-status-icon'; icon.innerHTML = '<i class="fa-solid fa-calendar-check"></i>';
                 content.append(details, icon); card.appendChild(content); homeActivityBox.appendChild(card);
+                const openActivity = () => {
+                    const activityId = activity.id || activity.activity_id || activity.activityId;
+                    if (!activityId) return;
+                    if (window.location.pathname.toLowerCase().includes('/representative/')) {
+                        sessionStorage.setItem('basisRepresentativeSelectedActivityId', String(activityId));
+                        window.location.href = new URL('activity_details-rep.html', window.location.href).href;
+                    } else {
+                        sessionStorage.setItem('basisSelectedActivityId', String(activityId));
+                        window.location.href = new URL('../activity/activity.html', window.location.href).href;
+                    }
+                };
+                card.addEventListener('click', openActivity);
+                card.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openActivity();
+                    }
+                });
             });
         };
         const loadHomeActivities = () => fetch(new URL('admin/api/account_api.php?action=activities', script.src), {credentials:'same-origin', cache:'no-store'})
