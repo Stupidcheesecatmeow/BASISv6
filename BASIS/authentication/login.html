@@ -38,9 +38,14 @@
                         <a href="forgot-password.html">Forgot Password?</a>
                     </div>
 
+                    <label class="login-terms-check" for="acceptTerms">
+                        <input type="checkbox" id="acceptTerms" name="acceptTerms" disabled>
+                        <span>I have read and agree to the <button type="button" class="terms-open-link" id="openTerms">Terms and Conditions</button>.</span>
+                    </label>
+
 
                     <div class="btn-container">
-                        <button type="submit" class="sign-in-btn">SIGN IN</button>
+                        <button type="submit" class="sign-in-btn" id="signInButton" disabled>LOGIN</button>
                     </div>
                 </form>
 
@@ -54,7 +59,24 @@
         </div>
     </div>
 
-    <script src="login.js?v=3"></script>
+    <div class="terms-modal" id="termsModal" hidden aria-hidden="true">
+        <div class="terms-modal-backdrop" data-close-terms></div>
+        <section class="terms-dialog" role="dialog" aria-modal="true" aria-labelledby="termsDialogTitle">
+            <header class="terms-dialog-header">
+                <div><span>BASIS</span><h2 id="termsDialogTitle">Terms and Conditions</h2><p>Please read the terms to the end before agreeing.</p></div>
+                <button type="button" class="terms-close" id="closeTerms" aria-label="Close terms">&times;</button>
+            </header>
+            <div class="terms-dialog-content" id="termsDialogContent" tabindex="0">
+                <p class="terms-loading">Loading Terms and Conditions…</p>
+            </div>
+            <footer class="terms-dialog-footer">
+                <span id="termsReadHint">Scroll to the bottom to enable the agreement checkbox.</span>
+                <button type="button" class="terms-done-btn" id="termsDone" disabled>DONE</button>
+            </footer>
+        </section>
+    </div>
+
+    <script src="login.js?v=20261018-terms-gate"></script>
     <script src="password-toggle.js?v=20261018-eye-toggle"></script>
 
 </body>
