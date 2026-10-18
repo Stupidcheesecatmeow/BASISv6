@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-/** Send a UTF-8 plain-text message using the configured SMTP relay. */
-function sendSmtpMail(string $recipient, string $subject, string $body): void
+/** Send a UTF-8 plain-text message, optionally with a matching HTML alternative. */
+function sendSmtpMail(string $recipient, string $subject, string $body, ?string $htmlBody = null): void
 {
     $host = trim((string)(getenv('BASIS_SMTP_HOST') ?: 'smtp.gmail.com'));
     $username = trim((string)(getenv('BASIS_SMTP_USERNAME') ?: ''));
@@ -76,12 +76,27 @@ function sendSmtpMail(string $recipient, string $subject, string $body): void
             'Subject: =?UTF-8?B?' . base64_encode($subject) . '?=',
             'Date: ' . date(DATE_RFC2822),
             'Message-ID: <' . bin2hex(random_bytes(16)) . '@' . $domain . '>',
-            'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding: 8bit'
+            'MIME-Version: 1.0'
         ];
-        $message = implode("\r\n", $headers) . "\r\n\r\n";
-        $message .= str_replace(["\r\n", "\r", "\n"], "\r\n", $body);
+        if ($htmlBody !== null) {
+            $boundary = 'BASIS-' . bin2hex(random_bytes(16));
+            $headers[] = 'Content-Type: multipart/alternative; boundary="' . $boundary . '"';
+            $message = implode("\r\n", $headers) . "\r\n\r\n";
+            $plainPart = str_replace(["\r\n", "\r", "\n"], "\r\n", $body);
+            $htmlPart = str_replace(["\r\n", "\r", "\n"], "\r\n", $htmlBody);
+            $message .= '--' . $boundary . "\r\n";
+            $message .= "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n";
+            $message .= chunk_split(base64_encode($plainPart), 76, "\r\n");
+            $message .= '--' . $boundary . "\r\n";
+            $message .= "Content-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n";
+            $message .= chunk_split(base64_encode($htmlPart), 76, "\r\n");
+            $message .= '--' . $boundary . "--\r\n";
+        } else {
+            $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+            $headers[] = 'Content-Transfer-Encoding: 8bit';
+            $message = implode("\r\n", $headers) . "\r\n\r\n";
+            $message .= str_replace(["\r\n", "\r", "\n"], "\r\n", $body);
+        }
         $message = preg_replace('/(?m)^\./', '..', $message) ?? $message;
         smtpWrite($socket, $message . "\r\n.\r\n");
         smtpExpect($socket, [250]);
