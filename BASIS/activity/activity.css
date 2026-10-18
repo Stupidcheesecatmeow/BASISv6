@@ -1813,12 +1813,18 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
     .iskolar-activity-page #view-submission .submission-details-side .btn-right-container .act-btn { width: 100%; }
 }
 
-/* Let activity cards grow with their content; scrolling belongs to the main page. */
+/* Match the admin and representative activity pages: the content area scrolls,
+   while each activity view and its detail frame grow to fit their content. */
 .iskolar-activity-page .activity-main {
+    height: calc(100vh - 78px);
+    height: calc(100dvh - 78px);
+    max-height: calc(100dvh - 78px);
     padding-top: clamp(10px, 1.5vh, 18px);
     padding-bottom: clamp(10px, 1.5vh, 18px);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
     -webkit-overflow-scrolling: touch;
 }
 @media (min-width: 901px) {
@@ -1835,6 +1841,34 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
     flex: 0 0 auto;
     overflow: visible;
 }
+.iskolar-activity-page .activity-main .page-view.active {
+    display: flex;
+    flex-direction: column;
+}
+.iskolar-activity-page .activity-main .view-body {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+.iskolar-activity-page .activity-main > #view-activity,
+.iskolar-activity-page .activity-main > #view-activity-detail,
+.iskolar-activity-page .activity-main > #view-qr,
+.iskolar-activity-page .activity-main > #view-submission {
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+}
+.iskolar-activity-page #view-activity-detail .activity-detail-frame,
+.iskolar-activity-page #view-qr .qr-page-frame,
+.iskolar-activity-page #view-submission .submission-page-frame {
+    height: auto !important;
+    min-height: min-content !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+}
 .iskolar-activity-page #view-activity-detail .activity-detail-frame,
 .iskolar-activity-page #view-qr .qr-page-frame,
 .iskolar-activity-page #view-submission .submission-page-frame {
@@ -1847,6 +1881,9 @@ body.iskolar-activity-page { height:100vh; height:100dvh; min-height:0; display:
 }
 @media (max-width: 900px) {
     .iskolar-activity-page .activity-main {
+        height: calc(100vh - 68px);
+        height: calc(100dvh - 68px);
+        max-height: calc(100dvh - 68px);
         overflow-x: hidden !important;
         overflow-y: auto !important;
     }
