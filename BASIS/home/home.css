@@ -400,13 +400,13 @@
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: 18px;
     align-items: stretch;
-    margin: 0 0 28px;
+    margin: 0 0 16px;
 }
 
 .isko-home-page .rep-panel {
     min-width: 0;
-    height: 315px;
-    min-height: 315px;
+    height: 350px;
+    min-height: 350px;
     border: 1px solid #dfe5dc;
     border-radius: 15px;
     background: #fff;
@@ -632,8 +632,8 @@
     }
 
     .isko-home-page .rep-panel {
-        height: 285px;
-        min-height: 285px;
+        height: 250px;
+        min-height: 250px;
     }
 
     .isko-home-page .carousel-wrapper {
@@ -664,8 +664,8 @@
     }
 
     .isko-home-page .rep-panel {
-        height: 285px;
-        min-height: 285px;
+        height: 250px;
+        min-height: 250px;
     }
 
     .isko-home-page .announcement-content-container {
