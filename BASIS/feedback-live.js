@@ -1,4 +1,4 @@
-// Persist feedback on the server so senders and Admins see the same records.
+// Persist feedback on the server so senders, Admins, and Representatives see the same records.
 window.BASISFeedbackLive = true;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!script) return;
     const api = new URL('admin/api/account_api.php', script.src);
     const isAdmin = window.location.pathname.toLowerCase().includes('/admin/');
+    const isRepresentative = window.location.pathname.toLowerCase().includes('/representative/');
+    const canManageInbox = isAdmin || isRepresentative;
     const form = document.getElementById('feedbackForm');
     const statusNode = document.getElementById('feedbackStatus');
     const inputName = document.getElementById('feedbackName');
@@ -44,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadHistory() {
-        const data = await request(isAdmin ? 'feedback-inbox' : 'feedback');
+        const data = await request(canManageInbox ? 'feedback-inbox' : 'feedback');
         records.splice(0, records.length, ...(data.records || []));
-        if (isAdmin) renderInbox(); else renderHistory();
+        if (canManageInbox) renderInbox(); else renderHistory();
     }
     function showModal(record) {
         document.getElementById('liveFeedbackModal')?.remove();
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = document.createElement('p'); body.className='live-feedback-message'; body.textContent=record.message || '';
         card.append(close,heading,meta,body);
         if (record.image_data) { const image=document.createElement('img');image.className='live-feedback-image';image.src=record.image_data;image.alt=record.image_name || 'Feedback attachment';card.appendChild(image); }
-        if (isAdmin) {
+        if (canManageInbox) {
             const replyForm=document.createElement('form');replyForm.className='live-feedback-reply-form';
             const label=document.createElement('label');label.textContent='Your response';
             const reply=document.createElement('textarea');reply.maxLength=4000;reply.required=true;reply.rows=5;reply.placeholder='Type a response to the sender…';reply.value=record.admin_reply||'';
@@ -79,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.appendChild(replyForm);
         } else if (record.admin_reply) {
             const response=document.createElement('section');response.className='live-feedback-admin-response';
-            const responseHeading=document.createElement('h3');responseHeading.textContent='Admin response';
+            const responseHeading=document.createElement('h3');responseHeading.textContent='Response';
             const responseDate=document.createElement('small');responseDate.textContent=formatDate(record.replied_at);
             const responseBody=document.createElement('p');responseBody.textContent=record.admin_reply;
             response.append(responseHeading,responseDate,responseBody);card.appendChild(response);
@@ -135,5 +137,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if(view==='feedbackView')loadProfile().catch(error=>console.warn(error));
         if(view==='feedbackHistoryView'||view==='feedbackInboxView')loadHistory().catch(error=>console.warn('Could not load feedback records:',error.message));
     });
-    if (isAdmin) loadHistory().catch(error=>console.warn('Could not load Admin feedback inbox:',error.message));
+    if (canManageInbox) loadHistory().catch(error=>console.warn('Could not load feedback inbox:',error.message));
 });

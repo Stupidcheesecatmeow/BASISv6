@@ -160,26 +160,47 @@ try {
      jsonResponse(true,'Your message has been submitted.',201,['id'=>$feedbackId]);
  }
  if($action==='feedback-inbox' && $method==='GET') {
-     if(($user['role']??'')!=='ADMIN')jsonResponse(false,'Admin access required.',403);
-     $s=$pdo->query('SELECT f.id,f.user_id,f.type,f.title,f.message,f.status,f.image_name,f.image_data,f.admin_reply,f.replied_at,f.created_at,u.name,u.email,u.contact_no AS contact,u.municipality,u.barangay,u.role FROM feedback f JOIN users u ON u.id=f.user_id ORDER BY f.id DESC');
-     jsonResponse(true,'',200,['records'=>$s->fetchAll()]);
+     $role=(string)($user['role']??'');
+     if(!in_array($role,['ADMIN','REPRESENTATIVE'],true))jsonResponse(false,'Admin or representative access required.',403);
+     $s=$pdo->query('SELECT f.id,f.user_id,f.type,f.title,f.message,f.status,f.image_name,f.image_data,f.admin_reply,f.replied_at,f.replied_by,f.created_at,u.name,u.email,u.contact_no AS contact,u.municipality,u.barangay,u.role FROM feedback f JOIN users u ON u.id=f.user_id ORDER BY f.id DESC');
+     $records=$s->fetchAll();
+     if($role==='REPRESENTATIVE'){
+         $assignment=$pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id=?');
+         $assignment->execute([$uid]);
+         $extra=json_decode((string)($assignment->fetchColumn()?:'{}'),true);
+         $assignedBarangay=is_array($extra)?trim((string)($extra['assignedBarangay']??'')):'';
+         $normalizeBarangay=static fn(string $value):string=>preg_replace('/[^a-z0-9]/i','',strtolower(trim($value)))??'';
+         $assignedKey=$normalizeBarangay($assignedBarangay);
+         $records=$assignedKey===''?[]:array_values(array_filter($records,static fn(array $record):bool=>$normalizeBarangay((string)($record['barangay']??''))===$assignedKey));
+     }
+     jsonResponse(true,'',200,['records'=>$records]);
  }
  if($action==='feedback-reply' && $method==='POST') {
-     if(($user['role']??'')!=='ADMIN')jsonResponse(false,'Admin access required.',403);
+     $role=(string)($user['role']??'');
+     if(!in_array($role,['ADMIN','REPRESENTATIVE'],true))jsonResponse(false,'Admin or representative access required.',403);
      $feedbackId=(int)($in['feedback_id']??0);
      $reply=trim((string)($in['reply']??''));
      if($feedbackId<=0||$reply==='')jsonResponse(false,'Write a response before sending.',422);
      if(strlen($reply)>4000)jsonResponse(false,'The response must be 4,000 characters or fewer.',422);
-     $find=$pdo->prepare('SELECT user_id,title FROM feedback WHERE id=?');
+     $find=$pdo->prepare('SELECT f.user_id,f.title,u.barangay FROM feedback f JOIN users u ON u.id=f.user_id WHERE f.id=?');
      $find->execute([$feedbackId]);
      $record=$find->fetch();
      if(!$record)jsonResponse(false,'Feedback or concern not found.',404);
+     if($role==='REPRESENTATIVE'){
+         $assignment=$pdo->prepare('SELECT profile_json FROM account_profiles WHERE user_id=?');
+         $assignment->execute([$uid]);
+         $extra=json_decode((string)($assignment->fetchColumn()?:'{}'),true);
+         $assignedBarangay=is_array($extra)?trim((string)($extra['assignedBarangay']??'')):'';
+         $normalizeBarangay=static fn(string $value):string=>preg_replace('/[^a-z0-9]/i','',strtolower(trim($value)))??'';
+         if($normalizeBarangay($assignedBarangay)===''||$normalizeBarangay($assignedBarangay)!==$normalizeBarangay((string)($record['barangay']??'')))jsonResponse(false,'You can only respond to users in your assigned barangay.',403);
+     }
      $pdo->beginTransaction();
      try {
          $update=$pdo->prepare("UPDATE feedback SET admin_reply=?,replied_at=CURRENT_TIMESTAMP,replied_by=?,status='REPLIED' WHERE id=?");
          $update->execute([$reply,$uid,$feedbackId]);
          $notification=$pdo->prepare("INSERT INTO notifications(user_id,type,title,message) VALUES(?,'feedback_response','A reply from your feedback/concern has come',?)");
-         $notification->execute([(int)$record['user_id'],'The Admin responded to “'.(string)$record['title'].'”. Open Feedback and Concern History to read the reply.']);
+         $responder=$role==='REPRESENTATIVE'?'The Representative':'The Admin';
+         $notification->execute([(int)$record['user_id'],$responder.' responded to “'.(string)$record['title'].'”. Open Feedback and Concern History to read the reply.']);
          $pdo->commit();
      } catch(Throwable $error) {
          $pdo->rollBack();
