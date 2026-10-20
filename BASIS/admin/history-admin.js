@@ -101,13 +101,13 @@
 
         return firstValue(
 
-            item?.created_at,
-
-            item?.createdAt,
-
             item?.published_at,
 
             item?.publishedAt,
+
+            item?.created_at,
+
+            item?.createdAt,
 
             item?.date,
 
@@ -434,21 +434,13 @@
         if (!raw) return null;
 
         const value = String(raw).trim();
-        let date;
-        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-
-        if (match) {
-            date = new Date(
-                Number(match[1]),
-                Number(match[2]) - 1,
-                Number(match[3]),
-                0, 0, 0, 0
-            );
-        } else {
-            date = new Date(value);
-        }
-
-        return Number.isNaN(date.getTime()) ? null : date;
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        const parsed = match
+            ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+            : new Date(value);
+        if (Number.isNaN(parsed.getTime())) return null;
+        // Compare calendar days consistently across date-only values and SQL timestamps.
+        return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
     }
 
     function announcementExpirationDate(item) {
@@ -865,7 +857,7 @@
 
             [
                 "historyAnnouncementCount",
-                historyData.announcements.filter(isAnnouncementExpired).length
+                historyData.announcements.length
             ],
 
             [
@@ -1040,9 +1032,7 @@
 
 
         const items =
-            sortNewest(
-                historyData.announcements.filter(isAnnouncementExpired)
-            );
+            sortNewest(historyData.announcements);
 
 
         if (!items.length) {
@@ -1156,9 +1146,7 @@
     ) {
 
         const item =
-            sortNewest(
-                historyData.announcements.filter(isAnnouncementExpired)
-            )[index];
+            sortNewest(historyData.announcements)[index];
 
 
         if (!item) return;
@@ -2659,7 +2647,7 @@ function openSelectedAnnouncementFromHome() {
             "adminAnnouncementHistoryList",
 
             () =>
-                historyData.announcements.filter(isAnnouncementExpired),
+                historyData.announcements,
 
             "announcement"
 

@@ -101,13 +101,13 @@
 
         return firstValue(
 
-            item?.created_at,
-
-            item?.createdAt,
-
             item?.published_at,
 
             item?.publishedAt,
+
+            item?.created_at,
+
+            item?.createdAt,
 
             item?.date,
 
@@ -801,7 +801,7 @@
 
             [
                 "historyAnnouncementCount",
-                historyData.announcements.filter(isAnnouncementExpired).length
+                historyData.announcements.length
             ],
 
             [
@@ -970,11 +970,13 @@
         const raw = firstValue(item?.published_at, item?.publishedAt, item?.created_at, item?.createdAt, item?.date, item?.announcement_date, item?.announcementDate);
         if (!raw) return null;
         const value = String(raw).trim();
-        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-        const published = match
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        const parsed = match
             ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
             : new Date(value);
-        return Number.isNaN(published.getTime()) ? null : published;
+        if (Number.isNaN(parsed.getTime())) return null;
+        // Compare calendar days consistently across date-only values and SQL timestamps.
+        return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
     }
 
     function isAnnouncementExpired(item, now = new Date()) {
@@ -996,7 +998,7 @@
         if (!container) return;
 
 
-        const items = sortNewest(historyData.announcements).filter(isAnnouncementExpired);
+        const items = sortNewest(historyData.announcements);
 
 
         if (!items.length) {
