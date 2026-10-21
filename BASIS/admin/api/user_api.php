@@ -656,7 +656,7 @@ function validateRepresentativeBarangay(string $role, string $barangay): void
 
     $allowed = [
         'Atilano Ricardo', 'Bagumbayan', 'Banawang', 'Binuangan', 'Binukawan',
-        'Ibaba', 'Ibis', 'Pagasa', 'Parang', 'Paysawan', 'Quinawan',
+        'Ibaba', 'Ibis', 'Pag-asa', 'Parang', 'Paysawan', 'Quinawan',
         'San Antonio', 'Saysain', 'Tabing-ilog'
     ];
     foreach ($allowed as $name) {
