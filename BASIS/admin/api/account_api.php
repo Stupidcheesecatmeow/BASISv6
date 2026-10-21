@@ -13,6 +13,19 @@ try {
      if($title===''||$date===''||$message==='')jsonResponse(false,'Please complete the announcement details.',422);
      if(strlen($attachmentData)>7*1024*1024)jsonResponse(false,'Announcement attachment is too large (5 MB maximum).',413);
      if($attachmentData!==''&&!preg_match('#\\Adata:[^;,]+;base64,[A-Za-z0-9+/]+={0,2}\\z#',$attachmentData))jsonResponse(false,'Announcement attachment is invalid.',422);
+     $announcementId=(int)($in['id']??0);
+     if($announcementId>0) {
+         $check=$pdo->prepare('SELECT id FROM announcements WHERE id=?');$check->execute([$announcementId]);
+         if(!$check->fetch())jsonResponse(false,'Announcement not found.',404);
+         if($attachmentData!=='') {
+             $update=$pdo->prepare('UPDATE announcements SET title=?,announcement_date=?,message=?,attachment_name=?,attachment_data=? WHERE id=?');
+             $update->execute([$title,$date,$message,$attachmentName,$attachmentData,$announcementId]);
+         } else {
+             $update=$pdo->prepare('UPDATE announcements SET title=?,announcement_date=?,message=? WHERE id=?');
+             $update->execute([$title,$date,$message,$announcementId]);
+         }
+         jsonResponse(true,'Announcement updated.',200,['id'=>$announcementId]);
+     }
      $pdo->beginTransaction();
      try {
          $s=$pdo->prepare('INSERT INTO announcements(title,announcement_date,message,attachment_name,attachment_data,created_by) VALUES(?,?,?,?,?,?)');

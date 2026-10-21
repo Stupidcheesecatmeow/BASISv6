@@ -336,8 +336,16 @@
         </div>
     </div>
 
+    <div class="announcement-modal" id="announcementPreviewModal" aria-hidden="true">
+        <div class="announcement-modal-overlay" data-close-announcement-preview></div>
+        <div class="announcement-modal-card announcement-preview-card" role="dialog" aria-modal="true" aria-labelledby="announcementPreviewTitle">
+            <div class="announcement-modal-header"><div><span class="modal-eyebrow">BASIS • ANNOUNCEMENT</span><h2 id="announcementPreviewTitle"></h2><p id="announcementPreviewDate"></p></div><button type="button" class="announcement-modal-close" data-close-announcement-preview aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="announcement-preview-body"><img id="announcementPreviewImage" alt="Announcement attachment" hidden><p id="announcementPreviewMessage"></p><a id="announcementPreviewAttachment" hidden target="_blank" rel="noopener"></a><button type="button" id="editAnnouncementFromPreview" class="announcement-edit-btn">EDIT ANNOUNCEMENT</button></div>
+        </div>
+    </div>
+
     <script src="../script.js?v=20261020-announcement-lifecycle"></script>
-    <script src="home-admin.js?v=20261020-announcement-lifecycle"></script>
+    <script src="home-admin.js?v=20261021-announcement-preview-v2"></script>
     <script src="../auth.js?v=3"></script>
 
     <script>

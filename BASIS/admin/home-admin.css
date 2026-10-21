@@ -898,6 +898,9 @@ body.admin-page {
     transition: border-color .18s ease, box-shadow .18s ease;
 }
 
+.announcement-edit-btn{margin:8px 10px 10px;padding:6px 11px;border:1px solid #d5dfd3;border-radius:7px;background:#f7faf6;color:var(--admin-green);font-size:10px;font-weight:800;cursor:pointer}
+.announcement-edit-btn:hover{background:#eaf2e8}
+
 .announcement-content-container:hover {
     border-color: #b9c7b6;
     box-shadow: 0 4px 12px rgba(50,70,50,.06);
@@ -1501,3 +1504,9 @@ body.admin-page {
 .history-nav-badge[hidden] {
     display: none !important;
 }
+.announcement-preview-card{width:min(620px,100%)}
+.announcement-preview-body{padding:20px;max-height:65vh;overflow:auto;color:var(--admin-text)}
+.announcement-preview-body p{margin:0 0 14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.announcement-preview-body img{display:block;max-width:100%;max-height:360px;margin:0 auto 16px;border-radius:10px;object-fit:contain}
+.announcement-preview-body a{display:inline-block;margin:0 0 14px;color:var(--admin-green);font-weight:700}
+.announcement-preview-body .announcement-edit-btn{display:block;margin:12px 0 0}

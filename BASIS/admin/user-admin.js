@@ -32,7 +32,7 @@ const BAGAC_BARANGAYS = [
     "Binukawan",
     "Ibaba",
     "Ibis",
-    "Pagasa",
+    "Pag-asa",
     "Parang",
     "Paysawan",
     "Quinawan",

@@ -1098,6 +1098,53 @@ function isAnnouncementActive(announcement, now = new Date()) {
    RENDER ANNOUNCEMENTS
 ========================================================= */
 
+let selectedPreviewAnnouncement = null;
+function openAnnouncementPreview(announcement) {
+    const modal = document.getElementById("announcementPreviewModal");
+    if (!modal) return;
+    selectedPreviewAnnouncement = announcement;
+    const data = announcement.attachment_data || "";
+    const name = announcement.attachment_name || "";
+    const image = document.getElementById("announcementPreviewImage");
+    const attachment = document.getElementById("announcementPreviewAttachment");
+    document.getElementById("announcementPreviewTitle").textContent = announcement.title || "ANNOUNCEMENT";
+    document.getElementById("announcementPreviewDate").textContent = formatDate(announcement.date || announcement.announcement_date || announcement.created_at || "");
+    document.getElementById("announcementPreviewMessage").textContent = announcement.message || "";
+    image.hidden = !data.startsWith("data:image/");
+    image.src = image.hidden ? "" : data;
+    attachment.hidden = !data || data.startsWith("data:image/");
+    attachment.href = attachment.hidden ? "#" : data;
+    attachment.textContent = attachment.hidden ? "" : `Open attachment: ${name || "file"}`;
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+}
+
+document.addEventListener("click", event => {
+    if (event.target.closest("#editAnnouncementFromPreview")) {
+        const announcement = selectedPreviewAnnouncement;
+        const modal = document.getElementById("announcementPreviewModal");
+        modal?.classList.remove("show");
+        modal?.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (announcement) window.openAnnouncementForEdit?.(announcement);
+        return;
+    }
+    if (!event.target.closest("[data-close-announcement-preview]")) return;
+    const modal = document.getElementById("announcementPreviewModal");
+    modal?.classList.remove("show");
+    modal?.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+});
+document.addEventListener("keydown", event => {
+    if (event.key !== "Escape") return;
+    const modal = document.getElementById("announcementPreviewModal");
+    if (!modal?.classList.contains("show")) return;
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+});
+
 function renderAnnouncements() {
 
     const container =
@@ -1229,13 +1276,7 @@ function renderAnnouncements() {
                                 return;
                             }
 
-                            sessionStorage.setItem(
-                                "basisSelectedAnnouncementId",
-                                String(announcement.id)
-                            );
-
-                            window.location.href =
-                                "history-admin.html";
+                            openAnnouncementPreview(announcement);
 
                         };
 
@@ -1259,6 +1300,8 @@ function renderAnnouncements() {
                     card.addEventListener(
                         "keydown",
                         event => {
+
+                            if (event.target.closest(".announcement-edit-btn")) return;
 
                             if (
                                 event.key === "Enter" ||
@@ -1386,7 +1429,6 @@ function renderAnnouncements() {
                         </div>
 
                     `;
-
 
                     container.appendChild(card);
 
@@ -1851,6 +1893,29 @@ document.addEventListener(
                 "announcementFileName"
             );
 
+        let editingAnnouncementId = null;
+
+        function setAnnouncementFormMode(announcement = null) {
+            editingAnnouncementId = announcement ? Number(announcement.id) : null;
+            document.getElementById("announcementModalTitle").textContent = announcement ? "Edit Announcement" : "Create Announcement";
+            const submit = form?.querySelector('[type="submit"]');
+            if (submit) submit.innerHTML = announcement ? '<i class="fa-solid fa-floppy-disk"></i> SAVE CHANGES' : '<i class="fa-solid fa-paper-plane"></i> PUBLISH';
+            if (announcement) {
+                document.getElementById("announcementTitle").value = announcement.title || "";
+                document.getElementById("announcementDate").value = String(announcement.date || announcement.announcement_date || "").slice(0, 10);
+                document.getElementById("announcementMessage").value = announcement.message || "";
+                if (fileName) fileName.textContent = announcement.attachment_name ? `Current attachment: ${announcement.attachment_name} (choose a file to replace)` : "PNG, JPG, PDF, DOCX and other files (up to 5 MB)";
+            } else {
+                form?.reset();
+                if (fileName) fileName.textContent = "PNG, JPG, PDF, DOCX and other files (up to 5 MB)";
+            }
+        }
+
+        window.openAnnouncementForEdit = announcement => {
+            setAnnouncementFormMode(announcement);
+            openAnnouncementModal();
+        };
+
 
         /* =====================================================
            OPEN MODAL
@@ -1874,6 +1939,8 @@ document.addEventListener(
 
             document.body.style.overflow =
                 "hidden";
+
+            if (editingAnnouncementId) return;
 
 
             const dateInput =
@@ -1935,7 +2002,7 @@ document.addEventListener(
 
             openBtn.addEventListener(
                 "click",
-                openAnnouncementModal
+                () => { setAnnouncementFormMode(); openAnnouncementModal(); }
             );
 
         }
@@ -2165,6 +2232,11 @@ document.addEventListener(
 
                         }
 
+                        if (editingAnnouncementId && !file) {
+                            attachmentName = "";
+                            attachmentData = "";
+                        }
+
 
                         const response =
                             await fetch(
@@ -2179,6 +2251,8 @@ document.addEventListener(
 
                                     body:
                                         JSON.stringify({
+
+                                            id: editingAnnouncementId,
 
                                             title,
 
@@ -2227,6 +2301,7 @@ document.addEventListener(
 
 
                         form.reset();
+                        setAnnouncementFormMode();
 
 
                         if (fileName) {
@@ -2253,8 +2328,9 @@ document.addEventListener(
                             publishButton.disabled =
                                 false;
 
-                            publishButton.textContent =
-                                "PUBLISH";
+                            publishButton.innerHTML = editingAnnouncementId
+                                ? '<i class="fa-solid fa-floppy-disk"></i> SAVE CHANGES'
+                                : '<i class="fa-solid fa-paper-plane"></i> PUBLISH';
 
                         }
 
