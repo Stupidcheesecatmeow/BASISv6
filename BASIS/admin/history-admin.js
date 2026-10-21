@@ -1853,6 +1853,9 @@
                 historyData.notifications
             );
 
+        const markAllButton = $("adminMarkAllReadBtn");
+        if (markAllButton) markAllButton.disabled = !historyData.notifications.some(item => !Number(item.isRead));
+
 
         if (!items.length) {
 
@@ -2050,6 +2053,23 @@
             document.dispatchEvent(new CustomEvent("basis-notifications-updated"));
         } catch (error) {
             console.warn("Could not mark notification as read:", error);
+        }
+    }
+
+    async function markAllNotificationsRead() {
+        const button = $("adminMarkAllReadBtn");
+        if (!historyData.notifications.some(item => !Number(item.isRead))) return;
+        if (button) button.disabled = true;
+        try {
+            const response = await fetch(`${ACCOUNT_API}?action=notifications`, { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({}) });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Could not mark notifications as read.");
+            historyData.notifications.forEach(item => { item.isRead = 1; });
+            renderNotificationHistory();
+            document.dispatchEvent(new CustomEvent("basis-notifications-updated"));
+        } catch (error) {
+            if (button) button.disabled = false;
+            alert(error.message || "Could not mark notifications as read.");
         }
     }
 
@@ -2828,6 +2848,8 @@ function openSelectedAnnouncementFromHome() {
         async () => {
 
             setupSearches();
+
+            $("adminMarkAllReadBtn")?.addEventListener("click", markAllNotificationsRead);
 
 
             hideAllViews();

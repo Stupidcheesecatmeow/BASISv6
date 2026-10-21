@@ -1513,3 +1513,7 @@
 .announcement-detail-content .detail-content-box::-webkit-scrollbar-thumb { border: 2px solid #fafbf9; border-radius: 999px; background: #aab9a8; }
 .announcement-detail-content .detail-content-box::-webkit-scrollbar-thumb:hover { background: #7d927d; }
 .history-record-row.is-unread .history-record-main strong { font-weight:900; }
+.mark-all-read-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 12px;border:1px solid #cbd8c8;border-radius:9px;background:#f3f7f1;color:#405a43;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer}
+.mark-all-read-btn:hover:not(:disabled){background:#e6efe3}
+.mark-all-read-btn:disabled{opacity:.5;cursor:default}
+.history-record-toolbar{flex-wrap:wrap}
