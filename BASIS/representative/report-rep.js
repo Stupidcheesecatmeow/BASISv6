@@ -67,6 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function syncPeriodsToActivities() {
+        const ids = new Set([...document.querySelectorAll('.activity-check:checked')].map(input => input.value));
+        const chosen = activities.filter(activity => ids.has(String(activity.id)));
+        const semesters = new Set(chosen.map(activity => normalizeSemester(activity.semester)).filter(Boolean));
+        const years = new Set(chosen.map(activity => String(activity.academicYear || activity.academic_year || '').trim()).filter(Boolean));
+        document.querySelectorAll('.semester-check').forEach(input => { input.checked = semesters.has(input.value); });
+        document.querySelectorAll('.academic-year-check').forEach(input => { input.checked = years.has(input.value); });
+        syncSelectAll('selectAllSemesters', '.semester-check');
+        syncSelectAll('selectAllAcademicYears', '.academic-year-check');
+    }
+
     function renderFilters() {
         activityList.replaceChildren();
         activities.forEach(activity => addCheckbox(activityList, String(activity.id), 'activity-check', activity.name || activity.title || 'Activity'));
@@ -217,5 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     bindSelectAll('selectAllActivities', '.activity-check');
     bindSelectAll('selectAllSemesters', '.semester-check');
     bindSelectAll('selectAllAcademicYears', '.academic-year-check');
+    document.addEventListener('change', event => {
+        if (event.target.matches('.activity-check') || event.target.id === 'selectAllActivities') syncPeriodsToActivities();
+    });
     window.loadRepApiReportFilters();
 });
