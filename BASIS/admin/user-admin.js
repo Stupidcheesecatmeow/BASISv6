@@ -43,9 +43,22 @@ const BAGAC_BARANGAYS = [
 
 document.addEventListener("DOMContentLoaded", () => {
     populateRepresentativeBarangays();
+    populateUserFilterBarangays();
     bindEvents();
     loadUsers();
 });
+
+function populateUserFilterBarangays() {
+    const select = $("filterBarangay");
+    if (!select) return;
+
+    BAGAC_BARANGAYS.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    });
+}
 
 function bindEvents() {
 
@@ -63,6 +76,8 @@ function bindEvents() {
     $("clearFilterBtn").addEventListener("click", () => {
         $("filterRole").value = "";
         $("filterStatus").value = "";
+        $("filterYearLevel").value = "";
+        $("filterBarangay").value = "";
         renderUsers();
         closeModal("filterModal");
     });
@@ -294,6 +309,14 @@ function renderUsers() {
         ? $("filterStatus").value
         : "";
 
+    const yearLevel = $("filterYearLevel")
+        ? $("filterYearLevel").value
+        : "";
+
+    const barangay = $("filterBarangay")
+        ? $("filterBarangay").value
+        : "";
+
     const filtered = allUsers.filter(user => {
         const searchable = [
             user.control_number,
@@ -313,7 +336,9 @@ function renderUsers() {
         return (
             searchable.includes(query) &&
             (!role || user.role === role) &&
-            (!status || user.status === status)
+            (!status || user.status === status) &&
+            (!yearLevel || String(user.year_level || user.yearLevel || user.year || "").trim().toUpperCase() === yearLevel) &&
+            (!barangay || String(user.barangay || "").trim().toLowerCase() === barangay.toLowerCase())
         );
     });
 
