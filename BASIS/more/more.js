@@ -1037,5 +1037,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ====================================================== */
 
     showMoreMenu();
+    const requestedView = new URLSearchParams(window.location.search).get("view");
+    const requestedButton = [...menuButtons].find(button => button.getAttribute("data-open-view") === requestedView);
+    if (requestedButton) requestedButton.click();
 
 });

@@ -1945,7 +1945,22 @@
 
         if (!item) return;
 
-        markNotificationRead(item);
+        await markNotificationRead(item);
+        const type = String(item.type || "").toLowerCase();
+        if (type.includes("new_activity") || Number(item.activityId) > 0) {
+            sessionStorage.setItem("basisRepresentativeSelectedActivityId", String(item.activityId));
+            window.location.href = "activity_menu-rep.html";
+            return;
+        }
+        if (type.includes("new_announcement") || Number(item.announcementId) > 0) {
+            sessionStorage.setItem("basisRepresentativeSelectedAnnouncementId", String(item.announcementId));
+            window.location.href = "history-rep.html";
+            return;
+        }
+        if (type.includes("new_feedback") || type.includes("feedback_response")) {
+            window.location.href = "more-rep.html?view=feedbackInboxView";
+            return;
+        }
 
         let detailItem = item;
         try {
