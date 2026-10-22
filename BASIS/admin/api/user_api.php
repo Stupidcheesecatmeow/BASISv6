@@ -169,8 +169,11 @@ function createUser(PDO $pdo): void
 
     validateEmail($email);
 
-    if (emailExists($pdo, $email)) {
-        respond(false, 'That email is already registered.', 409);
+    $existingUser = findUserByEmail($pdo, $email);
+    if ($existingUser) {
+        respond(false, 'This user already has an account: ' . $existingUser['name'] . ' (' . $existingUser['email'] . ').', 409, [
+            'existing_user' => $existingUser
+        ]);
     }
 
     $password = generatePassword();
@@ -231,6 +234,7 @@ function importUsers(PDO $pdo): void
     $imported = 0;
     $skipped = 0;
     $errors = [];
+    $existingAccounts = [];
     $credentials = [];
 
     $pdo->beginTransaction();
@@ -264,9 +268,17 @@ function importUsers(PDO $pdo): void
                 continue;
             }
 
-            if (emailExists($pdo, $email)) {
+            $existingUser = findUserByEmail($pdo, $email);
+            if ($existingUser) {
                 $skipped++;
-                $errors[] = "Row {$excelRow}: {$email} already exists.";
+                $errors[] = "Row {$excelRow}: {$email} already has an account.";
+                $existingAccounts[] = [
+                    'row' => $excelRow,
+                    'name' => $existingUser['name'],
+                    'email' => $existingUser['email'],
+                    'control_number' => $existingUser['control_number'],
+                    'role' => $existingUser['role']
+                ];
                 continue;
             }
 
@@ -330,6 +342,7 @@ function importUsers(PDO $pdo): void
         'imported' => $imported,
         'skipped' => $skipped,
         'errors' => $errors,
+        'existing_accounts' => $existingAccounts,
         'credentials' => $credentials
     ]);
 }
@@ -561,18 +574,17 @@ function validateEmail(string $email): void
     }
 }
 
-function emailExists(PDO $pdo, string $email): bool
+function findUserByEmail(PDO $pdo, string $email): ?array
 {
     $stmt = $pdo->prepare("
-        SELECT id
+        SELECT control_number, name, email, role
         FROM users
         WHERE LOWER(email) = LOWER(?)
         LIMIT 1
     ");
-
     $stmt->execute([$email]);
-
-    return (bool)$stmt->fetch();
+    $user = $stmt->fetch();
+    return $user ?: null;
 }
 
 function fetchUser(PDO $pdo, int $id): ?array

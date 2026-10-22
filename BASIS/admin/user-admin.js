@@ -1435,6 +1435,32 @@ function renderImportResult(data) {
         }
 
         ${
+            data.existing_accounts?.length
+                ? `
+                    <details class="import-existing-accounts" open>
+                        <summary>Existing accounts skipped (${data.existing_accounts.length})</summary>
+                        <div class="import-credentials-table-wrap">
+                            <table>
+                                <thead><tr><th>Excel row</th><th>Name</th><th>Email</th><th>Control number</th><th>Role</th></tr></thead>
+                                <tbody>
+                                    ${data.existing_accounts.map(user => `
+                                        <tr>
+                                            <td>${escapeHtml(user.row)}</td>
+                                            <td>${escapeHtml(user.name)}</td>
+                                            <td>${escapeHtml(user.email)}</td>
+                                            <td>${escapeHtml(user.control_number)}</td>
+                                            <td>${escapeHtml(user.role)}</td>
+                                        </tr>
+                                    `).join("")}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                `
+                : ""
+        }
+
+        ${
             importedCredentials.length
                 ? `
 
