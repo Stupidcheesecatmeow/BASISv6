@@ -35,6 +35,9 @@ try {
         $current = (string)($input['current_password'] ?? '');
         $password = (string)($input['password'] ?? '');
         if (strlen($password) < 8) jsonResponse(false, 'Password must be at least 8 characters.', 422);
+        $passwordLength = preg_match_all('/./us', $password);
+        if ($passwordLength === false) jsonResponse(false, 'Password contains invalid characters.', 422);
+        if ($passwordLength > 16) jsonResponse(false, 'Password must be 16 characters or fewer.', 422);
         if ($password !== (string)($input['confirm_password'] ?? '')) jsonResponse(false, 'Passwords do not match.', 422);
         $stmt = $pdo->prepare('SELECT password_hash,status FROM users WHERE id=?');
         $stmt->execute([$id]); $account = $stmt->fetch();
@@ -82,6 +85,9 @@ try {
         $token=(string)($input['token']??''); $password=(string)($input['password']??'');
         if(strlen($token)!==64 || !ctype_xdigit($token)) jsonResponse(false,'This reset link is invalid or expired.',400);
         if(strlen($password)<8) jsonResponse(false,'Password must be at least 8 characters.',422);
+        $passwordLength = preg_match_all('/./us', $password);
+        if ($passwordLength === false) jsonResponse(false, 'Password contains invalid characters.', 422);
+        if ($passwordLength > 16) jsonResponse(false, 'Password must be 16 characters or fewer.', 422);
         $stmt=$pdo->prepare("SELECT id,user_id FROM password_resets WHERE token_hash=? AND used_at IS NULL AND expires_at>CURRENT_TIMESTAMP"); $stmt->execute([hash('sha256',$token)]); $reset=$stmt->fetch();
         if(!$reset) jsonResponse(false,'This reset link is invalid or expired.',400);
         $pdo->beginTransaction();

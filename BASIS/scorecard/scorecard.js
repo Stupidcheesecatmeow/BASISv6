@@ -27,6 +27,10 @@ async function renderScorecardButtons() {
 
         currentScorecardData = data;
         const profile = data.profile || {};
+        if (data.profileComplete !== true) {
+            showProfileIncompleteMessage();
+            return;
+        }
         loadProfileInfo(profile);
 
         const ownActivities = Array.isArray(data.activities) ? data.activities : [];
@@ -129,6 +133,19 @@ function showNoScorecardMessage(message) {
     listContainer.classList.remove("has-scroll");
 }
 
+function showProfileIncompleteMessage() {
+    const listContainer = document.getElementById("scorecardYears");
+    if (!listContainer) return;
+    listContainer.innerHTML = `
+        <div class="no-scorecard-message profile-incomplete-message">
+            <i class="fa-solid fa-user-pen"></i>
+            <h3>Complete your profile first</h3>
+            <p>Your scorecard will be available after you complete the required details in your profile.</p>
+            <a class="scorecard-profile-link" href="../profile/profile.html">GO TO MY PROFILE</a>
+        </div>`;
+    listContainer.classList.remove("has-scroll");
+}
+
 function getActivityAcademicYear(activity) {
     return String(activity?.academicYear || activity?.academic_year || activity?.schoolYear || activity?.school_year || "").trim();
 }
@@ -194,6 +211,7 @@ function isAttendedRecord(activity) {
 }
 
 function openScorecardDetail(academicYear, semester) {
+    if (!currentScorecardData?.profileComplete) return;
     if (!currentScorecardData) return;
     selectedScorecardPeriod = { academicYear, semester };
     loadProfileInfo(currentScorecardData.profile || {});

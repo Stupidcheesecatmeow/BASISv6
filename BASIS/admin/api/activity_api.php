@@ -89,6 +89,11 @@ try {
 if ($action === 'my-attended-activities') {
 
     $userId = (int) $user['id'];
+    $profileStatus = $pdo->prepare('SELECT profile_completed FROM users WHERE id=?');
+    $profileStatus->execute([$userId]);
+    if ((int) $profileStatus->fetchColumn() !== 1) {
+        jsonResponse(true, '', 200, ['activities' => [], 'profileComplete' => false]);
+    }
 
     $stmt = $pdo->prepare("
         SELECT

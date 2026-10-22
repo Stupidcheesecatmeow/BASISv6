@@ -841,3 +841,8 @@
         grid-template-columns: 1fr;
     }
 }
+.scorecard-profile-incomplete{min-height:180px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;border:1px dashed #cbd8c8;border-radius:12px;background:#fafbf9;color:#405a43}
+.scorecard-profile-incomplete i{font-size:22px}
+.scorecard-profile-incomplete h3,.scorecard-profile-incomplete p{margin:0}
+.scorecard-profile-incomplete p{max-width:420px;color:#69776a;font-size:13px;line-height:1.5}
+.scorecard-profile-incomplete a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;margin-top:7px;padding:0 14px;border-radius:8px;background:#405a43;color:#fff;text-decoration:none;font-size:10px;font-weight:800}

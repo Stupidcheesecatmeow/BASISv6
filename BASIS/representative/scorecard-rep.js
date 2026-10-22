@@ -211,6 +211,11 @@ async function renderScorecardButtons() {
             loadDefaultRepresentativeInfo();
         }
 
+        if (Number(profileData.profile?.profile_completed) !== 1 && profileData.profile?.profileComplete !== true) {
+            showIncompleteProfileScorecard();
+            return;
+        }
+
         const attendanceResponse = await fetch(
             "../admin/api/activity_api.php?action=my-attended-activities",
             { credentials: "same-origin", cache: "no-store" }
@@ -406,6 +411,13 @@ async function renderScorecardButtons() {
 
     updateScorecardScroll();
 
+}
+
+function showIncompleteProfileScorecard() {
+    const listContainer = document.getElementById("scorecardYears");
+    if (!listContainer) return;
+    listContainer.innerHTML = '<div class="scorecard-empty scorecard-profile-incomplete"><i class="fa-solid fa-user-pen"></i><h3>Complete your profile first</h3><p>Your scorecard will be available after you complete the required details in your profile.</p><a href="profile-rep.html">GO TO MY PROFILE</a></div>';
+    listContainer.classList.remove("has-scroll");
 }
 
 
