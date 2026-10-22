@@ -97,10 +97,11 @@ try {
     }
     if ($action === 'login') {
         $email = strtolower(trim((string)($input['email'] ?? '')));
-        $stmt = $pdo->prepare('SELECT id,password_hash,status FROM users WHERE LOWER(email)=?');
+        $stmt = $pdo->prepare('SELECT id,password_hash,status,role FROM users WHERE LOWER(email)=?');
         $stmt->execute([$email]); $user = $stmt->fetch();
         if (!$user || !password_verify((string)($input['password'] ?? ''), $user['password_hash'])) jsonResponse(false, 'Email or password is incorrect.', 401);
         if ($user['status'] !== 'ACTIVE') jsonResponse(false, 'This account is inactive. Contact an administrator.', 403);
+        if (strtoupper((string)$user['role']) !== 'ADMIN' && empty($input['terms_accepted'])) jsonResponse(false, 'Please read and accept the Terms and Conditions to continue.', 428, ['terms_required' => true]);
         session_regenerate_id(true); $_SESSION['user_id'] = (int)$user['id'];
         $token=bin2hex(random_bytes(32));
         $pdo->prepare("INSERT INTO auth_sessions(token_hash,user_id,expires_at) VALUES(?,?,datetime('now','+30 days'))")->execute([hash('sha256',$token),(int)$user['id']]);

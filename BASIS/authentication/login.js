@@ -7,6 +7,18 @@ const termsDone = document.getElementById('termsDone');
 const termsReadHint = document.getElementById('termsReadHint');
 let termsLoaded = false;
 let termsReadToEnd = false;
+let termsRequired = false;
+const emailInput = loginForm.elements.email;
+const passwordInput = loginForm.elements.password;
+const termsOpenButton = document.getElementById('openTerms');
+const termsCheckLabel = document.querySelector('.login-terms-check');
+
+function updateSignInButton() {
+  signInButton.disabled = !loginForm.checkValidity() || (termsRequired && !acceptTerms.checked);
+}
+
+emailInput.addEventListener('input', updateSignInButton);
+passwordInput.addEventListener('input', updateSignInButton);
 
 function closeTermsModal() {
   termsModal.hidden = true;
@@ -61,12 +73,11 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !termsModal.hidden) closeTermsModal();
 });
 acceptTerms.addEventListener('change', () => {
-  signInButton.disabled = !acceptTerms.checked;
+  updateSignInButton();
 });
 
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (!termsReadToEnd || !acceptTerms.checked) return;
   const form = event.currentTarget;
   const message = document.getElementById('loginMessage');
   message.textContent = 'Signing in…'; signInButton.disabled = true;
@@ -74,9 +85,21 @@ loginForm.addEventListener('submit', async (event) => {
     const response = await fetch('../admin/api/auth_api.php?action=login', {
       method: 'POST', credentials: 'same-origin',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: form.email.value, password: form.password.value})
+      body: JSON.stringify({
+        email: form.email.value,
+        password: form.password.value,
+        terms_accepted: termsReadToEnd && acceptTerms.checked
+      })
     });
     const data = await response.json();
+    if (response.status === 428 && data.terms_required) {
+      termsRequired = true;
+      termsCheckLabel.hidden = false;
+      updateSignInButton();
+      message.textContent = data.message;
+      termsOpenButton.click();
+      return;
+    }
     if (!response.ok || !data.success) throw new Error(data.message || 'Sign in failed.');
     if (data.token) sessionStorage.setItem('basisAuthToken', data.token);
     if (data.user && data.user.id) sessionStorage.setItem('basisCurrentUserId', String(data.user.id));
@@ -88,5 +111,7 @@ loginForm.addEventListener('submit', async (event) => {
     if (!destination) throw new Error('Your account role is not recognized. Please contact an administrator.');
     window.location.assign(destination);
   } catch (error) { message.textContent = error.message; }
-  finally { signInButton.disabled = !acceptTerms.checked; }
+  finally { updateSignInButton(); }
 });
+
+updateSignInButton();
